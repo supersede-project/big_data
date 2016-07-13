@@ -1,0 +1,23 @@
+extends layout
+
+block headers
+    script(src='/js/jquery-ui/jquery-ui.js')
+    script(src='/js/d3.v3.min.js')
+    script(src='/js/d3.tip.v0.6.3.js')
+    script(src='/js/socket.io.js')
+    script(src='/js/line-graph.js')
+    script(src='/js/client_siemens_plots_allAPIs.js')
+
+
+block content
+    .container
+        #banner
+            .row
+                .col-lg-8.col-md-7.col-sm-6
+                    h3 SIEMENS Prototype
+            p
+                | This plot depicts the overall API calls across time. Green lines stand for successful API calls while red lines for unsuccessful.
+                | Note that, in this prototype, timestamps do not match those in the real log but the current date.
+            .col-md-6
+                h4 Plots (all APIs)
+            #graph1.aGraph(style='position:relative;width:100%;height:400px')

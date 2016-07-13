@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .container
+    #banner
+      .row
+        .col-lg-8.col-md-7.col-sm-6
+          h1 SUPERSEDE
+          h2 WP2 Big Data Platform
+      p
+        | Welcome to the validation of the big data platform developed in WP2.
+      p
+        | On the top menu you will find a set of dashboards for each use case. Those are not mockups, and are actually performing
+        | real-time analysis on basis of the provided datasets.
+      p
+        | A backend program is simulating events every second (those will be the events that WP1 provides in the future), here we are sending
+        | one metric reading for AtoS, one Ecosystem log line for SIEMENS and an email reporting errors for SEnerCon.
+        | This information is stored in Apache Kafka, a distributed message queue, which is subsequently fetched by Apache Spark Streaming in order
+        | to compute different stream processing algorithms.
+        | Finally, data is sent in real-time to a NodeJS server via Websockets and properly displayed on the browser leveraging on D3.js visualization library.

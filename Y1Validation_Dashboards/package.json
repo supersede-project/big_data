@@ -1,0 +1,27 @@
+{
+  "name": "Y1Validation_Dashboards",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "latest",
+    "cookie-parser": "latest",
+    "debug": "latest",
+    "express": "latest",
+    "jade": "latest",
+    "morgan": "latest",
+    "serve-favicon": "latest",
+    "socket.io":"latest",
+    "method-override":"latest",
+    "express-session":"latest",
+    "express-flash":"latest",
+    "multer":"latest",
+    "passport" : "latest",
+    "bcryptjs":"latest",
+    "passport-local" : "latest",
+    "underscore":"latest",
+    "request":"latest"
+  }
+}

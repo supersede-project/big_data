@@ -1,0 +1,101 @@
+extends layout
+
+block headers
+    script(src='/js/jquery-ui/jquery-ui.js')
+    script(src='/js/d3.v3.min.js')
+    script(src='/js/d3.tip.v0.6.3.js')
+    script(src='/js/tablefilter.js')
+    script(src='https://cdn.rawgit.com/mbostock/d3/master/lib/colorbrewer/colorbrewer.js')
+    script(src='/js/client_senercon.js')
+    link(rel='stylesheet', type='text/css', href='https://cdn.rawgit.com/mbostock/d3/master/lib/colorbrewer/colorbrewer.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+block content
+    .container
+        .row
+            .col-lg-8.col-md-7.col-sm-6
+                h3 SEnerCon Prototype
+        p
+            | The following tables and plots depict the analysis performed from the email error logs in a batch manner.
+
+    .col-md-14
+        .page-header
+            h3 Statistic about the amount of errors
+    table.table.table-striped.table-hover#tableErrors
+        thead
+            tr
+                th Date
+                th Path
+                th User ID
+                th Portal ID
+                th Error Code
+                th Position
+                th Error Type
+        tbody
+
+    script.
+        var tfConfig = {
+            base_path: 'js/tablefilter.js',
+            results_per_page: ['Records per page: ', [10,25,50,100]],
+            alternate_rows: true,
+            rows_counter: true,
+            status_bar: true,
+            paging: true,
+            col_0: 'select',
+            col_1: 'select',
+            col_2: 'select',
+            col_3: 'select',
+            col_4: 'select',
+            col_5: 'select',
+            col_6: 'select'
+        };
+        tf = new TableFilter('tableErrors', tfConfig);
+
+    .container
+        .row
+    .col-md-14
+        .page-header
+            h3 Absolut sum of the amount of every error
+    table.table.table-striped.table-hover#tableAbsolutSum
+        thead
+            tr
+                th Error Type
+                th Absolut Count
+        tbody
+    script.
+        var tfConfig2 = {
+            base_path: 'js/tablefilter.js',
+            results_per_page: ['Records per page: ', [10, 25, 50, 100]],
+            alternate_rows: true,
+            rows_counter: true,
+            status_bar: true,
+            paging: true,
+            col_0: 'select'
+        };
+        tf2 = new TableFilter('tableAbsolutSum', tfConfig2);
+
+    .col-md-14
+        .page-header
+            h3 Relationship between user and errors
+    .container
+        .row
+            table.table.table-striped.table-hover#tableUsersAndErrors
+                thead
+                    tr
+                        th User ID
+                        th Error Count
+                tbody
+            script.
+                var tfConfig3 = {
+                    base_path: 'js/tablefilter.js',
+                    results_per_page: ['Records per page: ', [10, 25, 50, 100]],
+                    alternate_rows: true,
+                    rows_counter: true,
+                    status_bar: true,
+                    paging: true,
+                    col_0: 'select'
+                };
+                tf3 = new TableFilter('tableUsersAndErrors', tfConfig3);
+    .col-md-14
+        .page-header
+            h3 Distribution of a specific error over time

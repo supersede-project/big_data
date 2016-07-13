@@ -1,0 +1,61 @@
+doctype html
+html
+  head
+    title="SUPERSEDE"
+    script(src='/js/jquery-2.1.1.min.js')
+    script(src='/js/bootswatch.js')
+    script(src='/js/bootstrap.min.js')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/bootswatch.min.css')
+    block headers
+
+  .navbar.navbar-default.navbar-fixed-top
+    .container
+      .navbar-header
+        a.navbar-brand(href='/') SUPERSEDE
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-main')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+
+      #navbar-main.navbar-collapse.collapse
+        ul.nav.navbar-nav
+          -if(username=='AtoS' || username=='Admin')
+            li.dropdown
+              a#themes.dropdown-toggle(data-toggle='dropdown', href='#')
+                | AtoS Prototype
+                span.caret
+              ul.dropdown-menu(aria-labelledby='projects')
+                li
+                  a(href='/atos') Prototype
+          -if(username=='SIEMENS' || username=='Admin')
+            li.dropdown
+              a#themes.dropdown-toggle(data-toggle='dropdown', href='#')
+                | SIEMENS Prototype
+                span.caret
+              ul.dropdown-menu(aria-labelledby='projects')
+                li
+                  a(href='/siemens/summary') Summary Statistics
+                li
+                  a(href='/siemens/plots/allAPIs') Plots (all APIs)
+                li
+                  a(href='/siemens/plots/breakdownAPIs') Plots (breakdown per API)
+          -if(username=='SEnerCon' || username=='Admin')
+            li.dropdown
+              a#themes.dropdown-toggle(data-toggle='dropdown', href='#')
+                | SEnerCon Prototype
+                span.caret
+              ul.dropdown-menu(aria-labelledby='projects')
+                li
+                  a(href='/senercon') Error Statistics
+
+        ul.nav.navbar-nav.navbar-right
+          li.dropdown
+            a#themes.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Signed in as #{username}
+              span.caret
+            ul.dropdown-menu(aria-labelledby='username')
+              li
+                a(href='/logout') Logout
+  block content

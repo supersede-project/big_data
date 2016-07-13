@@ -1,0 +1,79 @@
+extends layout
+
+block headers
+    script(src='/js/jquery-ui/jquery-ui.js')
+    script(src='/js/d3.v3.min.js')
+    script(src='/js/d3.tip.v0.6.3.js')
+    script(src='/js/socket.io.js')
+    script(src='/js/client_siemens.js')
+    link(rel='stylesheet', href='/stylesheets/main_window.css')
+
+block content
+    .container
+        #banner
+            .row
+                .col-lg-8.col-md-7.col-sm-6
+                    h2 SIEMENS Prototype
+            p
+                | The stream analytics component maintains a 5-minute sliding window of log information, e.g. successful API calls, name of APIs, ...
+                | For the sake of simplicity, once the tracked total API calls reaches 500 all values are reset to 0.
+
+
+            .col-md-14
+                .page-header
+                    h3 Latest Logs
+
+            .col-md-14.col-md-offset-1
+                .row
+                    .bs-component
+                        table.table.table-striped.table-hover#fullLogs
+                            thead
+                                tr
+                                    th Log
+                            tbody
+
+
+            .col-md-14
+                .page-header
+                    h3 Summary Statistics
+
+            .col-md-14.col-md-offset-1
+                h4 Overall values
+
+            .col-md-14.col-md-offset-2
+                .row
+                    .col-lg-8
+                        .bs-component
+                            table.table.table-striped.table-hover
+                                thead
+                                    tr
+                                        th Type
+                                        th Current Value
+                                tbody
+                                    tr
+                                        th Total number of API calls
+                                            th#valueReq1 -
+                                        tr
+                                            th Total number of successful API calls
+                                            th#valueReq2 -
+                                        tr
+                                            th Total number of unsuccessful API calls
+                                            th#valueReq3 -
+
+            .col-md-14.col-md-offset-1
+                h4 Breakdown per API
+            .col-md-14.col-md-offset-2
+                .row
+
+                    .col-lg-8
+                        .bs-component
+                            table.table.table-striped.table-hover#tableAPIBreakdown
+                                thead
+                                    tr
+                                        th API
+                                        th Number of successful calls
+                                        th Number of unsuccessful calls
+                                        th Total calls
+                                        th Success rate
+                                tbody
+

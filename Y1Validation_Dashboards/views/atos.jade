@@ -1,0 +1,62 @@
+extends layout
+
+block headers
+    script(src='/js/jquery-ui/jquery-ui.js')
+    script(src='/js/d3.v3.min.js')
+    script(src='/js/d3.tip.v0.6.3.js')
+    script(src='/js/socket.io.js')
+    script(src='/js/line-graph.js')
+    script(src='/js/client_atos.js')
+
+block content
+    .container
+        #banner
+            .row
+                .col-lg-8.col-md-7.col-sm-6
+                    h3 AtoS Prototype
+            p
+                | A data generator is producing log instances with the time delay specified by the timestamps. If such time is greater than 1 second, the considered time gap is 1 second.
+                | Further, this is consumed by the analytics component which stores a 5 minutes sliding window and depicts in the web dashboard the last hour of data..
+                | We assume a maximum audience of 1000 people.
+
+            #graph1.aGraph(style='position:relative;width:100%;height:400px')
+
+    .col-md-1
+    .col-md-6
+        h4 Latest logs
+        .bs-component
+            table.table.table-striped.table-hover#fullLogs
+                thead
+                    tr
+                        th Timestamp
+                        th DeviceID
+                        th Playback Error Video
+                        th Rebuffering
+                        th SyncAttemp
+                tbody
+    .col-md-4
+        h4 Alerts
+            .bs-component
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th Type
+                            th Current Value
+                            th State
+                    tbody
+                        tr
+                            th Audience over 85% of maximum
+                            th#valueReq1 -
+                            th#lightReq1
+                        tr
+                            th More than 20% of users with PlaybackErrorVideo
+                            th#valueReq2 -
+                            th#lightReq2
+                        tr
+                            th More than 20% of users with Rebuffering > 2
+                            th#valueReq3 -
+                            th#lightReq3
+                        tr
+                            th Sync Attempt outlier detection
+                            th#valueReq4 -
+                            th.circle_green#lightReq4
