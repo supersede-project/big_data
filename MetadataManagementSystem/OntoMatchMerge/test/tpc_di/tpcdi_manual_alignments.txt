@@ -1,0 +1,71 @@
+Extraction		Classes		DatatypeProperties		ObjectProperites
+----------
+TOTAL: 258		  26				189					  29
+XML: 31			   3 				 26 				   2
+RDB: 			  25 				137					  27
+
+XML				Classes		DatatypeProperties		ObjectProperites
+---
+TOTAL: 47		   9				28 					  10
+CORRECT: 		   3 				26					   2
+WRONG: 	  		   6	 			 2 					   8
+
+RDB				Classes		DatatypeProperties		ObjectProperites
+---
+TOTAL: 105		   14				93					  17
+CORRECT: 		   14 				90					  17
+WRONG: 				0 				 3					   0
+_______________________________
+
+I-Sub Alignments
+----------------
+TOTAL: 24
+CORRECT: 23
+WRONG: 1
+
+VDoc Alignments
+----------------
+TOTAL: 18
+CORRECT: 13
+WRONG: 5
+
+GMO Alignments
+----------------
+TOTAL: 16
+CORRECT: 16
+WRONG: 0
+
+Manual Alignments
+-----------------
+TOTAL: 28
+
+XML				RDB
+---				---
+Customer		customer
+C_L_NAME		c_l_name
+C_F_NAME		c_f_name
+C_M_NAME		c_m_name
+C_ADLINE1		c_adline1
+C_ADLINE2		c_adline2
+C_ZIPCODE		c_zipcode
+C_CITY			c_city
+C_STATE_PROV	c_state_prov
+C_CTRY			c_ctry
+C_PRIM_EMAIL	c_email_1
+C_ALT_EMAIL		c_email_2
+C_LCL_TX_ID		c_lcl_tx_id
+C_NAT_TX_ID		c_nat_tx_id
+Account			account
+CA_B_ID			ca_b_id
+CA_NAME			ca_name
+CA_ID 			ca_id
+CA_TAX_ST		ca_tax_st
+C_ID 			c_id
+C_TAX_ID		c_tax_id
+C_GNDR			c_gndr
+C_TIER			c_tier
+C_DOB			c_dob
+C_CTRY_CODE		c_ctry_1
+C_AREA_CODE		c_area_1
+C_LOCAL			c_local_1
+C_EXT			c_ext_1

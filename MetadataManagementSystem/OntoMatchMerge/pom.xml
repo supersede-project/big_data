@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.upc.dtim.bolster</groupId>
+    <artifactId>OntoMatchMerge</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <jersey.version>2.15</jersey.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.8</jdk.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-grizzly2-http</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wiztools</groupId>
+            <artifactId>xsd-gen</artifactId>
+            <version>0.2.1</version>
+        </dependency>
+
+        <dependency><groupId>align</groupId><artifactId>align</artifactId><version>1</version></dependency>
+        <dependency><groupId>alignsvc</groupId><artifactId>alignsvc</artifactId><version>1</version></dependency>
+        <dependency><groupId>apache-xml-xerces</groupId><artifactId>apache-xml-xerces</artifactId><version>1</version></dependency>
+        <dependency><groupId>api</groupId><artifactId>api</artifactId><version>1</version></dependency>
+        <dependency><groupId>arq</groupId><artifactId>arq</artifactId><version>1</version></dependency>
+        <dependency><groupId>blas-0.8</groupId><artifactId>blas-0.8</artifactId><version>1</version></dependency>
+        <dependency><groupId>com.mysql.jdbc_5.1.5</groupId><artifactId>com.mysql.jdbc_5.1.5</artifactId><version>1</version></dependency>
+        <dependency><groupId>commons-cli</groupId><artifactId>commons-cli</artifactId><version>1</version></dependency>
+        <dependency><groupId>commons-codec-1.6</groupId><artifactId>commons-codec-1.6</artifactId><version>1</version></dependency>
+        <dependency><groupId>commons-csv-1.0</groupId><artifactId>commons-csv-1.0</artifactId><version>1</version></dependency>
+        <dependency><groupId>commons-fileupload</groupId><artifactId>commons-fileupload</artifactId><version>1</version></dependency>
+        <dependency><groupId>commons-io</groupId><artifactId>commons-io</artifactId><version>1</version></dependency>
+        <dependency><groupId>commons-lang3-3.3.2</groupId><artifactId>commons-lang3-3.3.2</artifactId><version>1</version></dependency>
+        <dependency><groupId>commons-lang3</groupId><artifactId>commons-lang3</artifactId><version>1</version></dependency>
+        <dependency><groupId>dom4j-2.0.0-ALPHA-2</groupId><artifactId>dom4j-2.0.0-ALPHA-2</artifactId><version>1</version></dependency>
+        <dependency><groupId>falcon</groupId><artifactId>falcon</artifactId><version>1</version></dependency>
+        <dependency><groupId>gson</groupId><artifactId>gson</artifactId><version>1</version></dependency>
+        <dependency><groupId>hermit</groupId><artifactId>hermit</artifactId><version>1</version></dependency>
+        <dependency><groupId>httpclient-4.2.6</groupId><artifactId>httpclient-4.2.6</artifactId><version>1</version></dependency>
+        <dependency><groupId>httpclient-cache-4.2.6</groupId><artifactId>httpclient-cache-4.2.6</artifactId><version>1</version></dependency>
+        <dependency><groupId>httpclient</groupId><artifactId>httpclient</artifactId><version>1</version></dependency>
+        <dependency><groupId>httpcore-4.2.5</groupId><artifactId>httpcore-4.2.5</artifactId><version>1</version></dependency>
+        <dependency><groupId>httpcore</groupId><artifactId>httpcore</artifactId><version>1</version></dependency>
+        <dependency><groupId>iddl</groupId><artifactId>iddl</artifactId><version>1</version></dependency>
+        <dependency><groupId>iiop</groupId><artifactId>iiop</artifactId><version>1</version></dependency>
+        <dependency><groupId>impl</groupId><artifactId>impl</artifactId><version>1</version></dependency>
+        <dependency><groupId>io</groupId><artifactId>io</artifactId><version>1</version></dependency>
+        <dependency><groupId>iri</groupId><artifactId>iri</artifactId><version>1</version></dependency>
+        <dependency><groupId>jackson-annotations-2.3.0</groupId><artifactId>jackson-annotations-2.3.0</artifactId><version>1</version></dependency>
+        <dependency><groupId>jackson-core-2.3.3</groupId><artifactId>jackson-core-2.3.3</artifactId><version>1</version></dependency>
+        <dependency><groupId>jackson-databind-2.3.3</groupId><artifactId>jackson-databind-2.3.3</artifactId><version>1</version></dependency>
+        <dependency><groupId>jade-http</groupId><artifactId>jade-http</artifactId><version>1</version></dependency>
+        <dependency><groupId>jade</groupId><artifactId>jade</artifactId><version>1</version></dependency>
+        <dependency><groupId>jcl-over-slf4j-1.7.6</groupId><artifactId>jcl-over-slf4j-1.7.6</artifactId><version>1</version></dependency>
+        <dependency><groupId>jcl-over-slf4j</groupId><artifactId>jcl-over-slf4j</artifactId><version>1</version></dependency>
+        <dependency><groupId>jena-arq-2.13.0</groupId><artifactId>jena-arq-2.13.0</artifactId><version>1</version></dependency>
+        <dependency><groupId>jena-core-2.13.0</groupId><artifactId>jena-core-2.13.0</artifactId><version>1</version></dependency>
+        <dependency><groupId>jena-iri-1.1.2</groupId><artifactId>jena-iri-1.1.2</artifactId><version>1</version></dependency>
+        <dependency><groupId>jena-tdb-1.1.2</groupId><artifactId>jena-tdb-1.1.2</artifactId><version>1</version></dependency>
+        <dependency><groupId>jena</groupId><artifactId>jena</artifactId><version>1</version></dependency>
+        <dependency><groupId>jetty-http</groupId><artifactId>jetty-http</artifactId><version>1</version></dependency>
+        <dependency><groupId>jetty-io</groupId><artifactId>jetty-io</artifactId><version>1</version></dependency>
+        <dependency><groupId>jetty-server</groupId><artifactId>jetty-server</artifactId><version>1</version></dependency>
+        <dependency><groupId>jetty-util</groupId><artifactId>jetty-util</artifactId><version>1</version></dependency>
+        <dependency><groupId>jsonld-java-0.5.1</groupId><artifactId>jsonld-java-0.5.1</artifactId><version>1</version></dependency>
+        <dependency><groupId>jwnl</groupId><artifactId>jwnl</artifactId><version>1</version></dependency>
+        <dependency><groupId>libthrift-0.9.2</groupId><artifactId>libthrift-0.9.2</artifactId><version>1</version></dependency>
+        <dependency><groupId>log4j-1.2.17</groupId><artifactId>log4j-1.2.17</artifactId><version>1</version></dependency>
+        <dependency><groupId>log4j-over-slf4j</groupId><artifactId>log4j-over-slf4j</artifactId><version>1</version></dependency>
+        <dependency><groupId>mtj-0.9.11</groupId><artifactId>mtj-0.9.11</artifactId><version>1</version></dependency>
+        <dependency><groupId>mysql-connector-java</groupId><artifactId>mysql-connector-java</artifactId><version>1</version></dependency>
+        <dependency><groupId>netlib-java-0.9.3</groupId><artifactId>netlib-java-0.9.3</artifactId><version>1</version></dependency>
+        <dependency><groupId>ontmalizer-1.0.2</groupId><artifactId>ontmalizer-1.0.2</artifactId><version>1</version></dependency>
+        <dependency><groupId>ontosim</groupId><artifactId>ontosim</artifactId><version>1</version></dependency>
+        <dependency><groupId>ontowrap</groupId><artifactId>ontowrap</artifactId><version>1</version></dependency>
+        <dependency><groupId>osgi-core</groupId><artifactId>osgi-core</artifactId><version>1</version></dependency>
+        <dependency><groupId>owlapi-bin</groupId><artifactId>owlapi-bin</artifactId><version>1</version></dependency>
+        <dependency><groupId>oyster</groupId><artifactId>oyster</artifactId><version>1</version></dependency>
+        <dependency><groupId>postgresql-jdbc4</groupId><artifactId>postgresql-jdbc4</artifactId><version>1</version></dependency>
+        <dependency><groupId>procalign</groupId><artifactId>procalign</artifactId><version>1</version></dependency>
+        <dependency><groupId>rdfapi</groupId><artifactId>rdfapi</artifactId><version>1</version></dependency>
+        <dependency><groupId>rdfparser</groupId><artifactId>rdfparser</artifactId><version>1</version></dependency>
+        <dependency><groupId>relaxngDatatype-1.0</groupId><artifactId>relaxngDatatype-1.0</artifactId><version>1</version></dependency>
+        <dependency><groupId>resolver</groupId><artifactId>resolver</artifactId><version>1</version></dependency>
+        <dependency><groupId>servlet-api</groupId><artifactId>servlet-api</artifactId><version>1</version></dependency>
+        <dependency><groupId>skosapi</groupId><artifactId>skosapi</artifactId><version>1</version></dependency>
+        <dependency><groupId>slf4j-api-1.7.6</groupId><artifactId>slf4j-api-1.7.6</artifactId><version>1</version></dependency>
+        <dependency><groupId>slf4j-api</groupId><artifactId>slf4j-api</artifactId><version>1</version></dependency>
+        <dependency><groupId>slf4j-log4j12-1.7.6</groupId><artifactId>slf4j-log4j12-1.7.6</artifactId><version>1</version></dependency>
+        <dependency><groupId>slf4j-simple-1.7.19</groupId><artifactId>slf4j-simple-1.7.19</artifactId><version>1</version></dependency>
+        <dependency><groupId>xercesImpl-2.11.0</groupId><artifactId>xercesImpl-2.11.0</artifactId><version>1</version></dependency>
+        <dependency><groupId>xercesImpl</groupId><artifactId>xercesImpl</artifactId><version>1</version></dependency>
+        <dependency><groupId>xml-apis-1.4.01</groupId><artifactId>xml-apis-1.4.01</artifactId><version>1</version></dependency>
+        <dependency><groupId>xml-apis</groupId><artifactId>xml-apis</artifactId><version>1</version></dependency>
+        <dependency><groupId>xsom-20110101-SNAPSHOT</groupId><artifactId>xsom-20110101-SNAPSHOT</artifactId><version>1</version></dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>org.upc.dtim.bolster.ontomatchmerge.Main</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>org.upc.dtim.bolster.ontomatchmerge.Main</Main-Class>
+                                        <Build-Number>123</Build-Number>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+        </plugins>
+
+    </build>
+
+</project>

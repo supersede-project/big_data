@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:xsd='http://www.w3.org/2001/XMLSchema#'
+         xmlns:alext='http://exmo.inrialpes.fr/align/ext/1.0/'
+         xmlns:align='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:edoal='http://ns.inria.org/edoal/1.0/#'>
+<Alignment>
+  <xml>yes</xml>
+  <level>2EDOAL</level>
+  <type>**</type>
+  <alext:method>upc.it4bi.rt.matching.falcon.FalconCombinedAlignmentProcess</alext:method>
+  <onto1>
+    <Ontology rdf:about="http://www.tpc.org/tpc-di">
+      <location>file:/C:/Users/Rizkallah/Documents/IT4BI/Thesis/RT_IT4BI/test/tpc_di/cust_mgmt_onto.owl</location>
+      <formalism>
+        <Formalism align:name="OWL2.0" align:uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto1>
+  <onto2>
+    <Ontology rdf:about="upc:it4bi:rt:tpcdi">
+      <location>file:/C:/Users/Rizkallah/Documents/IT4BI/Thesis/RT_IT4BI/test/tpc_di/tpcdi_rdb_onto.owl</location>
+      <formalism>
+        <Formalism align:name="OWL2.0" align:uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto2>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_NAME"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#ca_name"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9763041168210753</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#ca_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9764913706919429</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_TAX_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_tax_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998241666960765</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_LCL_TX_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_lcl_tx_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9958830110531374</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_EXT"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_ext_1"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.8452830830243107</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://www.tpc.org/tpc-di#Account"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="upc:it4bi:rt:tpcdi#account"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9975349754366322</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_TAX_ST"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#ca_tax_st"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997467737279517</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_B_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#ca_b_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9763443726868333</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://www.tpc.org/tpc-di#Customer"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="upc:it4bi:rt:tpcdi#customer"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9994071600180388</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_LOCAL"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_local_2"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.8549209415387176</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_GNDR"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_gndr"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.999918498054303</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_DOB"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_dob"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998943158834372</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_TIER"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_tier"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.999889369365593</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9826247787761793</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_STATE_PROV"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_state_prov"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.995172758481867</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_NAT_TX_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="upc:it4bi:rt:tpcdi#c_nat_tx_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9958830110531374</measure>
+    </Cell>
+  </map>
+</Alignment>
+</rdf:RDF>

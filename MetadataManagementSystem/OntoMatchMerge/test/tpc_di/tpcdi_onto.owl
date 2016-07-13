@@ -1,0 +1,939 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://www.tpc.org/tpc-di#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Ontology rdf:about="http://www.tpc.org/tpc-di#"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Customer">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasName"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAddress"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2147483647</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasTaxInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TIER"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TAX_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >0</owl:minCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#ACCOUNT_CUSTOMER_FK"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_GNDR"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasContactInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_DOB"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#TaxInfo">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_NAT_TX_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LCL_TX_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#date"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#daily_market"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Address">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_STATE_PROV"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CITY"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ZIPCODE"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE2"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE1"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#industry"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#trade"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#trade_type">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#TRADE_TRADE_TYPE_FK"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#status_type">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#ACCOUNT_STATUS_TYPE_FK"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Actions">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2147483647</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:minCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#cash_transaction"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#PhoneNumber">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_EXT"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LOCAL"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_AREA_CODE"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY_CODE"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Account">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#TRADE_ACCOUNT_FK"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_TAX_ST"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_B_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#tax_rate"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Name">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_M_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_F_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_L_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#ActionDef">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionTS"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionType"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasCustomer"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#ContactInfo">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_3"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_2"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_1"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ALT_EMAIL"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_PRIM_EMAIL"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAddress">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasName">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_3">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasCustomer">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Actions"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#ACCOUNT_CUSTOMER_FK">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_1">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_2">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#ACCOUNT_STATUS_TYPE_FK">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#status_type"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasTaxInfo">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#TaxInfo"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#TRADE_ACCOUNT_FK">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#TRADE_TRADE_TYPE_FK">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#trade_type"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasContactInfo">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendarweekid">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_local_3">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionTS">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ca_tax_st">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#in_sc_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#industry"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ct_ca_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#cash_transaction"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_GNDR">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#sk_dateid">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ca_c_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_email_2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_st_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_adline2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#fiscalqtrid">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendarqtrdesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_tax_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_L_NAME">
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#fiscalyeardesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendaryeardesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dm_high">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#daily_market"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_ca_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_f_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_tax">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_B_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_email_1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TIER">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#unsignedByte"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY_CODE">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dayofweeknum">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionType">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#tt_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade_type"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#datedesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#tt_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade_type"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_chrg">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CITY">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#st_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#status_type"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_STATE_PROV">
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#cdc_flag">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LOCAL">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_exec_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendarmonthid">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_st_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#fiscalqtrdesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_tt_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LCL_TX_ID">
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#TaxInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#tx_rate">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#tax_rate"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_tier">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_trade_price">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_dts">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#tx_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#tax_rate"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#datevalue">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_area_1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendarweekdesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#in_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#industry"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY_2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendaryearid">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_NAME">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dayofweekdesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ct_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#cash_transaction"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_AREA_CODE">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ct_amt">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#cash_transaction"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_ext_3">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_zipcode">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_comm">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#fiscalyearid">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY_3">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TAX_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ca_st_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendarmonthdesc">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_gndr">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_DOB">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dm_low">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#daily_market"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#tt_is_sell">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade_type"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#calendarqtrid">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#cdc_dsn">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_PRIM_EMAIL">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_is_cash">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_s_symb">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_ext_2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_NAT_TX_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#TaxInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ALT_EMAIL">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_local_1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ZIPCODE">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#in_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#industry"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#tx_name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#tax_rate"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dm_date">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#daily_market"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_TAX_ST">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_area_3">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ct_dts">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#cash_transaction"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_qty">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_F_NAME">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_ext_1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dm_vol">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#daily_market"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_city">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dm_s_symb">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#daily_market"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY">
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY_1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#dm_close">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#daily_market"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_local_2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#holidayflag">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#date"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_EXT">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_M_NAME">
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#st_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#status_type"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_area_2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#c_nat_tx_id">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#t_bid_price">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#tt_is_mrkt">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#trade_type"/>
+  </owl:DatatypeProperty>
+</rdf:RDF>

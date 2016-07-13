@@ -1,0 +1,97 @@
+extends layout
+block headers
+    link(rel='stylesheet', href='/stylesheets/loading.css')
+    link(rel='stylesheet', href='/stylesheets/new_dataset.css')
+    script(src='/js/client_new_dataset.js')
+block content
+
+    .container
+        .banner
+            .row
+                .col-lg-8.col-md-7.col-sm-6
+                    h2 New Sample Dataset
+                    br
+            .container-fluid
+                .col-lg-6
+                    .bs-component
+                        .btn-group(data-toggle='buttons')
+                            label.btn.btn-primary.active#typeXML
+                                input(type='radio', name='options', autocomplete='off', checked='')
+                                |  XML
+                            label.btn.btn-primary.active#typeJSON
+                                input(type='radio', name='options', autocomplete='off')
+                                |  JSON
+                            label.btn.btn-primary#typeRelationalDB
+                                input(type='radio', name='options', autocomplete='off')
+                                |  Relational DB
+
+            #xmlContainer
+                .container-fluid
+                    .col-lg-8
+                        .well.bs-component
+                            form#xmlForm(role='form', enctype="multipart/form-data").form-horizontal
+                                .form-group#datasetNameForm
+                                    label.col-lg-2.control-label(for='datasetName') Name
+                                    .col-lg-10
+                                        input#datasetName.form-control(type='text', name='datasetName', required='required')
+                                .form-group#xmlSchemaFileForm
+                                    label.col-lg-2.control-label(for='xmlSchemaFile') XML Schema File
+                                    .col-lg-10
+                                        .input-group
+                                            span.input-group-btn
+                                                span.btn.btn-primary.btn-file
+                                                    | Browse
+                                                    input#xmlSchemaFile.form-control(type='file', name='xmlSchemaFile', required='required', multiple='')
+                                            input#xmlSchemaFilePath.form-control(type='text', readonly='')
+                                .form-group#xmlInstanceFileForm
+                                    label.col-lg-2.control-label(for='xmlInstanceFile') XML Instance File
+                                    .col-lg-10
+                                        .input-group
+                                            span.input-group-btn
+                                                span.btn.btn-primary.btn-file
+                                                    | Browse
+                                                    input#xmlInstanceFile.form-control(type='file', name='xmlInstanceFile', required='required', multiple='')
+                                            input#xmlInstanceFilePath.form-control(type='text', readonly='')
+                                .form-group
+                                    .col-lg-10.col-lg-offset-2
+                                        button#saveXML.btn.btn-primary.btn-lg.btn-block(type='submit') Submit
+
+            #jsonContainer
+                .container-fluid
+                    .col-lg-8
+                        .well.bs-component
+                            form#jsonForm(role='form', enctype="multipart/form-data").form-horizontal
+                                .form-group#datasetNameForm
+                                    label.col-lg-2.control-label(for='datasetName') Name
+                                    .col-lg-10
+                                        input#datasetName.form-control(type='text', name='datasetName', required='required')
+                                .form-group#jsonInstanceFileForm
+                                    label.col-lg-2.control-label(for='jsonInstanceFile') JSON Instance File
+                                    .col-lg-10
+                                        .input-group
+                                            span.input-group-btn
+                                                span.btn.btn-primary.btn-file
+                                                    | Browse
+                                                    input#jsonInstanceFile.form-control(type='file', name='jsonInstanceFile', required='required', multiple='')
+                                            input#jsonInstanceFilePath.form-control(type='text', readonly='')
+                                .form-group
+                                    .col-lg-10.col-lg-offset-2
+                                        button#saveJSON.btn.btn-primary.btn-lg.btn-block(type='submit') Submit
+
+
+            #relationalDBContainer
+                .container-fluid
+                    .col-lg-8
+                        .well.bs-component
+                            form#relationalForm(role='form', enctype="multipart/form-data").form-horizontal
+                                .form-group#datasetNameForm
+                                    label.col-lg-2.control-label(for='datasetName') Name
+                                    .col-lg-10
+                                        input#datasetName.form-control(type='text', name='datasetName', required='required')
+                                .form-group#databaseServerForm
+                                    label.col-lg-2.control-label(for='databaseServer') Database Server
+                                    .col-lg-10
+                                        input#databaseServer.form-control(type='text', name='databaseServer', required='required')
+                                .form-group
+                                    .col-lg-10.col-lg-offset-2
+                                        button#saveRelational.btn.btn-primary.btn-lg.btn-block(type='submit') Submit

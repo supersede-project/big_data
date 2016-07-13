@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: jena:jena:1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/jena/jena/1/jena-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/jena/jena/1/jena-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/jena/jena/1/jena-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

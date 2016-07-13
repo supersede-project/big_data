@@ -1,0 +1,1127 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:xsd='http://www.w3.org/2001/XMLSchema#'
+         xmlns:alext='http://exmo.inrialpes.fr/align/ext/1.0/'
+         xmlns:align='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:edoal='http://ns.inria.org/edoal/1.0/#'>
+<Alignment>
+  <xml>yes</xml>
+  <level>2EDOAL</level>
+  <type>**</type>
+  <alext:method>upc.it4bi.rt.matching.falcon.FalconCombinedAlignmentProcess</alext:method>
+  <onto1>
+    <Ontology rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl">
+      <location>file:/C:/Users/Rizkallah/Documents/IT4BI/Thesis/RT_IT4BI/test/matching/edu.mit.visus.bibtex.owl</location>
+      <formalism>
+        <Formalism align:name="OWL2.0" align:uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto1>
+  <onto2>
+    <Ontology rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl">
+      <location>file:/C:/Users/Rizkallah/Documents/IT4BI/Thesis/RT_IT4BI/test/matching/myOnto.owl</location>
+      <formalism>
+        <Formalism align:name="OWL2.0" align:uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto2>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasSeries"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#series"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9976741729635299</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#howPublished"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#howPublished"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992609331427396</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasKey"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#key"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasType"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#type"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992936872592197</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasJournal"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#inJournal"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9988343013519152</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasLocation"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#location"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9996868397624201</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasKeywords"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#keywords"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997704818952886</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasISBN"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#isbn"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9676402710697524</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#keywords"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasKeywords"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997704818952886</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasLCCN"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#lccn"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9511939246197793</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasEditor"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#editor"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992036783822092</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#month"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasMonth"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.8414883876891415</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Article"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Article"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997109803627525</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Article"/>
+      </entity1>
+      <entity2>
+        <edoal:Class>
+          <edoal:and rdf:parseType="Collection">
+            <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Article"/>
+            <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#abstract"/>
+          </edoal:and>
+        </edoal:Class>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InCollection"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Incollection"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.7722132922874265</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#organization"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasOrganization"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9994751580928685</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Proceedings"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Proceedings"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9725680020128578</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Entry"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Entry"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997784692449881</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasTitle"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#title"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998499346020828</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasPublisher"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#publisher"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9996742371626055</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasISSN"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#issn"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9497512213474129</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAnnotation"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#annote"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997208356666591</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasVolume"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#volume"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9988056562009999</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#abstract"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAbstract"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999025825063279</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Manual"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Manual"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997610707844976</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasEdition"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#edition"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9991591041098808</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#humanCreator"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#humanCreator"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9985521644992202</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#humanCreator"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#humanCreator"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9985521644992202</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Entry"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Entry"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997784692449881</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Techreport"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Techreport"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.963459248995322</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#institution"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasInstitution"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992331121158369</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#annote"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAnnotation"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997208356666591</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#pageChapterData"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#pagesOrChapter"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9597124480152905</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Booklet"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Booklet"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9995352710387304</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#howPublished"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#howPublished"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992609331427396</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#location"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasLocation"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9996868397624201</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasPrice"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#price"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999037378663057</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#language"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasLanguage"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998839899940368</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Unpublished"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Unpublished"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998898199420533</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#affiliation"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAffiliation"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999034369977831</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#contents"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasContents"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.954865024929378</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasNote"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#note"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997492916466658</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Techreport"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Techreport"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.963459248995322</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#year"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasYear"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.806598800284801</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Proceedings"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Proceedings"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9725680020128578</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Incollection"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InCollection"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.7722132922874265</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Misc"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Misc"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9986081384650802</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#series"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasSeries"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9976741729635299</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#price"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasPrice"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999037378663057</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#number"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasNumber"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9972515251475527</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasURL"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#url"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9331394564459671</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasCopyright"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#copyright"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999253434737356</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#note"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasNote"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997492916466658</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#school"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasSchool"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9996773357797184</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#publisher"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasPublisher"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9996742371626055</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#lccn"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasLCCN"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9511939246197793</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAuthor"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#author"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9995815810732925</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Article"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Article"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997109803627525</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAbstract"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#abstract"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999025825063279</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Book"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Book"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.920452769677628</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#pagesOrChapter"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#pageChapterData"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9597124480152905</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasMonth"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#month"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.8414883876891415</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasOrganization"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#organization"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9994751580928685</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Manual"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Manual"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997610707844976</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Booklet"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Booklet"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9995352710387304</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#inJournal"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasJournal"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9988343013519152</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Unpublished"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Unpublished"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998898199420533</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Misc"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Misc"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9986081384650802</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasYear"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#year"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.806598800284801</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#size"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasSize"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998423705403993</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasSize"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#size"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998423705403993</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasSchool"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#school"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9996773357797184</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#copyright"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasCopyright"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999253434737356</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Book"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Book"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.920452769677628</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasContents"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#contents"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.954865024929378</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#author"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAuthor"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9995815810732925</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#chapter"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasChapter"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997169037053235</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#isbn"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasISBN"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9676402710697524</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#edition"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasEdition"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9991591041098808</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasInstitution"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#institution"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992331121158369</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#url"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasURL"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9331394564459671</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#type"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasType"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992936872592197</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#key"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasKey"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasNumber"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#number"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9972515251475527</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#volume"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasVolume"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9988056562009999</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasLanguage"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#language"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998839899940368</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#title"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasTitle"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9998499346020828</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#issn"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasISSN"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9497512213474129</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#editor"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasEditor"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9992036783822092</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasChapter"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#chapter"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9997169037053235</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#hasAffiliation"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#affiliation"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9999034369977831</measure>
+    </Cell>
+  </map>
+</Alignment>
+</rdf:RDF>

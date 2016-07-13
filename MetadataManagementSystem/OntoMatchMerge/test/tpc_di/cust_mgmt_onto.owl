@@ -1,0 +1,1472 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.tpc.org/tpc-di#" xmlns:dtype="http://www.srdc.com.tr/ontmalizer#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xml:base="http://www.tpc.org/tpc-di#">
+    <owl:Ontology rdf:about="http://www.tpc.org/tpc-di#"/>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Actions">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2147483647</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:minCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Customer">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasContactInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasName"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</owl:minCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasCustomer"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_GNDR"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasTaxInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_DOB"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasTaxInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TIER"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasContactInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TAX_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAddress"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAddress"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasName"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2147483647</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#PhoneNumber">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_3"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_2"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_1"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_EXT"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LOCAL"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_AREA_CODE"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY_CODE"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Account">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_TAX_ST"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_B_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#TaxInfo">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_NAT_TX_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LCL_TX_ID"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasTaxInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Address">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_STATE_PROV"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CITY"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ZIPCODE"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE2"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE1"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAddress"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#Name">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_M_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_F_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_L_NAME"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasName"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#ActionDef">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionTS"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionType"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasCustomer"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasCustomer"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.tpc.org/tpc-di#ContactInfo">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ALT_EMAIL"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_3"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_PRIM_EMAIL"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_2"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_2"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_1"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasContactInfo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_1"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int">999</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_3"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAddress">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasTaxInfo">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#TaxInfo"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasName">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_3">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasCustomer">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAction">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Actions"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_1">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasAccount">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasC_PHONE_2">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.tpc.org/tpc-di#hasContactInfo">
+    <rdfs:range rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ALT_EMAIL">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionType">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ZIPCODE">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_NAME">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#ActionTS">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ActionDef"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_AREA_CODE">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_TAX_ST">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CITY">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_STATE_PROV">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_GNDR">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_F_NAME">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LOCAL">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_LCL_TX_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#TaxInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_EXT">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_M_NAME">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TAX_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_ADLINE1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Address"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_L_NAME">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Name"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_DOB">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_PRIM_EMAIL">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#ContactInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#CA_B_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Account"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_TIER">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#unsignedByte"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#Customer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_NAT_TX_ID">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#TaxInfo"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.tpc.org/tpc-di#C_CTRY_CODE">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.tpc.org/tpc-di#PhoneNumber"/>
+  </owl:DatatypeProperty>
+  <Actions rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Actions_1">
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_28">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-07T05:21:03</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_28">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2532</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_24">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15106</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10821</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xbIOERJoDUPxftTMrwVcOoxpfSnsTHxNSBAnqdfRQmeGps</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_9">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-04T03:48:10</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UPDCUST</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_9">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6884</C_ID>
+            <C_TIER rdf:datatype="http://www.w3.org/2001/XMLSchema#unsignedByte">2</C_TIER>
+            <hasAddress>
+              <Address rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Address_5">
+                <C_ADLINE1 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2270 Floresta Rue</C_ADLINE1>
+                <C_ZIPCODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V6R 1V9</C_ZIPCODE>
+                <C_CITY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Milwaukee</C_CITY>
+                <C_STATE_PROV rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OH</C_STATE_PROV>
+                <C_CTRY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">United States of America</C_CTRY>
+              </Address>
+            </hasAddress>
+            <hasContactInfo>
+              <ContactInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ContactInfo_5">
+                <C_PRIM_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Kylila.Parnell@gmx.co.uk</C_PRIM_EMAIL>
+                <C_ALT_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Kylila.Parnell@gmx.es</C_ALT_EMAIL>
+                <hasC_PHONE_1>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_13">
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">251-7263</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_1>
+                <hasC_PHONE_2>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_14"/>
+                </hasC_PHONE_2>
+                <hasC_PHONE_3>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_15"/>
+                </hasC_PHONE_3>
+              </ContactInfo>
+            </hasContactInfo>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_15">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-05T07:09:57</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UPDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_15">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">53</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_14">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5693</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">18953</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ELIYC DoTwwKtwvrlDpVhntcUnlilHiqFBGmgrKHP</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_11">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-04T08:50:38</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_11">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4012</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_10">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15096</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6298</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ISGWMdXrFbbbzGsVAuwJRsKQadJiDUjYMeSvzgRH</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_25">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-06T14:31:37</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UPDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_25">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2858</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_22">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5493</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11530</CA_B_ID>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_20">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-05T19:35:07</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_20">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1092</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_17">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15101</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3695</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">qXyVQAITplEWEOzEAZJoidPEiaYRlOwrEcLhSFIMHSLqQDQG</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_14">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-05T01:27:48</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_14">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3428</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_13">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15098</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">23746</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pliLMIPHSoIPrUEGLAvpGHGPyWLIHaIJdHHPVW EIpHAoHaaBQ</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_10">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-04T05:01:45</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_10">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">604</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_9">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15095</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10401</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RnUOFZYNaeGuSoHDcHgKfFVgmNTnTJWRCmAdYFNaSPsAQFtU</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_31">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-07T17:40:37</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_31">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4294</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_27">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15108</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4258</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IiqVbPKUxQtzVxVRdTZtRrMQqtAuzJrXolt</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_6">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T14:08:18</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEW</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_6">
+            <hasName>
+              <Name rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Name_4">
+                <C_L_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Elgin</C_L_NAME>
+                <C_F_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Arlana</C_F_NAME>
+                <C_M_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">T</C_M_NAME>
+              </Name>
+            </hasName>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_6">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15092</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">18404</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lmPHM FcGdwXcZGJPnYdbHUQ xySwOgUiT</CA_NAME>
+              </Account>
+            </hasAccount>
+            <C_TIER rdf:datatype="http://www.w3.org/2001/XMLSchema#unsignedByte">2</C_TIER>
+            <C_TAX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">138-94-0002</C_TAX_ID>
+            <hasContactInfo>
+              <ContactInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ContactInfo_4">
+                <C_PRIM_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Arlana.T.Elgin@amplimail.com</C_PRIM_EMAIL>
+                <hasC_PHONE_1>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_10">
+                    <C_CTRY_CODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</C_CTRY_CODE>
+                    <C_AREA_CODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">624</C_AREA_CODE>
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">321-6498</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_1>
+                <hasC_PHONE_2>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_11">
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">684-5793</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_2>
+                <hasC_PHONE_3>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_12"/>
+                </hasC_PHONE_3>
+              </ContactInfo>
+            </hasContactInfo>
+            <C_DOB rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1934-08-14</C_DOB>
+            <hasAddress>
+              <Address rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Address_4">
+                <C_ADLINE1 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">19509 Seward Lane</C_ADLINE1>
+                <C_ADLINE2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apt. 824</C_ADLINE2>
+                <C_ZIPCODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V6T 1V8</C_ZIPCODE>
+                <C_CITY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jackson</C_CITY>
+                <C_STATE_PROV rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AZ</C_STATE_PROV>
+                <C_CTRY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">United States of America</C_CTRY>
+              </Address>
+            </hasAddress>
+            <hasTaxInfo>
+              <TaxInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_TaxInfo_4">
+                <C_LCL_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ND4</C_LCL_TX_ID>
+                <C_NAT_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OK6</C_NAT_TX_ID>
+              </TaxInfo>
+            </hasTaxInfo>
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7799</C_ID>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_2">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T04:28:01</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CLOSEACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_2">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6328</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_2">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12244</CA_ID>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_30">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-07T11:25:40</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_30">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7407</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_26">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15107</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5274</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">xVYNQSzhFPHOPcFMAIGKMDoUKKLrZRRJRK</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_33">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-07T23:59:59</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_33">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5989</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_29">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15109</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3545</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IIQGVLbRZFJqTJpR MldPrPCSOAaH LPI</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_22">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-06T02:53:16</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UPDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_22">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">981</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_19">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7059</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2931</CA_B_ID>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_23">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-06T04:38:26</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_23">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2561</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_20">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15103</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">24080</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RwRKvBIVVgATFLXwHCsNQQvQmBKuJSmDSAG</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_24">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-06T08:08:56</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_24">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1014</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_21">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15104</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12451</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cWsoVcNiEOHjZIFDaolGXIEIMDTPwMD</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_5">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T12:56:55</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UPDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_5">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">282</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_5">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8829</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12182</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">VWuQteiBMaMUeOUJMBZXSLjICbWKgrtw</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_8">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T23:28:55</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_8">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1930</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_8">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15094</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11773</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">qZsRgMHzVdIWgCPCAEgPlnKuCRrAwVFYdPGEnAShDd</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_1">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T00:51:21</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEW</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_1">
+            <C_TIER rdf:datatype="http://www.w3.org/2001/XMLSchema#unsignedByte">3</C_TIER>
+            <hasAddress>
+              <Address rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Address_1">
+                <C_ADLINE1 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">22381 Capital Boulevard</C_ADLINE1>
+                <C_ADLINE2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Apt. 453</C_ADLINE2>
+                <C_ZIPCODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10047</C_ZIPCODE>
+                <C_CITY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fontana</C_CITY>
+                <C_STATE_PROV rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IN</C_STATE_PROV>
+                <C_CTRY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">United States of America</C_CTRY>
+              </Address>
+            </hasAddress>
+            <C_TAX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">561-48-1843</C_TAX_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_1">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15089</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11960</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">VWMHTmxGlITDiBClkF gOzRZmZwdTDyQoNfeBk</CA_NAME>
+              </Account>
+            </hasAccount>
+            <C_DOB rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1942-04-25</C_DOB>
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7796</C_ID>
+            <hasTaxInfo>
+              <TaxInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_TaxInfo_1">
+                <C_LCL_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BC1</C_LCL_TX_ID>
+                <C_NAT_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ON3</C_NAT_TX_ID>
+              </TaxInfo>
+            </hasTaxInfo>
+            <C_GNDR rdf:datatype="http://www.w3.org/2001/XMLSchema#string">f</C_GNDR>
+            <hasContactInfo>
+              <ContactInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ContactInfo_1">
+                <C_PRIM_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Kristel.Q.Rozen@gmx.it</C_PRIM_EMAIL>
+                <hasC_PHONE_1>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_1">
+                    <C_AREA_CODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">959</C_AREA_CODE>
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">829-7032</C_LOCAL>
+                    <C_EXT rdf:datatype="http://www.w3.org/2001/XMLSchema#string">05252</C_EXT>
+                  </PhoneNumber>
+                </hasC_PHONE_1>
+                <hasC_PHONE_2>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_2">
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">557-1711</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_2>
+                <hasC_PHONE_3>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_3"/>
+                </hasC_PHONE_3>
+              </ContactInfo>
+            </hasContactInfo>
+            <hasName>
+              <Name rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Name_1">
+                <C_L_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rozen</C_L_NAME>
+                <C_F_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Kristel</C_F_NAME>
+                <C_M_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Q</C_M_NAME>
+              </Name>
+            </hasName>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_32">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-07T20:40:04</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UPDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_32">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5790</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_28">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11196</CA_ID>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3559</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tdmUhxMhzRgOSBLCKYrlkBLbSma DQXAG</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_17">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-05T11:50:11</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_17">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1272</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_15">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15099</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">23766</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LAqOyovgmHvtFMpQWiAUFVTjGRDSYxK</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_7">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T17:28:32</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_7">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4133</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_7">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15093</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">24854</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WBBOOobIsIzuLtxMJVjeUjQfUItrNNUeCraJUDbueBIf</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_16">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-05T11:42:05</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">INACT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_16">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5017</C_ID>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_26">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-06T19:13:50</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">INACT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_26">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3979</C_ID>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_27">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-07T01:37:06</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_27">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1975</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_23">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15105</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">14566</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MDBOSy GoSFFNSnnedFmATKATAVpqYIzVAtJSbP</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_19">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-05T16:38:51</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">UPDCUST</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_19">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2887</C_ID>
+            <C_TIER rdf:datatype="http://www.w3.org/2001/XMLSchema#unsignedByte">3</C_TIER>
+            <hasAddress>
+              <Address rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Address_6">
+                <C_ADLINE1 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4141 Eagle North</C_ADLINE1>
+                <C_ZIPCODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">M3X 1L9</C_ZIPCODE>
+                <C_CITY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Quebec</C_CITY>
+                <C_STATE_PROV rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NC</C_STATE_PROV>
+                <C_CTRY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">United States of America</C_CTRY>
+              </Address>
+            </hasAddress>
+            <hasContactInfo>
+              <ContactInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ContactInfo_6">
+                <C_PRIM_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Guillemette.Drewes@enveloped.org</C_PRIM_EMAIL>
+                <C_ALT_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Guillemette.Drewes@gawab.com</C_ALT_EMAIL>
+                <hasC_PHONE_1>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_16">
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">710-4796</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_1>
+                <hasC_PHONE_2>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_17">
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">927-7198</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_2>
+                <hasC_PHONE_3>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_18"/>
+                </hasC_PHONE_3>
+              </ContactInfo>
+            </hasContactInfo>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_29">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-07T07:33:34</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CLOSEACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_29">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1939</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_25">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3707</CA_ID>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_18">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-05T12:53:37</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_18">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3551</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_16">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15100</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">107</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">VBbQvaFRcflqzbtjdMAUVbEGxslut QNMVfRKj</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_4">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T10:46:03</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEW</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_4">
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_4">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15091</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2429</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WlPTzyQJBDTQvPDEFtjQCRGdjCMyLqZc</CA_NAME>
+              </Account>
+            </hasAccount>
+            <C_TAX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">834-71-9091</C_TAX_ID>
+            <hasName>
+              <Name rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Name_3">
+                <C_L_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cucci</C_L_NAME>
+                <C_F_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Shuang</C_F_NAME>
+              </Name>
+            </hasName>
+            <C_TIER rdf:datatype="http://www.w3.org/2001/XMLSchema#unsignedByte">1</C_TIER>
+            <hasContactInfo>
+              <ContactInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ContactInfo_3">
+                <C_PRIM_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Shuang.Cucci@born2frag.de</C_PRIM_EMAIL>
+                <hasC_PHONE_1>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_7">
+                    <C_AREA_CODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">301</C_AREA_CODE>
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">103-9028</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_1>
+                <hasC_PHONE_2>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_8"/>
+                </hasC_PHONE_2>
+                <hasC_PHONE_3>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_9"/>
+                </hasC_PHONE_3>
+              </ContactInfo>
+            </hasContactInfo>
+            <C_DOB rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1975-04-13</C_DOB>
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7798</C_ID>
+            <hasTaxInfo>
+              <TaxInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_TaxInfo_3">
+                <C_LCL_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OH4</C_LCL_TX_ID>
+                <C_NAT_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MD1</C_NAT_TX_ID>
+              </TaxInfo>
+            </hasTaxInfo>
+            <hasAddress>
+              <Address rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Address_3">
+                <C_ADLINE1 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11170 Broad Boulevard</C_ADLINE1>
+                <C_ZIPCODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">53227</C_ZIPCODE>
+                <C_CITY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Brownsville</C_CITY>
+                <C_STATE_PROV rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NH</C_STATE_PROV>
+                <C_CTRY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">United States of America</C_CTRY>
+              </Address>
+            </hasAddress>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_13">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-04T18:36:14</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_13">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6786</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_12">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15097</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">14856</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">feABMqiMOiXNfDPEGsNUkgxsFzVaHRcsTfWGeBR</CA_NAME>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_21">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-06T02:11:57</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ADDACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_21">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2230</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_18">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15102</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">12656</CA_B_ID>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_3">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T06:01:25</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NEW</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_3">
+            <hasTaxInfo>
+              <TaxInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_TaxInfo_2">
+                <C_LCL_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ON10</C_LCL_TX_ID>
+                <C_NAT_TX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BC2</C_NAT_TX_ID>
+              </TaxInfo>
+            </hasTaxInfo>
+            <hasContactInfo>
+              <ContactInfo rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ContactInfo_2">
+                <C_PRIM_EMAIL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Marcy.Cloherty@animail.net</C_PRIM_EMAIL>
+                <hasC_PHONE_1>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_4">
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">238-2870</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_1>
+                <hasC_PHONE_2>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_5">
+                    <C_CTRY_CODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</C_CTRY_CODE>
+                    <C_AREA_CODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">492</C_AREA_CODE>
+                    <C_LOCAL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">824-9819</C_LOCAL>
+                  </PhoneNumber>
+                </hasC_PHONE_2>
+                <hasC_PHONE_3>
+                  <PhoneNumber rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_PhoneNumber_6"/>
+                </hasC_PHONE_3>
+              </ContactInfo>
+            </hasContactInfo>
+            <C_DOB rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1981-11-27</C_DOB>
+            <hasName>
+              <Name rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Name_2">
+                <C_L_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cloherty</C_L_NAME>
+                <C_F_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Marcy</C_F_NAME>
+              </Name>
+            </hasName>
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7797</C_ID>
+            <C_TIER rdf:datatype="http://www.w3.org/2001/XMLSchema#unsignedByte">2</C_TIER>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_3">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">15090</CA_ID>
+                <CA_TAX_ST rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</CA_TAX_ST>
+                <CA_B_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6622</CA_B_ID>
+                <CA_NAME rdf:datatype="http://www.w3.org/2001/XMLSchema#string">skNCvsJDLPwDPxMhgIJUdmoCVTnONJ HLsIbRKtbsQUjmHGvuf</CA_NAME>
+              </Account>
+            </hasAccount>
+            <hasAddress>
+              <Address rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Address_2">
+                <C_ADLINE1 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">17354 Four Points Crescent</C_ADLINE1>
+                <C_ZIPCODE rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V6W 1S9</C_ZIPCODE>
+                <C_CITY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Evansville</C_CITY>
+                <C_STATE_PROV rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FL</C_STATE_PROV>
+                <C_CTRY rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Canada</C_CTRY>
+              </Address>
+            </hasAddress>
+            <C_TAX_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">822-15-8848</C_TAX_ID>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+    <hasAction>
+      <ActionDef rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_ActionDef_12">
+        <ActionTS rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-04T12:35:00</ActionTS>
+        <ActionType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CLOSEACCT</ActionType>
+        <hasCustomer>
+          <Customer rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Customer_12">
+            <C_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">842</C_ID>
+            <hasAccount>
+              <Account rdf:about="http://www.srdc.com.tr/ontmalizer/instance#INS2522421_Account_11">
+                <CA_ID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8133</CA_ID>
+              </Account>
+            </hasAccount>
+          </Customer>
+        </hasCustomer>
+      </ActionDef>
+    </hasAction>
+  </Actions>
+</rdf:RDF>

@@ -1,0 +1,606 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:xsd='http://www.w3.org/2001/XMLSchema#'
+         xmlns:alext='http://exmo.inrialpes.fr/align/ext/1.0/'
+         xmlns:align='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:edoal='http://ns.inria.org/edoal/1.0/#'>
+<Alignment>
+  <xml>yes</xml>
+  <level>2EDOAL</level>
+  <type>**</type>
+  <alext:method>org.upc.dtim.bolster.ontomatchmerge.matching.falcon.FalconISubMatchingProcess</alext:method>
+  <onto1>
+    <Ontology rdf:about="http://www.tpc.org/tpc-di#">
+      <location>file:/C:/Users/Rizkallah/Documents/IT4BI/Thesis/RT_IT4BI/tpcdi/cust_mgmt_schema_onto.owl</location>
+      <formalism>
+        <Formalism align:name="OWL2.0" align:uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto1>
+  <onto2>
+    <Ontology rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#">
+      <location>file:/C:/Users/Rizkallah/Documents/IT4BI/Thesis/RT_IT4BI/tpcdi/tpcdi_onto.owl</location>
+      <formalism>
+        <Formalism align:name="OWL2.0" align:uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto2>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_dob"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_DOB"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_TAX_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_tax_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_LOCAL"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_local_2"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9461538461538462</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_CITY"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_city"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_gndr"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_GNDR"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_L_NAME"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_l_name"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_ext_2"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_EXT"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9222222222222222</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_m_name"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_M_NAME"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_M_NAME"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_m_name"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_F_NAME"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_f_name"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ZIPCODE"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_zipcode"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_NAT_TX_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_nat_tx_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_lcl_tx_id"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_LCL_TX_ID"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#account"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://www.tpc.org/tpc-di#Account"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://www.tpc.org/tpc-di#Account"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#account"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_local_2"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_LOCAL"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9461538461538462</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_tier"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_TIER"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_CTRY"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_ctry"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_nat_tx_id"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_NAT_TX_ID"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_LCL_TX_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_lcl_tx_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_TIER"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_tier"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#customer"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://www.tpc.org/tpc-di#Customer"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_l_name"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_L_NAME"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_f_name"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_F_NAME"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_zipcode"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ZIPCODE"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_tax_st"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_TAX_ST"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_B_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_b_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_DOB"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_dob"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_state_prov"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_STATE_PROV"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ADLINE2"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_adline2"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_city"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_CITY"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_id"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ID"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_EXT"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_ext_2"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.9222222222222222</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_name"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_NAME"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_STATE_PROV"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_state_prov"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_b_id"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_B_ID"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Class rdf:about="http://www.tpc.org/tpc-di#Customer"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#customer"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_adline1"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ADLINE1"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_GNDR"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_gndr"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_ID"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_id"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_tax_id"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_TAX_ID"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_ctry"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_CTRY"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_TAX_ST"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_tax_st"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_NAME"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_name"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#ca_id"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#CA_ID"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_adline2"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ADLINE2"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1>
+        <edoal:Property rdf:about="http://www.tpc.org/tpc-di#C_ADLINE1"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://www.upc.edu/it4bi/rt/tpcdi#c_adline1"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+</Alignment>
+</rdf:RDF>

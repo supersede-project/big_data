@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: jetty-util:jetty-util:1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/jetty-util/jetty-util/1/jetty-util-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/jetty-util/jetty-util/1/jetty-util-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/jetty-util/jetty-util/1/jetty-util-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

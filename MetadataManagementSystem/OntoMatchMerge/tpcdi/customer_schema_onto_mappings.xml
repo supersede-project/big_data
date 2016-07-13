@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE OntologyMappings [<!ELEMENT OntologyMappings (Connections?, OntologyMapping+)>
+<!ELEMENT Connections (Connection*)>
+<!ELEMENT Connection (name, server, type, access+, database, port, username, password)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT server (#PCDATA)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT access (#PCDATA)>
+<!ELEMENT database (#PCDATA)>
+<!ELEMENT port (#PCDATA)>
+<!ELEMENT username (#PCDATA)>
+<!ELEMENT password (#PCDATA)>
+<!ELEMENT OntologyMapping (Ontology,RefOntology?,Mapping)>
+<!ELEMENT SQLOperator (#PCDATA)>
+<!ELEMENT Ontology (#PCDATA)>
+<!ELEMENT RefOntology (#PCDATA)>
+<!ELEMENT Mapping (((Mapping,SQLOperator)*,Mapping)|(Tablename,Projections,Selections?))>
+<!ELEMENT Tablename (#PCDATA)>
+<!ELEMENT Projections (Attribute+)>
+<!ELEMENT Attribute (#PCDATA)>
+<!ELEMENT Selections (Selection+)>
+<!ELEMENT Selection (Column,Operator,Constant)>
+<!ELEMENT Column (#PCDATA)>
+<!ELEMENT Operator (#PCDATA)>
+<!ELEMENT Constant (#PCDATA)>
+<!ATTLIST Mapping connectionName CDATA #IMPLIED>
+<!ATTLIST Mapping sourceKind CDATA #IMPLIED>
+<!ATTLIST Ontology type (concept|property) #REQUIRED>
+<!ATTLIST RefOntology type (concept|property) #REQUIRED>
+]>
+
+<OntologyMappings>
+    <Connections/>
+    <OntologyMapping>
+        <Ontology type="concept">http://www.salusproject.eu/ontology/test#customer</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename/>
+            <Projections>
+                <Attribute>/salus:customer</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_DOB</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/@C_DOB</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_GNDR</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/@C_GNDR</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_ID</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/@C_ID</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_NAT_TX_ID</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/@C_NAT_TX_ID</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_TIER</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/@C_TIER</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_NAME</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:C_NAME</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_AGE</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:C_AGE</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_ALT_EMAIL</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:C_ALT_EMAIL</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_PRIM_EMAIL</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:C_PRIM_EMAIL</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_LC_TX_ID</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:C_LC_TX_ID</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="concept">http://www.salusproject.eu/ontology/test#complextype1</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:Address/node()</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#hasAddress</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:Address</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_CITY</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address</Tablename>
+            <Projections>
+                <Attribute>/@C_CITY</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_CTRY</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address</Tablename>
+            <Projections>
+                <Attribute>/@C_CTRY</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#ADLINE1</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address</Tablename>
+            <Projections>
+                <Attribute>/salus:ADLINE1</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#ADLINE2</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address</Tablename>
+            <Projections>
+                <Attribute>/salus:ADLINE2</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#ZIPCODE</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address</Tablename>
+            <Projections>
+                <Attribute>/salus:ZIPCODE</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="concept">http://www.salusproject.eu/ontology/test#complextype2</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address</Tablename>
+            <Projections>
+                <Attribute>/salus:REGION/node()</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#hasREGION</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address</Tablename>
+            <Projections>
+                <Attribute>/salus:REGION</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#CITY</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address/salus:REGION</Tablename>
+            <Projections>
+                <Attribute>/@CITY</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#CTRY</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:Address/salus:REGION</Tablename>
+            <Projections>
+                <Attribute>/@CTRY</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="concept">http://www.salusproject.eu/ontology/test#complextype3</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:TaxRates/node()</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#hasTaxRates</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer</Tablename>
+            <Projections>
+                <Attribute>/salus:TaxRates</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+    <OntologyMapping>
+        <Ontology type="property">http://www.salusproject.eu/ontology/test#C_TAX_RATE</Ontology>
+        <Mapping connectionName="C:\Users\Rizkallah\Documents\tpc_di\customer_schema_instance.xml" sourceKind="xml">
+            <Tablename>/salus:customer/salus:TaxRates</Tablename>
+            <Projections>
+                <Attribute>/salus:C_TAX_RATE</Attribute>
+            </Projections>
+        </Mapping>
+    </OntologyMapping>
+</OntologyMappings>
