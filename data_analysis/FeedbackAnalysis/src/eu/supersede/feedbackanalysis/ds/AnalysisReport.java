@@ -28,6 +28,38 @@ public class AnalysisReport {
 		return summary.toString();
 	}
 	
+	public String getJSON(){
+		StringBuffer json = new StringBuffer();
+		json.append("{\n");
+		for (int i = 0; i < userFeedbacks.size(); i++){
+			ClassificationResult classifyResult = classificationResult.get(i);
+			SentimentAnalysisResult sentimentResult = sentimentAnalysisResult.get(i);
+			FeatureExtractionResult featureResult = featureExtractionResult.get(i);
+			
+			json.append("\"result\":{\n");
+			json.append("\"description\": \"" + userFeedbacks.get(i).getFeedbackText() + "\",\n");
+			json.append("\"classification\": \"" + classifyResult.getLabel() + "\",\n");
+			json.append("\"classification_accuracy\":" + classifyResult.getAccuracy() + ",\n");
+			json.append("\"sentiment\": {\n");
+			json.append("\"positive\": " + sentimentResult.getPositiveSentiment() + ",\n");
+			json.append("\"negative\": " + sentimentResult.getNegativeSentiment() + ",\n");
+			json.append("\"overall\": " + sentimentResult.getOverallSentiment() + ",\n");
+			json.append("},\n");
+			json.append("\"main_topics\": [");
+			List<String> features = featureResult.getFeatures();
+			for (int j = 0; j < features.size(); j++){
+				String feature = features.get(j);
+				if (j > 0){
+					json.append(",");
+				}
+				json.append("\"" + feature + "\"");
+			}
+			json.append("],\n},\n");
+		}
+		json.append("\n}");
+		return json.toString();
+	}
+	
 	public List<FeatureExtractionResult> getFeatureExtractionResult() {
 		return featureExtractionResult;
 	}
