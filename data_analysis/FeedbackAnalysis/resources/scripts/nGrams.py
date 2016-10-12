@@ -13,7 +13,6 @@ from nltk.corpus import wordnet
 from collections import Counter
 from collections import OrderedDict
 
-import searchNGram
 import stopwordRemover
 import nonRepeated
 import csv
