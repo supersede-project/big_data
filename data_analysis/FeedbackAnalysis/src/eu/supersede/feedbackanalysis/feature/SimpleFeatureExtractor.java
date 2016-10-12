@@ -6,16 +6,12 @@ package eu.supersede.feedbackanalysis.feature;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import eu.supersede.feedbackanalysis.ds.FeatureExtractionResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
-import eu.supersede.feedbackanalysis.preprocessing.utils.FileManager;
 
 
 public class SimpleFeatureExtractor implements FeatureExtractor {
