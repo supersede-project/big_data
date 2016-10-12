@@ -13,12 +13,6 @@ from nltk.corpus import wordnet
 from collections import Counter
 from collections import OrderedDict
 
-import matplotlib.pyplot as plt; plt.rcdefaults()
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
-
-import MySQLdb
 import searchNGram
 import stopwordRemover
 import nonRepeated
