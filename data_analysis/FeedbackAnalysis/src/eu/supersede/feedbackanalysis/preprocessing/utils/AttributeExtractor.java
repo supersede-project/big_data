@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import com.opencsv.CSVReader;
+//import com.opencsv.CSVReader;
 
 import edu.stanford.nlp.io.IOUtils;
 import edu.stanford.nlp.ling.CoreAnnotations;

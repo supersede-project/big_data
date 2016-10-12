@@ -44,7 +44,7 @@ public class SimpleConsolidator implements AnalysisConsolidator {
 	private SimpleConsolidator() {
 		feedbackClassifier = new SpeechActBasedClassifier();
 		featureExtractor = new SimpleFeatureExtractor();
-		sentimentAnalyzer = new SentistrengthAnalyzer();
+//		sentimentAnalyzer = new SentistrengthAnalyzer();
 	}
 	
 
@@ -58,11 +58,11 @@ public class SimpleConsolidator implements AnalysisConsolidator {
 		report.setUserFeedbacks(userFeedbacks);
 		try {
 			List<ClassificationResult> classificationResult = feedbackClassifier.classify(userFeedbacks);
-			List<SentimentAnalysisResult> sentimentAnalysisResult = sentimentAnalyzer.determineSentiment(userFeedbacks);
+//			List<SentimentAnalysisResult> sentimentAnalysisResult = sentimentAnalyzer.determineSentiment(userFeedbacks);
 			List<FeatureExtractionResult> featureExtractionResult = featureExtractor.extractFeatures(userFeedbacks);
 			
 			report.setClassificationResult(classificationResult);
-			report.setSentimentResult(sentimentAnalysisResult);
+//			report.setSentimentResult(sentimentAnalysisResult);
 			report.setFeatureExtractionResult(featureExtractionResult);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

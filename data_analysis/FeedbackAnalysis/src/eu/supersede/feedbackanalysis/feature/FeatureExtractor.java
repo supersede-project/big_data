@@ -8,5 +8,5 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 
 
 public interface FeatureExtractor {
-	public List<FeatureExtractionResult> extractFeatures(List<UserFeedback> userFeedback);
+	public FeatureExtractionResult extractFeatures(List<UserFeedback> userFeedback);
 }
