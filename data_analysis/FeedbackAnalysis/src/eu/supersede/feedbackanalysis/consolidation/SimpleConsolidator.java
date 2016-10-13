@@ -15,6 +15,7 @@ import eu.supersede.feedbackanalysis.ds.SentimentAnalysisResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.feedbackanalysis.feature.FeatureExtractor;
 import eu.supersede.feedbackanalysis.feature.SimpleFeatureExtractor;
+import eu.supersede.feedbackanalysis.sentiment.MLSentimentAnalyzer;
 import eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer;
 import eu.supersede.feedbackanalysis.sentiment.SentistrengthAnalyzer;
 
@@ -44,7 +45,7 @@ public class SimpleConsolidator implements AnalysisConsolidator {
 	private SimpleConsolidator() {
 		feedbackClassifier = new SpeechActBasedClassifier();
 		featureExtractor = new SimpleFeatureExtractor();
-//		sentimentAnalyzer = new SentistrengthAnalyzer();
+		sentimentAnalyzer = new MLSentimentAnalyzer();
 	}
 	
 
@@ -58,11 +59,11 @@ public class SimpleConsolidator implements AnalysisConsolidator {
 		report.setUserFeedbacks(userFeedbacks);
 		try {
 			List<ClassificationResult> classificationResult = feedbackClassifier.classify(userFeedbacks);
-//			List<SentimentAnalysisResult> sentimentAnalysisResult = sentimentAnalyzer.determineSentiment(userFeedbacks);
-			List<FeatureExtractionResult> featureExtractionResult = featureExtractor.extractFeatures(userFeedbacks);
+			List<SentimentAnalysisResult> sentimentAnalysisResult = sentimentAnalyzer.determineSentiment(userFeedbacks);
+			FeatureExtractionResult featureExtractionResult = featureExtractor.extractFeatures(userFeedbacks);
 			
 			report.setClassificationResult(classificationResult);
-//			report.setSentimentResult(sentimentAnalysisResult);
+			report.setSentimentResult(sentimentAnalysisResult);
 			report.setFeatureExtractionResult(featureExtractionResult);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

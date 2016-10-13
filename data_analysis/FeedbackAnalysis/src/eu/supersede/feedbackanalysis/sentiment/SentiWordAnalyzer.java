@@ -6,7 +6,6 @@ package eu.supersede.feedbackanalysis.sentiment;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.ac.wlv.sentistrength.SentiStrength;
 import eu.supersede.feedbackanalysis.ds.SentimentAnalysisResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 

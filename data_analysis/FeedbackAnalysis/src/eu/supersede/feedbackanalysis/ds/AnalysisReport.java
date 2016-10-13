@@ -5,22 +5,22 @@ import java.util.List;
 
 public class AnalysisReport {
 	private List<UserFeedback> userFeedbacks;
-	private List<FeatureExtractionResult> featureExtractionResult;
+	private FeatureExtractionResult featureExtractionResult;
 	private List<SentimentAnalysisResult> sentimentAnalysisResult;
 	private List<ClassificationResult> classificationResult;
 	
 	public String getSummary(){
+//		FeatureExtractionResult featureResult = featureExtractionResult;
 		StringBuffer summary = new StringBuffer();
 		for (int i = 0; i < userFeedbacks.size(); i++){
 			ClassificationResult classifyResult = classificationResult.get(i);
 			SentimentAnalysisResult sentimentResult = sentimentAnalysisResult.get(i);
-			FeatureExtractionResult featureResult = featureExtractionResult.get(i);
 			
 			summary.append("Feedback text: " + userFeedbacks.get(i).getFeedbackText() + "\n");
 			summary.append("Label: " + classifyResult.getLabel() + "(" + classifyResult.getAccuracy() * 100 + "%) \n");
 			summary.append("Overallsentiment: " + sentimentResult.getOverallSentiment() + "\n");
 			summary.append("Main topics: ");
-			for (String feature : featureResult.getFeatures()){
+			for (String feature : featureExtractionResult.getFeatures()){
 				summary.append(feature + ", ");
 			}
 			summary.append("\n");
@@ -31,10 +31,10 @@ public class AnalysisReport {
 	public String getJSON(){
 		StringBuffer json = new StringBuffer();
 		json.append("{\n");
+//		FeatureExtractionResult featureResult = featureExtractionResult;
 		for (int i = 0; i < userFeedbacks.size(); i++){
 			ClassificationResult classifyResult = classificationResult.get(i);
 			SentimentAnalysisResult sentimentResult = sentimentAnalysisResult.get(i);
-			FeatureExtractionResult featureResult = featureExtractionResult.get(i);
 			
 			json.append("\"result\":{\n");
 			json.append("\"description\": \"" + userFeedbacks.get(i).getFeedbackText() + "\",\n");
@@ -46,7 +46,7 @@ public class AnalysisReport {
 			json.append("\"overall\": " + sentimentResult.getOverallSentiment() + ",\n");
 			json.append("},\n");
 			json.append("\"main_topics\": [");
-			List<String> features = featureResult.getFeatures();
+			List<String> features = featureExtractionResult.getFeatures();
 			for (int j = 0; j < features.size(); j++){
 				String feature = features.get(j);
 				if (j > 0){
@@ -60,11 +60,11 @@ public class AnalysisReport {
 		return json.toString();
 	}
 	
-	public List<FeatureExtractionResult> getFeatureExtractionResult() {
+	public FeatureExtractionResult getFeatureExtractionResult() {
 		return featureExtractionResult;
 	}
-	public void setFeatureExtractionResult(List<FeatureExtractionResult> featureExtractionResult) {
-		this.featureExtractionResult = featureExtractionResult;
+	public void setFeatureExtractionResult(FeatureExtractionResult featureExtractionResult2) {
+		this.featureExtractionResult = featureExtractionResult2;
 	}
 	public List<SentimentAnalysisResult> getSentimentResult() {
 		return sentimentAnalysisResult;
