@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.glassfish.jersey.media:jersey-media-multipart:2.24">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.media/jersey-media-multipart/2.24/44a8194a7e517770f2350653f500fd647d663fc2/jersey-media-multipart-2.24.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.media/jersey-media-multipart/2.24/528dd2b1ce7f16440717556c8c30d5610f693629/jersey-media-multipart-2.24-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
