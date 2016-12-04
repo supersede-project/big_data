@@ -24,24 +24,13 @@ html
         ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
-              | Reference Datasets
+              | Domain Ontologies
               span.caret
             ul.dropdown-menu(aria-labelledby='projects')
               li
-                a(href='/new_dataset') Upload Reference Dataset
+                a(href='/upload_domain_ontology') Upload Domain Ontology
               li
-                a(href='/manage_datasets') Manage Reference Datasets
-
-        ul.nav.navbar-nav
-          li.dropdown
-            a.dropdown-toggle(data-toggle='dropdown', href='#')
-              | Global Level
-              span.caret
-            ul.dropdown-menu(aria-labelledby='projects')
-              li
-                a(href='/new_global_levels') New Global Level
-              li
-                a(href='/manage_global_levels') Manage Global Levels
+                a(href='/manage_domain_ontologies') Manage Domain Ontologies
 
         ul.nav.navbar-nav
           li.dropdown
@@ -68,7 +57,11 @@ html
                 a(href='/new_physical_ontology') New Physical Ontology
               li
                 a(href='/manage_physical_ontologies') Manage Physical Ontologies
-
+              li.divider
+              li
+                a(href='/new_dataset') Upload Sample Dataset
+              li
+                a(href='/manage_datasets') Manage Sample Datasets
 
         ul.nav.navbar-nav
           li.dropdown

@@ -23,7 +23,7 @@ exports.postUser = function (req, res, next) {
                     url: config.METADATA_DATA_LAYER_URL + "users",
                     body: JSON.stringify(req.body)
                 }, function (error, response, body) {
-                    console.log(error + " - " + JSON.stringify(response) + " - " + body);
+                    console.log(error + " - " + response + " - " + body);
                     res.status(200).json(body);
                 });
             });
