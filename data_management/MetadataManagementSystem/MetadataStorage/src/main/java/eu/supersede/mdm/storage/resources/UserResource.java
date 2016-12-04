@@ -2,12 +2,14 @@ package eu.supersede.mdm.storage.resources;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -15,8 +17,6 @@ import com.google.common.collect.Lists;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
-import eu.supersede.mdm.storage.util.Properties;
-import eu.supersede.mdm.storage.util.PropertiesEnum;
 import eu.supersede.mdm.storage.util.Utils;
 import com.mongodb.MongoClient;
 import com.mongodb.util.JSON;
@@ -26,11 +26,14 @@ import com.mongodb.util.JSON;
  *
  * Users resource (exposed at "metadataDataLayer/users" path)
  */
-@Path("metadataStorage")
+@Path("")
 public class UserResource {
 
-    public static boolean userExists(String username) {
-        MongoClient client = Utils.getMongoDBClient();
+    @Context
+    ServletContext context;
+
+    public boolean userExists(String username) {
+        MongoClient client = Utils.getMongoDBClient(context);
         if (getUsersCollection(client).find(new Document("username",username)).limit(1).iterator().hasNext()) {
             client.close();
             return true;
@@ -40,15 +43,15 @@ public class UserResource {
         }
     }
 
-    private static MongoCollection<Document> getUsersCollection(MongoClient client) {
-        return client.getDatabase(Properties.getProperty(PropertiesEnum.SYSTEM_METADATA_DB_NAME.getValue())).getCollection("users");
+    private MongoCollection<Document> getUsersCollection(MongoClient client) {
+        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("users");
     }
 
     @GET @Path("users")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public Response GET_users() {
-        MongoClient client = Utils.getMongoDBClient();
+        MongoClient client = Utils.getMongoDBClient(context);
 
         List<String> allUsers = Lists.newArrayList();
         getUsersCollection(client).find().iterator().forEachRemaining(document -> allUsers.add(document.toString()));
@@ -69,7 +72,7 @@ public class UserResource {
     public Response GET_findOne(@PathParam("username") String username) {
         System.out.println("[GET /users/findOne] username = "+username);
 
-        MongoClient client = Utils.getMongoDBClient();
+        MongoClient client = Utils.getMongoDBClient(context);
         MongoCursor<Document> cursor = getUsersCollection(client).find(new Document("username",username)).iterator();
         boolean itIs = true;
         String out = "";
@@ -86,7 +89,7 @@ public class UserResource {
     public Response POST_users(String JSON_user) {
         System.out.println("[POST /users] JSON_user = "+JSON_user);
 
-        MongoClient client = Utils.getMongoDBClient();
+        MongoClient client = Utils.getMongoDBClient(context);
 
         getUsersCollection(client).insertOne(Document.parse(JSON_user));
 

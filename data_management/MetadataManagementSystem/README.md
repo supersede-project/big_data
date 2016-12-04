@@ -18,7 +18,7 @@ The [Metadata Storage][mdm_storage] is a Java application which exposes its func
   - MongoDB, for system metadata such as the pointers to the different RDF graphs composing the ontology
   - Jena TDB, to store the BDI ontology as RDF graphs
 
-In the [config.properties][config.properties.storage] file, different parameters can be customized such as the port where the API is deployed or the path to the RDF store.
+In the [web.xml][config.properties.storage] file, different parameters can be customized, such as the location for both the MongoDB and RDF stores.
 
 ## External API specification
 The specification for the APIs that interact with other components can be found in http://docs.metadatamanagementsystem.apiary.io/
@@ -40,14 +40,12 @@ or using [forever] (might require its installation)
 $ forever start app.js
 ```
 ### Metadata Storage 
-This subcomponent can be built using **gradle**
+This subcomponent can be built using **gradle**, a WAR file must be generated:
 ```sh
-gradle build
+gradle war
 ```
-Once the JAR has been deployed, you can start it as a normal Java app.
-```sh
-java -jar MetadataStorage.jar
-```
+Once the WAR has been generated, it can be deployed into a servlet container such as **Apache Tomcat**
+
 ### Is it working?
 With both services running, issue the following **curl** request.
 ```sh
@@ -67,5 +65,5 @@ You should get a similar output to the following one. This is the Kafka topic wh
    [mdm_frontend]: <https://github.com/supersede-project/big_data/tree/master/data_management/MetadataManagementSystem/MetadataFrontend>
    [mdm_storage]: <https://github.com/supersede-project/big_data/tree/master/data_management/MetadataManagementSystem/MetadataStorage>
    [config.properties.frontend]: <https://github.com/supersede-project/big_data/blob/master/data_management/MetadataManagementSystem/MetadataFrontend/config.js> 
-   [config.properties.storage]: <https://github.com/supersede-project/big_data/blob/master/data_management/MetadataManagementSystem/MetadataStorage/config.properties> 
+   [config.properties.storage]: <https://github.com/supersede-project/big_data/blob/master/data_management/MetadataManagementSystem/MetadataStorage/src/main/webapp/WEB-INF/web.xml> 
    [forever]: <https://github.com/foreverjs/forever>

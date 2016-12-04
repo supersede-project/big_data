@@ -24,10 +24,11 @@ var passport = require('passport');
 var user_routes = require(__dirname+'/routes/user_routes');
 var dataset_routes = require(__dirname+'/routes/dataset_routes');
 var artifact_routes = require(__dirname+'/routes/artifact_routes');
-var domain_ontology_routes = require(__dirname+'/routes/domain_ontology_routes');
-var logical_ontology_routes = require(__dirname+'/routes/logical_ontology_routes');
-var physical_ontology_routes = require(__dirname+'/routes/physical_ontology_routes');
+//var domain_ontology_routes = require(__dirname+'/routes/domain_ontology_routes');
+var global_level_routes = require(__dirname+'/routes/global_level_routes');
+var source_level_routes = require(__dirname+'/routes/source_level_routes');
 var three_level_ontology_routes = require(__dirname+'/routes/three_level_ontology_routes');
+var release_routes = require(__dirname+'/routes/release_routes');
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -99,19 +100,23 @@ app.delete('/artifacts/:artifactType/:artifactID', artifact_routes.deleteArtifac
 
 /********** Domain Ontology resource *****************************************************/
 
-app.post('/domainOntology', domain_ontology_routes.postDomainOntology);
+//app.post('/domainOntology', domain_ontology_routes.postDomainOntology);
 
-/********** Logical Ontology resource ****************************************************/
+/********** Global Level resource ********************************************************/
 
-app.post('/logicalOntology/clone', logical_ontology_routes.postClonedLogicalOntology);
+//app.post('/globalLevel', global_level_routes.postGlobalLevel);
 
-/********** Physical Ontology resource ***************************************************/
+/********** Source Level resource ********************************************************/
 
-app.post('/physicalOntology', physical_ontology_routes.postPhysicalOntology);
+app.post('/sourceLevel', source_level_routes.postSourceLevel);
 
 /********** Three-level Ontology resource ************************************************/
 
 app.post('/three_level_ontology', three_level_ontology_routes.postThreeLevelOntology);
+
+/********** Release resource *************************************************************/
+
+app.post('/release', release_routes.postRelease);
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -147,32 +152,32 @@ app.get('/view_domain_ontology', checkAuthenticated, function(req,res) {
     res.render('view_domain_ontology', {user:req.session.passport.user});
 });
 
-/********** Logical Ontology section *******************************************************/
+/********** Global Level section *******************************************************/
 
-app.get('/clone_physical_to_logical', checkAuthenticated, function(req,res) {
-    res.render('clone_physical_to_logical', {user:req.session.passport.user});
+app.get('/new_global_level', checkAuthenticated, function(req,res) {
+    res.render('new_global_level', {user:req.session.passport.user});
 });
 
-app.get('/manage_logical_ontologies', checkAuthenticated, function(req,res) {
-    res.render('manage_logical_ontologies', {user:req.session.passport.user});
+app.get('/manage_global_levels', checkAuthenticated, function(req,res) {
+    res.render('manage_global_levels', {user:req.session.passport.user});
 });
 
-app.get('/view_logical_ontology', checkAuthenticated, function(req,res) {
-    res.render('view_logical_ontology', {user:req.session.passport.user});
+app.get('/view_global_level', checkAuthenticated, function(req,res) {
+    res.render('view_global_level', {user:req.session.passport.user});
 });
 
-/********** Physical Ontology section ******************************************************/
+/********** Source Level section ******************************************************/
 
-app.get('/new_physical_ontology', checkAuthenticated, function(req,res) {
-    res.render('new_physical_ontology', {user:req.session.passport.user});
+app.get('/new_source_level', checkAuthenticated, function(req,res) {
+    res.render('new_source_level', {user:req.session.passport.user});
 });
 
-app.get('/manage_physical_ontologies', checkAuthenticated, function(req,res) {
-    res.render('manage_physical_ontologies', {user:req.session.passport.user});
+app.get('/manage_source_levels', checkAuthenticated, function(req,res) {
+    res.render('manage_source_levels', {user:req.session.passport.user});
 });
 
-app.get('/view_physical_ontology', checkAuthenticated, function(req,res) {
-    res.render('view_physical_ontology', {user:req.session.passport.user});
+app.get('/view_source_level', checkAuthenticated, function(req,res) {
+    res.render('view_source_level', {user:req.session.passport.user});
 });
 
 /********** Three-level Ontology section ***************************************************/
@@ -189,7 +194,7 @@ app.get('/view_three_level_ontology', checkAuthenticated, function(req,res) {
     res.render('view_three_level_ontology', {user:req.session.passport.user});
 });
 
-/********** Sample Datasets section ********************************************************/
+/********** Reference Dataset section ********************************************************/
 
 app.get('/new_dataset', checkAuthenticated, function(req,res) {
     res.render('new_dataset', {user:req.session.passport.user});
@@ -205,6 +210,7 @@ app.get('/view_dataset', checkAuthenticated, function(req,res) {
 
 
 /****************************** **********************************************************/
+
 
 
 function checkAuthenticated(req, res, next) {
