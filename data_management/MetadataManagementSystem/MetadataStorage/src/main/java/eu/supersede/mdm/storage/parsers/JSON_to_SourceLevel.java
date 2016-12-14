@@ -35,6 +35,7 @@ public class JSON_to_SourceLevel {
             if (jsonDataset.get(k) != null && jsonDataset.get(k).getClass().getName().equals(JSONObject.class.getName()))
                 extractRec(theModel,(JSONObject) jsonDataset.get(k),parentElement+"/"+k);
             else if (jsonDataset.get(k) != null && jsonDataset.get(k).getClass().getName().equals(JSONArray.class.getName()))
+                // TODO: Fix the case when is an array of Strings
                 extractRec(theModel,(JSONObject) ((JSONArray) jsonDataset.get(k)).get(0),parentElement+"/"+k);
         });
     }

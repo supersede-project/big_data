@@ -24,13 +24,26 @@ html
         ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
-              | Domain Ontologies
+              | Releases
               span.caret
-            ul.dropdown-menu(aria-labelledby='projects')
+            ul.dropdown-menu(aria-labelledby='release')
               li
-                a(href='/upload_domain_ontology') Upload Domain Ontology
+                a(href='/new_release') New Release
               li
-                a(href='/manage_domain_ontologies') Manage Domain Ontologies
+                a(href='/manage_releases') Manage Releases
+
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Big Data Integration Ontology
+              span.caret
+            ul.dropdown-menu(aria-labelledby='release')
+              li
+                a(href='/new_release') Global Levels
+              li
+                a(href='/manage_releases') Manage Releases
+
+
 
         ul.nav.navbar-nav
           li.dropdown

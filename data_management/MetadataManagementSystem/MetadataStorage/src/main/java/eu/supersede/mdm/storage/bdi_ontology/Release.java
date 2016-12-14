@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 public class Release {
 
-    public static String newRelease(String Evt, String V, String JSON_artifact) throws FileNotFoundException {
+    public static JSONObject newRelease(String Evt, String V, String JSON_artifact) throws FileNotFoundException {
         JSONObject J = (JSONObject) JSONValue.parse(JSON_artifact);
         //Line 2 @ Algorithm 2
         String Evt_uri = SourceLevel.EVENT.val()+"/"+Evt;
@@ -74,7 +74,7 @@ public class Release {
         response.put("rdf",content);
         response.put("kafkaTopic", kafka_topic);
 
-        return response.toJSONString();
+        return response;
     }
 
 }

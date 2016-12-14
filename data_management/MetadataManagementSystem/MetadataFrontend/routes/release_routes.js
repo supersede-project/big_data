@@ -7,6 +7,17 @@ var fs = require('fs'),
     randomstring = require("randomstring"),
     async = require('async');
 
+exports.getAllReleases = function (req, res, next) {
+    request.get(config.METADATA_DATA_LAYER_URL + "release/", function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json(JSON.parse(body));
+        } else {
+            res.status(500).send("Error retrieving list of releases");
+        }
+    });
+};
+
+
 exports.postRelease = function (req, res, next) {
     if (!(req.body.hasOwnProperty('event')) || req.body.event == null
         || !(req.body.hasOwnProperty('schemaVersion')) || req.body.schemaVersion == null

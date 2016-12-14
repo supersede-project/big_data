@@ -116,6 +116,7 @@ app.post('/three_level_ontology', three_level_ontology_routes.postThreeLevelOnto
 
 /********** Release resource *************************************************************/
 
+app.get('/release', release_routes.getAllReleases);
 app.post('/release', release_routes.postRelease);
 
 /*****************************************************************************************/
@@ -137,6 +138,27 @@ app.get('/registration', function(req, res) {
     res.setHeader('Last-Modified', (new Date()).toUTCString());
     res.render('register_user');
 });
+
+/********** Releases section ***************************************************************/
+
+app.get('/new_release', checkAuthenticated, function(req,res) {
+    res.render('new_release', {user:req.session.passport.user});
+});
+
+app.get('/manage_releases', checkAuthenticated, function(req,res) {
+    res.render('manage_releases', {user:req.session.passport.user});
+});
+
+/********** XXXXXXXX section ***************************************************************/
+
+app.get('/manage_domain_ontologies', checkAuthenticated, function(req,res) {
+    res.render('manage_domain_ontologies', {user:req.session.passport.user});
+});
+
+app.get('/view_domain_ontology', checkAuthenticated, function(req,res) {
+    res.render('view_domain_ontology', {user:req.session.passport.user});
+});
+
 
 /********** Domain Ontology section ********************************************************/
 
