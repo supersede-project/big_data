@@ -6,5 +6,6 @@ import eu.supersede.feedbackanalysis.ds.AnalysisReport;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 
 public interface AnalysisConsolidator {
-	public AnalysisReport getSummary(List<UserFeedback> userFeedback);
+	
+	public AnalysisReport getSummary(UserFeedback userFeedback);
 }

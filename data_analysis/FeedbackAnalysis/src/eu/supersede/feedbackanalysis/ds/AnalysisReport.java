@@ -4,27 +4,27 @@ import java.util.List;
 
 
 public class AnalysisReport {
-	private List<UserFeedback> userFeedbacks;
+	private UserFeedback userFeedback;
 	private FeatureExtractionResult featureExtractionResult;
-	private List<SentimentAnalysisResult> sentimentAnalysisResult;
-	private List<ClassificationResult> classificationResult;
+	private SentimentAnalysisResult sentimentAnalysisResult;
+	private ClassificationResult classificationResult;
 	
 	public String getSummary(){
 //		FeatureExtractionResult featureResult = featureExtractionResult;
 		StringBuffer summary = new StringBuffer();
-		for (int i = 0; i < userFeedbacks.size(); i++){
-			ClassificationResult classifyResult = classificationResult.get(i);
-			SentimentAnalysisResult sentimentResult = sentimentAnalysisResult.get(i);
+//		for (int i = 0; i < userFeedbacks.size(); i++){
+//			ClassificationResult classifyResult = classificationResult.get(i);
+//			SentimentAnalysisResult sentimentResult = sentimentAnalysisResult.get(i);
 			
-			summary.append("Feedback text: " + userFeedbacks.get(i).getFeedbackText() + "\n");
-			summary.append("Label: " + classifyResult.getLabel() + "(" + classifyResult.getAccuracy() * 100 + "%) \n");
-			summary.append("Overallsentiment: " + sentimentResult.getOverallSentiment() + "\n");
-			summary.append("Main topics: ");
-			for (String feature : featureExtractionResult.getFeatures()){
-				summary.append(feature + ", ");
-			}
-			summary.append("\n");
+		summary.append("Feedback text: " + userFeedback.getFeedbackText() + "\n");
+		summary.append("Label: " + classificationResult.getLabel() + "(" + classificationResult.getAccuracy() * 100 + "%) \n");
+		summary.append("Overallsentiment: " + sentimentAnalysisResult.getOverallSentiment() + "\n");
+		summary.append("Main topics: ");
+		for (String feature : featureExtractionResult.getFeatures()){
+			summary.append(feature + ", ");
 		}
+		summary.append("\n");
+//		}
 		return summary.toString();
 	}
 	
@@ -32,30 +32,30 @@ public class AnalysisReport {
 		StringBuffer json = new StringBuffer();
 		json.append("{\n");
 //		FeatureExtractionResult featureResult = featureExtractionResult;
-		for (int i = 0; i < userFeedbacks.size(); i++){
-			ClassificationResult classifyResult = classificationResult.get(i);
-			SentimentAnalysisResult sentimentResult = sentimentAnalysisResult.get(i);
+//		for (int i = 0; i < userFeedbacks.size(); i++){
+//			ClassificationResult classifyResult = classificationResult.get(i);
+//			SentimentAnalysisResult sentimentResult = sentimentAnalysisResult.get(i);
 			
-			json.append("\"result\":{\n");
-			json.append("\"description\": \"" + userFeedbacks.get(i).getFeedbackText() + "\",\n");
-			json.append("\"classification\": \"" + classifyResult.getLabel() + "\",\n");
-			json.append("\"classification_accuracy\":" + classifyResult.getAccuracy() + ",\n");
-			json.append("\"sentiment\": {\n");
-			json.append("\"positive\": " + sentimentResult.getPositiveSentiment() + ",\n");
-			json.append("\"negative\": " + sentimentResult.getNegativeSentiment() + ",\n");
-			json.append("\"overall\": " + sentimentResult.getOverallSentiment() + ",\n");
-			json.append("},\n");
-			json.append("\"main_topics\": [");
-			List<String> features = featureExtractionResult.getFeatures();
-			for (int j = 0; j < features.size(); j++){
-				String feature = features.get(j);
-				if (j > 0){
-					json.append(",");
-				}
-				json.append("\"" + feature + "\"");
+		json.append("\"result\":{\n");
+		json.append("\"description\": \"" + userFeedback.getFeedbackText() + "\",\n");
+		json.append("\"classification\": \"" + classificationResult.getLabel() + "\",\n");
+		json.append("\"classification_accuracy\":" + classificationResult.getAccuracy() + ",\n");
+		json.append("\"sentiment\": {\n");
+		json.append("\"positive\": " + sentimentAnalysisResult.getPositiveSentiment() + ",\n");
+		json.append("\"negative\": " + sentimentAnalysisResult.getNegativeSentiment() + ",\n");
+		json.append("\"overall\": " + sentimentAnalysisResult.getOverallSentiment() + ",\n");
+		json.append("},\n");
+		json.append("\"main_topics\": [");
+		List<String> features = featureExtractionResult.getFeatures();
+		for (int j = 0; j < features.size(); j++){
+			String feature = features.get(j);
+			if (j > 0){
+				json.append(",");
 			}
-			json.append("],\n},\n");
+			json.append("\"" + feature + "\"");
 		}
+		json.append("],\n},\n");
+//		}
 		json.append("\n}");
 		return json.toString();
 	}
@@ -66,25 +66,25 @@ public class AnalysisReport {
 	public void setFeatureExtractionResult(FeatureExtractionResult featureExtractionResult2) {
 		this.featureExtractionResult = featureExtractionResult2;
 	}
-	public List<SentimentAnalysisResult> getSentimentResult() {
+	public SentimentAnalysisResult getSentimentResult() {
 		return sentimentAnalysisResult;
 	}
-	public void setSentimentResult(List<SentimentAnalysisResult> sentimentResult) {
+	public void setSentimentResult(SentimentAnalysisResult sentimentResult) {
 		this.sentimentAnalysisResult = sentimentResult;
 	}
-	public List<ClassificationResult> getClassificationResult() {
+	public ClassificationResult getClassificationResult() {
 		return classificationResult;
 	}
-	public void setClassificationResult(List<ClassificationResult> classificationResult) {
+	public void setClassificationResult(ClassificationResult classificationResult) {
 		this.classificationResult = classificationResult;
 	}
 
-	public List<UserFeedback> getUserFeedbacks() {
-		return userFeedbacks;
+	public UserFeedback getUserFeedback() {
+		return userFeedback;
 	}
 
-	public void setUserFeedbacks(List<UserFeedback> userFeedbacks) {
-		this.userFeedbacks = userFeedbacks;
+	public void setUserFeedback(UserFeedback userFeedback) {
+		this.userFeedback = userFeedback;
 	}
 	
 }

@@ -28,15 +28,17 @@ import eu.supersede.feedbackanalysis.preprocessing.utils.SentiArffManager;
 
 public class MLSentimentAnalyzer implements SentimentAnalyzer{
 	
-	public List<SentimentAnalysisResult> determineSentiment(List<UserFeedback> userFeedbacks){
+	@Override
+	public SentimentAnalysisResult classify(String modelPath, UserFeedback userFeedback) throws Exception {
+//	public List<SentimentAnalysisResult> determineSentiment(List<UserFeedback> userFeedbacks){
 		
 		
-		List<SentimentAnalysisResult> results = new ArrayList<SentimentAnalysisResult> ();
+		SentimentAnalysisResult result = new SentimentAnalysisResult ();
 
 		
 		try{
 			// Converting user feedback to arff
-			String arff = SentiArffManager.getArff(userFeedbacks);
+			String arff = SentiArffManager.getArff(userFeedback);
 			
 			System.out.println(arff);
 			
@@ -46,68 +48,76 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 			instances.setClassIndex(0); 
 			
 			// Loading stored models and making predictions
-			FilteredClassifier cls = (FilteredClassifier) weka.core.SerializationHelper.read("resources/models/sentiment_classifier.model"); 
+			FilteredClassifier cls = (FilteredClassifier) weka.core.SerializationHelper.read(modelPath); //"resources/models/sentiment_classifier.model" 
 			
 			// Instance prediction
-			for (Instance instance : instances){
+			Instance instance = instances.get(0);
 				
-				double classIndex = cls.classifyInstance(instance);
-				instance.setClassValue(classIndex);
+			double classIndex = cls.classifyInstance(instance);
+			instance.setClassValue(classIndex);
+		
+			Attribute classAttribute = instance.classAttribute();
+			System.out.println(instance.toString());
+			String classLabel = classAttribute.value((int)classIndex);
 			
-				Attribute classAttribute = instance.classAttribute();
-				System.out.println(instance.toString());
-				String classLabel = classAttribute.value((int)classIndex);
+			// Representing results in expected format
+			result.setOverallSentiment(Integer.parseInt(classLabel));
 				
-				// Representing results in expected format
-				SentimentAnalysisResult res = new SentimentAnalysisResult();
-				res.setOverallSentiment(Integer.parseInt(classLabel));
-				
-				results.add(res);
-			}	
 		}
 		
 		catch (Exception ex){
 			System.out.println("Error during sentiment classification "+ ex.getMessage());
 		}
 		
-		return results;
+		return result;
 	}
 	
 	/*
 	 * Parameters: path to arff file
 	 */
-	public static Classifier train(String arff_path) throws Exception {
+	@Override
+	public boolean train (String pathIn, String pathOut) {// throws Exception{
+//	public static Classifier train(String arff_path) throws Exception {
 		
-		DataSource dataSource = new DataSource(arff_path);
-		Instances instances = dataSource.getDataSet();
-		System.out.println(instances.toString());
+		boolean result = true;
 		
-		// Category to predict is the first one
-		instances.setClassIndex(0); 
+		DataSource dataSource = null;
+		Instances instances = null;
+		try {
+			dataSource = new DataSource(pathIn);
+			instances = dataSource.getDataSet();
+			System.out.println(instances.toString());
+			// Category to predict is the first one
+			instances.setClassIndex(0); 
+			
+			StringToWordVector filter = new StringToWordVector();
+			filter.setInputFormat(instances);
+			filter.setIDFTransform(true);
+			SnowballStemmer stemmer = new SnowballStemmer();
+			filter.setStemmer(stemmer);
+			filter.setLowerCaseTokens(true);
+			
+			
+			FilteredClassifier classifier = new FilteredClassifier(); 
+			classifier.setFilter(filter); 
+			classifier.setClassifier(new NaiveBayesMultinomial());
+			
+			
+			classifier.buildClassifier(instances);
+			
+			
+			// serialize the model to file
+			ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(pathOut)); //"resources/models/sentiment_classifier.model"
+			oos.writeObject(classifier);
+			oos.flush();
+			oos.close();
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
 		
-		StringToWordVector filter = new StringToWordVector();
-	    filter.setInputFormat(instances);
-	    filter.setIDFTransform(true);
-		SnowballStemmer stemmer = new SnowballStemmer();
-		filter.setStemmer(stemmer);
-		filter.setLowerCaseTokens(true);
-	    
-		
-		FilteredClassifier classifier = new FilteredClassifier(); 
-		classifier.setFilter(filter); 
-		classifier.setClassifier(new NaiveBayesMultinomial());
-		
-		
-		classifier.buildClassifier(instances);
-		
-		
-		// serialize the model to file
-		ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream("resources/models/sentiment_classifier.model"));
-		oos.writeObject(classifier);
-		oos.flush();
-		oos.close();
 
-		return classifier;
+		return result;
 	}
 
 	
@@ -126,8 +136,12 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 		userFeedbacks.add(f4);
 		
 		//new MLSentimentAnalyzer().train("resources/trainingsets/sentiment_reviews_3_scale.arff");
-		
-		new MLSentimentAnalyzer().determineSentiment(userFeedbacks);
+		SentimentAnalyzer sentimentAnalyzer = new MLSentimentAnalyzer();
+		String modelFile = "resources/models/sentiment_classifier.model";
+		for (UserFeedback userFeedback : userFeedbacks){
+			SentimentAnalysisResult result = sentimentAnalyzer.classify(modelFile, userFeedback);
+			System.out.println(userFeedback.getFeedbackText() + ":" + result.getOverallSentiment());
+		}
 		
 	}
 	

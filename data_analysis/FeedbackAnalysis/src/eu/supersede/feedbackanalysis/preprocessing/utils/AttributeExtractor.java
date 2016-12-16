@@ -615,6 +615,76 @@ public class AttributeExtractor {
 		return vector_header;
 	}
 	
+	
+	//Method to generate the ARFF files -WEKA-
+	public String getARFF(UserFeedback userFeedback){
+		String CLASSES = "Assertive,Informative,Requestive,Responsive";
+		
+		String sentence="";
+		String classSAct="";
+
+		Set<String> classes = new HashSet<String>();
+		
+		String vector_header="@relation OpenOffice_features\n\n";
+		vector_header+="@attribute num_verbs numeric\n";
+		vector_header+="@attribute num_pos_verbs numeric\n";
+		vector_header+="@attribute pos_verbs_score real\n";
+		vector_header+="@attribute num_neg_verbs numeric\n";
+		vector_header+="@attribute neg_verbs_score real\n";
+		vector_header+="@attribute contain_modal numeric\n";
+		vector_header+="@attribute modal numeric\n";
+		vector_header+="@attribute num_nouns numeric\n";
+		vector_header+="@attribute num_pos_nouns numeric\n";
+		vector_header+="@attribute pos_nouns_score real\n";
+		vector_header+="@attribute num_neg_nouns numeric\n";
+		vector_header+="@attribute neg_nouns_score real\n";
+		vector_header+="@attribute num_pos_adj numeric\n";
+		vector_header+="@attribute pos_score real\n";
+		vector_header+="@attribute num_neg_adj numeric\n";
+		vector_header+="@attribute neg_score real\n";
+		vector_header+="@attribute num_adj numeric\n";
+		vector_header+="@attribute sent_length numeric\n";
+		vector_header+="@attribute num_code_lines numeric\n";
+		vector_header+="@attribute num_question_marks numeric\n";
+		vector_header+="@attribute num_exclamation_marks numeric\n";
+		vector_header+="@attribute num_slash numeric\n";
+		vector_header+="@attribute num_underscore numeric\n";
+		vector_header+="@attribute num_SAD numeric\n";
+		vector_header+="@attribute num_SMILEY numeric\n";
+		vector_header+="@attribute num_http numeric\n";
+		vector_header+="@attribute num_ftp numeric\n";
+		vector_header+="@attribute num_hash numeric\n";
+		vector_header+="@attribute num_currency numeric\n";
+		vector_header+="@attribute num_percentage numeric\n";
+		vector_header+="@attribute num_brackets_type1 numeric\n";
+		vector_header+="@attribute num_brackets_type2 numeric\n";
+		vector_header+="@attribute num_assertive_verbs numeric\n";
+		vector_header+="@attribute num_requestive_verbs numeric\n";
+		vector_header+="@attribute num_responsive_verbs numeric\n";
+		vector_header+="@attribute num_informative_verbs numeric\n";
+		vector_header+="@attribute num_assertive_expressions numeric\n";
+		vector_header+="@attribute num_requestive_expressions numeric\n";
+		vector_header+="@attribute num_responsive_expressions numeric\n";
+		vector_header+="@attribute overall_sentiment real\n";
+		
+		
+
+		String vector="";
+		sentence= userFeedback.getFeedbackText(); //nextLine[0]; //commented for generating the OpenOffice data
+		classSAct= "?"; //nextLine[1]; //commented for generating the OpenOffice data
+		classes.add(classSAct);
+		clearValues();
+		vector+=execute(sentence) + "," + classSAct + "\n"; // + " % " + nextLine[1]+ "\n";
+		vector_header+="@attribute @@class@@ {DEFECT,ENHANCEMENT,FEATURE}\n"; //OTHER,SUPPORT,DEFECT,ENHANCEMENT,FEATURE}\n"; // + getClasses(classes) + "}\n";
+
+		vector_header+="\n\n@data\n\n";
+
+		vector_header+=vector;
+		System.out.println("Done");
+		
+		return vector_header;
+	}
+	
 	//Method to generate the ARFF files -WEKA-
 	public String getARFF(List<UserFeedback> userFeedback){
 //		FileManager mfiles=new FileManager();

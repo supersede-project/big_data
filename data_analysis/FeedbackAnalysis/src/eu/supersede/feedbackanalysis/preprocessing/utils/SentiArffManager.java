@@ -24,4 +24,20 @@ public class SentiArffManager {
 		return header + data;
 		
 	}
+	
+	public static String getArff(UserFeedback userFeedback){
+		
+		// sentiment arff only needs the text of each user feedback
+		String header = "@relation feedabck_sentiment \n\n";
+		header += "@attribute sentiment {-1,0,1} \n";
+		header += "@attribute text String \n";
+		header += "@data \n";
+		
+		String data = "";
+		
+		data += "?, \"" + userFeedback.getFeedbackText() + "\" \n" ;
+		
+		return header + data;
+		
+	}
 }

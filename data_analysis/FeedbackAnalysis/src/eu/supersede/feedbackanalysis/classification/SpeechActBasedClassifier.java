@@ -1,6 +1,7 @@
 package eu.supersede.feedbackanalysis.classification;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
@@ -20,9 +21,9 @@ import eu.supersede.feedbackanalysis.preprocessing.utils.AttributeExtractor;
 public class SpeechActBasedClassifier implements FeedbackClassifier {
 
 	@Override
-	public List<ClassificationResult> classify(List<UserFeedback> userFeedback) throws Exception {
+	public ClassificationResult classify(String modelPath, UserFeedback userFeedback) throws Exception {
 		
-		List<ClassificationResult> results = new ArrayList<ClassificationResult> ();
+		ClassificationResult result = new ClassificationResult ();
 		
 		// first apply feature extraction
 		AttributeExtractor extractor = new AttributeExtractor();
@@ -34,66 +35,64 @@ public class SpeechActBasedClassifier implements FeedbackClassifier {
 //		System.out.println(instances.toString());
 		
 		// then load the trained model
-		RandomForest cls = (RandomForest) weka.core.SerializationHelper.read("resources/models/rf.model"); //oo_comment_0_RandomForest.model");
+		RandomForest cls = (RandomForest) weka.core.SerializationHelper.read(modelPath);
 		
 		instances.setClassIndex(instances.numAttributes() - 1);
 		// finally apply the model on the new data
-		for (Instance instance : instances){
-			double classIndex = cls.classifyInstance(instance);
-			double[] distributionForInstance = cls.distributionForInstance(instance);
-			instance.setClassValue(classIndex);
-			Attribute classAttribute = instance.classAttribute();
+//		for (Instance instance : instances){
+		Instance instance = instances.get(0); // only one instance
+		double classIndex = cls.classifyInstance(instance);
+		double[] distributionForInstance = cls.distributionForInstance(instance);
+		instance.setClassValue(classIndex);
+		Attribute classAttribute = instance.classAttribute();
 //			System.out.println(instance.toString());
-			String classLabel = classAttribute.value((int)classIndex);
+		String classLabel = classAttribute.value((int)classIndex);
 //			System.out.println(classLabel);
+		
+		result.setLabel(classLabel);
+		result.setAccuracy(distributionForInstance[(int)classIndex]);
 			
-			ClassificationResult result = new ClassificationResult();
-			result.setLabel(classLabel);
-			result.setAccuracy(distributionForInstance[(int)classIndex]);
-			
-			results.add(result);
-		}
-		return results;
+//		}
+		return result;
 	}
 
 
+	/**
+	 * pathIn: ARFF file containing trining data
+	 * pathOut: path to where the model should be saved.
+	 */
 	@Override
-	public Classifier train(String path, boolean arff) throws Exception {
-		
-		DataSource dataSource;
-		if (!arff){
-			// get the arff from the 'path'
-			AttributeExtractor extractor = new AttributeExtractor();
-			String arffString = extractor.getARFF(path);
-			InputStream arffInputStream = new ByteArrayInputStream(arffString.getBytes());
-			dataSource = new DataSource(arffInputStream);
-			
-			// save the arff for future use?
-			
-		}else{
-			dataSource = new DataSource(path);
-		}
-		Instances instances = dataSource.getDataSet();
-		System.out.println(instances.toString());
+	public boolean train(String pathIn, String pathOut) { //throws Exception {
+		boolean result = true;
+		DataSource dataSource = null;
+		Instances instances = null;
 		
 		// train a model
 		RandomForest rf = new RandomForest();
-		String[] options = weka.core.Utils.splitOptions("-P 100 -I 100 -num-slots 1 -K 0 -M 1.0 -V 0.001 -S 1");
-		rf.setOptions(options);
-		instances.setClassIndex(instances.numAttributes() - 1);
-		rf.buildClassifier(instances);
-		
-		// serialize the model to file
-		ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream("resources/models/rf.model"));
-		oos.writeObject(rf);
-		oos.flush();
-		oos.close();
-		
-////		 return the trained model
-//		WekaModel model = new WekaModel();
-//		model.setModel(rf);
+		String[] options;
+		try {
+			// load training set
+			dataSource = new DataSource(pathIn);
+			instances = dataSource.getDataSet();
+			System.out.println(instances.toString());
+			
+			// train classifier
+			options = weka.core.Utils.splitOptions("-P 100 -I 100 -num-slots 1 -K 0 -M 1.0 -V 0.001 -S 1");
+			rf.setOptions(options);
+			instances.setClassIndex(instances.numAttributes() - 1);
+			rf.buildClassifier(instances);
+			
+			// serialize the model to file
+			ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(pathOut + File.separatorChar + "rf.model")); // "resources/models/rf.model"
+			oos.writeObject(rf);
+			oos.flush();
+			oos.close();
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
 
-		return rf;
+		return result;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -115,9 +114,10 @@ public class SpeechActBasedClassifier implements FeedbackClassifier {
 //		String arffPath = "resources/trainingsets/SENERCON_translated_300_feedback.csv.arff";
 		String arffPath = "resources/trainingsets/comments_order_0_confirmed_textonly.csv.arff";
 //		classifier.train(arffPath, true);
-		List<ClassificationResult> classificationResult = classifier.classify(userFeedbacks);
 		
-		for (ClassificationResult result : classificationResult){
+		String modelPath = "resources/models/rf.model";
+		for (UserFeedback feedback : userFeedbacks){
+			ClassificationResult result = classifier.classify(modelPath, feedback);
 			System.out.println(result.getLabel() + " " + result.getAccuracy() + "%");
 		}
 		
