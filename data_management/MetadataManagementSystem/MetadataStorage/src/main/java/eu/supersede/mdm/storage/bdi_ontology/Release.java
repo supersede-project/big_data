@@ -43,6 +43,7 @@ public class Release {
         //Line 8 @ Algorithm 2
         RDFUtil.addTriple(S,Evt_uri,SourceLevel.PRODUCES.val(),V_uri);
         //Line 9 @ Algorithm 2
+        RDFUtil.addTriple(S,"https://www.iana.org/assignments/media-types/application/json", Namespaces.rdf.val()+"type",Namespaces.rdfs.val()+"Class");
         RDFUtil.addTriple(S,V_uri,SourceLevel.FORMAT.val(), "https://www.iana.org/assignments/media-types/application/json");
 
         //Line 10 @ Algorithm 2

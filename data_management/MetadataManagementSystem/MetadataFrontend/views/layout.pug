@@ -39,13 +39,45 @@ html
               span.caret
             ul.dropdown-menu(aria-labelledby='release')
               li
-                a(href='/new_release') Global Levels
+                a(href='/new_bdi_ontology') New BDI Ontology
               li
-                a(href='/manage_releases') Manage Releases
-
-
+                a(href='/manage_bdi_ontologies') Manage BDI Ontologies
 
         ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Data Feed
+              span.caret
+            ul.dropdown-menu(aria-labelledby='release')
+              li
+                a(href='#') Live Feed
+              li
+                a(href='#') Historical Feed
+
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Feedback Analysis Models
+              span.caret
+            ul.dropdown-menu(aria-labelledby='release')
+              li
+                a(href='#') New Model
+              li
+                a(href='/#') Manage Models
+
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | ECA Rules
+              span.caret
+            ul.dropdown-menu(aria-labelledby='release')
+              li
+                a(href='#') New Model
+              li
+                a(href='/#') Manage Models
+
+
+        //ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
               | Logical Ontologies
@@ -60,7 +92,7 @@ html
                 a(href='/clone_physical_to_logical') Clone from Physical Ontology
 
 
-        ul.nav.navbar-nav
+        //ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
               | Physical Ontologies
@@ -76,7 +108,7 @@ html
               li
                 a(href='/manage_datasets') Manage Sample Datasets
 
-        ul.nav.navbar-nav
+        //ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
               | Three Level Ontology

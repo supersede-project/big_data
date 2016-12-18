@@ -40,11 +40,4 @@ public class JSON_to_SourceLevel {
         });
     }
 
-/*    public static OntModel extractSourceOntologyFromJSON(JSONObject jsonDataset, String datasetName) {
-        OntModel newModel = ModelFactory.createOntologyModel();
-        addTriple(newModel, "http://BolsterMetamodel/Dataset/"+datasetName, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://BolsterMetamodel/Dataset");
-        extractRec(newModel,jsonDataset,"http://BolsterMetamodel/PHY/"+datasetName);
-        return newModel;
-    }
-*/
 }

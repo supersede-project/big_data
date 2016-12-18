@@ -2,6 +2,7 @@ package eu.supersede.mdm.storage.parsers;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import eu.supersede.mdm.storage.bdi_ontology.metamodel.BolsterMetamodel;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.jena.rdf.model.Property;
@@ -20,35 +21,34 @@ import java.util.Map;
 public class OWLtoD3 {
 
     public static String parse(String artifactType, List<Tuple3<Resource,Property,Resource>> triples) {
-/*        NamespaceFiles ns = new NamespaceFiles();
+        NamespaceFiles ns = new NamespaceFiles();
 
         List<Tuple3<Resource,Property,Resource>> elementsToShow = Lists.newArrayList();
 
         triples.iterator().forEachRemaining(triple -> {
             // Check that not (s,p,o) are from external namespaces at the same time
             // Check that s is not in one of the ignored namespaces
+            // Check that s is not part of the BDI ontology
             if ((!ns.getNamespaces().contains(triple._1().getNameSpace()) ||
                     !ns.getNamespaces().contains(triple._2().getNameSpace()) ||
                     !ns.getNamespaces().contains(triple._3().getNameSpace())) &&
-                    !ns.getIgnoredNamespaces().contains(triple._1().getNameSpace())) {
+                    !ns.getIgnoredNamespaces().contains(triple._1().getNameSpace()) &&
+                    !BolsterMetamodel.contains(artifactType,triple._1().getURI())) {
 
                 elementsToShow.add(triple);
             }
         });
-
-        // Workaround to show the domain ontology
-        if (artifactType.equals("DOMAIN_ONTOLOGY")) return generateD3ForDomainOntology(elementsToShow);
 
         Map<String,Integer> nodesMap = Maps.newHashMap();
         Integer i = 0;
         JSONArray d3Nodes = new JSONArray();
         // Add classes as nodes
         for (Tuple3<Resource,Property,Resource> triple : elementsToShow) {
-            if (BolsterMetamodel.metamodel.get(artifactType).contains(triple._3().toString())) {
-                nodesMap.put(triple._1().getURI(),i);
+            if (!nodesMap.containsKey(triple._1().getURI())) {
+                nodesMap.put(triple._1().getURI(), i);
                 ++i;
                 JSONObject d3Node = new JSONObject();
-                d3Node.put("name",triple._1().getURI());
+                d3Node.put("name", triple._1().getURI());
 
                 d3Nodes.add(d3Node);
             }
@@ -56,13 +56,13 @@ public class OWLtoD3 {
         JSONArray d3Links = new JSONArray();
         // Add links
         for (Tuple3<Resource,Property,Resource> triple : elementsToShow) {
-            if (!ns.getIgnoredNamespaces().contains(triple._2().getNameSpace()) &&
-                    BolsterMetamodel.metamodel.get(artifactType).contains(triple._2().toString())) {
+            if (!ns.getIgnoredNamespaces().contains(triple._2().getNameSpace())/* &&
+                    BolsterMetamodel.metamodel.get(artifactType).contains(triple._2().toString())*/) {
 
                 JSONObject d3Link = new JSONObject();
                 d3Link.put("source",nodesMap.get(triple._1().getURI()));
                 d3Link.put("target",nodesMap.get(triple._3().getURI()));
-                d3Link.put("name", triple._2().getURI());
+                d3Link.put("name", triple._2().getLocalName());
 
                 d3Links.add(d3Link);
             }
@@ -74,7 +74,7 @@ public class OWLtoD3 {
 
         return d3.toJSONString();
     }
-
+/*
     private static String generateD3ForDomainOntology(List<Tuple3<Resource,Property,Resource>> elementsToShow) {
         Map<String,Integer> nodesMap = Maps.newHashMap();
         Integer i = 0;
@@ -121,8 +121,8 @@ public class OWLtoD3 {
         d3.put("nodes",d3Nodes);
         d3.put("links",d3Links);
 
-        return d3.toJSONString();*/
-return "";
-    }
+        return d3.toJSONString();
 
+    }
+*/
 }

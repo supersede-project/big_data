@@ -11,10 +11,6 @@ $(document).ready( function() {
     };
     var editor = new JSONEditor(container, options);
 
-    // set json
-
-
-
     var json = {
         "SocialNetworksMonitoredData": {
             "idOutput": "12345",

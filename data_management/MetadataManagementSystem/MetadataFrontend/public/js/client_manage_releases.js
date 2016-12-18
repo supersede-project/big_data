@@ -26,9 +26,8 @@ function getReleases() {
                         .text(theObj.schemaVersion)
                     ).append($('<td>')
                         .text(theObj.kafkaTopic)
-//                    ).append($('<td>').append($('<a href="/view_dataset?datasetID='+(theObj.datasetID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
-                    //).append($('<td>').append($('<a onClick="notImplemented(\''+((theObj.graph))+'\')" href="#">').append($('<span class="glyphicon glyphicon-edit"></span>')))
-//                    ).append($('<td>').append($('<a onClick="removeDataset(\''+((theObj.datasetID))+'\')" href="#">').append($('<span class="glyphicon glyphicon-remove-circle"></span>')))
+                    ).append($('<td>').append($('<a href="/view_release?releaseID='+(theObj.releaseID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
+                    ).append($('<td>').append($('<a href="/view_source_level?graph='+(theObj.graph)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
                     )
 
                 );

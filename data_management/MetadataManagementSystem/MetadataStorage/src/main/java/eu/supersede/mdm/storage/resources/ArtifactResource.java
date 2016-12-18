@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,8 +50,6 @@ public class ArtifactResource {
         MongoClient client = Utils.getMongoDBClient(this.context);
 
         List<String> allArtifacts = Lists.newArrayList();
-        //Document query = new Document("user",username);
-        //query.put("type",artifactType);
         Document query = new Document("type",artifactType);
         getArtifactsCollection(client).find(query).iterator().forEachRemaining(document -> allArtifacts.add(document.toJson()));
         client.close();
@@ -99,6 +98,11 @@ public class ArtifactResource {
         Dataset dataset = Utils.getTDBDataset(this.context);
         dataset.begin(ReadWrite.READ);
         String out = "";
+        Iterator<String> it = dataset.listNames();
+        while(it.hasNext()) {
+            String s = it.next();
+            System.out.println(s);
+        }
         try(QueryExecution qExec = QueryExecutionFactory.create("SELECT ?s ?p ?o ?g WHERE { GRAPH <"+graph+"> {?s ?p ?o} }",  dataset)) {
             ResultSet rs = qExec.execSelect();
             out = ResultSetFormatter.asXMLString(rs);
@@ -145,7 +149,7 @@ public class ArtifactResource {
         return Response.ok((JSON)).build();
     }
 
-    @POST @Path("artifacts/{graph}/{username}")
+    @POST @Path("artifacts/{graph}")
     @Consumes("text/plain")
     public Response POST_artifacts(@PathParam("graph") String graph, String RDF) {
         System.out.println("[POST /artifacts/"+graph);
@@ -178,7 +182,7 @@ public class ArtifactResource {
         return Response.ok().build();
     }
 
-    @DELETE @Path("artifacts/{artifactType}/{graph}/{username}")
+    @DELETE @Path("artifacts/{artifactType}/{graph}")
     @Consumes("text/plain")
     public Response DELETE_artifacts(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[DELETE /artifacts/"+artifactType+"/"+graph);

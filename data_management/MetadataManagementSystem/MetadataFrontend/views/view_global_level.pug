@@ -2,13 +2,13 @@ extends layout
 block headers
     link(rel='stylesheet', href='/stylesheets/loading.css')
     link(rel='stylesheet', href='/stylesheets/global_level.css')
+    link(rel='stylesheet', href='/stylesheets/global_level_creator.css')
     script(src='/js/d3.min.js')
     script(src='/js/cola.d3.min.js')
-    script(src='/js/client_view_global_level.js')
-    script(src='/js/client_view_global_level_d3.js')
 
-    link(rel='stylesheet', href='/js/highlight/styles/railscasts.css')
-    script(src='/js/highlight/highlight.pack.js')
+    //script(src='/js/client_view_global_level.js')
+    //script(src='/js/client_view_global_level_d3.js')
+
 block content
 
 
@@ -22,7 +22,28 @@ block content
                     h4
                         #theURL
 
-            #globalLevelWrapper
+        .input-group(style='padding-bottom: 5px')
+            a.btn.btn-primary.btn-sm(href='#')#computeStatisticsButton Compute Statistics
+            | &nbsp;
+            a.btn.btn-primary.btn-sm(href='#')#materializeButton Execute Algorithm
+            | &nbsp;
 
-            pre#text
-                code.xml#xml
+        h5
+            span.label Metadata Model
+            | &nbsp;
+            span.label(style="background-color: #33CCCC")
+                | G:Concept
+            | &nbsp;&nbsp;
+            span.label(style="background-color: #FFFF00")
+                | G:Feature
+            | &nbsp;&nbsp;
+            span.label(style="background-color: #CC99FF")
+                | G:IntegrityConstraint
+            | &nbsp;&nbsp;
+            span.label(style="background-color: #FF6600")
+                | rdfs:Datatype
+            | &nbsp;&nbsp;
+
+    #graph
+
+    script(src='/js/client_global_level_creator.js')

@@ -24,7 +24,7 @@ var passport = require('passport');
 var user_routes = require(__dirname+'/routes/user_routes');
 var dataset_routes = require(__dirname+'/routes/dataset_routes');
 var artifact_routes = require(__dirname+'/routes/artifact_routes');
-//var domain_ontology_routes = require(__dirname+'/routes/domain_ontology_routes');
+var bdi_ontology_routes = require(__dirname+'/routes/bdi_ontology_routes');
 var global_level_routes = require(__dirname+'/routes/global_level_routes');
 var source_level_routes = require(__dirname+'/routes/source_level_routes');
 var three_level_ontology_routes = require(__dirname+'/routes/three_level_ontology_routes');
@@ -98,9 +98,11 @@ app.get('/artifacts/:artifactType/:artifactID/content', artifact_routes.getArtif
 app.get('/artifacts/:artifactType/:artifactID/graphical', artifact_routes.getArtifactGraphical);
 app.delete('/artifacts/:artifactType/:artifactID', artifact_routes.deleteArtifact);
 
-/********** Domain Ontology resource *****************************************************/
+/********** BDI Ontology resource ********************************************************/
 
-//app.post('/domainOntology', domain_ontology_routes.postDomainOntology);
+app.get('/bdi_ontology/:bdi_ontologyID', bdi_ontology_routes.getBDIOntology);
+app.get('/bdi_ontology', bdi_ontology_routes.getAllBDIOntologies);
+app.post('/bdi_ontology', bdi_ontology_routes.postBDIOntology);
 
 /********** Global Level resource ********************************************************/
 
@@ -116,6 +118,7 @@ app.post('/three_level_ontology', three_level_ontology_routes.postThreeLevelOnto
 
 /********** Release resource *************************************************************/
 
+app.get('/release/:releaseID', release_routes.getRelease);
 app.get('/release', release_routes.getAllReleases);
 app.post('/release', release_routes.postRelease);
 
@@ -149,20 +152,24 @@ app.get('/manage_releases', checkAuthenticated, function(req,res) {
     res.render('manage_releases', {user:req.session.passport.user});
 });
 
-/********** XXXXXXXX section ***************************************************************/
-
-app.get('/manage_domain_ontologies', checkAuthenticated, function(req,res) {
-    res.render('manage_domain_ontologies', {user:req.session.passport.user});
+app.get('/view_release', checkAuthenticated, function(req,res) {
+    res.render('view_release', {user:req.session.passport.user});
 });
 
-app.get('/view_domain_ontology', checkAuthenticated, function(req,res) {
-    res.render('view_domain_ontology', {user:req.session.passport.user});
+/********** BDI Ontology section ***********************************************************/
+
+app.get('/new_bdi_ontology', checkAuthenticated, function(req,res) {
+    res.render('new_bdi_ontology', {user:req.session.passport.user});
+});
+
+app.get('/manage_bdi_ontologies', checkAuthenticated, function(req,res) {
+    res.render('manage_bdi_ontologies', {user:req.session.passport.user});
 });
 
 
 /********** Domain Ontology section ********************************************************/
 
-app.get('/upload_domain_ontology', checkAuthenticated, function(req,res) {
+/*app.get('/upload_domain_ontology', checkAuthenticated, function(req,res) {
     res.render('upload_domain_ontology', {user:req.session.passport.user});
 });
 
@@ -172,10 +179,10 @@ app.get('/manage_domain_ontologies', checkAuthenticated, function(req,res) {
 
 app.get('/view_domain_ontology', checkAuthenticated, function(req,res) {
     res.render('view_domain_ontology', {user:req.session.passport.user});
-});
+});*/
 
 /********** Global Level section *******************************************************/
-
+/*
 app.get('/new_global_level', checkAuthenticated, function(req,res) {
     res.render('new_global_level', {user:req.session.passport.user});
 });
@@ -183,20 +190,20 @@ app.get('/new_global_level', checkAuthenticated, function(req,res) {
 app.get('/manage_global_levels', checkAuthenticated, function(req,res) {
     res.render('manage_global_levels', {user:req.session.passport.user});
 });
-
+*/
 app.get('/view_global_level', checkAuthenticated, function(req,res) {
     res.render('view_global_level', {user:req.session.passport.user});
 });
 
 /********** Source Level section ******************************************************/
-
+/*
 app.get('/new_source_level', checkAuthenticated, function(req,res) {
     res.render('new_source_level', {user:req.session.passport.user});
 });
 
 app.get('/manage_source_levels', checkAuthenticated, function(req,res) {
     res.render('manage_source_levels', {user:req.session.passport.user});
-});
+});*/
 
 app.get('/view_source_level', checkAuthenticated, function(req,res) {
     res.render('view_source_level', {user:req.session.passport.user});

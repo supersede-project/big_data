@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by snadal on 22/11/16.
@@ -42,10 +43,25 @@ public class ReleaseResource {
         MongoClient client = Utils.getMongoDBClient(context);
         List<String> allReleases = Lists.newArrayList();
         getReleasesCollection(client).find().iterator().forEachRemaining(document -> allReleases.add(document.toJson()));
-        System.out.println(allReleases.toString());
         client.close();
         return Response.ok(new Gson().toJson(allReleases)).build();
     }
+
+    @GET
+    @Path("release/{releaseID}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_release(@PathParam("releaseID") String releaseID) {
+        System.out.println("[GET /release/]");
+
+        MongoClient client = Utils.getMongoDBClient(context);
+        Document query = new Document("releaseID",releaseID);
+        Document res = getReleasesCollection(client).find(query).first();
+        client.close();
+
+        return Response.ok((res.toJson())).build();
+    }
+
 
     /**
      * Automatic construction of the ontology for SUPERSEDE
@@ -66,9 +82,8 @@ public class ReleaseResource {
         }
 
         if (content.containsKey("kafkaTopic")) {
-            objBody.put("rdf", content.getAsString("rdf"));
             objBody.put("kafkaTopic", content.getAsString("kafkaTopic"));
-
+            objBody.put("releaseID", UUID.randomUUID().toString());
             getReleasesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
         }
 
