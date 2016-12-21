@@ -3,16 +3,10 @@
     stroke-width: 2.25px;
 }
 
-circle {
-    fill: red
-}
-
 .link {
-    stroke: red;
     stroke-opacity: 1.6px;
     stroke-width: 3px;
     opacity: 0.5;
-    marker-end: url(#end-arrow);
 }
 
 text.label {
@@ -24,21 +18,7 @@ textPath {
     font-size: x-small;
 }
 
-/*.d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 2px;
-}*/
-
 path.link {
     fill: none;
-    stroke: red;
     stroke-width: 2px;
-}
-
-marker {
-    fill: red
 }

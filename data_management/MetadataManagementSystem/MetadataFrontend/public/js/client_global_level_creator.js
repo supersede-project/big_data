@@ -1,3 +1,52 @@
+var current_metamodel_element = "";
+var current_metamodel_element_text;
+
+function errorNotification(text) {
+    noty(
+        {
+            text: text,
+            type: 'error',
+            animation: {
+                open: {height: 'toggle'},
+                close: {height: 'toggle'},
+                easing: 'swing',
+                speed: 500
+            },
+            timeout: 5000
+        }
+    );
+}
+
+function addTriple(s,p,o) {
+    //var text = ('Added triple \<'+s+', '+p+', '+o+'\>');
+    var text = "Added triple < " + s + ", " + p + ", " + o + " >";
+    noty(
+        {
+            text: text,
+            type: 'success',
+            animation: {
+                open: {height: 'toggle'},
+                close: {height: 'toggle'},
+                easing: 'swing',
+                speed: 500
+            },
+            timeout: 5000
+        }
+    );
+}
+
+$(function() {
+    $(".metamodelButton").on("click", function() {
+        if (current_metamodel_element != "") current_metamodel_element.removeClass("thick");
+
+        current_metamodel_element = $(this);
+        current_metamodel_element_text = $(this).text();
+        current_metamodel_element.addClass("thick");
+    });
+    $(".metamodelButton")[0].click();
+
+});
+
 document.onload = (function(d3, saveAs, Blob, undefined){
     "use strict";
 
@@ -33,23 +82,37 @@ document.onload = (function(d3, saveAs, Blob, undefined){
         defs.append('svg:marker')
             .attr('id', 'end-arrow')
             .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 13)
+            .attr('markerWidth', 3.5)
+            .attr('markerHeight', 3.5)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M0,-5L10,0L0,5');
+            /*.attr('viewBox', '0 -5 10 10')
             .attr('refX', "32")
             .attr('markerWidth', 3.5)
             .attr('markerHeight', 3.5)
             .attr('orient', 'auto')
             .append('svg:path')
-            .attr('d', 'M0,-5L10,0L0,5');
+            .attr('d', 'M0,-5L10,0L0,5');*/
 
         // define arrow markers for leading arrow
         defs.append('svg:marker')
             .attr('id', 'mark-end-arrow')
             .attr('viewBox', '0 -5 10 10')
-            .attr('refX', 7)
+            .attr('refX', 6)
             .attr('markerWidth', 3.5)
             .attr('markerHeight', 3.5)
             .attr('orient', 'auto')
             .append('svg:path')
             .attr('d', 'M0,-5L10,0L0,5');
+            /*.attr('viewBox', '0 -5 10 10')
+            .attr('refX', 7)
+            .attr('markerWidth', 3.5)
+            .attr('markerHeight', 3.5)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M0,-5L10,0L0,5');*/
 
         thisGraph.svg = svg;
         thisGraph.svgG = svg.append("g")
@@ -182,7 +245,7 @@ document.onload = (function(d3, saveAs, Blob, undefined){
         BACKSPACE_KEY: 8,
         DELETE_KEY: 46,
         ENTER_KEY: 13,
-        nodeRadius: 50
+        nodeRadius: 10
     };
 
     /* PROTOTYPE FUNCTIONS */
@@ -227,7 +290,7 @@ document.onload = (function(d3, saveAs, Blob, undefined){
             nwords = words.length;
         var el = gEl.append("text")
             .attr("text-anchor","middle")
-            .attr("dy", "-" + (nwords-1)*7.5);
+            .attr("dy", 25/*"-" + (nwords-1)*7.5*/);
 
         for (var i = 0; i < words.length; i++) {
             var tspan = el.append('tspan').text(words[i]);
@@ -316,7 +379,7 @@ document.onload = (function(d3, saveAs, Blob, undefined){
     };
 
     /* place editable text on node in place of svg text */
-    GraphCreator.prototype.changeTextOfNode = function(d3node, d){
+    GraphCreator.prototype.changeTextOfNode = function(d3node, d) {
         var thisGraph= this,
             consts = thisGraph.consts,
             htmlEl = d3node.node();
@@ -333,7 +396,7 @@ document.onload = (function(d3, saveAs, Blob, undefined){
             .attr("x", nodeBCR.left + placePad )
             .attr("y", nodeBCR.top + placePad)
             .attr("height", 2*useHW)
-            .attr("width", useHW)
+            .attr("width", 300)
             .append("xhtml:p")
             .attr("id", consts.activeEditId)
             .attr("contentEditable", "true")
@@ -348,10 +411,20 @@ document.onload = (function(d3, saveAs, Blob, undefined){
                 }
             })
             .on("blur", function(d){
+                /** ACTION: NODE CHANGED **/
+                // Set localName
                 d.title = this.textContent;
+                // Set namespace
+                d.namespace = current_metamodel_element.attr('id');
+                // Set full IRI
+                d.iri = current_metamodel_element.attr('id') + "/" + this.textContent;
+
+                addTriple(d.iri, Namespaces.rdf+"type", d.namespace);
+
                 thisGraph.insertTitleLinebreaks(d3node, d.title);
                 d3.select(this.parentElement).remove();
             });
+
         return d3txt;
     };
 
@@ -383,6 +456,17 @@ document.onload = (function(d3, saveAs, Blob, undefined){
                 thisGraph.edges.push(newEdge);
                 thisGraph.updateGraph();
             }
+            /** ACTION: EDGE CHANGED **/
+
+            var edgeType = getGlobalEdge(newEdge.source.namespace, newEdge.target.namespace);
+            if (edgeType != null) {
+                addTriple(newEdge.source.iri, edgeType, newEdge.target.iri);
+            } else {
+                errorNotification("You can't create edges from "+newEdge.source.namespace+ " to "+newEdge.target.namespace);
+            }
+
+            //alert(JSON.stringify(newEdge));
+
         } else{
             // we're in the same node
             if (state.justDragged) {
@@ -483,6 +567,7 @@ document.onload = (function(d3, saveAs, Blob, undefined){
     };
 
     // call to propagate changes to graph
+    /** Graph creation **/
     GraphCreator.prototype.updateGraph = function(){
 
         var thisGraph = this,
@@ -548,7 +633,8 @@ document.onload = (function(d3, saveAs, Blob, undefined){
             .call(thisGraph.drag);
 
         newGs.append("circle")
-            .attr("r", String(consts.nodeRadius));
+            .attr("r", String(consts.nodeRadius))
+            .style("fill",$(current_metamodel_element).css('backgroundColor'));
 
         newGs.each(function(d){
             thisGraph.insertTitleLinebreaks(d3.select(this), d.title);

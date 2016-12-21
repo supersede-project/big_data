@@ -5,12 +5,10 @@ block headers
     link(rel='stylesheet', href='/stylesheets/global_level_creator.css')
     script(src='/js/d3.min.js')
     script(src='/js/cola.d3.min.js')
-
-    //script(src='/js/client_view_global_level.js')
-    //script(src='/js/client_view_global_level_d3.js')
+    script(src='/js/noty-2.3.8/js/noty/packaged/jquery.noty.packaged.js')
+    script(src='/js/metamodel.js')
 
 block content
-
 
     .container
         .banner
@@ -22,26 +20,28 @@ block content
                     h4
                         #theURL
 
-        .input-group(style='padding-bottom: 5px')
-            a.btn.btn-primary.btn-sm(href='#')#computeStatisticsButton Compute Statistics
-            | &nbsp;
-            a.btn.btn-primary.btn-sm(href='#')#materializeButton Execute Algorithm
-            | &nbsp;
-
-        h5
+        p(style='text-align: left')
+            | This is the Global Level editor. To manipulate the graph, select the appropriate metadata model element and apply the following operations:
+            ul
+                li drag/scroll to translate/zoom the graph
+                li shift-click on graph to create a node
+                li shift-click on a node and then drag to another node to connect them with a directed edge
+                li shift-click on a node to change its title
+                li click on node or edge and press backspace/delete to delete
+        h4
             span.label Metadata Model
             | &nbsp;
-            span.label(style="background-color: #33CCCC")
-                | G:Concept
+            span.label(id='http://www.BDIOntology.com/global/Concept', style="background-color: #33CCCC").metamodelButton.normal
+                a(href="#") G:Concept
             | &nbsp;&nbsp;
-            span.label(style="background-color: #FFFF00")
-                | G:Feature
+            span.label(id='http://www.BDIOntology.com/global/Feature', style="background-color: #D7DF01").metamodelButton.normal
+                a(href="#") G:Feature
             | &nbsp;&nbsp;
-            span.label(style="background-color: #CC99FF")
-                | G:IntegrityConstraint
+            span.label(id='http://www.BDIOntology.com/global/IntegrityConstraint', style="background-color: #CC99FF").metamodelButton.normal
+                a(href="#") G:IntegrityConstraint
             | &nbsp;&nbsp;
-            span.label(style="background-color: #FF6600")
-                | rdfs:Datatype
+            span.label(id='http://www.w3.org/2000/01/rdf-schema#Datatype', style="background-color: #FF6600").metamodelButton.normal
+                a(href="#") rdfs:Datatype
             | &nbsp;&nbsp;
 
     #graph

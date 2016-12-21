@@ -1,8 +1,10 @@
 package eu.supersede.mdm.storage.parsers;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import eu.supersede.mdm.storage.bdi_ontology.metamodel.BolsterMetamodel;
+import eu.supersede.mdm.storage.bdi_ontology.metamodel.SourceLevel;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.jena.rdf.model.Property;
@@ -19,6 +21,22 @@ import java.util.Map;
  * Created by snadal on 2/06/16.
  */
 public class OWLtoD3 {
+
+    private static ImmutableMap<String,String> colorMap = ImmutableMap.<String, String>builder()
+            .put(SourceLevel.EVENT.val(), "#FF3300")
+            .put(SourceLevel.SCHEMA_VERSION.val(), "#FECB98")
+            .put(SourceLevel.PRODUCES.val(), "#FECB98")
+            .put("https://www.iana.org/assignments/media-types/application/json", "#808000")
+            .put(SourceLevel.FORMAT.val(), "#808000")
+            .put(SourceLevel.EMBEDDED_OBJECT.val(), "#993366")
+            .put(SourceLevel.HAS_EMBEDDED_OBJECT.val(), "#993366")
+            .put(SourceLevel.ARRAY.val(), "#00FF00")
+            .put(SourceLevel.HAS_ARRAY.val(), "#00FF00")
+            .put(SourceLevel.ATTRIBUTE.val(), "#00CCFF")
+            .put(SourceLevel.HAS_ATTRIBUTE.val(), "#00CCFF")
+            .put(SourceLevel.KAFKA_TOPIC.val(), "#F7819F")
+            .put(SourceLevel.HAS_KAFKA_TOPIC.val(), "#F7819F")
+            .build();
 
     public static String parse(String artifactType, List<Tuple3<Resource,Property,Resource>> triples) {
         NamespaceFiles ns = new NamespaceFiles();
@@ -48,7 +66,9 @@ public class OWLtoD3 {
                 nodesMap.put(triple._1().getURI(), i);
                 ++i;
                 JSONObject d3Node = new JSONObject();
-                d3Node.put("name", triple._1().getURI());
+                d3Node.put("name", triple._1().getLocalName());
+                // Get the color from the namespace of the element
+                d3Node.put("color", colorMap.get(triple._3().getURI()) == null ? colorMap.get(triple._1().getURI()) : colorMap.get(triple._3().getURI()));
 
                 d3Nodes.add(d3Node);
             }
@@ -56,13 +76,13 @@ public class OWLtoD3 {
         JSONArray d3Links = new JSONArray();
         // Add links
         for (Tuple3<Resource,Property,Resource> triple : elementsToShow) {
-            if (!ns.getIgnoredNamespaces().contains(triple._2().getNameSpace())/* &&
-                    BolsterMetamodel.metamodel.get(artifactType).contains(triple._2().toString())*/) {
+            if (!ns.getIgnoredNamespaces().contains(triple._2().getNameSpace())) {
 
                 JSONObject d3Link = new JSONObject();
                 d3Link.put("source",nodesMap.get(triple._1().getURI()));
                 d3Link.put("target",nodesMap.get(triple._3().getURI()));
                 d3Link.put("name", triple._2().getLocalName());
+                d3Link.put("color", colorMap.get(triple._2().getURI()));
 
                 d3Links.add(d3Link);
             }
