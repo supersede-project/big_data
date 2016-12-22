@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import eu.supersede.mdm.storage.util.RDFUtil;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
@@ -181,6 +182,26 @@ public class ArtifactResource {
         dataset.close();
         return Response.ok().build();
     }
+
+    @POST @Path("artifacts/{graph}/triple/{s}/{p}/{o}")
+    @Consumes("text/plain")
+    public Response POST_triple(@PathParam("graph") String graph, @PathParam("s") String s, @PathParam("p") String p, @PathParam("o") String o) {
+        System.out.println("[POST /artifacts/"+graph+"/triple");
+
+        Dataset dataset = Utils.getTDBDataset(this.context);
+        dataset.begin(ReadWrite.WRITE);
+
+        Model model = dataset.getNamedModel(graph);
+            RDFUtil.addTriple(model,s,p,o);
+
+        model.commit();
+        model.close();
+        dataset.commit();
+        dataset.end();
+        dataset.close();
+        return Response.ok().build();
+    }
+
 
     @DELETE @Path("artifacts/{artifactType}/{graph}")
     @Consumes("text/plain")

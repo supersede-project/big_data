@@ -25,7 +25,6 @@ var user_routes = require(__dirname+'/routes/user_routes');
 var dataset_routes = require(__dirname+'/routes/dataset_routes');
 var artifact_routes = require(__dirname+'/routes/artifact_routes');
 var bdi_ontology_routes = require(__dirname+'/routes/bdi_ontology_routes');
-var global_level_routes = require(__dirname+'/routes/global_level_routes');
 var source_level_routes = require(__dirname+'/routes/source_level_routes');
 var three_level_ontology_routes = require(__dirname+'/routes/three_level_ontology_routes');
 var release_routes = require(__dirname+'/routes/release_routes');
@@ -97,6 +96,7 @@ app.get('/artifacts/:artifactType/:artifactID', artifact_routes.getArtifact);
 app.get('/artifacts/:artifactType/:artifactID/content', artifact_routes.getArtifactContent);
 app.get('/artifacts/:artifactType/:artifactID/graphical', artifact_routes.getArtifactGraphical);
 app.delete('/artifacts/:artifactType/:artifactID', artifact_routes.deleteArtifact);
+app.post('/artifacts/:artifactType/:artifactID/triple', artifact_routes.postTriple);
 
 /********** BDI Ontology resource ********************************************************/
 

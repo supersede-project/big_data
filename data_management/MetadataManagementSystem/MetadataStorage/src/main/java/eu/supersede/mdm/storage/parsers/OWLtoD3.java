@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import eu.supersede.mdm.storage.bdi_ontology.metamodel.BolsterMetamodel;
+import eu.supersede.mdm.storage.bdi_ontology.metamodel.GlobalLevel;
 import eu.supersede.mdm.storage.bdi_ontology.metamodel.SourceLevel;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class OWLtoD3 {
 
     private static ImmutableMap<String,String> colorMap = ImmutableMap.<String, String>builder()
+            // Source Level colors
             .put(SourceLevel.EVENT.val(), "#FF3300")
             .put(SourceLevel.SCHEMA_VERSION.val(), "#FECB98")
             .put(SourceLevel.PRODUCES.val(), "#FECB98")
@@ -36,6 +38,15 @@ public class OWLtoD3 {
             .put(SourceLevel.HAS_ATTRIBUTE.val(), "#00CCFF")
             .put(SourceLevel.KAFKA_TOPIC.val(), "#F7819F")
             .put(SourceLevel.HAS_KAFKA_TOPIC.val(), "#F7819F")
+
+            // Global Level colors
+            .put(GlobalLevel.CONCEPT.val(), "#33CCCC")
+            .put(GlobalLevel.FEATURE.val(), "#D7DF01")
+            .put(GlobalLevel.HAS_FEATURE.val(), "#D7DF01")
+            .put(GlobalLevel.INTEGRITY_CONSTRAINT.val(), "#CC99FF")
+            .put(GlobalLevel.HAS_INTEGRITY_CONSTRAINT.val(), "#CC99FF")
+            .put(GlobalLevel.DATATYPE.val(), "#FF6600")
+            .put(GlobalLevel.HAS_DATATYPE.val(), "#FF6600")
             .build();
 
     public static String parse(String artifactType, List<Tuple3<Resource,Property,Resource>> triples) {

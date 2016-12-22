@@ -7,13 +7,13 @@ import eu.supersede.mdm.storage.bdi_ontology.Namespaces;
  */
 public enum GlobalLevel {
 
-    CONCEPT(Namespaces.G+"Concept"),
-    FEATURE(Namespaces.G+"Feature"),
-    HAS_FEATURE(Namespaces.G+"hasFeature"),
-    INTEGRITY_CONSTRAINT(Namespaces.G+"IntegrityConstraint"),
-    HAS_INTEGRITY_CONSTRAINT(Namespaces.G+"hasConstraint"),
-    DATATYPE(Namespaces.rdfs+"Datatype"),
-    HAS_DATATYPE(Namespaces.G+"hasDatatype");
+    CONCEPT(Namespaces.G.val()+"Concept"),
+    FEATURE(Namespaces.G.val()+"Feature"),
+    HAS_FEATURE(Namespaces.G.val()+"hasFeature"),
+    INTEGRITY_CONSTRAINT(Namespaces.G.val()+"IntegrityConstraint"),
+    HAS_INTEGRITY_CONSTRAINT(Namespaces.G.val()+"hasConstraint"),
+    DATATYPE(Namespaces.rdfs.val()+"Datatype"),
+    HAS_DATATYPE(Namespaces.G.val()+"hasDatatype");
 
     private String element;
 

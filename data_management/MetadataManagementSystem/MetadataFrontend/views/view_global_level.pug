@@ -3,6 +3,7 @@ block headers
     link(rel='stylesheet', href='/stylesheets/loading.css')
     link(rel='stylesheet', href='/stylesheets/global_level.css')
     link(rel='stylesheet', href='/stylesheets/global_level_creator.css')
+    script(src='/js/client_view_global_level.js')
     script(src='/js/d3.min.js')
     script(src='/js/cola.d3.min.js')
     script(src='/js/noty-2.3.8/js/noty/packaged/jquery.noty.packaged.js')
@@ -15,19 +16,21 @@ block content
             .row
                 .col-lg-8.col-md-7.col-sm-6
                     h2 View Global Level
-                    h3
-                        #theTitle
                     h4
                         #theURL
 
         p(style='text-align: left')
-            | This is the Global Level editor. To manipulate the graph, select the appropriate metadata model element and apply the following operations:
+            | This is the Global Level editor (based on
+            a(target="_blank" href="https://github.com/metacademy/directed-graph-creator")  directed-graph-creator&nbsp;
+            | published under the MIT/X license). To manipulate the graph, select the appropriate metadata model element and apply the following operations:
             ul
                 li drag/scroll to translate/zoom the graph
                 li shift-click on graph to create a node
                 li shift-click on a node and then drag to another node to connect them with a directed edge
                 li shift-click on a node to change its title
                 li click on node or edge and press backspace/delete to delete
+            //| Based on
+                a(href="https://github.com/metacademy/directed-graph-creator") https://github.com/metacademy/directed-graph-creator
         h4
             span.label Metadata Model
             | &nbsp;
@@ -45,5 +48,7 @@ block content
             | &nbsp;&nbsp;
 
     #graph
+
+    p(hidden='')#loadGraph
 
     script(src='/js/client_global_level_creator.js')

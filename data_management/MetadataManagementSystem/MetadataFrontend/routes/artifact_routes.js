@@ -11,7 +11,6 @@ exports.postArtifact = function (req, res, next) {
 
 };
 
-
 exports.getArtifacts = function (req, res, next) {
     request.get(config.METADATA_DATA_LAYER_URL + "artifacts/"+req.params.artifactType, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -59,5 +58,14 @@ exports.deleteArtifact = function (req, res, next) {
         } else {
             res.status(500).send("Error deleting artifact");
         }
+    });
+};
+
+exports.postTriple = function (req, res, next) {
+    request.post({
+        url: config.METADATA_DATA_LAYER_URL + "artifacts/"+encodeURIComponent(req.params.artifactID)+"/triple/"+
+            encodeURIComponent(req.body.s) + "/" + encodeURIComponent(req.body.p) + "/" + encodeURIComponent(req.body.o)
+    }, function done(err, results) {
+        res.status(200).json("ok");
     });
 };

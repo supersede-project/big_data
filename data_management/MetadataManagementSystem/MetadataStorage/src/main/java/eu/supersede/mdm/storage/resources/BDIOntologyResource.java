@@ -94,6 +94,10 @@ public class BDIOntologyResource {
         System.out.println("[POST /release/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
 
+        /**
+         * Create empty Global Level
+         */
+
         MongoClient client = Utils.getMongoDBClient(context);
 
         objBody.put("bdi_ontologyID", UUID.randomUUID().toString());
