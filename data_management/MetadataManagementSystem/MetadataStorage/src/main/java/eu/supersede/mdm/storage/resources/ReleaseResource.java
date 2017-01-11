@@ -42,9 +42,11 @@ public class ReleaseResource {
 
         MongoClient client = Utils.getMongoDBClient(context);
         List<String> allReleases = Lists.newArrayList();
-        getReleasesCollection(client).find().iterator().forEachRemaining(document -> allReleases.add(document.toJson()));
+        JSONArray arr = new JSONArray();
+        //getReleasesCollection(client).find().iterator().forEachRemaining(document -> allReleases.add(document.toJson()));
+        getReleasesCollection(client).find().iterator().forEachRemaining(document -> arr.add(document));
         client.close();
-        return Response.ok(new Gson().toJson(allReleases)).build();
+        return Response.ok(new Gson().toJson(arr)).build();
     }
 
     @GET
