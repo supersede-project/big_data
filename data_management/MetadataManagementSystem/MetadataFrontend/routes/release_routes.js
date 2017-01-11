@@ -18,7 +18,7 @@ exports.getRelease = function (req, res, next) {
 };
 
 
-exports.getAllReleases = function (req, res, next) {
+    exports.getAllReleases = function (req, res, next) {
     request.get(config.METADATA_DATA_LAYER_URL + "release/", function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.status(200).json(JSON.parse(body));

@@ -15,7 +15,7 @@ function getReleases() {
     $.get("/release", function(data) {
         var i = 1;
         $.each((data), function(key, value) {
-            var theObj = JSON.parse(value);
+            var theObj = (value);
             $('#releases').find('tbody')
                 .append($('<tr>')
                     .append($('<td>')
