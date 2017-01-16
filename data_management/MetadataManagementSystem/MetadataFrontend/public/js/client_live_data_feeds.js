@@ -20,7 +20,7 @@ function openNewTab(name, href, properties) {
     $("#tabContent").append($('<div id="tab_'+(tabCount)+'" role="tabpanel" class="tab-pane fill"><iframe id="iframe_'+(tabCount)+'" '+ properties +' src="'+(href)+'" frameborder="0"></iframe></div>'));
     registerCloseEvent();
 
-    $('#tabPanel a:last').tab('show');
+    $('#tabPanel li:first').tab('show');
 }
 
 function getReleases() {
