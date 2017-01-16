@@ -122,6 +122,13 @@ app.get('/release/:releaseID', release_routes.getRelease);
 app.get('/release', release_routes.getAllReleases);
 app.post('/release', release_routes.postRelease);
 
+/********** Websocket messages ***********************************************************/
+app.post('/raw_data', function(req, res){
+    console.log("received "+JSON.stringify(req.body));
+    io.of('/raw_data').emit('/raw_data',{message:req.body});
+    res.json(true);
+});
+
 /*****************************************************************************************/
 /*****************************************************************************************/
 /*          Frontend Pages                                                               */
@@ -235,6 +242,17 @@ app.get('/manage_datasets', checkAuthenticated, function(req,res) {
 
 app.get('/view_dataset', checkAuthenticated, function(req,res) {
     res.render('view_dataset', {user:req.session.passport.user});
+});
+
+
+/********** Data Feed section ************************************************************/
+
+app.get('/live_data_feeds', checkAuthenticated, function(req,res) {
+    res.render('live_data_feeds', {user:req.session.passport.user});
+});
+
+app.get('/live_data_feed', checkAuthenticated, function(req,res) {
+    res.render('live_data_feed', {user:req.session.passport.user});
 });
 
 

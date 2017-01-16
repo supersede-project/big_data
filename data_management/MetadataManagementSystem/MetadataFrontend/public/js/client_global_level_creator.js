@@ -69,11 +69,12 @@ $(function () {
 
 // Load existing graph
 $(function () {
-    $.get("/artifacts/GLOBAL/" + encodeURIComponent(getParameterByName("graph")) + "/graphical", function (data) {
+/*    $.get("/artifacts/GLOBAL/" + encodeURIComponent(getParameterByName("graph")) + "/graphical", function (data) {
         if (data.nodes.length > 0) {
             $("#loadGraph").text(JSON.stringify(data)).click();
         }
     });
+*/
 });
 
 document.onload = (function (d3, saveAs, Blob, undefined) {
@@ -481,7 +482,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
                 d.iri = current_metamodel_element.attr('id') + "/" + this.textContent;
 
                 addTriple(d.iri, Namespaces.rdf + "type", d.namespace);
-alert(JSON.stringify(d));
+
                 thisGraph.insertTitleLinebreaks(d3node, d.title == null ? d.name : d.title);
                 d3.select(this.parentElement).remove();
             });
