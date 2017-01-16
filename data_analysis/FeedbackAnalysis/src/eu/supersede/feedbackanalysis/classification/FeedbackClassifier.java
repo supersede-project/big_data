@@ -34,5 +34,5 @@ public interface FeedbackClassifier {
 	public ClassificationResult classify(String modelPath, UserFeedback userFeedback) throws Exception;
 
 	// TODO: to be removed
-	public Classifier train (String path, boolean arff) throws Exception;
+//	public Classifier train (String path, boolean arff) throws Exception;
 }

@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import eu.supersede.feedbackanalysis.ds.FeatureExtractionResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 
@@ -19,7 +20,7 @@ public class SimpleFeatureExtractor implements FeatureExtractor {
 	/* (non-Javadoc)
 	 * @see eu.supersede.feedbackanalysis.feature.FeatureExtractor#extractFeatures(java.util.List)
 	 */
-	@Override
+	
 	public FeatureExtractionResult extractFeatures(List<UserFeedback> userFeedbacks) {
 		
 		FeatureExtractionResult result = new FeatureExtractionResult();
@@ -103,6 +104,30 @@ public class SimpleFeatureExtractor implements FeatureExtractor {
 		userFeedbacks.add(f4);
 		new SimpleFeatureExtractor().extractFeatures(userFeedbacks);
 		
+	}
+
+
+	/* (non-Javadoc)
+	 * @see eu.supersede.feedbackanalysis.feature.FeatureExtractor#batch(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean batch(String pathIn, String pathOut) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see eu.supersede.feedbackanalysis.feature.FeatureExtractor#single(java.lang.String, eu.supersede.feedbackanalysis.ds.UserFeedback)
+	 */
+	@Override
+	public FeatureExtractionResult single(String featurePath,
+			UserFeedback userFeedback) {
+		// TODO Auto-generated method stub
+		FeatureExtractionResult result = new FeatureExtractionResult();
+		List<String> features = new ArrayList<String>();
+		result.setFeatures(features);
+		return result;
 	}
 
 }

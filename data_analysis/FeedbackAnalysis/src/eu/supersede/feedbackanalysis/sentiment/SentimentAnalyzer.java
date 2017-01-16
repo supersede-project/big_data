@@ -31,5 +31,5 @@ public interface SentimentAnalyzer {
 
 
 	// TODO: to be removed
-	public List<SentimentAnalysisResult> determineSentiment(List<UserFeedback> userFeedback);
+//	public List<SentimentAnalysisResult> determineSentiment(List<UserFeedback> userFeedback);
 }
