@@ -11,6 +11,9 @@ $(window).load(function() {
 
         $("#event").val(releaseObj.event);
         $("#schemaVersion").val(releaseObj.schemaVersion);
+        if (releaseObj.dispatch === "true") $("#dispatch").prop('checked', true);
+        $("#dispatchTo").val(releaseObj.dispatcherPath ? releaseObj.dispatcherPath : '-');
+        $("input:checkbox").click(function() { return false; });
 
         var container = document.getElementById("jsoneditor");
         $("#jsoneditor").css("background-color","white");

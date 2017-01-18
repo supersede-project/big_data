@@ -39,6 +39,7 @@ exports.postRelease = function (req, res, next) {
         release.event = req.body.event;
         release.schemaVersion = req.body.schemaVersion;
         release.jsonInstances = req.body.jsonInstances;
+        release.dispatch = !(req.body.hasOwnProperty('event')) || req.body.event == null ? false : req.body.dispatch;
         var graphName = config.DEFAULT_NAMESPACE+"SOURCE/"+randomstring.generate();//randomstring.generate();
         release.graph = graphName;
 

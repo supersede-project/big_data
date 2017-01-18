@@ -37,6 +37,8 @@ $(document).ready( function() {
         release["event"] = $("#event").val();
         release["schemaVersion"] = $("#schemaVersion").val();
         release["jsonInstances"] = JSON.stringify(editor.get());
+        release["dispatch"] = $("#dispatch")[0].checked;
+
 
         $.ajax({
             url: '/release',

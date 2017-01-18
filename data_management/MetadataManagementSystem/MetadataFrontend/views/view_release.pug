@@ -33,6 +33,16 @@ block content
                                 .col-lg-10
                                     #jsoneditor(style='width: 100%; height: 400px;')
 
+                            .form-group#dispatchForm
+                                label.col-lg-2.control-label(for='event') Dispatch to Data Lake
+                                .col-lg-10
+                                    input#dispatch(type='checkbox').checkbox
+
+                            .form-group#dispatchToForm
+                                label.col-lg-2.control-label(for='event') Dispatch To
+                                .col-lg-10
+                                    input#dispatchTo.form-control(type='text', name='dispatchTo', required='required',readonly='')
+
                             //.form-group
                                 .col-lg-10.col-lg-offset-2
                                     button#submitRelease.btn.btn-primary.btn-lg.btn-block(type='submit') Update

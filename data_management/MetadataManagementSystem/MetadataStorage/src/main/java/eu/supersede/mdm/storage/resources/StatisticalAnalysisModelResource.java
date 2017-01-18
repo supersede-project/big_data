@@ -24,22 +24,26 @@ import java.util.UUID;
  * Created by snadal on 22/11/16.
  */
 @Path("")
-public class ReleaseResource {
+public class StatisticalAnalysisModelResource {
 
-    private MongoCollection<Document> getReleasesCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("releases");
+    private MongoCollection<Document> getStatisticalAnalysisModelCollection(MongoClient client) {
+        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("statisticalAnalysisModels");
     }
 
     @Context
     ServletContext context;
 
     @GET
-    @Path("release/")
+    @Path("statisticalAnalysisModel/")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_release() {
-        System.out.println("[GET /release/]");
+    public Response GET_statisticalAnalysisModel() {
+        System.out.println("[GET /statisticalAnalysisModel/]");
 
+        //eu.supersede.feedbackanalysis.classification.FeedbackClassifier a;
+        return null;
+    }
+/*
         MongoClient client = Utils.getMongoDBClient(context);
         List<String> allReleases = Lists.newArrayList();
         JSONArray arr = new JSONArray();
@@ -65,13 +69,6 @@ public class ReleaseResource {
     }
 
 
-    /**
-     * Generation of the Source Level based on a sample dataset
-     * For details see:
-     *      Nadal, S., Romero, O., Abelló, A., Vassiliadis, P., Vansummeren, S.
-     *      An Integration-Oriented Ontology to Govern Evolution in Big Data Ecosystems.
-     *      DOLAP 2017
-     */
     @POST @Path("release/")
     @Consumes("text/plain")
     public Response POST_release(String body) {
@@ -83,25 +80,18 @@ public class ReleaseResource {
         JSONObject content = new JSONObject();
         try {
             content = Release.newRelease(objBody.getAsString("event"),objBody.getAsString("schemaVersion"),objBody.getAsString("jsonInstances"));
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         if (content.containsKey("kafkaTopic")) {
             objBody.put("kafkaTopic", content.getAsString("kafkaTopic"));
             objBody.put("releaseID", UUID.randomUUID().toString());
-
-            // If we have to dispatch to the Data Lake, generate a random path (.txt for now)
-            if (Boolean.parseBoolean(objBody.getAsString("dispatch"))) {
-                // TODO replace with path to HDFS
-                objBody.put("dispatcherPath", "/home/snadal/Bolster/DispatcherData/"+UUID.randomUUID().toString()+".txt");
-            }
-
             getReleasesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
         }
 
         client.close();
         return Response.ok(content.toJSONString()).build();
     }
-
+*/
 }

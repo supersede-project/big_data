@@ -13,17 +13,51 @@ import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka010.HasOffsetRanges;
 import org.apache.spark.streaming.kafka010.OffsetRange;
+import org.drools.compiler.lang.api.DescrFactory;
+import org.drools.compiler.lang.descr.PackageDescr;
 import org.json.JSONObject;
+import org.kie.api.KieBase;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.KieRepository;
+import org.kie.api.io.KieResources;
+import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.StatelessKieSession;
+import org.kie.internal.KnowledgeBase;
+import org.kie.internal.KnowledgeBaseFactory;
+import org.kie.internal.builder.KnowledgeBuilder;
+import org.kie.internal.builder.KnowledgeBuilderFactory;
+import org.kie.internal.definition.KnowledgePackage;
+import org.kie.internal.io.ResourceFactory;
+import org.kie.internal.runtime.StatefulKnowledgeSession;
+import org.kie.internal.runtime.StatelessKnowledgeSession;
+import org.kie.internal.utils.KieService;
+import scala.Tuple1;
 
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
  * Created by snadal on 11/01/17.
  */
 public class StreamProcessing {
+
+    public class MyClass {
+        public MyClass(int t) { this.t = t ;}
+        public int t;
+    }
+
+    private static KnowledgePackage compilePkgDescr( PackageDescr pkg ) {
+        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+        kbuilder.add( ResourceFactory.newDescrResource( pkg ),
+                ResourceType.DESCR );
+        Collection<KnowledgePackage> kpkgs = kbuilder.getKnowledgePackages();
+        return kpkgs.iterator().next();
+    }
 
     //final Logger logger;
 
@@ -69,6 +103,44 @@ public class StreamProcessing {
                         e.printStackTrace();
                     }
                 });
+            });
+        });
+
+        /*
+         * 2: Evaluate rules
+         */
+        kafkaStream.foreachRDD(records -> {
+            records.foreach(record -> {
+
+                PackageDescr pkg =
+                        DescrFactory.newPackage()
+                                .name("testPkg")
+                                .newRule().name("testRule")
+                                .lhs()
+                                .pattern("eu.supersede.bdma.sa.SergiClass").constraint("x < 10").end()
+                                .end()
+                                .rhs("System.out.println(\"rule ok\");")
+                                .end()
+                                .getDescr();
+
+        /*KieServices kieServices = KieServices.Factory.get();
+        KieResources kieResources = kieServices.getResources();
+        KieRepository kieRepository = kieServices.getRepository();
+
+        Resource resource = kieResources. newDescrResource(pkg);
+        kieRepository.addKieModule(resource);
+
+        KieContainer kContainer = kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
+        StatelessKieSession ksession = kContainer.newStatelessKieSession();*/
+
+                KnowledgePackage kpkg = compilePkgDescr( pkg );
+                KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+                kbase.addKnowledgePackages(Collections.singleton(kpkg));
+                StatelessKnowledgeSession ksession = kbase.newStatelessKnowledgeSession();
+
+                eu.supersede.bdma.sa.SergiClass x = new eu.supersede.bdma.sa.SergiClass(Integer.parseInt(record.value()));
+
+                ksession.execute(x);
             });
         });
 
