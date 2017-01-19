@@ -224,4 +224,22 @@ public class ArtifactResource {
         return Response.ok().build();
     }
 
+    @POST @Path("artifacts/{graph}/graphicalGraph")
+    @Consumes("text/plain")
+    public Response POST_graphicalGraph(@PathParam("graph") String graph, String body) {
+        System.out.println("[POST /artifacts/"+graph+"/graphicalGraph");
+
+        MongoClient client = Utils.getMongoDBClient(this.context);
+        MongoCollection<Document> artifacts = getArtifactsCollection(client);
+
+        artifacts.findOneAndUpdate(
+                new Document().append("graph",graph),
+                new Document().append("$set", new Document().append("graphicalGraph",body))
+        );
+
+        client.close();
+
+        return Response.ok().build();
+    }
+
 }

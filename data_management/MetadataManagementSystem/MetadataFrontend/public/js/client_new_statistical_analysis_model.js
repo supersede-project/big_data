@@ -13,15 +13,26 @@ $(window).load(function() {
     $.get("/release", function(data) {
         _.each(data, function(element,index,list) {
             var obj = (element);
-            $("#releases").append($('<option value="'+obj.releaseID+'">').text(obj.event + " ("+obj.schemaVersion+")"));
+            if (obj.dispatcherPath)
+                $("#releases").append($('<option value="'+obj.releaseID+'">').text(obj.event + " ("+obj.schemaVersion+") - "+obj.dispatcherPath));
         });
         $("#releases").select2({
             theme: "bootstrap"
         });
     });
 
+    $.get("/statistical_analysis_model_types", function(data) {
+        _.each(data, function(element,index,list) {
+            var obj = (element);
+            $("#statisticalAnalysisModelType").append($('<option value="'+obj.key+'">').text(obj.val));
+        });
+        $("#statisticalAnalysisModelType").select2({
+            theme: "bootstrap"
+        });
+    });
 
-    $('#submit_bdiontology').on("click", function(e){
+
+    $('#submit_statisticalanalysismodel').on("click", function(e){
         e.preventDefault();
 
         var ontology = new Object();

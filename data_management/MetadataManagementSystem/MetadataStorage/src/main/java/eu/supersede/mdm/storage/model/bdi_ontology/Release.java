@@ -1,9 +1,7 @@
-package eu.supersede.mdm.storage.bdi_ontology;
+package eu.supersede.mdm.storage.model.bdi_ontology;
 
-import com.google.common.io.Files;
-import eu.supersede.mdm.storage.bdi_ontology.metamodel.SourceLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
 import eu.supersede.mdm.storage.parsers.JSON_to_SourceLevel;
-import eu.supersede.mdm.storage.util.HTTPRequests;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import eu.supersede.mdm.storage.util.TempFiles;
 import net.minidev.json.JSONObject;
@@ -11,13 +9,9 @@ import net.minidev.json.JSONValue;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 
-import javax.ws.rs.core.Response;
-import javax.xml.transform.Source;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 /**

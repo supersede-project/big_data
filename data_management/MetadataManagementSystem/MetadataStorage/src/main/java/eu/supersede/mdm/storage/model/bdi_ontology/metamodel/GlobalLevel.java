@@ -1,6 +1,6 @@
-package eu.supersede.mdm.storage.bdi_ontology.metamodel;
+package eu.supersede.mdm.storage.model.bdi_ontology.metamodel;
 
-import eu.supersede.mdm.storage.bdi_ontology.Namespaces;
+import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
 
 /**
  * Created by snadal on 22/11/16.

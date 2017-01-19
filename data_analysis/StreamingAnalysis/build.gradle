@@ -91,6 +91,13 @@ dependencies {
     compile 'org.drools:drools-compiler:6.5.0.Final'
     compile 'org.drools:drools-decisiontables:6.5.0.Final'
     compile 'org.jbpm:jbpm-bpmn2:6.5.0.Final'
+
+
+    compile("eu.supersede.mdm.storage:MetadataStorage:0.1.0-SNAPSHOT"){
+        changing=true
+        exclude (group: 'com.fasterxml.jackson.core')
+        exclude (group: 'org.scala-lang')
+    }
 }
 
 configurations.all {

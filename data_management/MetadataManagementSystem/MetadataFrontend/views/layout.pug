@@ -57,13 +57,24 @@ html
         ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Training Sets
+              span.caret
+            ul.dropdown-menu(aria-labelledby='release')
+              li
+                a(href='/new_statistical_analysis_model') New Statistical Analysis Model
+              li
+                a(href='/manage_statistical_analysis_models') Manage Statistical Analysis Models
+
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
               | Statistical Analysis Models
               span.caret
             ul.dropdown-menu(aria-labelledby='release')
               li
                 a(href='/new_statistical_analysis_model') New Statistical Analysis Model
               li
-                a(href='/#') Manage Statistical Analysis Models
+                a(href='/manage_statistical_analysis_models') Manage Statistical Analysis Models
 
         ul.nav.navbar-nav
           li.dropdown

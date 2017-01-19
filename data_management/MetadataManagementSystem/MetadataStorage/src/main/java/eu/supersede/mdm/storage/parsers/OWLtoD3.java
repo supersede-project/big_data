@@ -3,15 +3,13 @@ package eu.supersede.mdm.storage.parsers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import eu.supersede.mdm.storage.bdi_ontology.metamodel.BolsterMetamodel;
-import eu.supersede.mdm.storage.bdi_ontology.metamodel.GlobalLevel;
-import eu.supersede.mdm.storage.bdi_ontology.metamodel.SourceLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.BolsterMetamodel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.GlobalLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
-import org.jgrapht.graph.DefaultEdge;
 import eu.supersede.mdm.storage.util.NamespaceFiles;
 import scala.Tuple3;
 

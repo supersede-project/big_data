@@ -1,14 +1,12 @@
 package eu.supersede.mdm.storage.resources;
 
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import eu.supersede.mdm.storage.bdi_ontology.Release;
-import eu.supersede.mdm.storage.util.Utils;
+import eu.supersede.mdm.storage.model.StatisticalAnalysisModelTypes;
+import eu.supersede.mdm.storage.model.bdi_ontology.Release;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 import org.bson.Document;
 
 import javax.servlet.ServletContext;
@@ -16,9 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.UUID;
+import java.util.jar.JarEntry;
 
 /**
  * Created by snadal on 22/11/16.
@@ -34,14 +30,33 @@ public class StatisticalAnalysisModelResource {
     ServletContext context;
 
     @GET
-    @Path("statisticalAnalysisModel/")
+    @Path("statistical_analysis_model/")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public Response GET_statisticalAnalysisModel() {
-        System.out.println("[GET /statisticalAnalysisModel/]");
+        System.out.println("[GET /statistical_analysis_model/]");
 
         //eu.supersede.feedbackanalysis.classification.FeedbackClassifier a;
         return null;
+    }
+
+    @GET
+    @Path("statistical_analysis_model_types/")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_statisticalAnalysisModel_Types() {
+        System.out.println("[GET /statistical_analysis_model_types/]");
+
+        JSONArray out = new JSONArray();
+        for (StatisticalAnalysisModelTypes t : StatisticalAnalysisModelTypes.values()) {
+            JSONObject inner = new JSONObject();
+            inner.put("key",t.name());
+            inner.put("val",t.val());
+            out.add(inner);
+        }
+
+        //eu.supersede.feedbackanalysis.classification.FeedbackClassifier a;
+        return Response.ok(new Gson().toJson(out)).build();
     }
 /*
         MongoClient client = Utils.getMongoDBClient(context);

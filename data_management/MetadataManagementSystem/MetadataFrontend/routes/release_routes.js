@@ -42,6 +42,7 @@ exports.postRelease = function (req, res, next) {
         release.dispatch = !(req.body.hasOwnProperty('event')) || req.body.event == null ? false : req.body.dispatch;
         var graphName = config.DEFAULT_NAMESPACE+"SOURCE/"+randomstring.generate();//randomstring.generate();
         release.graph = graphName;
+        release.dispatcherStrategy = req.body.dispatcherStrategy;
 
         request.post({
             url: config.METADATA_DATA_LAYER_URL + "release/",

@@ -1,10 +1,10 @@
 package eu.supersede.mdm.storage.resources;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import eu.supersede.mdm.storage.bdi_ontology.Release;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -16,7 +16,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -74,7 +75,7 @@ public class ReleaseResource {
      */
     @POST @Path("release/")
     @Consumes("text/plain")
-    public Response POST_release(String body) {
+    public Response POST_release(String body) throws IOException {
         System.out.println("[POST /release/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
 
@@ -82,7 +83,7 @@ public class ReleaseResource {
 
         JSONObject content = new JSONObject();
         try {
-            content = Release.newRelease(objBody.getAsString("event"),objBody.getAsString("schemaVersion"),objBody.getAsString("jsonInstances"));
+            content = eu.supersede.mdm.storage.model.bdi_ontology.Release.newRelease(objBody.getAsString("event"),objBody.getAsString("schemaVersion"),objBody.getAsString("jsonInstances"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +95,11 @@ public class ReleaseResource {
             // If we have to dispatch to the Data Lake, generate a random path (.txt for now)
             if (Boolean.parseBoolean(objBody.getAsString("dispatch"))) {
                 // TODO replace with path to HDFS
-                objBody.put("dispatcherPath", "/home/snadal/Bolster/DispatcherData/"+UUID.randomUUID().toString()+".txt");
+                String dispatcherPath = "/home/snadal/Bolster/DispatcherData/"+UUID.randomUUID().toString()+".txt";
+                Files.touch(new File(dispatcherPath));
+                objBody.put("dispatcherPath", dispatcherPath);
+            } else {
+                objBody.put("dispatcherPath", "");
             }
 
             getReleasesCollection(client).insertOne(Document.parse(objBody.toJSONString()));

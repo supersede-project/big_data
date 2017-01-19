@@ -4,6 +4,8 @@
 
 
 $(document).ready( function() {
+    $("#dispatcherStrategyForm").hide();
+
     var container = document.getElementById("jsoneditor");
     var options = {
         "mode": "code",
@@ -30,6 +32,25 @@ $(document).ready( function() {
     };
     editor.set(json);
 
+
+    $.get("/dispatcher_strategies_types", function(data) {
+        _.each(data, function(element,index,list) {
+            var obj = (element);
+            $("#dispatcherStrategy").append($('<option value="'+obj.key+'">').text(obj.val));
+        });
+        $("#dispatcherStrategy").select2({
+            theme: "bootstrap"
+        });
+    });
+
+    $(".checkbox").change(function() {
+        if(this.checked) {
+            $("#dispatcherStrategyForm").show();
+        } else {
+            $("#dispatcherStrategyForm").hide();
+        }
+    });
+
     $('#submitRelease').on("click", function(e){
         e.preventDefault();
 
@@ -38,7 +59,7 @@ $(document).ready( function() {
         release["schemaVersion"] = $("#schemaVersion").val();
         release["jsonInstances"] = JSON.stringify(editor.get());
         release["dispatch"] = $("#dispatch")[0].checked;
-
+        release["dispatcherStrategy"] = $("#dispatcherStrategy").val();
 
         $.ajax({
             url: '/release',

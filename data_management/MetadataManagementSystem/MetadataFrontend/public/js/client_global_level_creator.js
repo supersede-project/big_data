@@ -56,6 +56,15 @@ function addTriple(s, p, o) {
 }
 
 $(function () {
+    // Set color for the metamodel selectors
+    //, style="background-color: #33CCCC"
+    $("#"+(Global.CONCEPT.name)).css("background-color",Global.CONCEPT.color);
+    $("#"+(Global.FEATURE.name)).css("background-color",Global.FEATURE.color);
+    $("#"+(Global.INTEGRITY_CONSTRAINT.name)).css("background-color",Global.INTEGRITY_CONSTRAINT.color);
+    $("#"+(Global.DATATYPE.name)).css("background-color",Global.DATATYPE.color);
+});
+
+$(function () {
     $(".metamodelButton").on("click", function () {
         if (current_metamodel_element != "") current_metamodel_element.removeClass("thick");
 
@@ -67,14 +76,8 @@ $(function () {
 
 });
 
-// Load existing graph
 $(function () {
-/*    $.get("/artifacts/GLOBAL/" + encodeURIComponent(getParameterByName("graph")) + "/graphical", function (data) {
-        if (data.nodes.length > 0) {
-            $("#loadGraph").text(JSON.stringify(data)).click();
-        }
-    });
-*/
+    $("#upload-input").click();
 });
 
 document.onload = (function (d3, saveAs, Blob, undefined) {
@@ -215,22 +218,48 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         };
 
         // handle download data
+        /**
+         * Sergi:
+         *
+         * Updated to save the current graphical representation of the graph to the MDM Storage
+         */
         d3.select("#download-input").on("click", function () {
             var saveEdges = [];
             thisGraph.edges.forEach(function (val, i) {
                 saveEdges.push({source: val.source.id, target: val.target.id});
             });
-            var blob = new Blob([window.JSON.stringify({
-                "nodes": thisGraph.nodes,
-                "edges": saveEdges
-            })], {type: "text/plain;charset=utf-8"});
-            saveAs(blob, "mydag.json");
+            $.ajax({
+                type: "POST",
+                url: '/artifacts/GLOBAL/' + encodeURIComponent(getParameterByName('graph')) + "/graphicalGraph",
+                data: {graphicalGraph: {"nodes": thisGraph.nodes,"edges": saveEdges} }
+            });
         });
-
 
         // handle uploaded data
         d3.select("#upload-input").on("click", function () {
-            document.getElementById("hidden-file-upload").click();
+            $.get("/artifacts/GLOBAL/"+encodeURIComponent(getParameterByName("graph")), function(data) {
+                if (data.graphicalGraph) {
+                    var graphicalGraph = JSON.parse(data.graphicalGraph);
+                    var jsonObj = graphicalGraph;
+                    thisGraph.deleteGraph(true);
+                    thisGraph.nodes = jsonObj.nodes;
+                    thisGraph.setIdCt(jsonObj.nodes.length + 1);
+                    var newEdges = jsonObj.edges;
+                    newEdges.forEach(function (e, i) {
+                        newEdges[i] = {
+                            source: thisGraph.nodes.filter(function (n) {
+                                return n.id == e.source;
+                            })[0],
+                            target: thisGraph.nodes.filter(function (n) {
+                                return n.id == e.target;
+                            })[0]
+                        };
+                    });
+                    thisGraph.edges = newEdges;
+                    thisGraph.updateGraph();
+                }
+            });
+
         });
         /*d3.select("#hidden-file-upload").on("change", function(){
          if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -268,8 +297,22 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
          * Graph load from RDF
          */
         d3.select("#loadGraph").on("click", function () {
-            var jsonObj = JSON.parse($("#loadGraph").text());
-            thisGraph.deleteGraph(true);
+            $("#upload-input").click();
+
+            //var jsonObj = JSON.parse($("#loadGraph").text());
+            //Rename attribute name to title in nodes
+            /*jsonObj.nodes.forEach(function(e, i) {
+                e.title = e.name;
+                e.x = 450;
+                e.y = 330+i;
+                e.id = i;
+            });
+            //Rename attribute links to edges
+            jsonObj.edges = jsonObj.links;
+
+            alert(JSON.stringify(jsonObj));*/
+
+            /*thisGraph.deleteGraph(true);
             thisGraph.nodes = jsonObj.nodes;
             thisGraph.setIdCt(jsonObj.nodes.length + 1);
             var newEdges = jsonObj.links;
@@ -284,8 +327,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
                 };
             });
             thisGraph.edges = newEdges;
-            alert(JSON.stringify(thisGraph));
-            thisGraph.updateGraph();
+            thisGraph.updateGraph();*/
         });
 
         // handle delete graph
@@ -477,11 +519,13 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
                 // Set localName
                 d.title = this.textContent;
                 // Set namespace
-                d.namespace = current_metamodel_element.attr('id');
+                d.namespace = Global[current_metamodel_element.attr('id').toUpperCase()].iri;
                 // Set full IRI
-                d.iri = current_metamodel_element.attr('id') + "/" + this.textContent;
+                d.iri = Global[current_metamodel_element.attr('id').toUpperCase()].iri + "/" + this.textContent;
 
                 addTriple(d.iri, Namespaces.rdf + "type", d.namespace);
+
+                d.color = Global[current_metamodel_element.attr('id').toUpperCase()].color;
 
                 thisGraph.insertTitleLinebreaks(d3node, d.title == null ? d.name : d.title);
                 d3.select(this.parentElement).remove();
@@ -700,13 +744,28 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             })
             .call(thisGraph.drag);
 
-        newGs.append("circle")
-            .attr("r", String(consts.nodeRadius))
-            .style("fill", $(current_metamodel_element).css('backgroundColor'));
-
         newGs.each(function (d) {
             thisGraph.insertTitleLinebreaks(d3.select(this), d.title);
         });
+
+        /*
+        If its a saved element, set the color that was stored
+        Otherwise, use the current selected metamodel element
+         */
+        newGs.append("circle")
+            .attr("r", String(consts.nodeRadius))
+            .style("fill", function(d) {
+                var color = "red";
+                thisGraph.circles.each(function(d2) {
+                    if (d.id == d2.id) {
+                        color = "color" in d ? d.color : $(current_metamodel_element).css('backgroundColor')
+                    } else {
+                        console.log("No");
+                    }
+                });
+                return color;
+            });
+
 
         // remove old nodes
         thisGraph.circles.exit().remove();
@@ -730,7 +789,9 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
     // warn the user when leaving
     window.onbeforeunload = function () {
-        return "Make sure to save your graph locally before leaving :-)";
+        $("#download-input").click();
+        return null;
+        //return "Make sure to save your graph locally before leaving :-)";
     };
 
     var docEl = document.documentElement,

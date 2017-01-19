@@ -1,11 +1,9 @@
 package eu.supersede.mdm.storage.parsers;
 
-import eu.supersede.mdm.storage.bdi_ontology.Namespaces;
-import eu.supersede.mdm.storage.bdi_ontology.metamodel.SourceLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.impl.PropertyImpl;
-import org.apache.jena.rdf.model.impl.ResourceImpl;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 

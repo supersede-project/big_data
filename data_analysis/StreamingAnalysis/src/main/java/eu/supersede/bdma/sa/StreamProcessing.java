@@ -1,14 +1,19 @@
 package eu.supersede.bdma.sa;
 
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 //import eu.supersede.integration.api.dm.proxies.DecisionMakingSystemProxy;
 import eu.supersede.integration.api.dm.types.Alert;
+import eu.supersede.integration.api.mdm.types.Release;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 import org.apache.spark.TaskContext;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.broadcast.Broadcast;
+import org.apache.spark.streaming.StreamingContext;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka010.HasOffsetRanges;
@@ -36,7 +41,10 @@ import org.kie.internal.runtime.StatelessKnowledgeSession;
 import org.kie.internal.utils.KieService;
 import scala.Tuple1;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -62,12 +70,12 @@ public class StreamProcessing {
     //final Logger logger;
 
     private Map<String, Object> kafkaParams;
-    private Collection<String> topics;
+    private Map<String, String> releases;
 
     //private DecisionMakingSystemProxy proxy;
 
     public StreamProcessing() throws Exception {
-        topics = MDMProxy.getKafkaTopics();
+        releases = MDMProxy.getReleasesIndexedPerKafkaTopic2();
 
         kafkaParams = Maps.newHashMap();
         kafkaParams.put("bootstrap.servers", Main.properties.getProperty("BOOTSTRAP_SERVERS_CONFIG"));
@@ -82,17 +90,46 @@ public class StreamProcessing {
         //proxy = new DecisionMakingSystemProxy();
     }
 
-    public void process(JavaStreamingContext streamContext) throws Exception {
-        JavaInputDStream<ConsumerRecord<String, String>> kafkaStream = Utils.getKafkaStream(streamContext, this.topics, this.kafkaParams);
+    public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx) throws Exception {
+        // Broadcast variable to workers
+        Broadcast<Map<String,String>> broadcastReleases = ctx.broadcast(releases);
+
+        JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
+                Utils.getKafkaStream(streamCtx, broadcastReleases.value().keySet(), this.kafkaParams);
 
         /**
-         * 1: Send the raw data to the Live Data Feed
+         * 1: Send to Dispatcher if needed
          */
         kafkaStream.foreachRDD(records -> {
             final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
+                    // TODO Check if needs to be dispatched once Yosu updates the class
+                    if (//broadcastReleases.value().get(o.topic()).getDispatch
+                        true) {
+                        // TODO Change getReleaseID with getDispatcherPath to the correct path
+                        // TODO Warning, using local FS methods. Must change for HDFS
+                        try {
+                            Files.append(record.value()+"\n", new File(broadcastReleases.value().get(o.topic())//.getReleaseID()
+                            ), Charset.defaultCharset());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            });
+        });
+
+        /**
+         * 2: Send the raw data to the Live Data Feed
+         */
+        kafkaStream.foreachRDD(records -> {
+            final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
+            records.foreachPartition(consumerRecords -> {
+                OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
+                consumerRecords.forEachRemaining(record -> {
+                    System.out.println(record.value());
                     JSONObject out = new JSONObject();
                     out.put("topic",o.topic());
                     out.put("message",record.value());
@@ -106,8 +143,8 @@ public class StreamProcessing {
             });
         });
 
-        /*
-         * 2: Evaluate rules
+        /**
+         * 3: Evaluate rules
          */
         kafkaStream.foreachRDD(records -> {
             records.foreach(record -> {

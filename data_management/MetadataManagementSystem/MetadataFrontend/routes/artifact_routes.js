@@ -69,3 +69,12 @@ exports.postTriple = function (req, res, next) {
         res.status(200).json("ok");
     });
 };
+
+exports.postGraphicalGraph = function (req, res, next) {
+    request.post({
+        url: config.METADATA_DATA_LAYER_URL + "artifacts/"+encodeURIComponent(req.params.artifactID)+"/graphicalGraph",
+        body: JSON.stringify(req.body.graphicalGraph)
+    }, function done(err, results) {
+        res.status(200).json("ok");
+    });
+};

@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import eu.supersede.mdm.storage.bdi_ontology.Release;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -16,7 +15,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -91,12 +89,8 @@ public class BDIOntologyResource {
     @POST @Path("bdi_ontology/")
     @Consumes("text/plain")
     public Response POST_BDI_ontology(String body) {
-        System.out.println("[POST /release/] body = "+body);
+        System.out.println("[POST /bdi_ontology/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
-
-        /**
-         * Create empty Global Level
-         */
 
         MongoClient client = Utils.getMongoDBClient(context);
 

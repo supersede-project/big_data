@@ -26,8 +26,9 @@ var dataset_routes = require(__dirname+'/routes/dataset_routes');
 var artifact_routes = require(__dirname+'/routes/artifact_routes');
 var bdi_ontology_routes = require(__dirname+'/routes/bdi_ontology_routes');
 var source_level_routes = require(__dirname+'/routes/source_level_routes');
-var three_level_ontology_routes = require(__dirname+'/routes/three_level_ontology_routes');
 var release_routes = require(__dirname+'/routes/release_routes');
+var statistical_analysis_model_routes = require(__dirname+'/routes/statistical_analysis_model_routes');
+var dispatcher_strategies_routes = require(__dirname+'/routes/dispatcher_strategies_routes');
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -97,6 +98,7 @@ app.get('/artifacts/:artifactType/:artifactID/content', artifact_routes.getArtif
 app.get('/artifacts/:artifactType/:artifactID/graphical', artifact_routes.getArtifactGraphical);
 app.delete('/artifacts/:artifactType/:artifactID', artifact_routes.deleteArtifact);
 app.post('/artifacts/:artifactType/:artifactID/triple', artifact_routes.postTriple);
+app.post('/artifacts/:artifactType/:artifactID/graphicalGraph', artifact_routes.postGraphicalGraph);
 
 /********** BDI Ontology resource ********************************************************/
 
@@ -112,15 +114,24 @@ app.post('/bdi_ontology', bdi_ontology_routes.postBDIOntology);
 
 app.post('/sourceLevel', source_level_routes.postSourceLevel);
 
-/********** Three-level Ontology resource ************************************************/
-
-app.post('/three_level_ontology', three_level_ontology_routes.postThreeLevelOntology);
-
 /********** Release resource *************************************************************/
 
 app.get('/release/:releaseID', release_routes.getRelease);
 app.get('/release', release_routes.getAllReleases);
 app.post('/release', release_routes.postRelease);
+
+/********** Statistical Analysis Model resource ******************************************/
+
+app.get('/statistical_analysis_model/:statistical_analysis_modelID', statistical_analysis_model_routes.getStatisticalAnalysisModel);
+app.get('/statistical_analysis_model', statistical_analysis_model_routes.getAllStatisticalAnalysisModels);
+app.post('/statistical_analysis_model/', statistical_analysis_model_routes.postStatisticalAnalysisModel);
+
+app.get('/statistical_analysis_model_types', statistical_analysis_model_routes.getStatisticalAnalysisModelTypes);
+
+/********** Dispatcher Strategies resource ***********************************************/
+
+app.get('/dispatcher_strategies_types', dispatcher_strategies_routes.getDispatcherStrategiesTypes);
+
 
 /********** Websocket messages ***********************************************************/
 app.post('/raw_data', function(req, res){
@@ -256,9 +267,21 @@ app.get('/live_data_feed', checkAuthenticated, function(req,res) {
 });
 
 
-/****************************** **********************************************************/
+/******* Statistical Analysis Model section***********************************************/
 
+app.get('/new_statistical_analysis_model', checkAuthenticated, function(req,res) {
+    res.render('new_statistical_analysis_model', {user:req.session.passport.user});
+});
 
+app.get('/manage_statistical_analysis_models', checkAuthenticated, function(req,res) {
+    res.render('manage_statistical_analysis_models', {user:req.session.passport.user});
+});
+
+app.get('/view_statistical_analysis_model', checkAuthenticated, function(req,res) {
+    res.render('view_statistical_analysis_model', {user:req.session.passport.user});
+});
+
+/**********************************   END   ********************************************/
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }

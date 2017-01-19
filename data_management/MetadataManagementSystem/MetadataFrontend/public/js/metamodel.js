@@ -13,19 +13,47 @@ const Namespaces = {
 };
 
 const Global = {
-    CONCEPT: Namespaces.G+"Concept",
-    FEATURE: Namespaces.G+"Feature",
-    HAS_FEATURE: Namespaces.G+"hasFeature",
-    INTEGRITY_CONSTRAINT: Namespaces.G+"IntegrityConstraint",
-    HAS_INTEGRITY_CONSTRAINT: Namespaces.G+"hasConstraint",
-    DATATYPE: Namespaces.rdfs+"Datatype",
-    HAS_DATATYPE: Namespaces.G+"hasDatatype"
+    CONCEPT: {
+        iri: Namespaces.G+"Concept",
+        name: "Concept",
+        color: "#33CCCC"
+    },
+    FEATURE: {
+        iri: Namespaces.G+"Feature",
+        name: "Feature",
+        color: "#D7DF01"
+    },
+    HAS_FEATURE: {
+        iri: Namespaces.G+"hasFeature",
+        name: "hasFeature",
+        color: "#D7DF01"
+    },
+    INTEGRITY_CONSTRAINT: {
+        iri: Namespaces.G+"IntegrityConstraint",
+        name: "IntegrityConstraint",
+        color: "#CC99FF"
+    },
+    HAS_INTEGRITY_CONSTRAINT: {
+        iri: Namespaces.G+"hasConstraint",
+        name: "hasConstraint",
+        color: "#CC99FF"
+    },
+    DATATYPE: {
+        iri: Namespaces.rdfs+"Datatype",
+        name: "Datatype",
+        color: "#FF6600"
+    },
+    HAS_DATATYPE: {
+        iri: Namespaces.G+"hasDatatype",
+        name: "hasDatatype",
+        color: "#FF6600"
+    }
 }
 
 function getGlobalEdge(namespaceOrigin, namespaceDest) {
-    if (namespaceOrigin == Global.CONCEPT && namespaceDest == Global.FEATURE) return Global.HAS_FEATURE;
-    if (namespaceOrigin == Global.FEATURE && namespaceDest == Global.INTEGRITY_CONSTRAINT) return Global.HAS_INTEGRITY_CONSTRAINT;
-    if (namespaceOrigin == Global.FEATURE && namespaceDest == Global.DATATYPE) return Global.HAS_DATATYPE;
+    if (namespaceOrigin == Global.CONCEPT.iri && namespaceDest == Global.FEATURE.iri) return Global.HAS_FEATURE.iri;
+    if (namespaceOrigin == Global.FEATURE.iri && namespaceDest == Global.INTEGRITY_CONSTRAINT.iri) return Global.HAS_INTEGRITY_CONSTRAINT.iri;
+    if (namespaceOrigin == Global.FEATURE.iri && namespaceDest == Global.DATATYPE.iri) return Global.HAS_DATATYPE.iri;
 
     return null;
 }
