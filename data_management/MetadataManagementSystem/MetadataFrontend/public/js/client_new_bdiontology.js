@@ -20,6 +20,16 @@ $(window).load(function() {
         });
     });
 
+    $.get("/bdi_ontology_generation_strategies", function(data) {
+        _.each(data, function(element,index,list) {
+            var obj = (element);
+            $("#generationStrategy").append($('<option value="'+obj.key+'">').text(obj.val));
+        });
+        $("#generationStrategy").select2({
+            theme: "bootstrap"
+        });
+    });
+
 
     $('#submit_bdiontology').on("click", function(e){
         e.preventDefault();
@@ -31,6 +41,8 @@ $(window).load(function() {
         $.each($('#releases option:selected'), function(i) {
             ontology.releases.push($(this)[0].value);
         });
+
+        ontology.generationStrategy = $("#generationStrategy").val();
 
         $.ajax({
             url: '/bdi_ontology',

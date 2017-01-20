@@ -1,0 +1,54 @@
+extends layout
+block headers
+    link(rel='stylesheet', href='/stylesheets/loading.css')
+    script(src='/js/client_new_eca_rule.js')
+    link(href='/js/select2-4.0.3/dist/css/select2.min.css', rel='stylesheet', type='text/css')
+    script(src='/js/select2-4.0.3/dist/js/select2.min.js')
+    link(rel='stylesheet', href='/stylesheets/select2-bootstrap.min.css')
+
+block content
+
+    .container
+        .banner
+            .row
+                .col-lg-8.col-md-7.col-sm-6
+                    h2 New ECA Rule
+                    br
+
+            .container-fluid
+                .col-lg-8
+                    .well.bs-component
+                        form#ecaRuleForm(role='form').form-horizontal
+                            .form-group#nameForm
+                                label.col-lg-2.control-label(for='name') Name
+                                .col-lg-10
+                                    input#name.form-control(type='text', name='name', required='required')
+
+                            .form-group#globalLevelForm
+                                label.col-lg-2.control-label(for='globalLevel') BDI Ontology (Global Level)
+                                .col-lg-10
+                                    select#globalLevel(style="width:100%")
+
+                            .form-group#globalElementForm
+                                label.col-lg-2.control-label(for='feature') Feature
+                                .col-lg-10
+                                    select#feature(style="width:100%")
+
+                            .form-group#predicateForm
+                                label.col-lg-2.control-label(for='predicate') Predicate
+                                .col-lg-10
+                                    select#predicate(style="width:100%")
+
+                            .form-group#valueForm
+                                label.col-lg-2.control-label(for='value') Value
+                                .col-lg-10
+                                    input#value.form-control(type='text', name='value', required='required')
+
+                            .form-group#actionForm
+                                label.col-lg-2.control-label(for='feature') Action
+                                .col-lg-10
+                                    select#action(style="width:100%")
+
+                            .form-group
+                                .col-lg-10.col-lg-offset-2
+                                    button#submitEcaRule.btn.btn-primary.btn-lg.btn-block(type='submit') Submit

@@ -15,6 +15,7 @@ public class RDFUtil {
     }
 
     public static void addTriple(Model model, String s, String p, String o) {
+        System.out.println("inserting triple <"+s+", "+p+", "+o+">");
         model.add(new ResourceImpl(s), new PropertyImpl(p), new ResourceImpl(o));
     }
 

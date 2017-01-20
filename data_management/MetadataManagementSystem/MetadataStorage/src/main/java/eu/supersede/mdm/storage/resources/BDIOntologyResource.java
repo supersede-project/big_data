@@ -4,10 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import eu.supersede.mdm.storage.model.bdi_ontology.generation.BDIOntologyGenerationStrategies;
+import eu.supersede.mdm.storage.model.bdi_ontology.generation.Strategy_CopyFromSources;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import org.apache.jena.query.*;
 import org.bson.Document;
 
 import javax.servlet.ServletContext;
@@ -15,6 +18,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -88,7 +93,7 @@ public class BDIOntologyResource {
      */
     @POST @Path("bdi_ontology/")
     @Consumes("text/plain")
-    public Response POST_BDI_ontology(String body) {
+    public Response POST_BDI_ontology(String body) throws FileNotFoundException {
         System.out.println("[POST /bdi_ontology/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
 
@@ -101,4 +106,44 @@ public class BDIOntologyResource {
         return Response.ok(objBody.toJSONString()).build();
     }
 
+    @POST @Path("bdi_ontology/generationStrategy")
+    @Consumes("text/plain")
+    public Response POST_BDI_ontology_G_and_M(String body) throws FileNotFoundException {
+        System.out.println("[POST /bdi_ontology/generationStrategy] body = "+body);
+        JSONObject objBody = (JSONObject) JSONValue.parse(body);
+
+        JSONObject out = new JSONObject();
+
+        MongoClient client = Utils.getMongoDBClient(context);
+        if (objBody.get("generationStrategy").equals(BDIOntologyGenerationStrategies.COPY_FROM_SOURCE.toString())) {
+            JSONObject graphs = Strategy_CopyFromSources.copyFromSourcesStrategy(this.context,getReleasesCollection(client),(JSONArray)objBody.get("releases"));
+
+            out.put("G", graphs.get("G"));
+            out.put("M", graphs.get("M"));
+            out.put("O", graphs.get("O"));
+        }
+
+        System.out.println(out.toJSONString());
+        client.close();
+        return Response.ok(out.toJSONString()).build();
+    }
+
+
+    @GET
+    @Path("bdi_ontology_generation_strategies")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_BDI_ontology_generationStrategies() {
+        System.out.println("[GET /bdi_ontology_generation_strategies/]");
+
+        JSONArray out = new JSONArray();
+        for (BDIOntologyGenerationStrategies t : BDIOntologyGenerationStrategies.values()) {
+            JSONObject inner = new JSONObject();
+            inner.put("key",t.name());
+            inner.put("val",t.val());
+            out.add(inner);
+        }
+
+        return Response.ok(new Gson().toJson(out)).build();
+    }
 }

@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.BolsterMetamodel;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.GlobalLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.Mappings;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -45,6 +46,8 @@ public class OWLtoD3 {
             .put(GlobalLevel.HAS_INTEGRITY_CONSTRAINT.val(), "#CC99FF")
             .put(GlobalLevel.DATATYPE.val(), "#FF6600")
             .put(GlobalLevel.HAS_DATATYPE.val(), "#FF6600")
+
+            .put(Mappings.MAPS_TO.val(), "white")
             .build();
 
     public static String parse(String artifactType, List<Tuple3<Resource,Property,Resource>> triples) {
@@ -60,7 +63,8 @@ public class OWLtoD3 {
                     !ns.getNamespaces().contains(triple._2().getNameSpace()) ||
                     !ns.getNamespaces().contains(triple._3().getNameSpace())) &&
                     !ns.getIgnoredNamespaces().contains(triple._1().getNameSpace()) &&
-                    !BolsterMetamodel.contains(artifactType,triple._1().getURI())) {
+                    !BolsterMetamodel.contains(artifactType,triple._1().getURI()) &&
+                    !triple._3().toString().equals("http://www.w3.org/2000/01/rdf-schema#Resource")) {
 
                 elementsToShow.add(triple);
             }
@@ -76,6 +80,7 @@ public class OWLtoD3 {
                 ++i;
                 JSONObject d3Node = new JSONObject();
                 d3Node.put("name", triple._1().getLocalName());
+                d3Node.put("iri", triple._1().getURI());
                 // Get the color from the namespace of the element
                 d3Node.put("color", colorMap.get(triple._3().getURI()) == null ? colorMap.get(triple._1().getURI()) : colorMap.get(triple._3().getURI()));
 

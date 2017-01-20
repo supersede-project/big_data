@@ -72,4 +72,39 @@ public class Release {
         return response;
     }
 
+    public static OntModel newRelease_toModel(String Evt, String V, String JSON_artifact) {
+        JSONObject J = (JSONObject) JSONValue.parse(JSON_artifact);
+
+        //Line 2 @ Algorithm 2
+        String Evt_uri = SourceLevel.EVENT.val()+"/"+Evt;
+
+        /**
+         * TODO: line 3,4,5 Algorithm 2
+         */
+        OntModel S = ModelFactory.createOntologyModel();
+        RDFUtil.addTriple(S,Evt_uri,Namespaces.rdf.val()+"type",SourceLevel.EVENT.val());
+
+        //Line 6 @ Algorithm 2
+        String V_uri = SourceLevel.SCHEMA_VERSION.val()+"/"+V;
+        //Line 7 @ Algorithm 2
+        RDFUtil.addTriple(S,V_uri,Namespaces.rdf.val()+"type",SourceLevel.SCHEMA_VERSION.val());
+        //Line 8 @ Algorithm 2
+        RDFUtil.addTriple(S,Evt_uri,SourceLevel.PRODUCES.val(),V_uri);
+        //Line 9 @ Algorithm 2
+        RDFUtil.addTriple(S,"https://www.iana.org/assignments/media-types/application/json", Namespaces.rdf.val()+"type",Namespaces.rdfs.val()+"Class");
+        RDFUtil.addTriple(S,V_uri,SourceLevel.FORMAT.val(), "https://www.iana.org/assignments/media-types/application/json");
+
+        //Line 10 @ Algorithm 2
+        //OntModel Snew = ModelFactory.createOntologyModel();
+        JSON_to_SourceLevel.extractRec(S,J,V_uri);
+
+        // Generate a Kafka topic for the new release
+        String kafka_topic = UUID.randomUUID().toString();
+        String kafka_topic_uri = SourceLevel.KAFKA_TOPIC.val()+"/"+kafka_topic;
+        RDFUtil.addTriple(S,kafka_topic_uri,Namespaces.rdf.val()+"type",SourceLevel.KAFKA_TOPIC.val());
+        RDFUtil.addTriple(S, V_uri, SourceLevel.HAS_KAFKA_TOPIC.val(), kafka_topic_uri);
+
+        return S;
+    }
+
 }

@@ -6,6 +6,9 @@ import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import eu.supersede.mdm.storage.util.RDFUtil;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
@@ -99,11 +102,6 @@ public class ArtifactResource {
         Dataset dataset = Utils.getTDBDataset(this.context);
         dataset.begin(ReadWrite.READ);
         String out = "";
-        Iterator<String> it = dataset.listNames();
-        while(it.hasNext()) {
-            String s = it.next();
-            System.out.println(s);
-        }
         try(QueryExecution qExec = QueryExecutionFactory.create("SELECT ?s ?p ?o ?g WHERE { GRAPH <"+graph+"> {?s ?p ?o} }",  dataset)) {
             ResultSet rs = qExec.execSelect();
             out = ResultSetFormatter.asXMLString(rs);

@@ -21,6 +21,18 @@ public class BolsterMetamodel {
             }
             return false;
         }
+        if (type.equals("BDI_ONTOLOGY")) {
+            for (GlobalLevel g : GlobalLevel.values()) {
+                if (g.val().equals(elem)) return true;
+            }
+            for (SourceLevel g : SourceLevel.values()) {
+                if (g.val().equals(elem)) return true;
+            }
+            for (Mappings g : Mappings.values()) {
+                if (g.val().equals(elem)) return true;
+            }
+            return false;
+        }
         return false;
     }
 

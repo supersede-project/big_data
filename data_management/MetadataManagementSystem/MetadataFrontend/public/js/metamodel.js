@@ -48,7 +48,46 @@ const Global = {
         name: "hasDatatype",
         color: "#FF6600"
     }
+};
+
+const Source = {
+    EVENT: {
+        iri: Namespaces.S+"Event",
+        name: "Event",
+        color: "#FF3300"
+    },
+    SCHEMA_VERSION: {
+        iri: Namespaces.S+"SchemaVersion",
+        name: "SchemaVersion",
+        color: "#FECB98"
+    },
+    MEDIA_TYPE: {
+        iri: Namespaces.S+"mediaType",
+        name: "mediaType",
+        color: "#808000"
+    },
+    EMBEDDED_OBJECT: {
+        iri: Namespaces.S+"EmbeddedObject",
+        name: "EmbeddedObject",
+        color: "#993366"
+    },
+    ARRAY: {
+        iri: Namespaces.S+"Array",
+        name: "Array",
+        color: "#00FF00"
+    },
+    ATTRIBUTE: {
+        iri: Namespaces.rdfs+"Attribute",
+        name: "Attribute",
+        color: "#00CCFF"
+    },
+    KAFKA_TOPIC: {
+        iri: Namespaces.S+"KafkaTopic",
+        name: "KafkaTopic",
+        color: "#F7819F"
+    }
 }
+
 
 function getGlobalEdge(namespaceOrigin, namespaceDest) {
     if (namespaceOrigin == Global.CONCEPT.iri && namespaceDest == Global.FEATURE.iri) return Global.HAS_FEATURE.iri;

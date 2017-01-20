@@ -24,11 +24,13 @@ var passport = require('passport');
 var user_routes = require(__dirname+'/routes/user_routes');
 var dataset_routes = require(__dirname+'/routes/dataset_routes');
 var artifact_routes = require(__dirname+'/routes/artifact_routes');
+var global_level_routes = require(__dirname+'/routes/global_level_routes');
 var bdi_ontology_routes = require(__dirname+'/routes/bdi_ontology_routes');
 var source_level_routes = require(__dirname+'/routes/source_level_routes');
 var release_routes = require(__dirname+'/routes/release_routes');
 var statistical_analysis_model_routes = require(__dirname+'/routes/statistical_analysis_model_routes');
 var dispatcher_strategies_routes = require(__dirname+'/routes/dispatcher_strategies_routes');
+var eca_rule_routes = require(__dirname+'/routes/eca_rule_routes');
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -106,7 +108,11 @@ app.get('/bdi_ontology/:bdi_ontologyID', bdi_ontology_routes.getBDIOntology);
 app.get('/bdi_ontology', bdi_ontology_routes.getAllBDIOntologies);
 app.post('/bdi_ontology', bdi_ontology_routes.postBDIOntology);
 
+app.get('/bdi_ontology_generation_strategies', bdi_ontology_routes.getGenerationStrategies);
+
 /********** Global Level resource ********************************************************/
+
+app.get('/global_level/:artifactID/features', global_level_routes.getAllFeatures);
 
 //app.post('/globalLevel', global_level_routes.postGlobalLevel);
 
@@ -131,6 +137,14 @@ app.get('/statistical_analysis_model_types', statistical_analysis_model_routes.g
 /********** Dispatcher Strategies resource ***********************************************/
 
 app.get('/dispatcher_strategies_types', dispatcher_strategies_routes.getDispatcherStrategiesTypes);
+
+/********** ECA Rule resource *************************************************************/
+
+app.get('/eca_rule/:eca_ruleID', eca_rule_routes.getEcaRule);
+app.get('/eca_rule', eca_rule_routes.getAllEcaRules);
+app.post('/eca_rule', eca_rule_routes.postEcaRule);
+app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
+app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
 
 
 /********** Websocket messages ***********************************************************/
@@ -182,6 +196,10 @@ app.get('/new_bdi_ontology', checkAuthenticated, function(req,res) {
 
 app.get('/manage_bdi_ontologies', checkAuthenticated, function(req,res) {
     res.render('manage_bdi_ontologies', {user:req.session.passport.user});
+});
+
+app.get('/view_bdi_ontology', checkAuthenticated, function(req,res) {
+    res.render('view_bdi_ontology', {user:req.session.passport.user});
 });
 
 
@@ -267,7 +285,7 @@ app.get('/live_data_feed', checkAuthenticated, function(req,res) {
 });
 
 
-/******* Statistical Analysis Model section***********************************************/
+/******* Statistical Analysis Model section **********************************************/
 
 app.get('/new_statistical_analysis_model', checkAuthenticated, function(req,res) {
     res.render('new_statistical_analysis_model', {user:req.session.passport.user});
@@ -279,6 +297,20 @@ app.get('/manage_statistical_analysis_models', checkAuthenticated, function(req,
 
 app.get('/view_statistical_analysis_model', checkAuthenticated, function(req,res) {
     res.render('view_statistical_analysis_model', {user:req.session.passport.user});
+});
+
+/******* ECA Rule section **************************************************************/
+
+app.get('/new_eca_rule', checkAuthenticated, function(req,res) {
+    res.render('new_eca_rule', {user:req.session.passport.user});
+});
+
+app.get('/manage_eca_rules', checkAuthenticated, function(req,res) {
+    res.render('manage_eca_rules', {user:req.session.passport.user});
+});
+
+app.get('/view_eca_rule', checkAuthenticated, function(req,res) {
+    res.render('view_eca_rule', {user:req.session.passport.user});
 });
 
 /**********************************   END   ********************************************/
