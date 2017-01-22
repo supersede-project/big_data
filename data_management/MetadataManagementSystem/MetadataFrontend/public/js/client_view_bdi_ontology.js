@@ -24,9 +24,9 @@ $(function () {
 });
 
 $(window).load(function() {
-    $.get("/artifacts/BDI_ONTOLOGY/"+encodeURIComponent(getParameterByName("graph")), function(data) {
+    $.get("/bdi_ontology/graph/"+encodeURIComponent(getParameterByName("graph")), function(data) {
         $("#theTitle").text(data.name);
-        $("#theURL").text(data.graph);
+        $("#theURL").text(data.O);
     });
 
 });

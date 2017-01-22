@@ -31,6 +31,7 @@ var release_routes = require(__dirname+'/routes/release_routes');
 var statistical_analysis_model_routes = require(__dirname+'/routes/statistical_analysis_model_routes');
 var dispatcher_strategies_routes = require(__dirname+'/routes/dispatcher_strategies_routes');
 var eca_rule_routes = require(__dirname+'/routes/eca_rule_routes');
+var admin_routes = require(__dirname+'/routes/admin_routes');
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -105,6 +106,7 @@ app.post('/artifacts/:artifactType/:artifactID/graphicalGraph', artifact_routes.
 /********** BDI Ontology resource ********************************************************/
 
 app.get('/bdi_ontology/:bdi_ontologyID', bdi_ontology_routes.getBDIOntology);
+app.get('/bdi_ontology/graph/:graph', bdi_ontology_routes.getBDIOntologyFromGraph);
 app.get('/bdi_ontology', bdi_ontology_routes.getAllBDIOntologies);
 app.post('/bdi_ontology', bdi_ontology_routes.postBDIOntology);
 
@@ -145,6 +147,9 @@ app.get('/eca_rule', eca_rule_routes.getAllEcaRules);
 app.post('/eca_rule', eca_rule_routes.postEcaRule);
 app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
 app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
+
+/********** Admin resource *************************************************************/
+app.get('/admin/deleteAll', admin_routes.deleteAll);
 
 
 /********** Websocket messages ***********************************************************/
@@ -309,8 +314,8 @@ app.get('/manage_eca_rules', checkAuthenticated, function(req,res) {
     res.render('manage_eca_rules', {user:req.session.passport.user});
 });
 
-app.get('/view_eca_rule', checkAuthenticated, function(req,res) {
-    res.render('view_eca_rule', {user:req.session.passport.user});
+app.get('/view_eca_rules', checkAuthenticated, function(req,res) {
+    res.render('view_eca_rules', {user:req.session.passport.user});
 });
 
 /**********************************   END   ********************************************/

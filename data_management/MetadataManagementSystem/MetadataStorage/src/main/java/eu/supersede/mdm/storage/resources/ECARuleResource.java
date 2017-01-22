@@ -90,7 +90,7 @@ public class ECARuleResource {
         Dataset dataset = Utils.getTDBDataset(this.context);
         dataset.begin(ReadWrite.WRITE);
 
-        Model model = dataset.getNamedModel(objBody.getAsString("globalLevel"));
+        Model model = dataset.getNamedModel(objBody.getAsString("graph"));
 
         String ECA_RULE_IRI = Rules.ECA_RULE.val()+objBody.getAsString("name");
         // TODO Update for multiple conditions

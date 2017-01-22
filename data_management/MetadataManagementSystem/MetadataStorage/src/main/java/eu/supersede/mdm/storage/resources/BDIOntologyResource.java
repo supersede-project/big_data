@@ -87,6 +87,21 @@ public class BDIOntologyResource {
         return Response.ok((res.toJson())).build();
     }
 
+    @GET
+    @Path("bdi_ontology/graph/{graph}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_BDI_ontology_from_Graph(@PathParam("graph") String graph) {
+        System.out.println("[GET /bdi_ontology/graph/] graph = "+graph);
+
+        MongoClient client = Utils.getMongoDBClient(context);
+        Document query = new Document("O",graph);
+        Document res = getBDIOntologyCollection(client).find(query).first();
+        client.close();
+
+        return Response.ok((res.toJson())).build();
+    }
+
 
     /**
      * POST a BDI Ontology

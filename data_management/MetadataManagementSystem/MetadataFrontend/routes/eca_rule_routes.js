@@ -30,15 +30,17 @@ exports.getAllEcaRules = function (req, res, next) {
 exports.postEcaRule = function (req, res, next) {
     if (!(req.body.hasOwnProperty('name')) || req.body.name == null
         || !(req.body.hasOwnProperty('globalLevel')) || req.body.globalLevel == null
+        || !(req.body.hasOwnProperty('graph')) || req.body.graph == null
         || !(req.body.hasOwnProperty('feature')) || req.body.feature == null
         || !(req.body.hasOwnProperty('predicate')) || req.body.predicate == null
         || !(req.body.hasOwnProperty('value')) || req.body.value == null
         || !(req.body.hasOwnProperty('action')) || req.body.action == null) {
-        res.status(400).json({msg: "(Bad Request) data format: {name, bdiOntology, feature, predicate, value, action}"});
+        res.status(400).json({msg: "(Bad Request) data format: {name, globalLevel, graph, feature, predicate, value, action}"});
     } else {
         var rule = new Object();
         rule.name = req.body.name;
         rule.globalLevel = req.body.globalLevel;
+        rule.graph = req.body.graph;
         rule.feature = req.body.feature;
         rule.predicate = req.body.predicate;
         rule.value = req.body.value;

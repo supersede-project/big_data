@@ -13,8 +13,8 @@ $(document).ready( function() {
     };
     var editor = new JSONEditor(container, options);
 
-    var json = {
-        "SocialNetworksMonitoredData": {
+    /*var json = {
+        /*"SocialNetworksMonitoredData": {
             "idOutput": "12345",
             "confId": "67890",
             "searchTimeStamp": "2016-07-19 17:23:00.000",
@@ -29,8 +29,8 @@ $(document).ready( function() {
                 }
             ]
         }
-    };
-    editor.set(json);
+    };*/
+    editor.set(new Object());
 
 
     $.get("/dispatcher_strategies_types", function(data) {

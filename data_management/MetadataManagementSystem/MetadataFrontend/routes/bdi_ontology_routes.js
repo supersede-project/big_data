@@ -17,6 +17,16 @@ exports.getBDIOntology = function (req, res, next) {
     });
 };
 
+exports.getBDIOntologyFromGraph = function (req, res, next) {
+    request.get(config.METADATA_DATA_LAYER_URL + "bdi_ontology/graph/"+encodeURIComponent(req.params.graph), function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json(JSON.parse(body));
+        } else {
+            res.status(500).send("Error retrieving BDI Ontology");
+        }
+    });
+};
+
 exports.getAllBDIOntologies = function (req, res, next) {
     request.get(config.METADATA_DATA_LAYER_URL + "bdi_ontology/", function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -35,10 +45,13 @@ exports.postBDIOntology = function (req, res, next) {
         var GLOBAL = config.DEFAULT_NAMESPACE+"GLOBAL/"+randomstring.generate();
         var MAPPINGS = config.DEFAULT_NAMESPACE+"MAPPINGS/"+randomstring.generate();
         var BDI_O = config.DEFAULT_NAMESPACE+"BDI_ONTOLOGY/"+randomstring.generate();
+        var RULES = config.DEFAULT_NAMESPACE+"RULES/"+randomstring.generate();
+
         var objBody = req.body;
         objBody.globalLevel = GLOBAL;
         objBody.mappings = MAPPINGS;
         objBody.O = BDI_O;
+        objBody.rules = RULES;
 
         var globalLevel = new Object();
         globalLevel.name = objBody.name;
@@ -54,6 +67,11 @@ exports.postBDIOntology = function (req, res, next) {
         O.name = objBody.name;
         O.type = "BDI_ONTOLOGY";
         O.graph = objBody.O;
+
+        var R = new Object();
+        R.name = objBody.name;
+        R.type = "RULES";
+        R.graph = objBody.rules;
 
         async.parallel([
                 function(callback){
@@ -103,7 +121,12 @@ exports.postBDIOntology = function (req, res, next) {
                                 url: config.METADATA_DATA_LAYER_URL + "artifacts/"+encodeURIComponent(O.graph),
                                 body: JSON.parse(results.body).O
                             }, function done(err4, results4) {
-                                res.status(200).json("success");
+                                request.post({
+                                    url: config.METADATA_DATA_LAYER_URL + "artifacts/"+encodeURIComponent(R.graph),
+                                    body: JSON.parse(results.body).R
+                                }, function done(err5, results5) {
+                                    res.status(200).json("success");
+                                });
                             });
                         });
                     });

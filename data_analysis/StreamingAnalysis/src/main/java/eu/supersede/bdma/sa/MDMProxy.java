@@ -17,12 +17,13 @@ import java.util.Map;
 public class MDMProxy {
 
     public static Map<String, Release> getReleasesIndexedPerKafkaTopic() throws Exception {
-        /*IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
+        IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
 
         Collection<String> topics = Lists.newArrayList();
         for (Release r : proxy.getAllReleases()) {
-            topics.add(r.getKafkaTopic());
-        }*/
+            topics.add(r.toString());
+        }
+
         // TODO obtain that from IF MDM Proxy
         Release R = new Release();
         R.setKafkaTopic("f7b78d75-21b3-4c6b-82d9-4d59b4f92f1d");
@@ -43,8 +44,8 @@ public class MDMProxy {
             topics.add(r.getKafkaTopic());
         }*/
         Release R = new Release();
-        R.setKafkaTopic("1490cea1-9a14-4081-8762-709b4b642a54");
-        R.setReleaseID("/home/snadal/Bolster/DispatcherData/63362b55-d320-46df-926d-31af563f86f7.txt");
+        R.setKafkaTopic("c6be05a7-9577-4164-ab5f-54e42ff3101b");
+        R.setReleaseID("/home/snadal/Bolster/DispatcherData/c95092d1-683e-49ac-a1d4-729213a204fb.txt");
 
         Map<String, String> m = Maps.newConcurrentMap();
         m.put(R.getKafkaTopic(),R.getReleaseID());
