@@ -40,6 +40,7 @@ import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kie.internal.runtime.StatelessKnowledgeSession;
 import org.kie.internal.utils.KieService;
 import scala.Tuple1;
+import scala.Tuple2;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,12 +71,13 @@ public class StreamProcessing {
     //final Logger logger;
 
     private Map<String, Object> kafkaParams;
-    private Map<String, String> releases;
+    private Map<String, Tuple2<Boolean,String>> releases;
 
     //private DecisionMakingSystemProxy proxy;
 
     public StreamProcessing() throws Exception {
         releases = MDMProxy.getReleasesIndexedPerKafkaTopic2();
+        System.out.println(releases);
 
         kafkaParams = Maps.newHashMap();
         kafkaParams.put("bootstrap.servers", Main.properties.getProperty("BOOTSTRAP_SERVERS_CONFIG"));
@@ -92,7 +94,7 @@ public class StreamProcessing {
 
     public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx) throws Exception {
         // Broadcast variable to workers
-        Broadcast<Map<String,String>> broadcastReleases = ctx.broadcast(releases);
+        Broadcast<Map<String, Tuple2<Boolean,String>>> broadcastReleases = ctx.broadcast(releases);
 
         JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
                 Utils.getKafkaStream(streamCtx, broadcastReleases.value().keySet(), this.kafkaParams);
@@ -105,14 +107,10 @@ public class StreamProcessing {
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
-                    // TODO Check if needs to be dispatched once Yosu updates the class
-                    if (//broadcastReleases.value().get(o.topic()).getDispatch
-                        true) {
-                        // TODO Change getReleaseID with getDispatcherPath to the correct path
+                    if (broadcastReleases.value().get(o.topic())._1()) { //isDispatch?
                         // TODO Warning, using local FS methods. Must change for HDFS
                         try {
-                            Files.append(record.value()+"\n", new File(broadcastReleases.value().get(o.topic())//.getReleaseID()
-                            ), Charset.defaultCharset());
+                            Files.append(record.value()+"\n", new File(broadcastReleases.value().get(o.topic())._2()), Charset.defaultCharset());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -148,6 +146,8 @@ public class StreamProcessing {
          */
         kafkaStream.foreachRDD(records -> {
             records.foreach(record -> {
+
+                System.out.println("got "+record.value());
 
                 PackageDescr pkg =
                         DescrFactory.newPackage()

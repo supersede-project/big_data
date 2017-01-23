@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import eu.supersede.integration.api.mdm.proxies.IMetadataManagement;
 import eu.supersede.integration.api.mdm.proxies.MetadataManagementProxy;
 import eu.supersede.integration.api.mdm.types.Release;
+import scala.Tuple2;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,36 +20,30 @@ public class MDMProxy {
     public static Map<String, Release> getReleasesIndexedPerKafkaTopic() throws Exception {
         IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
 
-        Collection<String> topics = Lists.newArrayList();
+        Map<String, Release> m = Maps.newConcurrentMap();
         for (Release r : proxy.getAllReleases()) {
-            topics.add(r.toString());
+            m.put(r.getKafkaTopic(),r);
         }
 
         // TODO obtain that from IF MDM Proxy
-        Release R = new Release();
-        R.setKafkaTopic("f7b78d75-21b3-4c6b-82d9-4d59b4f92f1d");
+        //Release R = new Release();
+        //R.setKafkaTopic("f7b78d75-21b3-4c6b-82d9-4d59b4f92f1d");
         // TODO update once Yosu changes Release class
-        R.setReleaseID("/home/snadal/Bolster/DispatcherData/b3defa3b-ba7b-457e-bc5c-87cd284dd2b3.txt");
+        //R.setReleaseID("/home/snadal/Bolster/DispatcherData/b3defa3b-ba7b-457e-bc5c-87cd284dd2b3.txt");
 
-        Map<String, Release> m = Maps.newConcurrentMap();
-        m.put(R.getKafkaTopic(),R);
+
+        //m.put(R.getKafkaTopic(),R);
 
         return Collections.unmodifiableMap(m);
     }
 
-    public static Map<String, String> getReleasesIndexedPerKafkaTopic2() throws Exception {
-        /*IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
+    public static Map<String, Tuple2<Boolean,String>> getReleasesIndexedPerKafkaTopic2() throws Exception {
+        IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
 
-        Collection<String> topics = Lists.newArrayList();
+        Map<String, Tuple2<Boolean,String>> m = Maps.newConcurrentMap();
         for (Release r : proxy.getAllReleases()) {
-            topics.add(r.getKafkaTopic());
-        }*/
-        Release R = new Release();
-        R.setKafkaTopic("c6be05a7-9577-4164-ab5f-54e42ff3101b");
-        R.setReleaseID("/home/snadal/Bolster/DispatcherData/c95092d1-683e-49ac-a1d4-729213a204fb.txt");
-
-        Map<String, String> m = Maps.newConcurrentMap();
-        m.put(R.getKafkaTopic(),R.getReleaseID());
+            m.put(r.getKafkaTopic(),new Tuple2<Boolean,String>(r.isDispatch(),r.getDispatcherPath()));
+        }
 
         return Collections.unmodifiableMap(m);
     }

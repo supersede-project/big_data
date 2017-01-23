@@ -5,8 +5,7 @@ package eu.supersede.bdma;
  */
 public abstract class Simulator extends Thread {
 
-    public abstract String getNextTuple() throws Exception;
-    public abstract String getNextTupleAndReset() throws Exception;
+    public abstract String getNextTuple(String topic) throws Exception;
 
 }
 

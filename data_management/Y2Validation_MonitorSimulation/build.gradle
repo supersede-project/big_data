@@ -4,6 +4,9 @@ apply plugin: 'maven'
 
 group 'eu.supersede.bdma'
 version '1.0-SNAPSHOT'
+jar {
+    baseName = 'Y2_MonitorSimulation'
+}
 
 sourceCompatibility = 1.8
 

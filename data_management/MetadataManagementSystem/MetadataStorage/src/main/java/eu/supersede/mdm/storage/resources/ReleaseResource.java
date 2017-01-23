@@ -96,7 +96,7 @@ public class ReleaseResource {
             if (Boolean.parseBoolean(objBody.getAsString("dispatch"))) {
                 // TODO replace with path to HDFS
                 String dispatcherPath = "/home/snadal/Bolster/DispatcherData/"+UUID.randomUUID().toString()+".txt";
-                Files.touch(new File(dispatcherPath));
+                //Files.touch(new File(dispatcherPath));
                 objBody.put("dispatcherPath", dispatcherPath);
             } else {
                 objBody.put("dispatcherPath", "");
