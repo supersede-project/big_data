@@ -26,7 +26,7 @@ exports.getArtifact = function (req, res, next) {
         if (!error && response.statusCode == 200) {
             res.status(200).json(JSON.parse(body));
         } else {
-            res.status(500).send("Error retrieving artifact");
+            res.status(500).send("Error retrieving artifact. Error "+error+". Response "+response+". Body "+body);
         }
     });
 };
