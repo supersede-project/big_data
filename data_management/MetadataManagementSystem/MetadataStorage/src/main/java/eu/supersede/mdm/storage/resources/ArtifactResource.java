@@ -37,12 +37,13 @@ import java.util.UUID;
 @Path("")
 public class ArtifactResource {
 
-    @Context
-    ServletContext context;
-
     private MongoCollection<Document> getArtifactsCollection(MongoClient client) {
         return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("artifacts");
     }
+
+
+    @Context
+    ServletContext context;
 
     /** System Metadata **/
     @GET @Path("artifacts/{artifactType}")
@@ -80,14 +81,23 @@ public class ArtifactResource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response GET_artifact(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[GET /artifact/"+artifactType+"/"+graph);
+        try {
 
-        MongoClient client = Utils.getMongoDBClient(this.context);
-        Document query = new Document("graph",graph);
-        query.put("type",artifactType);
-        Document res = getArtifactsCollection(client).find(query).first();
-        client.close();
+            MongoClient client = Utils.getMongoDBClient(context);
+            Document query = new Document("graph", graph);
+            query.put("type", artifactType);
+            Document res = getArtifactsCollection(client).find(query).first();
+            client.close();
 
-        return Response.ok((res.toJson())).build();
+            return Response.ok((res.toJson())).build();
+        } catch (Exception e ){
+            String ret = "";
+            for (StackTraceElement s : e.getStackTrace()) {
+                ret += s.toString()+"\n";
+            }
+            return Response.notModified(ret).build();
+
+        }
     }
 
     /**
