@@ -14,7 +14,7 @@ $(function() {
     var socket = io("/raw_data");
 
     socket.on('/raw_data', function (fromSocket) {
-        var socketMsg = JSON.parse(Object.keys(fromSocket.message)[0]);
+        var socketMsg = JSON.parse(Object.keys(JSON.parse(fromSocket.message))[0]);
         if (socketMsg.topic == topic) {
             $('#liveDataFeed').find('tbody')
                 .prepend($('<tr>')

@@ -57,13 +57,14 @@ public class JSON_Simulator extends Simulator {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                try {
-                    Thread.sleep(5000);
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
             }
+            try {
+                Thread.sleep(5000);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
 
         }
     }

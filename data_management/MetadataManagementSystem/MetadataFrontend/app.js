@@ -155,7 +155,7 @@ app.get('/admin/deleteAll', admin_routes.deleteAll);
 /********** Websocket messages ***********************************************************/
 app.post('/raw_data', function(req, res){
     console.log("received "+JSON.stringify(req.body));
-    io.of('/raw_data').emit('/raw_data',{message:req.body});
+    io.of('/raw_data').emit('/raw_data',{message:JSON.stringify(req.body)});
     res.json(true);
 });
 

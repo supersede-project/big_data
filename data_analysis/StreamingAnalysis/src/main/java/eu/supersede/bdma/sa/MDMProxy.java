@@ -38,13 +38,13 @@ public class MDMProxy {
     }
 
     public static Map<String, Tuple2<Boolean,String>> getReleasesIndexedPerKafkaTopic2() throws Exception {
-        IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
+        //IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
 
         Map<String, Tuple2<Boolean,String>> m = Maps.newConcurrentMap();
-        for (Release r : proxy.getAllReleases()) {
+        /*for (Release r : proxy.getAllReleases()) {
             m.put(r.getKafkaTopic(),new Tuple2<Boolean,String>(r.isDispatch(),r.getDispatcherPath()));
-        }
-
+        }*/
+        m.put("SergiTest", new Tuple2<Boolean,String>(false,""));
         return Collections.unmodifiableMap(m);
     }
 

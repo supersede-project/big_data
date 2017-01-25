@@ -46,10 +46,13 @@ exports.postEcaRule = function (req, res, next) {
         rule.value = req.body.value;
         rule.action = req.body.action;
 
+        console.log("Posting "+JSON.stringify(rule));
+
         request.post({
             url: config.METADATA_DATA_LAYER_URL + "eca_rule/",
             body: JSON.stringify(rule)
         }, function done(error, response, body) {
+            console.log("Got response "+error+" - "+response+" - "+body);
             if (!error && response.statusCode == 200) {
                 res.status(200).json("ok");
             } else {

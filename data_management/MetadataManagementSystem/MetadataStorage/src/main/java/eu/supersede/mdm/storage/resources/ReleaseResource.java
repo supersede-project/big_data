@@ -85,7 +85,12 @@ public class ReleaseResource {
         try {
             content = eu.supersede.mdm.storage.model.bdi_ontology.Release.newRelease(objBody.getAsString("event"),objBody.getAsString("schemaVersion"),objBody.getAsString("jsonInstances"));
         } catch (Exception e) {
-            e.printStackTrace();
+            String ret = "";
+            for (StackTraceElement s : e.getStackTrace()) {
+                ret += s.toString()+"\n";
+            }
+            return Response.ok(ret).build();
+            //e.printStackTrace();
         }
 
         if (content.containsKey("kafkaTopic")) {

@@ -102,6 +102,7 @@ public class StreamProcessing {
         /**
          * 1: Send to Dispatcher if needed
          */
+        /*
         kafkaStream.foreachRDD(records -> {
             final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
             records.foreachPartition(consumerRecords -> {
@@ -118,16 +119,16 @@ public class StreamProcessing {
                 });
             });
         });
+        */
 
         /**
          * 2: Send the raw data to the Live Data Feed
          */
-        kafkaStream.foreachRDD(records -> {
+        /*kafkaStream.foreachRDD(records -> {
             final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
-                    System.out.println(record.value());
                     JSONObject out = new JSONObject();
                     out.put("topic",o.topic());
                     out.put("message",record.value());
@@ -140,6 +141,7 @@ public class StreamProcessing {
                 });
             });
         });
+        */
 
         /**
          * 3: Evaluate rules
@@ -147,18 +149,21 @@ public class StreamProcessing {
         kafkaStream.foreachRDD(records -> {
             records.foreach(record -> {
 
-                System.out.println("got "+record.value());
+                System.out.println("Received "+(record.value().length()>125 ? record.value().substring(0,125) : record.value()));
 
-                PackageDescr pkg =
-                        DescrFactory.newPackage()
-                                .name("testPkg")
-                                .newRule().name("testRule")
-                                .lhs()
-                                .pattern("eu.supersede.bdma.sa.SergiClass").constraint("x < 10").end()
-                                .end()
-                                .rhs("System.out.println(\"rule ok\");")
-                                .end()
-                                .getDescr();
+                //if (new JSONObject(record.value()).has("TV")) {
+
+                    PackageDescr pkg =
+                            DescrFactory.newPackage()
+                                    .name("testPkg")
+                                    .newRule().name("testRule")
+                                    .lhs()
+                                    .pattern("eu.supersede.bdma.sa.SergiClass").constraint("x > 10").end()
+                                    .end()
+                                    //.rhs("System.out.println(\"Condition satisfied, sending SOFTWARE_EVOLUTION alert to WP3\");")
+                                    .rhs("eu.supersede.bdma.sa.rules.Action.sendAlert();")
+                                    .end()
+                                    .getDescr();
 
         /*KieServices kieServices = KieServices.Factory.get();
         KieResources kieResources = kieServices.getResources();
@@ -170,14 +175,16 @@ public class StreamProcessing {
         KieContainer kContainer = kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
         StatelessKieSession ksession = kContainer.newStatelessKieSession();*/
 
-                KnowledgePackage kpkg = compilePkgDescr( pkg );
-                KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-                kbase.addKnowledgePackages(Collections.singleton(kpkg));
-                StatelessKnowledgeSession ksession = kbase.newStatelessKnowledgeSession();
+                    KnowledgePackage kpkg = compilePkgDescr(pkg);
+                    KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+                    kbase.addKnowledgePackages(Collections.singleton(kpkg));
+                    StatelessKnowledgeSession ksession = kbase.newStatelessKnowledgeSession();
+                    ksession.getGlobals().set("param","value");
+                    //eu.supersede.bdma.sa.SergiClass x = new eu.supersede.bdma.sa.SergiClass((new JSONObject(record.value()).getInt("All")));
+                    eu.supersede.bdma.sa.SergiClass x = new eu.supersede.bdma.sa.SergiClass(Integer.parseInt(record.value()));
 
-                eu.supersede.bdma.sa.SergiClass x = new eu.supersede.bdma.sa.SergiClass(Integer.parseInt(record.value()));
-
-                ksession.execute(x);
+                    ksession.execute(x);
+                //}
             });
         });
 

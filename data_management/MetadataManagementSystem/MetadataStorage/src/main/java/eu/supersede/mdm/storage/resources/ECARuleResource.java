@@ -87,7 +87,7 @@ public class ECARuleResource {
         getEcaRulesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
 
         // Store in RDF
-        Dataset dataset = Utils.getTDBDataset(this.context);
+/*        Dataset dataset = Utils.getTDBDataset(this.context);
         dataset.begin(ReadWrite.WRITE);
 
         Model model = dataset.getNamedModel(objBody.getAsString("graph"));
@@ -119,7 +119,7 @@ public class ECARuleResource {
         dataset.commit();
         dataset.end();
         dataset.close();
-
+*/
         client.close();
         return Response.ok(objBody.toJSONString()).build();
     }
