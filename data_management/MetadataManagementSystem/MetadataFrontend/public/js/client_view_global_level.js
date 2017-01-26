@@ -6,16 +6,5 @@ function getParameterByName(name) {
 }
 
 $(window).load(function() {
-    $.get("/artifacts/GLOBAL/"+encodeURIComponent(getParameterByName("graph")), function(data) {
-        $("#theTitle").text(data.name);
-        $("#theURL").text(data.graph);
-    });
-
-    $.get("/artifacts/GLOBAL/"+encodeURIComponent(getParameterByName("graph"))+"/content", function(data) {
-        $("#xml").text((data));
-        $('pre code').each(function(i, block) {
-            hljs.highlightBlock(block);
-        });
-    });
-
+    $("#theURL").text("Graph ID: "+getParameterByName("graph"));
 });

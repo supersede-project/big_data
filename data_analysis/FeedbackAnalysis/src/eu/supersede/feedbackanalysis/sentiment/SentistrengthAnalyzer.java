@@ -6,6 +6,8 @@ package eu.supersede.feedbackanalysis.sentiment;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 //import uk.ac.wlv.sentistrength.SentiStrength;
 import eu.supersede.feedbackanalysis.ds.SentimentAnalysisResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
@@ -57,8 +59,8 @@ public class SentistrengthAnalyzer implements SentimentAnalyzer {
 	 * (java.util.List)
 	 */
 	@Override
-	public List<SentimentAnalysisResult> determineSentiment(List<UserFeedback> userFeedbacks) {
-		List<SentimentAnalysisResult> analysisResults = new ArrayList<SentimentAnalysisResult>();
+	public SentimentAnalysisResult classify(String modelPath, UserFeedback userFeedback) {
+		SentimentAnalysisResult analysisResult = new SentimentAnalysisResult();
 //		for (UserFeedback userFeedback : userFeedbacks) {
 //			String sentimentScores = sentiStrength.computeSentimentScores(userFeedback.getFeedbackText());
 //			String[] strScores = sentimentScores.split("\\s+");
@@ -73,7 +75,16 @@ public class SentistrengthAnalyzer implements SentimentAnalyzer {
 //
 //			analysisResults.add(result);
 //		}
-		return analysisResults;
+		return analysisResult;
+	}
+
+	/* (non-Javadoc)
+	 * @see eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer#train(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean train(String pathIn, String pathOut) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

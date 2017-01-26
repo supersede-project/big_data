@@ -54,13 +54,16 @@ public class SimpleConsolidator implements AnalysisConsolidator {
 	 * @see eu.supersede.feedbackanalysis.consolidation.AnalysisConsolidator#getSummary(java.util.List)
 	 */
 	@Override
-	public AnalysisReport getSummary(List<UserFeedback> userFeedbacks) {
+	public AnalysisReport getSummary(UserFeedback userFeedback) {
+		String classifierModelPath = "resources/models/rf.model";
+		String sentimentModelPath = "resources/models/sentiment_classifier.model";
+		String extractedFeaturesPath = "";
 		AnalysisReport report = new AnalysisReport();
-		report.setUserFeedbacks(userFeedbacks);
+		report.setUserFeedback(userFeedback);
 		try {
-			List<ClassificationResult> classificationResult = feedbackClassifier.classify(userFeedbacks);
-			List<SentimentAnalysisResult> sentimentAnalysisResult = sentimentAnalyzer.determineSentiment(userFeedbacks);
-			FeatureExtractionResult featureExtractionResult = featureExtractor.extractFeatures(userFeedbacks);
+			ClassificationResult classificationResult = feedbackClassifier.classify(classifierModelPath, userFeedback);
+			SentimentAnalysisResult sentimentAnalysisResult = sentimentAnalyzer.classify(sentimentModelPath, userFeedback);
+			FeatureExtractionResult featureExtractionResult = featureExtractor.single(extractedFeaturesPath, userFeedback);
 			
 			report.setClassificationResult(classificationResult);
 			report.setSentimentResult(sentimentAnalysisResult);
@@ -91,11 +94,13 @@ public class SimpleConsolidator implements AnalysisConsolidator {
 		userFeedbacks.add(f3);
 		userFeedbacks.add(f4);
 		
-		AnalysisConsolidator consolidator = new SimpleConsolidator();
-		AnalysisReport summary = consolidator.getSummary(userFeedbacks);
-		System.out.println(summary.getSummary());
+		AnalysisConsolidator consolidator = SimpleConsolidator.getInstance();
+		for (UserFeedback userFeedback : userFeedbacks){
+			AnalysisReport summary = consolidator.getSummary(userFeedback);
+			System.out.println(summary.getSummary());
+		}
 		
 		
 	}
-	
+
 }

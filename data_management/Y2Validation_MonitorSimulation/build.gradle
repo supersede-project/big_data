@@ -1,0 +1,99 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+group 'eu.supersede.bdma'
+version '1.0-SNAPSHOT'
+jar {
+    baseName = 'Y2_MonitorSimulation'
+}
+
+sourceCompatibility = 1.8
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://supersede.es.atos.net:10080/artifactory/libs-snapshot'
+            name = 'maven-supersede-snapshot'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+        maven {
+            url 'http://supersede.es.atos.net:10080/artifactory/libs-release'
+            name = 'maven-supersede-release'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+    dependencies {
+        //classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.7.RELEASE")
+        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+    }
+}
+
+repositories {
+    // Use 'jcenter' for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    //jcenter()
+    mavenCentral()
+    add buildscript.repositories.getByName ("maven-supersede-snapshot")
+    add buildscript.repositories.getByName ("maven-supersede-release")
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'com.google.guava:guava:20.0'
+    compile 'net.minidev:json-smart:2.2.1'
+    compile 'log4j:log4j:1.2.17'
+    compile(group: 'org.apache.kafka', name: 'kafka_2.10', version: '0.10.1.1')
+    compile(group: 'org.apache.kafka', name: 'kafka-clients', version: '0.10.1.1')
+
+
+    compile("eu.supersede.if:eu.supersede.if.api:0.3.0-SNAPSHOT"){
+        changing = true
+
+    }
+}
+
+configurations {
+    providedRuntime
+    //Avoids conflict: SL4J Multiple bindings were found on the class path
+    // check for updates every build
+    //resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    //resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+configurations.all {
+    //Avoids conflict: SL4J Multiple bindings were found on the class path
+    exclude group: "org.slf4j", module: "log4j-over-slf4j"
+    // check for updates every build
+    //resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    //resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2'
+}
+
+// Test execution JVM properties
+tasks.withType(Test){
+    systemProperty 'is.admin.user', System.getProperty ('is.admin.user', 'admin@atos.supersede.eu')
+    systemProperty 'is.admin.passwd', System.getProperty ('is.admin.passwd', 'rtgWCyrc')
+    systemProperty 'supersede.if.properties', System.getProperty ('supersede.if.properties', 'if.properties')
+}
+
+// Test execution filter
+test {
+    filter {
+        includeTestsMatching "*MailProxyTest"
+        includeTestsMatching "*FEDataStoreProxyTest"
+        includeTestsMatching "*IFAuthenticationManagerTest"
+    }
+}

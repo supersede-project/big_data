@@ -5,6 +5,10 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import eu.supersede.mdm.storage.util.RDFUtil;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
@@ -23,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,12 +37,13 @@ import java.util.UUID;
 @Path("")
 public class ArtifactResource {
 
-    @Context
-    ServletContext context;
-
     private MongoCollection<Document> getArtifactsCollection(MongoClient client) {
         return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("artifacts");
     }
+
+
+    @Context
+    ServletContext context;
 
     /** System Metadata **/
     @GET @Path("artifacts/{artifactType}")
@@ -49,8 +55,6 @@ public class ArtifactResource {
         MongoClient client = Utils.getMongoDBClient(this.context);
 
         List<String> allArtifacts = Lists.newArrayList();
-        //Document query = new Document("user",username);
-        //query.put("type",artifactType);
         Document query = new Document("type",artifactType);
         getArtifactsCollection(client).find(query).iterator().forEachRemaining(document -> allArtifacts.add(document.toJson()));
         client.close();
@@ -77,14 +81,23 @@ public class ArtifactResource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response GET_artifact(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[GET /artifact/"+artifactType+"/"+graph);
+        try {
 
-        MongoClient client = Utils.getMongoDBClient(this.context);
-        Document query = new Document("graph",graph);
-        query.put("type",artifactType);
-        Document res = getArtifactsCollection(client).find(query).first();
-        client.close();
+            MongoClient client = Utils.getMongoDBClient(context);
+            Document query = new Document("graph", graph);
+            query.put("type", artifactType);
+            Document res = getArtifactsCollection(client).find(query).first();
+            client.close();
 
-        return Response.ok((res.toJson())).build();
+            return Response.ok((res.toJson())).build();
+        } catch (Exception e ){
+            String ret = "";
+            for (StackTraceElement s : e.getStackTrace()) {
+                ret += s.toString()+"\n";
+            }
+            return Response.notModified(ret).build();
+
+        }
     }
 
     /**
@@ -145,7 +158,7 @@ public class ArtifactResource {
         return Response.ok((JSON)).build();
     }
 
-    @POST @Path("artifacts/{graph}/{username}")
+    @POST @Path("artifacts/{graph}")
     @Consumes("text/plain")
     public Response POST_artifacts(@PathParam("graph") String graph, String RDF) {
         System.out.println("[POST /artifacts/"+graph);
@@ -178,7 +191,27 @@ public class ArtifactResource {
         return Response.ok().build();
     }
 
-    @DELETE @Path("artifacts/{artifactType}/{graph}/{username}")
+    @POST @Path("artifacts/{graph}/triple/{s}/{p}/{o}")
+    @Consumes("text/plain")
+    public Response POST_triple(@PathParam("graph") String graph, @PathParam("s") String s, @PathParam("p") String p, @PathParam("o") String o) {
+        System.out.println("[POST /artifacts/"+graph+"/triple");
+
+        Dataset dataset = Utils.getTDBDataset(this.context);
+        dataset.begin(ReadWrite.WRITE);
+
+        Model model = dataset.getNamedModel(graph);
+            RDFUtil.addTriple(model,s,p,o);
+
+        model.commit();
+        model.close();
+        dataset.commit();
+        dataset.end();
+        dataset.close();
+        return Response.ok().build();
+    }
+
+
+    @DELETE @Path("artifacts/{artifactType}/{graph}")
     @Consumes("text/plain")
     public Response DELETE_artifacts(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[DELETE /artifacts/"+artifactType+"/"+graph);
@@ -194,6 +227,24 @@ public class ArtifactResource {
 
         MongoClient client = Utils.getMongoDBClient(this.context);
         getArtifactsCollection(client).deleteOne(new Document("graph",graph));
+        client.close();
+
+        return Response.ok().build();
+    }
+
+    @POST @Path("artifacts/{graph}/graphicalGraph")
+    @Consumes("text/plain")
+    public Response POST_graphicalGraph(@PathParam("graph") String graph, String body) {
+        System.out.println("[POST /artifacts/"+graph+"/graphicalGraph");
+
+        MongoClient client = Utils.getMongoDBClient(this.context);
+        MongoCollection<Document> artifacts = getArtifactsCollection(client);
+
+        artifacts.findOneAndUpdate(
+                new Document().append("graph",graph),
+                new Document().append("$set", new Document().append("graphicalGraph",body))
+        );
+
         client.close();
 
         return Response.ok().build();

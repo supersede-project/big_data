@@ -8,6 +8,7 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'war'
 apply plugin: 'jetty'
+apply plugin: 'maven-publish'
 
 jettyRun {
     contextPath = "metadataStorage"
@@ -65,13 +66,15 @@ configurations {
     //resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 }
 
+group = 'eu.supersede.mdm.storage'
+version = '0.1.0-SNAPSHOT'
 jar {
-    baseName = 'eu.supersede.mdm.storage'
+    baseName = 'MetadataStorage'
     version = '0.0.1-SNAPSHOT'
 }
 
 war{
-    baseName = 'eu.supersede.mdm.storage'
+    baseName = 'MetadataStorage'
     version = '0.0.1-SNAPSHOT'
 }
 
@@ -102,9 +105,74 @@ dependencies {
     compile 'org.apache.kafka:kafka-clients:0.10.1.0'
     compile 'org.jgrapht:jgrapht-core:1.0.0'
 
+    compile("eu.supersede.feedbackanalysis:FeedbackAnalysis:0.1.0-SNAPSHOT"){
+        changing=true
+        exclude (group: 'xml-apis')
+    }
+
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:3.8.2'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2'
+}
+
+// Test execution JVM properties
+tasks.withType(Test){
+    systemProperty 'is.admin.user', System.getProperty ('is.admin.user', 'admin@atos.supersede.eu')
+    systemProperty 'is.admin.passwd', System.getProperty ('is.admin.passwd', 'rtgWCyrc')
+    systemProperty 'supersede.if.properties', System.getProperty ('supersede.if.properties', 'if.properties')
+}
+
+// Test execution filter
+test {
+    filter {
+        includeTestsMatching "*MailProxyTest"
+        includeTestsMatching "*FEDataStoreProxyTest"
+        includeTestsMatching "*IFAuthenticationManagerTest"
+    }
+}
+
+allprojects {
+    apply plugin: "com.jfrog.artifactory"
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    String repo = version.endsWith('SNAPSHOT') ? 'libs-snapshot-local' : 'libs-release-local'
+    publish {
+        repository {
+            repoKey = repo
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-snapshot'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+    }
+}
+
+artifactoryPublish {
+    dependsOn jar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }

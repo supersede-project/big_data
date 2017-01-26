@@ -1,11 +1,9 @@
 package eu.supersede.mdm.storage.parsers;
 
-import eu.supersede.mdm.storage.bdi_ontology.Namespaces;
-import eu.supersede.mdm.storage.bdi_ontology.metamodel.SourceLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.impl.PropertyImpl;
-import org.apache.jena.rdf.model.impl.ResourceImpl;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
@@ -35,15 +33,9 @@ public class JSON_to_SourceLevel {
             if (jsonDataset.get(k) != null && jsonDataset.get(k).getClass().getName().equals(JSONObject.class.getName()))
                 extractRec(theModel,(JSONObject) jsonDataset.get(k),parentElement+"/"+k);
             else if (jsonDataset.get(k) != null && jsonDataset.get(k).getClass().getName().equals(JSONArray.class.getName()))
+                // TODO: Fix the case when is an array of Strings
                 extractRec(theModel,(JSONObject) ((JSONArray) jsonDataset.get(k)).get(0),parentElement+"/"+k);
         });
     }
 
-/*    public static OntModel extractSourceOntologyFromJSON(JSONObject jsonDataset, String datasetName) {
-        OntModel newModel = ModelFactory.createOntologyModel();
-        addTriple(newModel, "http://BolsterMetamodel/Dataset/"+datasetName, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://BolsterMetamodel/Dataset");
-        extractRec(newModel,jsonDataset,"http://BolsterMetamodel/PHY/"+datasetName);
-        return newModel;
-    }
-*/
 }

@@ -24,11 +24,14 @@ var passport = require('passport');
 var user_routes = require(__dirname+'/routes/user_routes');
 var dataset_routes = require(__dirname+'/routes/dataset_routes');
 var artifact_routes = require(__dirname+'/routes/artifact_routes');
-//var domain_ontology_routes = require(__dirname+'/routes/domain_ontology_routes');
 var global_level_routes = require(__dirname+'/routes/global_level_routes');
+var bdi_ontology_routes = require(__dirname+'/routes/bdi_ontology_routes');
 var source_level_routes = require(__dirname+'/routes/source_level_routes');
-var three_level_ontology_routes = require(__dirname+'/routes/three_level_ontology_routes');
 var release_routes = require(__dirname+'/routes/release_routes');
+var statistical_analysis_model_routes = require(__dirname+'/routes/statistical_analysis_model_routes');
+var dispatcher_strategies_routes = require(__dirname+'/routes/dispatcher_strategies_routes');
+var eca_rule_routes = require(__dirname+'/routes/eca_rule_routes');
+var admin_routes = require(__dirname+'/routes/admin_routes');
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -97,12 +100,21 @@ app.get('/artifacts/:artifactType/:artifactID', artifact_routes.getArtifact);
 app.get('/artifacts/:artifactType/:artifactID/content', artifact_routes.getArtifactContent);
 app.get('/artifacts/:artifactType/:artifactID/graphical', artifact_routes.getArtifactGraphical);
 app.delete('/artifacts/:artifactType/:artifactID', artifact_routes.deleteArtifact);
+app.post('/artifacts/:artifactType/:artifactID/triple', artifact_routes.postTriple);
+app.post('/artifacts/:artifactType/:artifactID/graphicalGraph', artifact_routes.postGraphicalGraph);
 
-/********** Domain Ontology resource *****************************************************/
+/********** BDI Ontology resource ********************************************************/
 
-//app.post('/domainOntology', domain_ontology_routes.postDomainOntology);
+app.get('/bdi_ontology/:bdi_ontologyID', bdi_ontology_routes.getBDIOntology);
+app.get('/bdi_ontology/graph/:graph', bdi_ontology_routes.getBDIOntologyFromGraph);
+app.get('/bdi_ontology', bdi_ontology_routes.getAllBDIOntologies);
+app.post('/bdi_ontology', bdi_ontology_routes.postBDIOntology);
+
+app.get('/bdi_ontology_generation_strategies', bdi_ontology_routes.getGenerationStrategies);
 
 /********** Global Level resource ********************************************************/
+
+app.get('/global_level/:artifactID/features', global_level_routes.getAllFeatures);
 
 //app.post('/globalLevel', global_level_routes.postGlobalLevel);
 
@@ -110,13 +122,43 @@ app.delete('/artifacts/:artifactType/:artifactID', artifact_routes.deleteArtifac
 
 app.post('/sourceLevel', source_level_routes.postSourceLevel);
 
-/********** Three-level Ontology resource ************************************************/
-
-app.post('/three_level_ontology', three_level_ontology_routes.postThreeLevelOntology);
-
 /********** Release resource *************************************************************/
 
+app.get('/release/:releaseID', release_routes.getRelease);
+app.get('/release', release_routes.getAllReleases);
 app.post('/release', release_routes.postRelease);
+
+/********** Statistical Analysis Model resource ******************************************/
+
+app.get('/statistical_analysis_model/:statistical_analysis_modelID', statistical_analysis_model_routes.getStatisticalAnalysisModel);
+app.get('/statistical_analysis_model', statistical_analysis_model_routes.getAllStatisticalAnalysisModels);
+app.post('/statistical_analysis_model/', statistical_analysis_model_routes.postStatisticalAnalysisModel);
+
+app.get('/statistical_analysis_model_types', statistical_analysis_model_routes.getStatisticalAnalysisModelTypes);
+
+/********** Dispatcher Strategies resource ***********************************************/
+
+app.get('/dispatcher_strategies_types', dispatcher_strategies_routes.getDispatcherStrategiesTypes);
+
+/********** ECA Rule resource *************************************************************/
+
+app.get('/eca_rule/:eca_ruleID', eca_rule_routes.getEcaRule);
+app.get('/eca_rule', eca_rule_routes.getAllEcaRules);
+app.post('/eca_rule', eca_rule_routes.postEcaRule);
+app.get('/eca_rule_operator_types', eca_rule_routes.getEcaRuleOperatorTypes);
+app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
+app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
+
+/********** Admin resource *************************************************************/
+app.get('/admin/deleteAll', admin_routes.deleteAll);
+
+
+/********** Websocket messages ***********************************************************/
+app.post('/raw_data', function(req, res){
+    console.log("received "+JSON.stringify(req.body));
+    io.of('/raw_data').emit('/raw_data',{message:JSON.stringify(req.body)});
+    res.json(true);
+});
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -138,9 +180,38 @@ app.get('/registration', function(req, res) {
     res.render('register_user');
 });
 
+/********** Releases section ***************************************************************/
+
+app.get('/new_release', checkAuthenticated, function(req,res) {
+    res.render('new_release', {user:req.session.passport.user});
+});
+
+app.get('/manage_releases', checkAuthenticated, function(req,res) {
+    res.render('manage_releases', {user:req.session.passport.user});
+});
+
+app.get('/view_release', checkAuthenticated, function(req,res) {
+    res.render('view_release', {user:req.session.passport.user});
+});
+
+/********** BDI Ontology section ***********************************************************/
+
+app.get('/new_bdi_ontology', checkAuthenticated, function(req,res) {
+    res.render('new_bdi_ontology', {user:req.session.passport.user});
+});
+
+app.get('/manage_bdi_ontologies', checkAuthenticated, function(req,res) {
+    res.render('manage_bdi_ontologies', {user:req.session.passport.user});
+});
+
+app.get('/view_bdi_ontology', checkAuthenticated, function(req,res) {
+    res.render('view_bdi_ontology', {user:req.session.passport.user});
+});
+
+
 /********** Domain Ontology section ********************************************************/
 
-app.get('/upload_domain_ontology', checkAuthenticated, function(req,res) {
+/*app.get('/upload_domain_ontology', checkAuthenticated, function(req,res) {
     res.render('upload_domain_ontology', {user:req.session.passport.user});
 });
 
@@ -150,10 +221,10 @@ app.get('/manage_domain_ontologies', checkAuthenticated, function(req,res) {
 
 app.get('/view_domain_ontology', checkAuthenticated, function(req,res) {
     res.render('view_domain_ontology', {user:req.session.passport.user});
-});
+});*/
 
 /********** Global Level section *******************************************************/
-
+/*
 app.get('/new_global_level', checkAuthenticated, function(req,res) {
     res.render('new_global_level', {user:req.session.passport.user});
 });
@@ -161,20 +232,20 @@ app.get('/new_global_level', checkAuthenticated, function(req,res) {
 app.get('/manage_global_levels', checkAuthenticated, function(req,res) {
     res.render('manage_global_levels', {user:req.session.passport.user});
 });
-
+*/
 app.get('/view_global_level', checkAuthenticated, function(req,res) {
     res.render('view_global_level', {user:req.session.passport.user});
 });
 
 /********** Source Level section ******************************************************/
-
+/*
 app.get('/new_source_level', checkAuthenticated, function(req,res) {
     res.render('new_source_level', {user:req.session.passport.user});
 });
 
 app.get('/manage_source_levels', checkAuthenticated, function(req,res) {
     res.render('manage_source_levels', {user:req.session.passport.user});
-});
+});*/
 
 app.get('/view_source_level', checkAuthenticated, function(req,res) {
     res.render('view_source_level', {user:req.session.passport.user});
@@ -209,9 +280,46 @@ app.get('/view_dataset', checkAuthenticated, function(req,res) {
 });
 
 
-/****************************** **********************************************************/
+/********** Data Feed section ************************************************************/
+
+app.get('/live_data_feeds', checkAuthenticated, function(req,res) {
+    res.render('live_data_feeds', {user:req.session.passport.user});
+});
+
+app.get('/live_data_feed', checkAuthenticated, function(req,res) {
+    res.render('live_data_feed', {user:req.session.passport.user});
+});
 
 
+/******* Statistical Analysis Model section **********************************************/
+
+app.get('/new_statistical_analysis_model', checkAuthenticated, function(req,res) {
+    res.render('new_statistical_analysis_model', {user:req.session.passport.user});
+});
+
+app.get('/manage_statistical_analysis_models', checkAuthenticated, function(req,res) {
+    res.render('manage_statistical_analysis_models', {user:req.session.passport.user});
+});
+
+app.get('/view_statistical_analysis_model', checkAuthenticated, function(req,res) {
+    res.render('view_statistical_analysis_model', {user:req.session.passport.user});
+});
+
+/******* ECA Rule section **************************************************************/
+
+app.get('/new_eca_rule', checkAuthenticated, function(req,res) {
+    res.render('new_eca_rule', {user:req.session.passport.user});
+});
+
+app.get('/manage_eca_rules', checkAuthenticated, function(req,res) {
+    res.render('manage_eca_rules', {user:req.session.passport.user});
+});
+
+app.get('/view_eca_rules', checkAuthenticated, function(req,res) {
+    res.render('view_eca_rules', {user:req.session.passport.user});
+});
+
+/**********************************   END   ********************************************/
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }

@@ -7,6 +7,28 @@ var fs = require('fs'),
     randomstring = require("randomstring"),
     async = require('async');
 
+exports.getRelease = function (req, res, next) {
+    request.get(config.METADATA_DATA_LAYER_URL + "release/"+req.params.releaseID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json(JSON.parse(body));
+        } else {
+            res.status(500).send("Error retrieving release");
+        }
+    });
+};
+
+
+    exports.getAllReleases = function (req, res, next) {
+    request.get(config.METADATA_DATA_LAYER_URL + "release/", function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json(JSON.parse(body));
+        } else {
+            res.status(500).send("Error retrieving list of releases");
+        }
+    });
+};
+
+
 exports.postRelease = function (req, res, next) {
     if (!(req.body.hasOwnProperty('event')) || req.body.event == null
         || !(req.body.hasOwnProperty('schemaVersion')) || req.body.schemaVersion == null
@@ -17,13 +39,17 @@ exports.postRelease = function (req, res, next) {
         release.event = req.body.event;
         release.schemaVersion = req.body.schemaVersion;
         release.jsonInstances = req.body.jsonInstances;
+        release.dispatch = !(req.body.hasOwnProperty('event')) || req.body.event == null ? false : req.body.dispatch;
+        var graphName = config.DEFAULT_NAMESPACE+"SOURCE/"+randomstring.generate();//randomstring.generate();
+        release.graph = graphName;
+        release.dispatcherStrategy = req.body.dispatcherStrategy;
 
         request.post({
             url: config.METADATA_DATA_LAYER_URL + "release/",
             body: JSON.stringify(release)
         }, function done(error, response, body) {
             if (!error && response.statusCode == 200) {
-                var graphName = randomstring.generate();
+
                 async.parallel([
                     function(callback){
                         var sourceLevel = new Object();
@@ -31,8 +57,7 @@ exports.postRelease = function (req, res, next) {
                         //sourceLevel.user = req.user.username;
                         sourceLevel.type = "SOURCE";
                         sourceLevel.dataset = release.jsonInstances;
-                        sourceLevel.graph = config.DEFAULT_NAMESPACE+graphName;
-                        console.log("1 = "+JSON.stringify(sourceLevel));
+                        sourceLevel.graph = graphName;
                         request.post({
                             url: config.METADATA_DATA_LAYER_URL + "artifacts/",
                             body: JSON.stringify(sourceLevel)
@@ -41,11 +66,9 @@ exports.postRelease = function (req, res, next) {
                         });
                     },
                     function(callback) {
-                        console.log("2 = "+JSON.stringify(body));
-
                         request.post({
-                            url: config.METADATA_DATA_LAYER_URL + "artifacts/"+encodeURIComponent(config.DEFAULT_NAMESPACE+graphName),
-                            body: body.rdf
+                            url: config.METADATA_DATA_LAYER_URL + "artifacts/"+encodeURIComponent(graphName),
+                            body: JSON.parse(body).rdf
                         }, function done(err, results) {
                             callback();
                         });

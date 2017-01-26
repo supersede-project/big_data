@@ -16,11 +16,20 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 public class SentiWordAnalyzer implements SentimentAnalyzer {
 
 	/* (non-Javadoc)
-	 * @see eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer#determineSentiment(java.util.List)
+	 * @see eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer#train(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<SentimentAnalysisResult> determineSentiment(
-			List<UserFeedback> userFeedback) {
+	public boolean train(String pathIn, String pathOut) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer#classify(java.lang.String, eu.supersede.feedbackanalysis.ds.UserFeedback)
+	 */
+	@Override
+	public SentimentAnalysisResult classify(String modelPath,
+			UserFeedback userFeedback) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,19 +8,21 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 
 public class BagOfWordsBasedClassifier implements FeedbackClassifier {
 
+	/* (non-Javadoc)
+	 * @see eu.supersede.feedbackanalysis.classification.FeedbackClassifier#train(java.lang.String, java.lang.String)
+	 */
 	@Override
-	public List<ClassificationResult> classify(List<UserFeedback> userFeedback) {
+	public boolean train(String pathIn, String pathOut) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+	/* (non-Javadoc)
+	 * @see eu.supersede.feedbackanalysis.classification.FeedbackClassifier#classify(java.lang.String, eu.supersede.feedbackanalysis.ds.UserFeedback)
+	 */
 	@Override
-	public Classifier train(String path, boolean arff) throws Exception {
+	public ClassificationResult classify(String modelPath,
+			UserFeedback userFeedback) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
