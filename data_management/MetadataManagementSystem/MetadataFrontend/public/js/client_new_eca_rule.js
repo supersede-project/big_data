@@ -36,6 +36,15 @@ $(window).load(function() {
 
     });
 
+    $.get("/eca_rule_operator_types", function(data) {
+        _.each(data, function(element,index,list) {
+            $("#operator").append($('<option value="'+element.key+'">').text(element.val));
+        });
+        $("#operator").select2({
+            theme: "bootstrap"
+        });
+    });
+
     $.get("/eca_rule_predicate_types", function(data) {
         _.each(data, function(element,index,list) {
             $("#predicate").append($('<option value="'+element.key+'">').text(element.key + " (" + element.val + ")"));
@@ -63,8 +72,11 @@ $(window).load(function() {
             Eca_Rule.globalLevel = ontology.globalLevel;
             Eca_Rule.graph = ontology.rules;
             Eca_Rule.feature = $("#feature").val();
+            Eca_Rule.operator = $("#operator").val();
             Eca_Rule.predicate = $("#predicate").val();
             Eca_Rule.value = $("#value").val();
+            Eca_Rule.windowTime = $("#windowTime").val();
+            Eca_Rule.windowSize = $("#windowSize").val();
             Eca_Rule.action = $("#action").val();
 
             $.ajax({

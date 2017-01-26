@@ -145,6 +145,7 @@ app.get('/dispatcher_strategies_types', dispatcher_strategies_routes.getDispatch
 app.get('/eca_rule/:eca_ruleID', eca_rule_routes.getEcaRule);
 app.get('/eca_rule', eca_rule_routes.getAllEcaRules);
 app.post('/eca_rule', eca_rule_routes.postEcaRule);
+app.get('/eca_rule_operator_types', eca_rule_routes.getEcaRuleOperatorTypes);
 app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
 app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
 

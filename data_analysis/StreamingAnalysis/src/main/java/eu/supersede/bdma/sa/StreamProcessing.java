@@ -2,6 +2,7 @@ package eu.supersede.bdma.sa;
 
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
+import eu.supersede.bdma.sa.statisticalAnalysis.FeedbackAnalysis;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 //import eu.supersede.integration.api.dm.proxies.DecisionMakingSystemProxy;
@@ -146,10 +147,12 @@ public class StreamProcessing {
         /**
          * 3: Evaluate rules
          */
+
         kafkaStream.foreachRDD(records -> {
             records.foreach(record -> {
 
                 System.out.println("Received "+(record.value().length()>125 ? record.value().substring(0,125) : record.value()));
+                System.out.println(FeedbackAnalysis.getFeedbackAnalysisSummary(record.value()).getSummary());
 
                 //if (new JSONObject(record.value()).has("TV")) {
 

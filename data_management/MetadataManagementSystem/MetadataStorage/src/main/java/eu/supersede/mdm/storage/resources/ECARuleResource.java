@@ -6,6 +6,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.ActionTypes;
+import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.OperatorTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.PredicatesTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.generation.BDIOntologyGenerationStrategies;
 import eu.supersede.mdm.storage.model.bdi_ontology.generation.Strategy_CopyFromSources;
@@ -125,6 +126,23 @@ public class ECARuleResource {
     }
 
     @GET
+    @Path("eca_rule_operator_types")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_ECA_rule_operator_types() {
+        System.out.println("[GET /eca_rule_operator_types/]");
+        JSONArray out = new JSONArray();
+        for (OperatorTypes t : OperatorTypes.values()) {
+            JSONObject inner = new JSONObject();
+            inner.put("key",t.name());
+            inner.put("val",t.val());
+            out.add(inner);
+        }
+        return Response.ok(new Gson().toJson(out)).build();
+    }
+
+
+    @GET
     @Path("eca_rule_predicate_types")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
@@ -155,4 +173,6 @@ public class ECARuleResource {
         }
         return Response.ok(new Gson().toJson(out)).build();
     }
+
+
 }

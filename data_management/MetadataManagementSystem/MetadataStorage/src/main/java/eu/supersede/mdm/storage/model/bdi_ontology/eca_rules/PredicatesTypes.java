@@ -6,7 +6,8 @@ package eu.supersede.mdm.storage.model.bdi_ontology.eca_rules;
 public enum PredicatesTypes {
     GT(">"),
     EQ("="),
-    LT("<");
+    LT("<"),
+    CONTAINS("Contains");
 
     private String element;
 
