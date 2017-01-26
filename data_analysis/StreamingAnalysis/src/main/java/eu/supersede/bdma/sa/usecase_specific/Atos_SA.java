@@ -2,7 +2,6 @@ package eu.supersede.bdma.sa.usecase_specific;
 
 import java.util.Map;
 
-import eu.supersede.bdma.sa.StreamingAnalysis;
 //import eu.supersede.integration.api.dm.proxies.DecisionMakingSystemProxy;
 //import eu.supersede.integration.api.dm.types.Alert;
 //import eu.supersede.integration.api.dm.types.AlertLevel;
@@ -30,7 +29,7 @@ import scala.Tuple2;
 /**
  * Created by snadal on 26/09/16.
  */
-public class Atos_SA extends StreamingAnalysis {
+public class Atos_SA {
 
 /*    final static Logger logger = LogManager.getLogger(Atos_SA.class);
 

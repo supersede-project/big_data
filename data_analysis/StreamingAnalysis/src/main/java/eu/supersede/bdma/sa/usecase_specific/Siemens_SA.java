@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import eu.supersede.bdma.sa.StreamingAnalysis;
+
 import org.apache.hadoop.conf.Configuration;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
@@ -41,7 +41,7 @@ import scala.Tuple2;
 /**
  * Created by snadal on 26/09/16.
  */
-public class Siemens_SA extends StreamingAnalysis {
+public class Siemens_SA {
 /*
     final static Logger logger = LogManager.getLogger(Siemens_SA.class);
 

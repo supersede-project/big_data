@@ -49,27 +49,34 @@ exports.postRelease = function (req, res, next) {
             body: JSON.stringify(release)
         }, function done(error, response, body) {
             if (!error && response.statusCode == 200) {
+                console.log("First POST went fine");
 
                 async.parallel([
                     function(callback){
+                        console.log("First callback");
                         var sourceLevel = new Object();
                         sourceLevel.name = release.event + " - " + release.schemaVersion;
                         //sourceLevel.user = req.user.username;
                         sourceLevel.type = "SOURCE";
                         sourceLevel.dataset = release.jsonInstances;
                         sourceLevel.graph = graphName;
+                        console.log("Posting object "+JSON.stringify(sourceLevel));
                         request.post({
                             url: config.METADATA_DATA_LAYER_URL + "artifacts/",
                             body: JSON.stringify(sourceLevel)
                         }, function done(err, results) {
+                            console.log("First finished "+err+" - "+results);
                             callback();
                         });
                     },
                     function(callback) {
+                        console.log("Second callback");
+                        console.log("Posting "+JSON.parse(body).rdf);
                         request.post({
                             url: config.METADATA_DATA_LAYER_URL + "artifacts/"+encodeURIComponent(graphName),
                             body: JSON.parse(body).rdf
                         }, function done(err, results) {
+                            console.log("Second finished "+err+" - "+results);
                             callback();
                         });
                     }
@@ -80,6 +87,7 @@ exports.postRelease = function (req, res, next) {
                     res.status(200).json(release_response);
                 });
             } else {
+                console.log("Error in POST release "+error + " - "+response + " - "+body);
                 res.status(500).send("Error retrieving list of artifacts");
             }
         });
