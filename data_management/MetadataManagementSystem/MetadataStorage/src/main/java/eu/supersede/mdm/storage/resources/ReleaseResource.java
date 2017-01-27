@@ -9,6 +9,7 @@ import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import org.apache.jena.query.*;
 import org.bson.Document;
 
 import javax.servlet.ServletContext;
@@ -62,6 +63,20 @@ public class ReleaseResource {
         Document res = getReleasesCollection(client).find(query).first();
         client.close();
 
+        Dataset dataset = Utils.getTDBDataset(this.context);
+        dataset.begin(ReadWrite.READ);
+        String out = "";
+        try(QueryExecution qExec = QueryExecutionFactory.create("SELECT ?s ?p ?o ?g WHERE { GRAPH <"+res.getString("graph")+"> {?s ?p ?o} }",  dataset)) {
+            ResultSet rs = qExec.execSelect();
+            out = ResultSetFormatter.asXMLString(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.ok("Error: "+e.toString()).build();
+        }
+        dataset.end();
+        dataset.close();
+        System.out.println(out);
+
         return Response.ok((res.toJson())).build();
     }
 
@@ -85,12 +100,7 @@ public class ReleaseResource {
         try {
             content = eu.supersede.mdm.storage.model.bdi_ontology.Release.newRelease(objBody.getAsString("event"),objBody.getAsString("schemaVersion"),objBody.getAsString("jsonInstances"));
         } catch (Exception e) {
-            String ret = "";
-            for (StackTraceElement s : e.getStackTrace()) {
-                ret += s.toString()+"\n";
-            }
-            return Response.ok(ret).build();
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         if (content.containsKey("kafkaTopic")) {

@@ -55,8 +55,8 @@ public class Release {
         String tempFileForS = TempFiles.getTempFile();
         S.write(new FileOutputStream(tempFileForS),"RDF/XML-ABBREV");
 
-
         System.out.println("Release stored in file "+tempFileForS);
+
 
         String content = "";
         try {

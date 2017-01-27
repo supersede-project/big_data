@@ -22,6 +22,8 @@ import javax.servlet.ServletContext;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by snadal on 19/01/17.
@@ -59,7 +61,15 @@ public class Strategy_CopyFromSources {
                     QuerySolution q = rs.next();
 //                rs.forEachRemaining(q -> {
                     if (q.get("?o").toString().equals(SourceLevel.ATTRIBUTE.val())) {
-                        String globalElement = "/"+q.get("?s").asResource().getLocalName();
+                        Pattern p = Pattern.compile(SourceLevel.SCHEMA_VERSION.val().replace("/","\\/").replace(".","\\.")+"\\/(.*).*");
+                        String uri = q.get("?s").asResource().getURI();
+                        Matcher m = p.matcher(uri);
+                        String globalElement = "";
+                        if (m.find()) {
+                            globalElement = "/"+m.group(1).substring(m.group(1).split("/")[0].length()+1);
+                            //System.out.println("ok");
+                        }
+                        //String globalElement = "/"+q.get("?s").asResource().getLocalName();
                         // Use the local name as name for G
                         RDFUtil.addTriple(G, GlobalLevel.FEATURE.val()+globalElement, Namespaces.rdf.val()+"type", GlobalLevel.FEATURE.val());
                         RDFUtil.addTriple(O, GlobalLevel.FEATURE.val()+globalElement, Namespaces.rdf.val()+"type", GlobalLevel.FEATURE.val());

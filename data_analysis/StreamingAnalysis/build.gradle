@@ -98,11 +98,15 @@ dependencies {
     compile files ('/home/snadal/UPC/Sergi/SUPERSEDE/Development/integration/IF/API/eu.supersede.if.api/lib/org.wso2.carbon.logging-4.4.1.jar')
     compile files ('/home/snadal/UPC/Sergi/SUPERSEDE/Development/integration/IF/API/eu.supersede.if.api/lib/org.wso2.securevault-1.0.0-wso2v2.jar')
 
-
     compile("eu.supersede.mdm.storage:MetadataStorage:0.1.0-SNAPSHOT"){
         changing=true
         exclude (group: 'com.fasterxml.jackson.core')
         exclude (group: 'org.scala-lang')
+    }
+
+    compile("eu.supersede.dynadapt.dm:integration:1.0.0-SNAPSHOT"){
+        changing = true
+        exclude (group: 'com.fasterxml.jackson.core')
     }
 }
 

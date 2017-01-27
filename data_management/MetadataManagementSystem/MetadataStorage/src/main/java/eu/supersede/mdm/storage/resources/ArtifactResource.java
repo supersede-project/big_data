@@ -158,6 +158,7 @@ public class ArtifactResource {
         return Response.ok((JSON)).build();
     }
 
+
     @POST @Path("artifacts/{graph}")
     @Consumes("text/plain")
     public Response POST_artifacts(@PathParam("graph") String graph, String RDF) {

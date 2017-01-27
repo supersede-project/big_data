@@ -1,15 +1,17 @@
 package eu.supersede.bdma.sa;
 
+import com.clearspring.analytics.util.Lists;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
 import eu.supersede.bdma.sa.proxies.MDMProxy;
-import eu.supersede.bdma.sa.statisticalAnalysis.FeedbackAnalysis;
 import eu.supersede.bdma.sa.utils.Utils;
-//import eu.supersede.integration.api.dm.proxies.DecisionMakingSystemProxy;
+import eu.supersede.integration.api.mdm.types.ECA_Rule;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
+import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.drools.compiler.lang.api.DescrFactory;
@@ -21,22 +23,16 @@ import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.definition.KnowledgePackage;
 import org.kie.internal.io.ResourceFactory;
+import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kie.internal.runtime.StatelessKnowledgeSession;
 import scala.Tuple2;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by snadal on 11/01/17.
  */
 public class StreamProcessing {
-
-    public class MyClass {
-        public MyClass(int t) { this.t = t ;}
-        public int t;
-    }
 
     private static KnowledgePackage compilePkgDescr( PackageDescr pkg ) {
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -46,12 +42,36 @@ public class StreamProcessing {
         return kpkgs.iterator().next();
     }
 
-    //final Logger logger;
+    private static int evaluateNumericRule(String operator, String ruleValue, String[] values) {
+        PackageDescr pkg =
+                DescrFactory.newPackage()
+                        .name("sa.pkg")
+                        .newRule().name("numericRule")
+                        .lhs()
+                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
+                        .end()
+                        .rhs("System.out.println(\"ok\");")
+                        .end()
+                        .getDescr();
+
+        KnowledgePackage kpkg = compilePkgDescr(pkg);
+        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+        kbase.addKnowledgePackages(Collections.singleton(kpkg));
+        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+
+        for (String strNum : values) {
+            ksession.insert(new DoubleCondition(Double.parseDouble(strNum)));
+        }
+
+        return ksession.fireAllRules();
+    }
 
     private Map<String, Object> kafkaParams;
-    private Map<String, Tuple2<Boolean,String>> releases;
 
-    //private DecisionMakingSystemProxy proxy;
+    // TODO Make Release serializable so it can be broadcast
+    private Map<String, Tuple2<Boolean,String>> releases;
+    // TODO Make ECA_Rule serializable so it can be broadcast
+    private static List<ECA_Rule> rules;
 
     public StreamProcessing() throws Exception {
         releases = MDMProxy.getReleasesIndexedPerKafkaTopic2();
@@ -65,9 +85,7 @@ public class StreamProcessing {
         kafkaParams.put("auto.offset.reset", Main.properties.getProperty("AUTO_OFFSET_RESET"));
         kafkaParams.put("enable.auto.commit", false);
 
-        //logger = LogManager.getLogger(StreamProcessing.class);
-
-        //proxy = new DecisionMakingSystemProxy();
+        rules = MDMProxy.getRules();
     }
 
     public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx) throws Exception {
@@ -125,59 +143,59 @@ public class StreamProcessing {
          * 3: Evaluate rules
          */
 
-        kafkaStream.foreachRDD(records -> {
-            records.foreach(record -> {
-
-                System.out.println("Received "+(record.value().length()>125 ? record.value().substring(0,125) : record.value()));
-                System.out.println(FeedbackAnalysis.getFeedbackAnalysisSummary(record.value()).getSummary());
-
-                //if (new JSONObject(record.value()).has("TV")) {
-
-                    PackageDescr pkg =
-                            DescrFactory.newPackage()
-                                    .name("testPkg")
-                                    .newRule().name("testRule")
-                                    .lhs()
-                                    .pattern("eu.supersede.bdma.sa.SergiClass").constraint("x > 10").end()
-                                    .end()
-                                    //.rhs("System.out.println(\"Condition satisfied, sending SOFTWARE_EVOLUTION alert to WP3\");")
-                                    .rhs("eu.supersede.bdma.sa.rules.Action.sendAlert();")
-                                    .end()
-                                    .getDescr();
-
-        /*KieServices kieServices = KieServices.Factory.get();
-        KieResources kieResources = kieServices.getResources();
-        KieRepository kieRepository = kieServices.getRepository();
-
-        Resource resource = kieResources. newDescrResource(pkg);
-        kieRepository.addKieModule(resource);
-
-        KieContainer kContainer = kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
-        StatelessKieSession ksession = kContainer.newStatelessKieSession();*/
-
-                    KnowledgePackage kpkg = compilePkgDescr(pkg);
-                    KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-                    kbase.addKnowledgePackages(Collections.singleton(kpkg));
-                    StatelessKnowledgeSession ksession = kbase.newStatelessKnowledgeSession();
-                    ksession.getGlobals().set("param","value");
-                    //eu.supersede.bdma.sa.SergiClass x = new eu.supersede.bdma.sa.SergiClass((new JSONObject(record.value()).getInt("All")));
-                    eu.supersede.bdma.sa.SergiClass x = new eu.supersede.bdma.sa.SergiClass(Integer.parseInt(record.value()));
-
-                    ksession.execute(x);
-                //}
-            });
-        });
-
-        //KieContainer kContainer = KieRepository
-
+        // Map by Kafka Topic
         /*kafkaStream.foreachRDD(records -> {
-            records.foreach(record -> {
-                int x = Integer.parseInt(record.value());
-                if (x > 5) {
-                    Alert alert = new Alert();
-                    //alert.
-                }
+            final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
+            records.foreachPartition(consumerRecords -> {
+                OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
+                consumerRecords.forEachRemaining(record -> {
+                    System.out.println(record.key() + " - "+record.value());
+                });
             });
         });*/
+        kafkaStream.flatMapToPair(record -> {
+            List<Tuple2<String,String>> out = Lists.newArrayList();
+            rules.forEach(rule -> {
+                Utils.extractFeatures(record.value(),rule.getFeature()).forEach(tuple -> {
+                    out.add(new Tuple2<String,String>(rule.getEca_ruleID(),tuple));
+                });
+            });
+            return out.iterator();
+        }).print();
+
+/*
+        // Generate a map <topic, record>
+        kafkaStream.mapToPair(record -> {
+            return new Tuple2<String,String>(record.topic(),record.value());
+        })
+        // Make a window
+        .window(new Duration(10000),new Duration(1000))
+        // Group elements <topic, List<record>>
+        .groupByKey()
+        // Evaluate the rules
+        .foreachRDD(records -> {
+            records.foreach(set -> {
+                for (ECA_Rule rule : rules) {
+                    // Those are the ingested JSON elements
+                    for (String tuple : set._2()) {
+                        // Extract the element (if possible) using the Feature
+                        // TODO There should be a better way to do that, and not try to match the Feature to all JSONs
+                        List<String> listStrElements = Utils.extractFeature(tuple, rule.getFeature());
+                        System.exit(0);
+                    }
+                    switch (rule.getOperator()) {
+                        case VALUE: {
+                            int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
+                            if (valids >= rule.getWindowSize()) {
+                                //if
+                                //Alert.raiseAlert(ECA_Ryke)
+                                System.out.println("throw an alert!!");
+                            }
+                        }
+                    }
+                }
+            });
+        });
+*/
     }
 }
