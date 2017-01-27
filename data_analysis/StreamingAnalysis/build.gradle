@@ -104,7 +104,7 @@ dependencies {
         exclude (group: 'org.scala-lang')
     }
 
-    compile("eu.supersede.dynadapt.dm:integration:1.0.0-SNAPSHOT"){
+    compile("eu.supersede.dynadapt.dm:eu.supersede.dynadapt.dm.integration:1.0.0-SNAPSHOT"){
         changing = true
         exclude (group: 'com.fasterxml.jackson.core')
     }

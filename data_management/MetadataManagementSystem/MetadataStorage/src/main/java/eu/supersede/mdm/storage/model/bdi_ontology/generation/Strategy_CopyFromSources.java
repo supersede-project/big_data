@@ -67,7 +67,6 @@ public class Strategy_CopyFromSources {
                         String globalElement = "";
                         if (m.find()) {
                             globalElement = "/"+m.group(1).substring(m.group(1).split("/")[0].length()+1);
-                            //System.out.println("ok");
                         }
                         //String globalElement = "/"+q.get("?s").asResource().getLocalName();
                         // Use the local name as name for G

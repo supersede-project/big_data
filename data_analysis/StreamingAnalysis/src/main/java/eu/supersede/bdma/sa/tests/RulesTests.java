@@ -1,6 +1,7 @@
 package eu.supersede.bdma.sa.tests;
 
 import eu.supersede.bdma.sa.StreamProcessing;
+import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
 import org.drools.compiler.lang.api.DescrFactory;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.kie.api.KieServices;
@@ -45,7 +46,7 @@ public class RulesTests {
                 .name("testPkg")
                 .newRule().name("testRule")
                 .lhs()
-                .pattern("eu.supersede.bdma.sa.SergiClass").constraint("x < 10").end()
+                .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x == \"ahi\"").end()
                 .end()
                 .rhs("System.out.println(\"rule ok\");")
                 .end()
@@ -66,7 +67,7 @@ public class RulesTests {
         kbase.addKnowledgePackages(Collections.singleton(kpkg));
         StatelessKnowledgeSession ksession = kbase.newStatelessKnowledgeSession();
 
-        eu.supersede.bdma.sa.SergiClass x = new eu.supersede.bdma.sa.SergiClass(9);
+        eu.supersede.bdma.sa.eca_rules.conditions.TextCondition x = new TextCondition("hi");
 
         ksession.execute(x);
 

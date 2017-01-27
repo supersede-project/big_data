@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.clearspring.analytics.util.Lists;
+import com.google.common.collect.Lists;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -21,30 +21,20 @@ public class Utils {
 
     private static void traverseRecursive(JSONObject jsonObj, String path, List<String> out) {
         String currentPathElement = path.split("/")[0];
-        System.out.println("Current obj "+jsonObj.toJSONString());
-        System.out.println("path "+path);
-        System.out.println("currentPathElement "+currentPathElement);
-
         if (jsonObj.get(currentPathElement).getClass().getName().equals(JSONObject.class.getName())) {
-            System.out.println("going to embedded obj");
             traverseRecursive((JSONObject)jsonObj.get(currentPathElement),path.substring(currentPathElement.length()+1),out);
         }
         else if (jsonObj.get(currentPathElement).getClass().getName().equals(JSONArray.class.getName())) {
-            System.out.println("going to array");
             JSONArray theArr = (JSONArray)jsonObj.get(currentPathElement);
             for (Object arrElem : theArr) {
                 if (arrElem.getClass().getName().equals(JSONObject.class.getName())) {
-                    System.out.println("is an embedded object");
                     traverseRecursive((JSONObject)arrElem,path.substring(currentPathElement.length()+1),out);
                 } else {
-                    System.out.println("is a value 1 and it is "+arrElem.toString());
-
                     out.add(arrElem.toString());
                 }
             }
         }
         else {
-            System.out.println("is a value 2 and it is "+jsonObj.getAsString(currentPathElement));
             out.add(jsonObj.getAsString(currentPathElement));
         }
     }
@@ -68,9 +58,6 @@ public class Utils {
         if (m.find()) {
             String path = m.group(1);
             traverseRecursive((JSONObject)JSONValue.parse(JSON),path,out);
-            //System.out.println(theObj.toJSONString());
-            //for ()
-
         }
         return out;
     }

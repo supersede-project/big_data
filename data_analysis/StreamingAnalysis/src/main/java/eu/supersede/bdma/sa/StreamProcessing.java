@@ -4,15 +4,23 @@ import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
+import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
+import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
 import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
+import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
 import eu.supersede.bdma.sa.proxies.MDMProxy;
 import eu.supersede.bdma.sa.utils.Utils;
+import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
+import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
+import eu.supersede.feedbackanalysis.ds.UserFeedback;
+import eu.supersede.integration.api.mdm.types.ActionTypes;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
+import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.drools.compiler.lang.api.DescrFactory;
 import org.drools.compiler.lang.descr.PackageDescr;
@@ -43,6 +51,7 @@ public class StreamProcessing {
     }
 
     private static int evaluateNumericRule(String operator, String ruleValue, String[] values) {
+        System.out.println("evaluateNumericRule("+operator+","+ruleValue+","+Arrays.toString(values));
         PackageDescr pkg =
                 DescrFactory.newPackage()
                         .name("sa.pkg")
@@ -65,6 +74,38 @@ public class StreamProcessing {
 
         return ksession.fireAllRules();
     }
+
+    private static int evaluateFeedbackRule(String operator, String ruleValue, String[] values) throws Exception {
+        if (operator.equals("=")) operator = "==";
+        System.out.println("evaluateFeedbackRule("+operator+","+ruleValue+","+Arrays.toString(values));
+
+        PackageDescr pkg =
+                DescrFactory.newPackage()
+                        .name("sa.pkg")
+                        .newRule().name("numericRule")
+                        .lhs()
+                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
+                        .end()
+                        .rhs("System.out.println(\"ok\");")
+                        .end()
+                        .getDescr();
+
+        KnowledgePackage kpkg = compilePkgDescr(pkg);
+        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+        kbase.addKnowledgePackages(Collections.singleton(kpkg));
+        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+
+        FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
+        String path = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
+        for (String str : values) {
+            System.out.println("got "+str);
+            System.out.println("label "+feedbackClassifier.classify(path, new UserFeedback(str)).getLabel());
+            ksession.insert(new TextCondition(feedbackClassifier.classify(path, new UserFeedback(str)).getLabel()));
+        }
+
+        return ksession.fireAllRules();
+    }
+
 
     private Map<String, Object> kafkaParams;
 
@@ -153,49 +194,55 @@ public class StreamProcessing {
                 });
             });
         });*/
-        kafkaStream.flatMapToPair(record -> {
+        //kafkaStream.map(r -> r.value().toString()).print();
+        JavaPairDStream<String,String> window = kafkaStream.flatMapToPair(record -> {
             List<Tuple2<String,String>> out = Lists.newArrayList();
             rules.forEach(rule -> {
-                Utils.extractFeatures(record.value(),rule.getFeature()).forEach(tuple -> {
-                    out.add(new Tuple2<String,String>(rule.getEca_ruleID(),tuple));
+                String tuple = record.value().toString();
+                Utils.extractFeatures(tuple,rule.getFeature()).forEach(extractedElement -> {
+                    out.add(new Tuple2<String,String>(rule.getEca_ruleID(),extractedElement));
                 });
             });
             return out.iterator();
-        }).print();
-
-/*
-        // Generate a map <topic, record>
-        kafkaStream.mapToPair(record -> {
-            return new Tuple2<String,String>(record.topic(),record.value());
         })
-        // Make a window
-        .window(new Duration(10000),new Duration(1000))
-        // Group elements <topic, List<record>>
-        .groupByKey()
-        // Evaluate the rules
+        .window(new Duration(300000),new Duration(5000));
+
+        window.print();
+
+        window.groupByKey()
         .foreachRDD(records -> {
             records.foreach(set -> {
                 for (ECA_Rule rule : rules) {
-                    // Those are the ingested JSON elements
-                    for (String tuple : set._2()) {
-                        // Extract the element (if possible) using the Feature
-                        // TODO There should be a better way to do that, and not try to match the Feature to all JSONs
-                        List<String> listStrElements = Utils.extractFeature(tuple, rule.getFeature());
-                        System.exit(0);
-                    }
-                    switch (rule.getOperator()) {
-                        case VALUE: {
-                            int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
-                            if (valids >= rule.getWindowSize()) {
-                                //if
-                                //Alert.raiseAlert(ECA_Ryke)
-                                System.out.println("throw an alert!!");
+                    // if the data is for that rule
+                    if (set._1().equals(rule.getEca_ruleID())) {
+                        for (String tuple : set._2()) {
+                            switch (rule.getOperator()) {
+                                case VALUE: {
+                                    int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
+                                    if (valids >= rule.getWindowSize()) {
+                                        if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                                            DynamicAdaptationAlert.sendAlert();
+                                        } else {
+                                            SoftwareEvolutionAlert.sendAlert();
+                                        }
+                                    }
+                                }
+                                case FEEDBACK_CLASSIFIER_LABEL: {
+                                    int valids = evaluateFeedbackRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
+                                    if (valids >= rule.getWindowSize()) {
+                                        if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                                            DynamicAdaptationAlert.sendAlert();
+                                        } else {
+                                            SoftwareEvolutionAlert.sendAlert();
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             });
         });
-*/
+
     }
 }
