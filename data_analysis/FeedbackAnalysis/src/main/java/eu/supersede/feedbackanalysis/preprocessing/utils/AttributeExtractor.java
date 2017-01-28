@@ -76,7 +76,7 @@ public class AttributeExtractor {
 	ArrayList<String> responsive_expressions;
 
 	StanfordCoreNLP pipeline ;
-	static String pathToSWN = "resources/SentiWordNet_3.0.0_20130122.txt";
+	static String pathToSWN = Thread.currentThread().getContextClassLoader().getResource("SentiWordNet_3.0.0_20130122.txt").toString().replace("file:","");
 	static SentiWord sentiwordnet;
 
 
@@ -307,7 +307,7 @@ public class AttributeExtractor {
 			//out.println("The first sentence tokens are:");
 			
 			for (CoreMap token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
-				System.out.println(token.toShorterString());
+				//System.out.println(token.toShorterString());
 				String [] strToken=token.toShorterString().split(" ");
 				//String word=strToken[2].split("=")[1];
 				String word=strToken[2].substring(strToken[2].indexOf("=")+1,strToken[2].length());
@@ -339,8 +339,8 @@ public class AttributeExtractor {
 				}
 				if(partOfSpeech.startsWith("VB"))
 				{
-					System.out.println(word);	
-					System.out.println(partOfSpeech);
+					//System.out.println(word);
+					//System.out.println(partOfSpeech);
 					String lemma=token.toShorterString().substring(token.toShorterString().indexOf("Lemma")+6,token.toShorterString().indexOf("BeginIndex"));
 					//System.out.println("Lemma: " + lemma);
 					if(assertive_verbs.contains(lemma.trim()))
@@ -490,7 +490,7 @@ public class AttributeExtractor {
 			//out.println("The first sentence tokens are:");
 			
 			for (CoreMap token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
-				System.out.println(token.toShorterString());
+				//System.out.println(token.toShorterString());
 				String [] strToken=token.toShorterString().split(" ");
 				//String word=strToken[2].split("=")[1];
 				String word=strToken[2].substring(strToken[2].indexOf("=")+1,strToken[2].length());
@@ -606,7 +606,7 @@ public class AttributeExtractor {
 //			mfiles.writeFile("./", outputFile,vector_header);
 //			mfiles.writeFile("/Users/itzy_5/Google Drive/CollaborationSAT/ReportMarch11_2016/AnnotatedData/", "OpenOfficeFeatures.arff",vector_header);
 			//System.out.println(vector);
-			System.out.println("Done");
+			//System.out.println("Done");
 		}
 		catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -680,7 +680,7 @@ public class AttributeExtractor {
 		vector_header+="\n\n@data\n\n";
 
 		vector_header+=vector;
-		System.out.println("Done");
+		//System.out.println("Done");
 		
 		return vector_header;
 	}
@@ -789,7 +789,7 @@ public class AttributeExtractor {
 //			mfiles.writeFile("./", outputFile,vector_header);
 //			mfiles.writeFile("/Users/itzy_5/Google Drive/CollaborationSAT/ReportMarch11_2016/AnnotatedData/", "OpenOfficeFeatures.arff",vector_header);
 			//System.out.println(vector);
-			System.out.println("Done");
+			//System.out.println("Done");
 //		}
 //		catch (Exception e1) {
 //			// TODO Auto-generated catch block
@@ -890,7 +890,7 @@ public class AttributeExtractor {
 	
 	public void test(){
 		String text="However since _ XPropertySet ] 21: LOG Execute: getPropertySetInfo 21: Method getPropertySetInfo finished with state OK 21: // _ LOG Getting: 0 21:";
-		System.out.println(execute(text));
+		//System.out.println(execute(text));
 //		countAssertiveExpressions(text);
 //		System.out.println(num_assertive_expressions);
 //		countRequestiveExpressions(text);
@@ -911,7 +911,7 @@ public class AttributeExtractor {
 		
 		String arff = extractF.getARFF(userFeedbacks);
 		
-		System.out.println(arff);
+		//System.out.println(arff);
 
 		
 //		extractF.test();

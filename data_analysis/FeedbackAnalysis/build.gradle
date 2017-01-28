@@ -52,14 +52,6 @@ dependencies {
 
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ["src"]
-        }
-    }
-}
-
 
 configurations.all {
     //Avoids conflict: SL4J Multiple bindings were found on the class path

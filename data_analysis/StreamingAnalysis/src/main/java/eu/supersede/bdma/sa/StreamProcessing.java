@@ -96,14 +96,17 @@ public class StreamProcessing {
         StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
-        String path = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
+        String path = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         for (String str : values) {
+            String label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
             System.out.println("got "+str);
-            System.out.println("label "+feedbackClassifier.classify(path, new UserFeedback(str)).getLabel());
-            ksession.insert(new TextCondition(feedbackClassifier.classify(path, new UserFeedback(str)).getLabel()));
+            System.out.println("classified as "+label);
+            ksession.insert(new TextCondition(label));
         }
+        int nRules = ksession.fireAllRules();
+        System.out.println("Rules "+nRules);
 
-        return ksession.fireAllRules();
+        return nRules;
     }
 
 
@@ -205,7 +208,7 @@ public class StreamProcessing {
             });
             return out.iterator();
         })
-        .window(new Duration(300000),new Duration(5000));
+        .window(new Duration(300000),new Duration(10000));
 
         window.print();
 
@@ -215,7 +218,7 @@ public class StreamProcessing {
                 for (ECA_Rule rule : rules) {
                     // if the data is for that rule
                     if (set._1().equals(rule.getEca_ruleID())) {
-                        for (String tuple : set._2()) {
+                        //for (String tuple : set._2()) {
                             switch (rule.getOperator()) {
                                 case VALUE: {
                                     int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
@@ -238,7 +241,7 @@ public class StreamProcessing {
                                     }
                                 }
                             }
-                        }
+                        //}
                     }
                 }
             });

@@ -110,12 +110,12 @@ public class SpeechActBasedClassifier implements FeedbackClassifier {
 		userFeedbacks.add(f4);
 		
 		FeedbackClassifier classifier = new SpeechActBasedClassifier();
-		String csvPath = "resources/trainingsets/SENERCON_translated_300_feedback.csv";
+		String csvPath = Thread.currentThread().getContextClassLoader().getResource("trainingsets/SENERCON_translated_300_feedback.csv").toString().replace("file:","");
 //		String arffPath = "resources/trainingsets/SENERCON_translated_300_feedback.csv.arff";
-		String arffPath = "resources/trainingsets/comments_order_0_confirmed_textonly.csv.arff";
+		String arffPath = Thread.currentThread().getContextClassLoader().getResource("trainingsets/comments_order_0_confirmed_textonly.csv.arff").toString().replace("file:","");
 //		classifier.train(arffPath, true);
 		
-		String modelPath = "resources/models/rf.model";
+		String modelPath = Thread.currentThread().getContextClassLoader().getResource("models/rf.model").toString().replace("file:","");
 		for (UserFeedback feedback : userFeedbacks){
 			ClassificationResult result = classifier.classify(modelPath, feedback);
 			System.out.println(result.getLabel() + " " + result.getAccuracy() + "%");

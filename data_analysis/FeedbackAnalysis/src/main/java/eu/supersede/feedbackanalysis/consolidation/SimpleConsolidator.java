@@ -55,8 +55,8 @@ public class SimpleConsolidator implements AnalysisConsolidator {
 	 */
 	@Override
 	public AnalysisReport getSummary(UserFeedback userFeedback) {
-		String classifierModelPath = "resources/models/rf.model";
-		String sentimentModelPath = "resources/models/sentiment_classifier.model";
+		String classifierModelPath = Thread.currentThread().getContextClassLoader().getResource("models/rf.model").toString().replace("file:","");
+		String sentimentModelPath = Thread.currentThread().getContextClassLoader().getResource("models/sentiment_classifier.model").toString().replace("file:","");
 		String extractedFeaturesPath = "";
 		AnalysisReport report = new AnalysisReport();
 		report.setUserFeedback(userFeedback);
