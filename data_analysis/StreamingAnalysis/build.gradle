@@ -93,10 +93,10 @@ dependencies {
     compile 'org.drools:drools-decisiontables:6.5.0.Final'
     compile 'org.jbpm:jbpm-bpmn2:6.5.0.Final'
 
-    compile files ('/home/snadal/UPC/Sergi/SUPERSEDE/Development/integration/IF/API/eu.supersede.if.api/lib/andes-client-3.1.1.jar')
-    compile files ('/home/snadal/UPC/Sergi/SUPERSEDE/Development/integration/IF/API/eu.supersede.if.api/lib/geronimo-jms_1.1_spec-1.1.0.wso2v1.jar')
-    compile files ('/home/snadal/UPC/Sergi/SUPERSEDE/Development/integration/IF/API/eu.supersede.if.api/lib/org.wso2.carbon.logging-4.4.1.jar')
-    compile files ('/home/snadal/UPC/Sergi/SUPERSEDE/Development/integration/IF/API/eu.supersede.if.api/lib/org.wso2.securevault-1.0.0-wso2v2.jar')
+    compile files ('./lib/andes-client-3.1.1.jar')
+    compile files ('./lib/geronimo-jms_1.1_spec-1.1.0.wso2v1.jar')
+    compile files ('./lib/org.wso2.carbon.logging-4.4.1.jar')
+    compile files ('./lib/org.wso2.securevault-1.0.0-wso2v2.jar')
 
     compile("eu.supersede.mdm.storage:MetadataStorage:0.1.0-SNAPSHOT"){
         changing=true
