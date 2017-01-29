@@ -13,7 +13,9 @@ import java.util.List;
  */
 public class SoftwareEvolutionAlert {
 
-    private static Alert createAlert() {
+    public static void sendAlert(String[] contents) throws Exception {
+        TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_EVENT_TOPIC,true);
+
         Alert alert = new Alert();
 
         alert.setID("id1");
@@ -28,15 +30,15 @@ public class SoftwareEvolutionAlert {
         List<UserRequest> requests = Lists.newArrayList();
         String[] feedbackIDs = new String[]{"feedbackId1"};
         String[] features = new String[]{"UI","backend"};
-        requests.add(new UserRequest("id1", RequestClassification.FeatureRequest,
-                0.5, "description string", 1, 2, 0, feedbackIDs, features));
+
+        for (int i = 0; i < contents.length; ++i) {
+            String current = contents[i];
+            UserRequest ur = new UserRequest("id"+String.valueOf(i), RequestClassification.EnhancementRequest, 0.5, current, 1, 1, 0, feedbackIDs, features);
+            requests.add(ur);
+        }
+
         alert.setRequests(requests);
 
-        return alert;
-    }
-
-    public static void sendAlert() throws Exception {
-        TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_EVENT_TOPIC,true);
-        publisher.publishTextMesssageInTopic(new Gson().toJson(createAlert()));
+        publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
     }
 }

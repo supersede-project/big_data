@@ -226,7 +226,7 @@ public class StreamProcessing {
                                         if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
                                             DynamicAdaptationAlert.sendAlert();
                                         } else {
-                                            SoftwareEvolutionAlert.sendAlert();
+                                            SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
                                         }
                                     }
                                 }
@@ -236,7 +236,7 @@ public class StreamProcessing {
                                         if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
                                             DynamicAdaptationAlert.sendAlert();
                                         } else {
-                                            SoftwareEvolutionAlert.sendAlert();
+                                            SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
                                         }
                                     }
                                 }
