@@ -25,7 +25,7 @@ public class DynamicAdaptationAlert {
 
         Alert alert = new Alert( "id1", "appId1", System.currentTimeMillis(), "atos", conditions,  actionsF, actionsA);
 
-        TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_EVENT_TOPIC,true);
+        TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true);
         publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
     }
 }
