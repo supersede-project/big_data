@@ -14,7 +14,7 @@ import java.util.List;
 public class SoftwareEvolutionAlert {
 
     public static void sendAlert(String[] contents) throws Exception {
-        TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_EVENT_TOPIC,true);
+        TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_EVOLUTION_EVENT_TOPIC,true);
 
         Alert alert = new Alert();
 

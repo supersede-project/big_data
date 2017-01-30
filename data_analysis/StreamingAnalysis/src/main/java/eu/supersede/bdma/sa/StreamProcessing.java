@@ -187,17 +187,7 @@ public class StreamProcessing {
          * 3: Evaluate rules
          */
 
-        // Map by Kafka Topic
-        /*kafkaStream.foreachRDD(records -> {
-            final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
-            records.foreachPartition(consumerRecords -> {
-                OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
-                consumerRecords.forEachRemaining(record -> {
-                    System.out.println(record.key() + " - "+record.value());
-                });
-            });
-        });*/
-        //kafkaStream.map(r -> r.value().toString()).print();
+
         JavaPairDStream<String,String> window = kafkaStream.flatMapToPair(record -> {
             List<Tuple2<String,String>> out = Lists.newArrayList();
             rules.forEach(rule -> {
