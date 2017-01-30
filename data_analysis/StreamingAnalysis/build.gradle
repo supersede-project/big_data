@@ -87,7 +87,8 @@ dependencies {
     //compile(group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.2')
     compile(group: 'org.apache.spark', name: 'spark-mllib_2.10', version: '2.1.0')
 
-    compile 'org.kie:kie-api:6.5.0.Final'
+    //compile 'org.kie:kie-api:6.5.0.Final'
+    compile 'org.kie:kie-api:6.5.0.CR1'
     compile 'org.drools:drools-core:6.5.0.Final'
     compile 'org.drools:drools-compiler:6.5.0.Final'
     compile 'org.drools:drools-decisiontables:6.5.0.Final'
