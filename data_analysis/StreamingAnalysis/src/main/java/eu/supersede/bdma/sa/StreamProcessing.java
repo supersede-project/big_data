@@ -69,7 +69,7 @@ public class StreamProcessing {
     }
 
     private static int evaluateNumericRule(String operator, String ruleValue, String[] values) {
-        System.out.println("evaluateNumericRule("+operator+","+ruleValue+","+Arrays.toString(values));
+        //System.out.println("evaluateNumericRule("+operator+","+ruleValue+","+Arrays.toString(values));
         PackageDescr pkg =
                 DescrFactory.newPackage()
                         .name("sa.pkg")
@@ -77,7 +77,7 @@ public class StreamProcessing {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"ok\");")
+                        .rhs("System.out.println(\"\");")
                         .end()
                         .getDescr();
 
@@ -99,7 +99,7 @@ public class StreamProcessing {
 
     private static int evaluateFeedbackRule(String operator, String ruleValue, String[] values) throws Exception {
         if (operator.equals("=")) operator = "==";
-        System.out.println("evaluateFeedbackRule("+operator+","+ruleValue+","+Arrays.toString(values));
+        //System.out.println("evaluateFeedbackRule("+operator+","+ruleValue+","+Arrays.toString(values));
 
         PackageDescr pkg =
                 DescrFactory.newPackage()
@@ -108,7 +108,7 @@ public class StreamProcessing {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
                         .end()
-                        .rhs("System.out.println(\"ok\");")
+                        .rhs("System.out.println(\"\");")
                         .end()
                         .getDescr();
 
@@ -119,15 +119,22 @@ public class StreamProcessing {
 
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String path = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
+
+        //String socketOut = "";
+
         for (String str : values) {
             String label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
-            sendMessageToSocket("analysis","Extracted value ["+str+"]");
-            sendMessageToSocket("analysis","Classified as ["+label+"]");
+            System.out.println("Extracted value ["+str+"]");
+            sendMessageToSocket("analysis","Extracted value: "+str);
+            //socketOut += "Extracted value ["+str+"]"+"\n";
+            System.out.println("Classified as ["+label+"]");
+            sendMessageToSocket("analysis","Classified as: "+label);
+            //socketOut += "Classified as ["+label+"]"+"\n";
             ksession.insert(new TextCondition(label));
         }
         int nRules = ksession.fireAllRules();
-        System.out.println("Rules "+nRules);
-        sendMessageToSocket("analysis",nRules + " satisfy the condition");
+        System.out.println(nRules + " satisfy the condition");
+        //socketOut += nRules + " satisfy the condition"+"\n";
 
         return nRules;
     }
@@ -192,6 +199,7 @@ public class StreamProcessing {
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
+                    System.out.println(record.value());
                     sendMessageToSocket(o.topic(),record.value());
                     /*
                     JSONObject out = new JSONObject();
@@ -236,20 +244,26 @@ public class StreamProcessing {
                             switch (rule.getOperator()) {
                                 case VALUE: {
                                     int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
+                                    sendMessageToSocket("analysis",valids + "/"+ rule.getWindowSize()+" satisfy the condition");
                                     if (valids >= rule.getWindowSize()) {
                                         if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                                            sendMessageToSocket("analysis","Sending alert for DYNAMIC_ADAPTATION");
                                             DynamicAdaptationAlert.sendAlert();
                                         } else {
+                                            sendMessageToSocket("analysis","Sending alert for SOFTWARE_EVOLUTION");
                                             SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
                                         }
                                     }
                                 }
                                 case FEEDBACK_CLASSIFIER_LABEL: {
                                     int valids = evaluateFeedbackRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
+                                    sendMessageToSocket("analysis",valids + "/"+ rule.getWindowSize()+" satisfy the condition");
                                     if (valids >= rule.getWindowSize()) {
                                         if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                                            sendMessageToSocket("analysis","Sending alert for DYNAMIC_ADAPTATION");
                                             DynamicAdaptationAlert.sendAlert();
                                         } else {
+                                            sendMessageToSocket("analysis","Sending alert for SOFTWARE_EVOLUTION");
                                             SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
                                         }
                                     }
