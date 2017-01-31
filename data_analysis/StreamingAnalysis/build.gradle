@@ -32,11 +32,27 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
         //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     }
 }
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+
+shadowJar {
+    baseName = 'streamingAnalysisShadowJAR'
+    classifier = null
+    version = null
+}
+
+group = 'eu.supersede.bdma.sa'
+version = '0.1.0-SNAPSHOT'
+jar {
+    baseName = 'StreamingAnalysis'
+    version = '0.0.1-SNAPSHOT'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -87,8 +103,7 @@ dependencies {
     //compile(group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.2')
     compile(group: 'org.apache.spark', name: 'spark-mllib_2.10', version: '2.1.0')
 
-    //compile 'org.kie:kie-api:6.5.0.Final'
-    compile 'org.kie:kie-api:6.5.0.CR1'
+    compile 'org.kie:kie-api:6.5.0.Final'
     compile 'org.drools:drools-core:6.5.0.Final'
     compile 'org.drools:drools-compiler:6.5.0.Final'
     compile 'org.drools:drools-decisiontables:6.5.0.Final'
