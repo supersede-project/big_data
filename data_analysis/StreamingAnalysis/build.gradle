@@ -26,6 +26,9 @@ buildscript {
                 password = "${artifactory_password}"
             }
         }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
 
     }
     dependencies {
@@ -40,19 +43,6 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-
-shadowJar {
-    baseName = 'streamingAnalysisShadowJAR'
-    classifier = null
-    version = null
-}
-
-group = 'eu.supersede.bdma.sa'
-version = '0.1.0-SNAPSHOT'
-jar {
-    baseName = 'StreamingAnalysis'
-    version = '0.0.1-SNAPSHOT'
-}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -157,4 +147,16 @@ test {
         includeTestsMatching "*FEDataStoreProxyTest"
         includeTestsMatching "*IFAuthenticationManagerTest"
     }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'eu.supersede.bdma.sa.Main'
+    }
+}
+
+shadowJar {
+    baseName = 'shadow'
+    classifier = null
+    version = null
 }

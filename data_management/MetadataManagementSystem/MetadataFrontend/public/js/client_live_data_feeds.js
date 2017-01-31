@@ -26,12 +26,12 @@ function openNewTab(name, href, properties) {
 function getReleases() {
     $.get("/release", function(data) {
         $.each((data), function(key, value) {
-            console.log(JSON.stringify(value));
             var theObj = (value);
             openNewTab(theObj.event + "("+theObj.schemaVersion+")", "/live_data_feed?topic="+theObj.kafkaTopic, "seamless scrolling='no' style=\"height: 90%; width : 70%\"");
-
         });
     });
+    openNewTab( "Data Analysis", "/live_data_feed?topic=analysis", "seamless scrolling='no' style=\"height: 90%; width : 70%\"");
+
 }
 
 $(function() {

@@ -9,19 +9,24 @@ import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
 import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
 import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
 import eu.supersede.bdma.sa.proxies.MDMProxy;
+import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.integration.api.mdm.types.ActionTypes;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
+import net.minidev.json.JSONObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.spark.TaskContext;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
+import org.apache.spark.streaming.kafka010.HasOffsetRanges;
+import org.apache.spark.streaming.kafka010.OffsetRange;
 import org.drools.compiler.lang.api.DescrFactory;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.kie.api.io.ResourceType;
@@ -41,6 +46,19 @@ import java.util.*;
  * Created by snadal on 11/01/17.
  */
 public class StreamProcessing {
+
+    private static void sendMessageToSocket(String topic, String message) {
+        JSONObject out = new JSONObject();
+        out.put("topic",topic);
+        out.put("message",message);
+        try {
+            // TODO use IF to send this message
+            Sockets.sendSocketAlert(out.toString(),"raw_data");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private static KnowledgePackage compilePkgDescr( PackageDescr pkg ) {
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -99,8 +117,8 @@ public class StreamProcessing {
         String path = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         for (String str : values) {
             String label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
-            System.out.println("got "+str);
-            System.out.println("classified as "+label);
+            sendMessageToSocket("analysis","got "+str);
+            sendMessageToSocket("analysis","classified as "+label);
             ksession.insert(new TextCondition(label));
         }
         int nRules = ksession.fireAllRules();
@@ -164,11 +182,13 @@ public class StreamProcessing {
         /**
          * 2: Send the raw data to the Live Data Feed
          */
-        /*kafkaStream.foreachRDD(records -> {
+        kafkaStream.foreachRDD(records -> {
             final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
+                    sendMessageToSocket(o.topic(),record.value());
+                    /*
                     JSONObject out = new JSONObject();
                     out.put("topic",o.topic());
                     out.put("message",record.value());
@@ -178,10 +198,11 @@ public class StreamProcessing {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    */
                 });
             });
         });
-        */
+
 
         /**
          * 3: Evaluate rules
