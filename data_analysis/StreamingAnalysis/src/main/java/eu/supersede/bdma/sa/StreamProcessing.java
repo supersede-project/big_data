@@ -87,10 +87,14 @@ public class StreamProcessing {
         StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 
         for (String strNum : values) {
+            sendMessageToSocket("analysis","Extracted value ["+strNum+"]");
             ksession.insert(new DoubleCondition(Double.parseDouble(strNum)));
         }
 
-        return ksession.fireAllRules();
+        int nRules = ksession.fireAllRules();
+        sendMessageToSocket("analysis",nRules + " satisfy the condition");
+
+        return nRules;
     }
 
     private static int evaluateFeedbackRule(String operator, String ruleValue, String[] values) throws Exception {
@@ -117,12 +121,13 @@ public class StreamProcessing {
         String path = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         for (String str : values) {
             String label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
-            sendMessageToSocket("analysis","got "+str);
-            sendMessageToSocket("analysis","classified as "+label);
+            sendMessageToSocket("analysis","Extracted value ["+str+"]");
+            sendMessageToSocket("analysis","Classified as ["+label+"]");
             ksession.insert(new TextCondition(label));
         }
         int nRules = ksession.fireAllRules();
         System.out.println("Rules "+nRules);
+        sendMessageToSocket("analysis",nRules + " satisfy the condition");
 
         return nRules;
     }
@@ -207,8 +212,6 @@ public class StreamProcessing {
         /**
          * 3: Evaluate rules
          */
-
-
         JavaPairDStream<String,String> window = kafkaStream.flatMapToPair(record -> {
             List<Tuple2<String,String>> out = Lists.newArrayList();
             rules.forEach(rule -> {
@@ -219,7 +222,7 @@ public class StreamProcessing {
             });
             return out.iterator();
         })
-        .window(new Duration(300000),new Duration(10000));
+        .window(new Duration(300000),new Duration(15000));
 
         window.print();
 
