@@ -169,7 +169,6 @@ public class StreamProcessing {
 
         JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
                 Utils.getKafkaStream(streamCtx, broadcastReleases.value().keySet(), this.kafkaParams);
-        kafkaStream.print();
 
         /**
          * 1: Send to Dispatcher if needed
