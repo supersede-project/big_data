@@ -69,7 +69,7 @@ public class StreamProcessing {
     }
 
     private static int evaluateNumericRule(String operator, String ruleValue, String[] values) {
-        //System.out.println("evaluateNumericRule("+operator+","+ruleValue+","+Arrays.toString(values));
+        System.out.println("evaluateNumericRule("+operator+","+ruleValue+","+Arrays.toString(values));
         PackageDescr pkg =
                 DescrFactory.newPackage()
                         .name("sa.pkg")
@@ -99,7 +99,7 @@ public class StreamProcessing {
 
     private static int evaluateFeedbackRule(String operator, String ruleValue, String[] values) throws Exception {
         if (operator.equals("=")) operator = "==";
-        //System.out.println("evaluateFeedbackRule("+operator+","+ruleValue+","+Arrays.toString(values));
+        System.out.println("evaluateFeedbackRule("+operator+","+ruleValue+","+Arrays.toString(values));
 
         PackageDescr pkg =
                 DescrFactory.newPackage()
@@ -255,6 +255,8 @@ public class StreamProcessing {
                                             SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
                                         }
                                     }
+
+                                    break;
                                 }
                                 case FEEDBACK_CLASSIFIER_LABEL: {
                                     int valids = evaluateFeedbackRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
@@ -268,6 +270,8 @@ public class StreamProcessing {
                                             SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
                                         }
                                     }
+
+                                    break;
                                 }
                             }
                         //}
