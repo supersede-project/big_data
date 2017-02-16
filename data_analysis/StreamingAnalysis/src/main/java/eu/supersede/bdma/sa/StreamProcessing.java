@@ -160,6 +160,7 @@ public class StreamProcessing {
         kafkaParams.put("enable.auto.commit", false);
 
         rules = MDMProxy.getRules();
+        System.out.println(rules);
     }
 
     public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx) throws Exception {
@@ -168,6 +169,7 @@ public class StreamProcessing {
 
         JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
                 Utils.getKafkaStream(streamCtx, broadcastReleases.value().keySet(), this.kafkaParams);
+        kafkaStream.print();
 
         /**
          * 1: Send to Dispatcher if needed
