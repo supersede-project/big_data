@@ -14,6 +14,7 @@ import java.util.List;
 public class DynamicAdaptationAlert {
 
     public static void sendAlert() throws Exception {
+        /*
         List<Condition> conditions = new ArrayList<>();
         List<ActionOnFeature> actionsF = new ArrayList<>();
         List<ActionOnAttribute> actionsA = new ArrayList<>();
@@ -27,5 +28,7 @@ public class DynamicAdaptationAlert {
 
         TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true);
         publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
+        */
+        System.out.println("Im sending a dynamic adaptation alert!");
     }
 }
