@@ -14,7 +14,7 @@ import java.util.List;
 public class SoftwareEvolutionAlert {
 
     public static void sendAlert(String[] contents) throws Exception {
-        TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_EVOLUTION_EVENT_TOPIC,true);
+        /*TopicPublisher publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_EVOLUTION_EVENT_TOPIC,true);
 
         Alert alert = new Alert();
 
@@ -39,6 +39,8 @@ public class SoftwareEvolutionAlert {
 
         alert.setRequests(requests);
 
-        publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
+        publisher.publishTextMesssageInTopic(new Gson().toJson(alert));*/
+        System.out.println("Im sending a software evolution alert!");
+
     }
 }
