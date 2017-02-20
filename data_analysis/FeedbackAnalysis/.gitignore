@@ -24,3 +24,5 @@ gradlew.bat
 .gradle
 .idea
 classes
+
+FeedbackAnalysis.iml

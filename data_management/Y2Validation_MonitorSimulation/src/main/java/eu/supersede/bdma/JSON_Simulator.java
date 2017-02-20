@@ -27,7 +27,7 @@ public class JSON_Simulator extends Simulator {
         IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
         files = Maps.newHashMap();
         for (Release R : proxy.getAllReleases()) {
-            //System.out.println(R.getEvent());
+            System.out.println(R.getKafkaTopic());
             String kafka = R.getKafkaTopic();
             RandomAccessFile file = new RandomAccessFile(
                     new File(Thread.currentThread().getContextClassLoader().getResource(R.getEvent()+".json").toString().replace("file:",""))
@@ -36,6 +36,9 @@ public class JSON_Simulator extends Simulator {
             files.put(kafka,file);
         }
 
+        /*files.put("snf",  new RandomAccessFile(
+                new File(Thread.currentThread().getContextClassLoader().getResource("AtosAudienceMonitor.json").toString().replace("file:",""))
+                ,"r"));*/
         dataProvider = new DataProviderProxy();
     }
 
@@ -51,8 +54,8 @@ public class JSON_Simulator extends Simulator {
                 }
                 try {
                     System.out.println("sending data to "+topic);
-                    WP2KafkaProducer.writeToKafka(tuple,topic);
-                    //dataProvider.ingestData(tuple,"test");
+                    //WP2KafkaProducer.writeToKafka(tuple,topic);
+                    dataProvider.ingestData(tuple,topic);
                 } catch (Exception e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

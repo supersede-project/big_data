@@ -25,3 +25,5 @@ gradlew.bat
 .gradle
 .idea
 classes
+
+settings.gradle

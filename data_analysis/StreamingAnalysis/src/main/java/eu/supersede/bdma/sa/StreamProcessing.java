@@ -3,6 +3,7 @@ package eu.supersede.bdma.sa;
 import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
 import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
@@ -40,6 +41,10 @@ import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kie.internal.runtime.StatelessKnowledgeSession;
 import scala.Tuple2;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -147,6 +152,8 @@ public class StreamProcessing {
     // TODO Make ECA_Rule serializable so it can be broadcast
     private static List<ECA_Rule> rules;
 
+    private static String dispatcher_path;
+
     public StreamProcessing() throws Exception {
         releases = MDMProxy.getReleasesIndexedPerKafkaTopic2();
         System.out.println(releases);
@@ -160,7 +167,10 @@ public class StreamProcessing {
         kafkaParams.put("enable.auto.commit", false);
 
         rules = MDMProxy.getRules();
-        System.out.println(rules);
+        System.out.println("Have "+rules.size());
+
+        dispatcher_path = Main.properties.getProperty("DISPATCHER_PATH");
+        System.out.println("Dispatcher path "+dispatcher_path);
     }
 
     public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx) throws Exception {
@@ -173,24 +183,24 @@ public class StreamProcessing {
         /**
          * 1: Send to Dispatcher if needed
          */
-        /*
         kafkaStream.foreachRDD(records -> {
             final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
-                    if (broadcastReleases.value().get(o.topic())._1()) { //isDispatch?
+                    // Dispatch always (For validation)
+                    //if (broadcastReleases.value().get(o.topic())._1()) { //isDispatch?
                         // TODO Warning, using local FS methods. Must change for HDFS
                         try {
-                            Files.append(record.value()+"\n", new File(broadcastReleases.value().get(o.topic())._2()), Charset.defaultCharset());
+                            Files.append(record.value()+"\n", new File(dispatcher_path+o.topic()+".txt"), Charset.defaultCharset());
+                            //Files.append(record.value()+"\n", new File(broadcastReleases.value().get(o.topic())._2()), Charset.defaultCharset());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }
+                    //}
                 });
             });
         });
-        */
 
         /**
          * 2: Send the raw data to the Live Data Feed
@@ -250,9 +260,13 @@ public class StreamProcessing {
                                         if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
                                             sendMessageToSocket("analysis","Sending alert for DYNAMIC_ADAPTATION");
                                             DynamicAdaptationAlert.sendAlert();
+                                            Files.append("New alert!"+new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())+"\n", new File(dispatcher_path+"alerts"+".txt"), Charset.defaultCharset());
+
                                         } else {
                                             sendMessageToSocket("analysis","Sending alert for SOFTWARE_EVOLUTION");
                                             SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
+                                            Files.append("New alert!"+new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())+"\n", new File(dispatcher_path+"alerts"+".txt"), Charset.defaultCharset());
+
                                         }
                                     }
 
@@ -265,9 +279,13 @@ public class StreamProcessing {
                                         if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
                                             sendMessageToSocket("analysis","Sending alert for DYNAMIC_ADAPTATION");
                                             DynamicAdaptationAlert.sendAlert();
+                                            Files.append("New alert!"+new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())+"\n", new File(dispatcher_path+"alerts"+".txt"), Charset.defaultCharset());
+
                                         } else {
                                             sendMessageToSocket("analysis","Sending alert for SOFTWARE_EVOLUTION");
                                             SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
+                                            Files.append("New alert!"+new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime())+"\n", new File(dispatcher_path+"alerts"+".txt"), Charset.defaultCharset());
+
                                         }
                                     }
 
