@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.*;
 
 import eu.supersede.feedbackanalysis.ds.ClassificationResult;
 import eu.supersede.feedbackanalysis.ds.KeywordSearchResult;
@@ -38,13 +39,21 @@ public class SimpleKeywordSearcher implements KeywordSearcher{
 		String [] keywords = lines.toArray(new String[lines.size()]);
 
 		for (String keyword : keywords) {
-
-			if (userFeedback.getFeedbackText().toLowerCase().contains(keyword.toLowerCase())) {
+			// TODO: in case we want subwords to be found use this!
+			//if (userFeedback.getFeedbackText().toLowerCase().contains(keyword.toLowerCase())) {
+			if (isContain(userFeedback.getFeedbackText().toLowerCase(), keyword.toLowerCase())){
 				found_keywords.add(keyword.toLowerCase());
 			}
 		}
 		result.setFoundKeywords(found_keywords);
 		return result;
+	}
+
+	private static boolean isContain(String source, String subItem){
+		String pattern = "\\b"+subItem+"\\b";
+		Pattern p=Pattern.compile(pattern);
+		Matcher m=p.matcher(source);
+		return m.find();
 	}
 	
 	//For testing purposes only
