@@ -87,7 +87,7 @@ public class SimpleFeatureExtractor implements FeatureExtractor {
 		
 		return result;
 	}
-	
+
 	
 	// TODO: for testing purposes, this should be removed once results are consolidated
 	public static void main(String arg[]) throws Exception{
@@ -121,8 +121,7 @@ public class SimpleFeatureExtractor implements FeatureExtractor {
 	 * @see eu.supersede.feedbackanalysis.feature.FeatureExtractor#single(java.lang.String, eu.supersede.feedbackanalysis.ds.UserFeedback)
 	 */
 	@Override
-	public FeatureExtractionResult single(String featurePath,
-			UserFeedback userFeedback) {
+	public FeatureExtractionResult single(String featurePath, UserFeedback userFeedback) {
 		// TODO Auto-generated method stub
 		FeatureExtractionResult result = new FeatureExtractionResult();
 		List<String> features = new ArrayList<String>();
