@@ -6,7 +6,9 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,12 +17,16 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Random;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import com.opencsv.CSVReader;
 
 
 public class FileManager{
@@ -33,6 +39,7 @@ public class FileManager{
 	 * @param fileName name of the file including the extension
 	 * @param lines of the text to save in a file
 	 * @param folderPath place to save the file
+	 * @throws IOException 
 	 */
 	//	public void writeFile(String folderPath, String fileName, String lines){
 	//		try {
@@ -47,6 +54,57 @@ public class FileManager{
 	//
 	//	}
 
+	public void splitCSVtoFiles (String csvPath, String outputDir) throws IOException{
+		
+		// if outputDir does not yet exist, crete it
+		File d = new File(outputDir);
+		if (!d.exists()){
+			d.mkdirs();
+		}
+		
+		FileReader reader = new FileReader(csvPath);
+		CSVReader csvReader = new CSVReader(reader, ';');
+		
+		Iterator<String[]> iterator = csvReader.iterator();
+		String[] csvHeader = iterator.next(); //discard the header! 
+		int count = 1;
+		while(iterator.hasNext()){
+			String[] csvLine = iterator.next();
+			
+			// debug
+			for (String s : csvLine){
+				System.out.print(s + ",");
+			}
+			System.out.println();
+			
+			// each line has form: comment_id, thetext, thelabel
+			String theLabel = csvLine[0];
+			String theText = csvLine[1];
+			String outputFileName = theLabel + "_" + (count++) + ".txt";
+			writeFile(outputDir, outputFileName, theText);
+		}
+		csvReader.close();
+	}
+	
+	public void filesToCSV(String inputDir, String outputCSVFileName) throws IOException{
+		File[] files = getFilesToBeIndexed(inputDir);
+		StringBuffer buffer = new StringBuffer();
+		for (File file : files){
+			//get the label
+			String fileName = file.getName();
+			String label = fileName.substring(0, fileName.indexOf('_'));
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			buffer.append("\"");
+			while (reader.ready()){
+				buffer.append(reader.readLine());
+			}
+			buffer.append("\",");
+			buffer.append("\"" + label + "\"\n");
+			reader.close();
+		}
+		writeFile(inputDir, outputCSVFileName, buffer.toString());
+	}
+	
 	public void writeFile(String folderPath, String fileName, String lines){
 		if(createFolder(folderPath.substring(0, folderPath.length()-1))==true)
 		{
@@ -337,30 +395,42 @@ public class FileManager{
 	}
 
 	public static void main(String arg[]) throws Exception{
-		FileManager mfiles=new FileManager();
-		String sourceDir="/Users/itzelmorales/Desktop/Splitting/source/";
-		String destPath="/Users/itzelmorales/Desktop/Splitting/target/";
-		//String folderName="noname";
-		File[] files = mfiles.getFilesToBeIndexed(sourceDir);
-		//Addition made for RE 2014, Feb 17	
-		try
-		{
-			for(File file: files)
-			{
-				System.out.println(sourceDir);
-				System.out.println(file.getName());
-				//mfiles.splitDiscussionFiles(file.getPath(), file.getName(),destPath,folderName);
-				mfiles.splitDiscussionFiles2(file.getPath(), file.getName(),destPath);
-			}
-		}
-		catch(IOException ex)
-		{
-			
-			ex.printStackTrace();
-			return;
-		}
-		//Addition made for RE 2014, Feb 17
-
+//		FileManager mfiles=new FileManager();
+//		String sourceDir="/Users/itzelmorales/Desktop/Splitting/source/";
+//		String destPath="/Users/itzelmorales/Desktop/Splitting/target/";
+//		//String folderName="noname";
+//		File[] files = mfiles.getFilesToBeIndexed(sourceDir);
+//		//Addition made for RE 2014, Feb 17	
+//		try
+//		{
+//			for(File file: files)
+//			{
+//				System.out.println(sourceDir);
+//				System.out.println(file.getName());
+//				//mfiles.splitDiscussionFiles(file.getPath(), file.getName(),destPath,folderName);
+//				mfiles.splitDiscussionFiles2(file.getPath(), file.getName(),destPath);
+//			}
+//		}
+//		catch(IOException ex)
+//		{
+//			
+//			ex.printStackTrace();
+//			return;
+//		}
+//		//Addition made for RE 2014, Feb 17
+		
+		
+		// uncomment the following lines to split a CSV file into separate files per feedback, named by the label
+//		FileManager fileManager = new FileManager();
+//		String csvPath = "/data/workspace_supersede2/big_data/data_analysis/FeedbackAnalysis/src/test/resources/trainingsets/SENERCON_german_300_feedback_3_scale.csv";
+//		String outputDir = "/data/workspace_supersede2/big_data/data_analysis/FeedbackAnalysis/src/test/resources/trainingsets/translated/";
+//		fileManager.splitCSVtoFiles(csvPath, outputDir);
+		
+		// uncomment the following lines to consolidate separate files into a csv
+		FileManager fileManager = new FileManager();
+		String inputDir = "/data/workspace_supersede2/big_data/data_analysis/FeedbackAnalysis/src/test/resources/trainingsets/RAW_Senercon_Y2/english/";
+		String csvFileName = "SENERCON_autotranslated_3_scale.csv";
+		fileManager.filesToCSV(inputDir, csvFileName);
 	}
 
 
