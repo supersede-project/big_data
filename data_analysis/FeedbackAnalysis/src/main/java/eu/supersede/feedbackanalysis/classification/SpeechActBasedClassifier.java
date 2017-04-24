@@ -98,10 +98,10 @@ public class SpeechActBasedClassifier implements FeedbackClassifier {
 	public static void main(String[] args) throws Exception {
 		//  for testing purposes only 
 		
-		UserFeedback f1 = new UserFeedback("However since _ XPropertySet ] 21: LOG Execute: getPropertySetInfo 21: Method getPropertySetInfo finished with state OK");
-		UserFeedback f2 = new UserFeedback("I would like to have the window minimizing automatically when it loses focus.");
-		UserFeedback f3 = new UserFeedback("Automatic window minimize does not work. Please fix it.");
-		UserFeedback f4 = new UserFeedback("I would like a new search feature that works on voice commands.");
+		UserFeedback f1 = new UserFeedback("I encountered problems changing my meters (Gas, water, electricity). After entering a new meter (meter number), I am not able anymore to access already entered values. The earlier comparisons are therefore lost.");
+		UserFeedback f2 = new UserFeedback("Hello, something is wrong with my water section.");
+		UserFeedback f3 = new UserFeedback("Last month, our data were corrected in the water. After entering the meter readings for month end completely wrong numbers are displayed again. :( I ask for examination.");
+		UserFeedback f4 = new UserFeedback("Hello, I had created two electricity meters; for the house and the apartment. When entering the last year's consumption figures, I have found out that the meter data are added together. How can I prevent this?");
 		
 		List<UserFeedback> userFeedbacks = new ArrayList<UserFeedback>();
 		userFeedbacks.add(f1);
@@ -110,9 +110,9 @@ public class SpeechActBasedClassifier implements FeedbackClassifier {
 		userFeedbacks.add(f4);
 		
 		FeedbackClassifier classifier = new SpeechActBasedClassifier();
-		String csvPath = Thread.currentThread().getContextClassLoader().getResource("trainingsets/SENERCON_translated_300_feedback.csv").toString().replace("file:","");
+//		String csvPath = Thread.currentThread().getContextClassLoader().getResource("trainingsets/SENERCON_translated_300_feedback.csv").toString().replace("file:","");
 //		String arffPath = "resources/trainingsets/SENERCON_translated_300_feedback.csv.arff";
-		String arffPath = Thread.currentThread().getContextClassLoader().getResource("trainingsets/comments_order_0_confirmed_textonly.csv.arff").toString().replace("file:","");
+//		String arffPath = Thread.currentThread().getContextClassLoader().getResource("trainingsets/comments_order_0_confirmed_textonly.csv.arff").toString().replace("file:","");
 //		classifier.train(arffPath, true);
 		
 		String modelPath = Thread.currentThread().getContextClassLoader().getResource("models/rf.model").toString().replace("file:","");
