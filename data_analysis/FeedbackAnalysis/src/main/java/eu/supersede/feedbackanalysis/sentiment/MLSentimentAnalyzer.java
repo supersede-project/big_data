@@ -14,7 +14,8 @@ import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
-import weka.core.stemmers.SnowballStemmer;
+//import weka.core.stemmers.SnowballStemmer;
+import weka.core.stemmers.Stemmer;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 import eu.supersede.feedbackanalysis.ds.SentimentAnalysisResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
@@ -93,8 +94,8 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 			StringToWordVector filter = new StringToWordVector();
 			filter.setInputFormat(instances);
 			filter.setIDFTransform(true);
-			SnowballStemmer stemmer = new SnowballStemmer();
-			filter.setStemmer(stemmer);
+			//SnowballStemmer stemmer = new SnowballStemmer();
+			//filter.setStemmer(stemmer);
 			filter.setLowerCaseTokens(true);
 			
 			
@@ -138,7 +139,7 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 		//new MLSentimentAnalyzer().train("resources/trainingsets/sentiment_reviews_3_scale.arff");
 		SentimentAnalyzer sentimentAnalyzer = new MLSentimentAnalyzer();
 		//String modelFile = "resources/models/sentiment_classifier.model";
-		String modelFile = "resources/models/NB-3-scale-german-mixed.model";
+		String modelFile = "resources/models/NB-3-scale-translated-mixed.model";
 		for (UserFeedback userFeedback : userFeedbacks){
 			SentimentAnalysisResult result = sentimentAnalyzer.classify(modelFile, userFeedback);
 			System.out.println(userFeedback.getFeedbackText() + ":" + result.getOverallSentiment());
