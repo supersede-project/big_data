@@ -99,6 +99,8 @@ dependencies {
         changing = true
         exclude (group: 'com.fasterxml.jackson.core')
     }
+
+    compile 'com.opencsv:opencsv:3.9'
 }
 
 configurations {
