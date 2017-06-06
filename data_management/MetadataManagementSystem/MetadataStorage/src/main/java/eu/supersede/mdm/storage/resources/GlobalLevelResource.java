@@ -36,14 +36,14 @@ import java.util.UUID;
 /**
  * Created by snadal on 17/05/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class GlobalLevelResource {
 
     @Context
     ServletContext context;
 
     private MongoCollection<Document> getArtifactsCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("artifacts");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("artifacts");
     }
 
     /**

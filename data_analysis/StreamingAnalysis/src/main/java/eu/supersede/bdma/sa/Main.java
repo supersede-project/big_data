@@ -45,8 +45,9 @@ public class Main {
 
         SparkConf conf = new SparkConf().setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
         JavaSparkContext context = new JavaSparkContext(conf);
+        System.out.println("microbatch period = "+properties.getProperty("MICROBATCH_PERIOD"));
         JavaStreamingContext streamContext = new JavaStreamingContext(context, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
-//        streamContext.checkpoint("checkpoint");
+        streamContext.checkpoint("checkpoint");
 
         Logger.getRootLogger().setLevel(Level.OFF);
 

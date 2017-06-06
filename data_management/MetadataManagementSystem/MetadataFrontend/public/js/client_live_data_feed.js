@@ -1,4 +1,4 @@
-/**
+/**topic
  * Created by snadal on 16/01/17.
  */
 
@@ -14,6 +14,7 @@ $(function() {
     var socket = io("/raw_data");
 
     socket.on('/raw_data', function (fromSocket) {
+        console.log(fromSocket);
         var socketMsg = JSON.parse(Object.keys(JSON.parse(fromSocket.message))[0]);
         if (socketMsg.topic == topic) {
             $('#liveDataFeed').find('tbody')

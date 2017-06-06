@@ -26,7 +26,7 @@ import com.mongodb.util.JSON;
  *
  * Users resource (exposed at "metadataDataLayer/users" path)
  */
-@Path("")
+@Path("metadataStorage")
 public class UserResource {
 
     @Context
@@ -44,7 +44,7 @@ public class UserResource {
     }
 
     private MongoCollection<Document> getUsersCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("users");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("users");
     }
 
     @GET @Path("users")

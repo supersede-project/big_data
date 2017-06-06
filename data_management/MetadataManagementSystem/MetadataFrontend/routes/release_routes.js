@@ -18,7 +18,7 @@ exports.getRelease = function (req, res, next) {
 };
 
 
-    exports.getAllReleases = function (req, res, next) {
+exports.getAllReleases = function (req, res, next) {
     request.get(config.METADATA_DATA_LAYER_URL + "release/", function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.status(200).json(JSON.parse(body));
@@ -39,6 +39,10 @@ exports.postRelease = function (req, res, next) {
         release.event = req.body.event;
         release.schemaVersion = req.body.schemaVersion;
         release.jsonInstances = req.body.jsonInstances;
+
+        if (!req.body.kafkaTopic) release.kafkaTopic = "";
+        else release.kafkaTopic = req.body.kafkaTopic;
+
         release.dispatch = !(req.body.hasOwnProperty('event')) || req.body.event == null ? false : req.body.dispatch;
         var graphName = config.DEFAULT_NAMESPACE+"SOURCE/"+randomstring.generate();//randomstring.generate();
         release.graph = graphName;

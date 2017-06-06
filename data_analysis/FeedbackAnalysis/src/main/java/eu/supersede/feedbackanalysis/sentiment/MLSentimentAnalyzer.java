@@ -49,7 +49,7 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 			instances.setClassIndex(0); 
 			
 			// Loading stored models and making predictions
-			FilteredClassifier cls = (FilteredClassifier) weka.core.SerializationHelper.read(modelPath); //"resources/models/sentiment_classifier.model" 
+			Classifier cls = (Classifier) weka.core.SerializationHelper.read(modelPath); //"resources/models/sentiment_classifier.model"
 			
 			// Instance prediction
 			Instance instance = instances.get(0);
@@ -128,7 +128,7 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 		UserFeedback f1 = new UserFeedback("However since _ XPropertySet ] 21: LOG Execute: getPropertySetInfo 21: Method getPropertySetInfo finished with state OK");
 		UserFeedback f2 = new UserFeedback("I would like to have the window minimizing automatically when it loses focus.");
 		UserFeedback f3 = new UserFeedback("Automatic window minimize does not work. Please fix it, I really hate it.");
-		UserFeedback f4 = new UserFeedback("I would like a new search feature that works on voice commands.");
+		UserFeedback f4 = new UserFeedback("Althought i registered in iESA, i dont see any benefit from it - my consumption dont reduce itself by it.");
 		
 		List<UserFeedback> userFeedbacks = new ArrayList<UserFeedback>();
 		userFeedbacks.add(f1);
@@ -139,10 +139,11 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 		//new MLSentimentAnalyzer().train("resources/trainingsets/sentiment_reviews_3_scale.arff");
 		SentimentAnalyzer sentimentAnalyzer = new MLSentimentAnalyzer();
 		//String modelFile = "resources/models/sentiment_classifier.model";
-		String modelFile = "resources/models/NB-3-scale-translated-mixed.model";
+		String modelFile = "/home/snadal/UPC/Sergi/SUPERSEDE/Development/big_data/data_analysis/FeedbackAnalysis/src/main/resources/models/NB-3-scale-translated-mixed.model";
 		for (UserFeedback userFeedback : userFeedbacks){
 			SentimentAnalysisResult result = sentimentAnalyzer.classify(modelFile, userFeedback);
-			System.out.println(userFeedback.getFeedbackText() + ":" + result.getOverallSentiment());
+			System.out.println(userFeedback.getFeedbackText() + " [" + result.getPositiveSentiment() + ", " + result.getNegativeSentiment() +
+				", " + result.getOverallSentiment() + "]");
 		}
 		
 	}

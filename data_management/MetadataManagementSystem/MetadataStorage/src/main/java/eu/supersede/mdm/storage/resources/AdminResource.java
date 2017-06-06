@@ -33,7 +33,7 @@ import java.util.UUID;
 /**
  * Created by snadal on 17/05/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class AdminResource {
 
     @Context

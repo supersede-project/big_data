@@ -154,9 +154,21 @@ app.get('/admin/deleteAll', admin_routes.deleteAll);
 
 
 /********** Websocket messages ***********************************************************/
+// Raw data coming from the Kafka topics
 app.post('/raw_data', function(req, res){
-    console.log("received "+JSON.stringify(req.body));
     io.of('/raw_data').emit('/raw_data',{message:JSON.stringify(req.body)});
+    res.json(true);
+});
+
+// General statistics per release
+app.post('/events_in_last_5_min', function(req, res){
+    io.of('/events_in_last_5_min').emit('/events_in_last_5_min',{message:JSON.stringify(req.body)});
+    res.json(true);
+});
+
+// Data source statistics
+app.post('/socket_data_source_statistics', function(req, res){
+    io.of('/socket_data_source_statistics').emit('/socket_data_source_statistics',{message:(JSON.stringify(req.body))});
     res.json(true);
 });
 
@@ -251,20 +263,6 @@ app.get('/view_source_level', checkAuthenticated, function(req,res) {
     res.render('view_source_level', {user:req.session.passport.user});
 });
 
-/********** Three-level Ontology section ***************************************************/
-
-app.get('/new_three_level_ontology', checkAuthenticated, function(req,res) {
-    res.render('new_three_level_ontology', {user:req.session.passport.user});
-});
-
-app.get('/manage_three_level_ontologies', checkAuthenticated, function(req,res) {
-    res.render('manage_three_level_ontologies', {user:req.session.passport.user});
-});
-
-app.get('/view_three_level_ontology', checkAuthenticated, function(req,res) {
-    res.render('view_three_level_ontology', {user:req.session.passport.user});
-});
-
 /********** Reference Dataset section ********************************************************/
 
 app.get('/new_dataset', checkAuthenticated, function(req,res) {
@@ -288,6 +286,20 @@ app.get('/live_data_feeds', checkAuthenticated, function(req,res) {
 
 app.get('/live_data_feed', checkAuthenticated, function(req,res) {
     res.render('live_data_feed', {user:req.session.passport.user});
+});
+
+/********** Statistics section ***********************************************************/
+
+app.get('/general_statistics', checkAuthenticated, function(req,res) {
+    res.render('general_statistics', {user:req.session.passport.user});
+});
+
+app.get('/data_source_statistics_wrapper', checkAuthenticated, function(req,res) {
+    res.render('data_source_statistics_wrapper', {user:req.session.passport.user});
+});
+
+app.get('/data_source_statistics', checkAuthenticated, function(req,res) {
+    res.render('data_source_statistics', {user:req.session.passport.user});
 });
 
 

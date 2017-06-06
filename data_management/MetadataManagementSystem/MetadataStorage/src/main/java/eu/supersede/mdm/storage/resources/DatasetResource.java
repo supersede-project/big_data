@@ -19,14 +19,14 @@ import java.util.UUID;
 /**
  * Created by snadal on 17/05/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class DatasetResource {
 
     @Context
     ServletContext context;
 
     private MongoCollection<Document> getDatasetsCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("datasets");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("datasets");
     }
 
     @GET @Path("datasets/{username}")

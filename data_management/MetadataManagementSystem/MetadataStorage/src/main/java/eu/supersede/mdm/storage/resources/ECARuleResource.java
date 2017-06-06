@@ -33,11 +33,11 @@ import java.util.UUID;
 /**
  * Created by snadal on 22/11/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class ECARuleResource {
 
     private MongoCollection<Document> getEcaRulesCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("eca_rules");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("eca_rules");
     }
 
     @Context

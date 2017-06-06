@@ -25,11 +25,11 @@ import java.util.UUID;
 /**
  * Created by snadal on 22/11/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class ReleaseResource {
 
     private MongoCollection<Document> getReleasesCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("releases");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("releases");
     }
 
     @Context
@@ -104,7 +104,12 @@ public class ReleaseResource {
         }
 
         if (content.containsKey("kafkaTopic")) {
-            objBody.put("kafkaTopic", content.getAsString("kafkaTopic"));
+            if (!objBody.getAsString("kafkaTopic").isEmpty()) {
+                objBody.put("kafkaTopic", objBody.getAsString("kafkaTopic"));
+            } else {
+                objBody.put("kafkaTopic", content.getAsString("kafkaTopic"));
+            }
+
             objBody.put("releaseID", UUID.randomUUID().toString());
 
             // If we have to dispatch to the Data Lake, generate a random path (.txt for now)

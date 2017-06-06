@@ -19,11 +19,11 @@ import java.util.jar.JarEntry;
 /**
  * Created by snadal on 22/11/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class StatisticalAnalysisModelResource {
 
     private MongoCollection<Document> getStatisticalAnalysisModelCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("statisticalAnalysisModels");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("statisticalAnalysisModels");
     }
 
     @Context

@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by snadal on 22/11/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class DispatcherStrategiesResource {
 
     @Context

@@ -26,15 +26,15 @@ import java.util.UUID;
 /**
  * Created by snadal on 22/11/16.
  */
-@Path("")
+@Path("metadataStorage")
 public class BDIOntologyResource {
 
     private MongoCollection<Document> getReleasesCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("releases");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("releases");
     }
 
     private MongoCollection<Document> getBDIOntologyCollection(MongoClient client) {
-        return client.getDatabase(context.getInitParameter("system_metadata_db_name")).getCollection("bdi_ontologies");
+        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("bdi_ontologies");
     }
 
     @Context
@@ -133,7 +133,7 @@ public class BDIOntologyResource {
         if (objBody.get("generationStrategy").equals(BDIOntologyGenerationStrategies.COPY_FROM_SOURCE.toString())) {
             JSONObject graphs = Strategy_CopyFromSources.copyFromSourcesStrategy(this.context,getReleasesCollection(client),(JSONArray)objBody.get("releases"));
 
-            out.put("G", graphs.get("G"));
+            out.put("G", graphs.get ("G"));
             out.put("M", graphs.get("M"));
             out.put("O", graphs.get("O"));
         }
