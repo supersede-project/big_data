@@ -14,8 +14,9 @@ $(function() {
     var socket = io("/raw_data");
 
     socket.on('/raw_data', function (fromSocket) {
-        console.log(fromSocket);
-        var socketMsg = JSON.parse(Object.keys(JSON.parse(fromSocket.message))[0]);
+        /*console.log(JSON.parse(fromSocket.message).topic)
+        console.log(JSON.parse(fromSocket.message).message);*/
+        var socketMsg = JSON.parse(fromSocket.message)/*JSON.parse(Object.keys(JSON.parse(fromSocket.message))[0])*/;
         if (socketMsg.topic == topic) {
             $('#liveDataFeed').find('tbody')
                 .prepend($('<tr>')
@@ -23,7 +24,7 @@ $(function() {
                         .text(socketMsg.message)
                     )
                 );
-            $("#liveDataFeed tr:eq(25)").remove();
+            $("#liveDataFeed tr:eq(5)").remove();
         }
     });
 

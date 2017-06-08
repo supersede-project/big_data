@@ -45,6 +45,7 @@ public class BDIOntologyResource {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public Response GET_BDI_ontology() {
+        org.glassfish.jersey.server.ApplicationHandler a;
         System.out.println("[GET /bdi_ontology/]");
 
         MongoClient client = Utils.getMongoDBClient(context);

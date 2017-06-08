@@ -1,19 +1,20 @@
 package eu.supersede.mdm.storage;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+//import org.eclipse.jetty.server.Server;
+//import org.eclipse.jetty.servlet.ServletContextHandler;
+//import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import javax.ws.rs.core.Application;
 import java.io.IOException;
 import java.net.URI;
 
 /**
  * Created by snadal on 29/04/16.
  */
-
-public class Main {
+/*
+public class Main extends Application {
     public static void main(String[] args) {
         ResourceConfig config = new ResourceConfig();
         config.packages("eu.supersede.mdm.storage.resources");
@@ -33,7 +34,8 @@ public class Main {
         }
     }
 }
-/*
+*/
+
 public class Main extends ResourceConfig {
 
     public Main() {
@@ -42,7 +44,7 @@ public class Main extends ResourceConfig {
     }
 
 }
-*/
+
 /*
 public class Main {
     // Base URI the Grizzly HTTP server will listen on

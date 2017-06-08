@@ -2,8 +2,10 @@ package eu.supersede.bdma.sa.stream_processes;
 
 import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
+import eu.supersede.bdma.sa.eca_rules.SerializableECA_Rule;
 import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
 import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
 import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
@@ -40,6 +42,8 @@ import java.util.*;
  */
 public class RuleEvaluation {
 
+    private static Map<String, Long> firedRulesXTimestamp = Maps.newConcurrentMap();
+
     private static KnowledgePackage compilePkgDescr(PackageDescr pkg ) {
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
         kbuilder.add( ResourceFactory.newDescrResource( pkg ),
@@ -49,6 +53,7 @@ public class RuleEvaluation {
     }
 
     private static int evaluateNumericRule(String operator, String ruleValue, String[] values) {
+        if (operator.equals("=")) operator = "==";
         System.out.println("evaluateNumericRule("+operator+","+ruleValue+","+ Arrays.toString(values));
         PackageDescr pkg =
                 DescrFactory.newPackage()
@@ -67,12 +72,10 @@ public class RuleEvaluation {
         StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 
         for (String strNum : values) {
-            Sockets.sendMessageToSocket("analysis","Extracted value ["+strNum+"]");
             ksession.insert(new DoubleCondition(Double.parseDouble(strNum)));
         }
 
         int nRules = ksession.fireAllRules();
-        Sockets.sendMessageToSocket("analysis",nRules + " satisfy the condition");
 
         return nRules;
     }
@@ -99,94 +102,116 @@ public class RuleEvaluation {
 
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String path = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
-
-        //String socketOut = "";
-
         for (String str : values) {
             String label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
             System.out.println("Extracted value ["+str+"]");
             Sockets.sendMessageToSocket("analysis","Extracted value: "+str);
-            //socketOut += "Extracted value ["+str+"]"+"\n";
             System.out.println("Classified as ["+label+"]");
             Sockets.sendMessageToSocket("analysis","Classified as: "+label);
-            //socketOut += "Classified as ["+label+"]"+"\n";
             ksession.insert(new TextCondition(label));
         }
         int nRules = ksession.fireAllRules();
         System.out.println(nRules + " satisfy the condition");
-        //socketOut += nRules + " satisfy the condition"+"\n";
-
         return nRules;
     }
 
 
-    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream, List<ECA_Rule> rules) {
+    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream, List<SerializableECA_Rule> rules) {
 
-        JavaPairDStream<String, String> window = kafkaStream.flatMapToPair(record -> {
-            List<Tuple2<String, String>> out = Lists.newArrayList();
+        for (SerializableECA_Rule r : rules) {
+            firedRulesXTimestamp.put(r.getEca_ruleID(), Long.valueOf(0));
+        }
+
+        JavaPairDStream<String, Tuple2<String,Long>> window = kafkaStream.
+                filter(record -> !record.value().isEmpty()).
+                flatMapToPair(record -> {
+            List<Tuple2<String, Tuple2<String,Long>>> out = Lists.newArrayList();
             rules.forEach(rule -> {
                 String tuple = record.value().toString();
-                Utils.extractFeatures(tuple, rule.getFeature()).forEach(extractedElement -> {
-                    out.add(new Tuple2<String, String>(rule.getEca_ruleID(), extractedElement));
-                });
-            });
-            return out.iterator();
-        })
-                .window(new Duration(300000), new Duration(15000));
 
-        window.print();
+                if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
+                    out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+                }
+                /*if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
+                    Utils.extractFeatures(tuple, rule.getFeature()).forEach(extractedElement -> {
+                        out.add(new Tuple2<String, Tuple2<String,Long>>(rule.getEca_ruleID(), new Tuple2<String,Long>(extractedElement,System.currentTimeMillis())));
+                        Sockets.sendMessageToSocket("analysis", "["+rule.getName()+"] Received value - "+extractedElement);
+                    });
+                }*/
+
+            });
+            System.out.println("Extracted "+out.toString().substring(0,50));
+            return out.iterator();
+        }).window(new Duration(300000), new Duration(5000));
 
         window.groupByKey()
             .foreachRDD(records -> {
-                    records.foreach(set -> {
-                        for (ECA_Rule rule : rules) {
+                records.foreach(set -> {
+                        for (SerializableECA_Rule rule : rules) {
                             // if the data is for that rule
                             if (set._1().equals(rule.getEca_ruleID())) {
-                                //for (String tuple : set._2()) {
+                                List<String> data = Lists.newArrayList();
+                                set._2().forEach(t -> {
+                                    if (firedRulesXTimestamp.get(rule.getEca_ruleID()) < t._2()) {
+                                        data.add(t._1());
+                                    }
+                                });
+
                                 switch (rule.getOperator()) {
                                     case VALUE: {
-                                        int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
-                                        Sockets.sendMessageToSocket("analysis", valids + "/" + rule.getWindowSize() + " satisfy the condition");
-                                        if (valids >= rule.getWindowSize()) {
-                                            if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
-                                                Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
-                                                DynamicAdaptationAlert.sendAlert();
-                                                //Files.append("New alert!" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + "\n", new File(dispatcher_path + "alerts" + ".txt"), Charset.defaultCharset());
-
-                                            } else {
-                                                Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
-                                                SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
-                                                //Files.append("New alert!" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + "\n", new File(dispatcher_path + "alerts" + ".txt"), Charset.defaultCharset());
-
-                                            }
+                                        List<String> extractedData = Lists.newArrayList();
+                                        for (String json : data) {
+                                            Utils.extractFeatures(json,rule.getFeature()).forEach(element -> extractedData.add(element));
                                         }
 
+                                        int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(extractedData, String.class));
+                                        Sockets.sendMessageToSocket("analysis", "["+rule.getName()+"] "+valids + "/" + rule.getWindowSize() + " satisfy the condition");
+                                        if (valids >= rule.getWindowSize()) {
+                                            // Set the timestamp when the last alert has been triggered
+                                            firedRulesXTimestamp.put(rule.getEca_ruleID(),System.currentTimeMillis());
+
+                                            if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                                                Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
+                                                DynamicAdaptationAlert.sendAlert(rule);
+                                            } else {
+                                                Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
+                                                List<String> feedbacks = Lists.newArrayList();
+                                                for (String json : data) {
+                                                    Utils.extractFeatures(json,"http://www.BDIOntology.com/global/Feature/ratingFeedbacks/rating").forEach(element -> {
+                                                        if (Double.parseDouble(element)<3) {
+                                                            Utils.extractFeatures(json,"http://www.BDIOntology.com/global/Feature/textFeedbacks/text").forEach(e -> feedbacks.add(e));
+                                                        }
+                                                    });
+                                                }
+                                                SoftwareEvolutionAlert.sendAlert(Iterables.toArray(feedbacks,String.class));
+                                            }
+                                        }
                                         break;
                                     }
-                                    case FEEDBACK_CLASSIFIER_LABEL: {
+                                    /*case FEEDBACK_CLASSIFIER_LABEL: {
                                         int valids = evaluateFeedbackRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
                                         Sockets.sendMessageToSocket("analysis", valids + "/" + rule.getWindowSize() + " satisfy the condition");
                                         if (valids >= rule.getWindowSize()) {
                                             if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
                                                 Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
-                                                DynamicAdaptationAlert.sendAlert();
-                                                //Files.append("New alert!" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + "\n", new File(dispatcher_path + "alerts" + ".txt"), Charset.defaultCharset());
-
+                                                DynamicAdaptationAlert.sendAlert(rule);
                                             } else {
                                                 Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
                                                 SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
-                                                //Files.append("New alert!" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime()) + "\n", new File(dispatcher_path + "alerts" + ".txt"), Charset.defaultCharset());
-
                                             }
                                         }
 
                                         break;
-                                    }
+                                    }*/
                                 }
                                 //}
                             }
                         }
                     });
-                });
+                System.out.println("");
+                System.out.println("");
+
+            });
+
     }
 }

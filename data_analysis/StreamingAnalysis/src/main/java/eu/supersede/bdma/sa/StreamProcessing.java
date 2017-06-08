@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
+import eu.supersede.bdma.sa.eca_rules.SerializableECA_Rule;
 import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
 import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
 import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
@@ -57,7 +58,7 @@ public class StreamProcessing {
     // TODO Make Release serializable so it can be broadcast
     private Map<String, Tuple2<Boolean,String>> releases;
     // TODO Make ECA_Rule serializable so it can be broadcast
-    private static List<ECA_Rule> rules;
+    private static List<SerializableECA_Rule> rules;
 
     private static String dispatcher_path;
 
@@ -90,9 +91,9 @@ public class StreamProcessing {
 
         //Dispatcher.process(kafkaStream);
         //GenericStreamStatistics.process(kafkaStream,broadcastReleases);
-        DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
-        //RawDataToLiveFeed.process(kafkaStream);
-        //RuleEvaluation.process(kafkaStream,rules);
+        //DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
+        RawDataToLiveFeed.process(kafkaStream);
+        RuleEvaluation.process(kafkaStream,rules);
 
 
     }

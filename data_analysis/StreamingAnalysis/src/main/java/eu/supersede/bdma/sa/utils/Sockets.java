@@ -18,7 +18,8 @@ public class Sockets {
             // TODO use IF to send this message
             Sockets.sendSocketAlert(out.toString(),"raw_data");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Socket is offline");
+            //e.printStackTrace();
         }
     }
 

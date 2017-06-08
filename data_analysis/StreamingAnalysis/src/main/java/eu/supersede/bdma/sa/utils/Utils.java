@@ -21,21 +21,23 @@ public class Utils {
 
     private static void traverseRecursive(JSONObject jsonObj, String path, List<String> out) {
         String currentPathElement = path.split("/")[0];
-        if (jsonObj.get(currentPathElement).getClass().getName().equals(JSONObject.class.getName())) {
-            traverseRecursive((JSONObject)jsonObj.get(currentPathElement),path.substring(currentPathElement.length()+1),out);
-        }
-        else if (jsonObj.get(currentPathElement).getClass().getName().equals(JSONArray.class.getName())) {
-            JSONArray theArr = (JSONArray)jsonObj.get(currentPathElement);
-            for (Object arrElem : theArr) {
-                if (arrElem.getClass().getName().equals(JSONObject.class.getName())) {
-                    traverseRecursive((JSONObject)arrElem,path.substring(currentPathElement.length()+1),out);
-                } else {
-                    out.add(arrElem.toString());
+        if (jsonObj.get(currentPathElement) == null) {
+            out = null;
+        } else {
+            if (jsonObj.get(currentPathElement).getClass().getName().equals(JSONObject.class.getName())) {
+                traverseRecursive((JSONObject) jsonObj.get(currentPathElement), path.substring(currentPathElement.length() + 1), out);
+            } else if (jsonObj.get(currentPathElement).getClass().getName().equals(JSONArray.class.getName())) {
+                JSONArray theArr = (JSONArray) jsonObj.get(currentPathElement);
+                for (Object arrElem : theArr) {
+                    if (arrElem.getClass().getName().equals(JSONObject.class.getName())) {
+                        traverseRecursive((JSONObject) arrElem, path.substring(currentPathElement.length() + 1), out);
+                    } else {
+                        out.add(arrElem.toString());
+                    }
                 }
+            } else {
+                out.add(jsonObj.getAsString(currentPathElement));
             }
-        }
-        else {
-            out.add(jsonObj.getAsString(currentPathElement));
         }
     }
 
@@ -57,7 +59,11 @@ public class Utils {
         Matcher m = p.matcher(Feature);
         if (m.find()) {
             String path = m.group(1);
-            traverseRecursive((JSONObject)JSONValue.parse(JSON),path,out);
+            try {
+                traverseRecursive((JSONObject) JSONValue.parse(JSON), path, out);
+            } catch (Exception e) {
+                return null;
+            }
         }
         return out;
     }

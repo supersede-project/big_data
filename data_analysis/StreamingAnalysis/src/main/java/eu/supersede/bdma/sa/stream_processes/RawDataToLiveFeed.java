@@ -21,9 +21,10 @@ public class RawDataToLiveFeed {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
                     System.out.println(record.value());
-//                    sendMessageToSocket(o.topic(),record.value());
-
-                    Sockets.sendMessageToSocket(o.topic(),Utils.extractFeatures(record.value(), "http://www.BDIOntology.com/global/Feature/textFeedbacks/text").get(0));
+                    if (!record.value().trim().isEmpty()) {
+                        Sockets.sendMessageToSocket(o.topic(), record.value());
+                    }
+                    //Sockets.sendMessageToSocket(o.topic(),Utils.extractFeatures(record.value(), "http://www.BDIOntology.com/global/Feature/textFeedbacks/text").get(0));
                     /*
                     JSONObject out = new JSONObject();
                     out.put("topic",o.topic());
