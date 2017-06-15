@@ -63,7 +63,7 @@
     <!-- Metadata Data Layer URL -->
     <context-param>
         <param-name>metadata_data_storage_url</param-name>
-        <param-value>http://localhost:8081/metadataStorage/</param-value>
+        <param-value>http://localhost:8082/metadataStorage/</param-value>
     </context-param>
 
 </web-app>
