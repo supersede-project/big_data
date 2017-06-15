@@ -14,7 +14,7 @@ public class ApacheMain {
         ResourceConfig config = new ResourceConfig();
         config.packages("eu.supersede.mdm.storage.resources");
         ServletHolder servlet = new ServletHolder(new ServletContainer(config));
-        Server server = new Server(8081);
+        Server server = new Server(8082);
         ServletContextHandler context = new ServletContextHandler(server, "/*");
         context.addServlet(servlet, "/*");
         try {
