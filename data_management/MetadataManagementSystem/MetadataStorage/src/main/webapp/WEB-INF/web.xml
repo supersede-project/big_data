@@ -58,7 +58,7 @@
     <!-- Metadata Data Layer URI -->
     <context-param>
         <param-name>metadata_data_storage_uri</param-name>
-        <param-value>http://localhost:8081/</param-value>
+        <param-value>http://localhost:8082/</param-value>
     </context-param>
     <!-- Metadata Data Layer URL -->
     <context-param>
