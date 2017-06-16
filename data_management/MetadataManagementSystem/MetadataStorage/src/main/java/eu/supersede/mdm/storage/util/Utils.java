@@ -25,5 +25,6 @@ public class Utils {
             e.printStackTrace();
         }
         System.out.println("An error has occurred obtaining TDB dataset");
+        return null;
     }
 }
