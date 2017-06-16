@@ -158,17 +158,26 @@ public class ArtifactResource {
     public Response POST_artifacts(@PathParam("graph") String graph, String RDF) {
         System.out.println("[POST /artifacts/"+graph);
 
+        System.out.println("the RDF is "+RDF);
+
         Dataset dataset = Utils.getTDBDataset();
+        System.out.println("Got TDB dataset");
         dataset.begin(ReadWrite.WRITE);
 
         Model model = dataset.getNamedModel(graph);
+        System.out.println("Got Model");
+
         OntModel ontModel = ModelFactory.createOntologyModel();
+        System.out.println("Got Ontmodel");
 
         /* Store RDF into a temporal file */
         String tempFileName = UUID.randomUUID().toString();
         String filePath = "";
+        System.out.println("tempFileName = "+tempFileName);
+
         try {
             File tempFile = File.createTempFile(tempFileName,".tmp");
+            System.out.println("Tempfile = "+tempFile);
             filePath = tempFile.getAbsolutePath();
             System.out.println("artifact temp stored in "+filePath);
             Files.write(RDF.getBytes(),tempFile);
