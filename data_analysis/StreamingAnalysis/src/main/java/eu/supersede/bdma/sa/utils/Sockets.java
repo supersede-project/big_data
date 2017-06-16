@@ -26,8 +26,10 @@ public class Sockets {
 
     public static void sendSocketAlert(String msg, String path) throws Exception {
         System.out.println(msg);
-
+        //Development server
         //URL url = new URL("http://supersede.es.atos.net:3001/"+path);
+        //Production server
+        //URL url = new URL("http://platform.supersede.eu:3000/"+path);
         URL url = new URL("http://localhost:3000/"+path);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");

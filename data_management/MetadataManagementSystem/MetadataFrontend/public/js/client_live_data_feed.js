@@ -18,10 +18,15 @@ $(function() {
         console.log(JSON.parse(fromSocket.message).message);*/
         var socketMsg = JSON.parse(fromSocket.message)/*JSON.parse(Object.keys(JSON.parse(fromSocket.message))[0])*/;
         if (socketMsg.topic == topic) {
+            var currentdate = new Date();
+            var datetime = currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+
             $('#liveDataFeed').find('tbody')
                 .prepend($('<tr>')
                     .append($('<td>')
-                        .text(socketMsg.message)
+                        .text(datetime + " - " +socketMsg.message)
                     )
                 );
             $("#liveDataFeed tr:eq(5)").remove();

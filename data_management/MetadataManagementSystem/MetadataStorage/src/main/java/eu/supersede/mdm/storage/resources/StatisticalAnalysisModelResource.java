@@ -5,6 +5,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import eu.supersede.mdm.storage.model.StatisticalAnalysisModelTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.Release;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.bson.Document;
@@ -23,11 +24,8 @@ import java.util.jar.JarEntry;
 public class StatisticalAnalysisModelResource {
 
     private MongoCollection<Document> getStatisticalAnalysisModelCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("statisticalAnalysisModels");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("statisticalAnalysisModels");
     }
-
-    @Context
-    ServletContext context;
 
     @GET
     @Path("statistical_analysis_model/")

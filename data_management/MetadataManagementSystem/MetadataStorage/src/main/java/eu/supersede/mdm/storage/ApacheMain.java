@@ -10,7 +10,15 @@ import org.glassfish.jersey.servlet.ServletContainer;
  * Created by snadal on 6/06/17.
  */
 public class ApacheMain {
-    public static void main(String[] args) {
+
+    public static String configPath;
+
+    public static void main(String[] args) throws Exception {
+        if (args.length != 1) {
+            throw new Exception("Parameter missing: configuration file path");
+        }
+        configPath = args[0];
+
         ResourceConfig config = new ResourceConfig();
         config.packages("eu.supersede.mdm.storage.resources");
         ServletHolder servlet = new ServletHolder(new ServletContainer(config));

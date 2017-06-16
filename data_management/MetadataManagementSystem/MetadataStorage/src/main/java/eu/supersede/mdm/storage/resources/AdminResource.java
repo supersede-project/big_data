@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import eu.supersede.mdm.storage.parsers.OWLtoD3;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import eu.supersede.mdm.storage.util.Utils;
 import org.apache.jena.ontology.OntModel;
@@ -36,17 +37,14 @@ import java.util.UUID;
 @Path("metadataStorage")
 public class AdminResource {
 
-    @Context
-    ServletContext context;
-
     /** System Metadata **/
     @GET @Path("admin/deleteAll")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public Response GET_admin_delete_all() {
         System.out.println("[GET /admin/deleteAll/");
-        MongoClient client = Utils.getMongoDBClient(this.context);
-        client.getDatabase(context.getInitParameter("system_metadata_db_name")).drop();
+        MongoClient client = Utils.getMongoDBClient();
+        client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).drop();
         return Response.ok("OK").build();
     }
 

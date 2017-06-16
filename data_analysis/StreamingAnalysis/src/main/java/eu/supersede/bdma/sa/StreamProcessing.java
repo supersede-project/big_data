@@ -91,7 +91,7 @@ public class StreamProcessing {
 
         //Dispatcher.process(kafkaStream);
         //GenericStreamStatistics.process(kafkaStream,broadcastReleases);
-        //DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
+        DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
         RawDataToLiveFeed.process(kafkaStream);
         RuleEvaluation.process(kafkaStream,rules);
 

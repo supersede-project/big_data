@@ -41,9 +41,9 @@ public class MDMProxy {
             m.put(r.getKafkaTopic(),new Tuple2<Boolean,String>(r.isDispatch(),r.getDispatcherPath()));
         }*/
         // Feedback
-        m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean,String>(false,""));
+        //m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean,String>(false,""));
         // HTTP Monitor
-        //m.put("cbdc0cc2-9c08-46a3-8cb5-d2924b02bcfd", new Tuple2<Boolean,String>(false,""));
+        m.put("cbdc0cc2-9c08-46a3-8cb5-d2924b02bcfd", new Tuple2<Boolean,String>(false,""));
         return Collections.unmodifiableMap(m);
     }
 
@@ -52,6 +52,7 @@ public class MDMProxy {
         //return proxy.getAllECARules();
 
         // Evolution demo rule
+        /*
         SerializableECA_Rule r = new SerializableECA_Rule();
         r.setAction(ActionTypes.ALERT_EVOLUTION);
         r.setEca_ruleID(UUID.randomUUID().toString());
@@ -64,22 +65,22 @@ public class MDMProxy {
         r.setGraph("http://supersede/RULES/vdeQiAhdKaFc9Ct7Vn7Sn9BCQEVujRG4");
         r.setOperator(OperatorTypes.VALUE);
         r.setPredicate(PredicatesTypes.LT);
-
+        */
         // Adaptation demo rule
-        /*
+
         SerializableECA_Rule r = new SerializableECA_Rule();
         r.setAction(ActionTypes.ALERT_DYNAMIC_ADAPTATION);
         r.setEca_ruleID(UUID.randomUUID().toString());
         r.setGlobalLevel("http://supersede/GLOBAL/rBOxtCPqD3nImChe1zRWOpO469e7Py66");
-        r.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseCode");
-        r.setName("Code different than 200 one time");
+        r.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseTime");
+        r.setName("Response time greater than 200ms more than 3 times");
         r.setWindowTime(5); // Hardcoded to 5 right now
         r.setWindowSize(3); // Number of elements in the window to trigger alert
         r.setValue(200);
         r.setGraph("http://supersede/RULES/vdeQiAhdKaFc9Ct7Vn7Sn9BCQEVujRG4");
         r.setOperator(OperatorTypes.VALUE);
         r.setPredicate(PredicatesTypes.GT);
-        */
+
 
         List<SerializableECA_Rule> l = new java.util.concurrent.CopyOnWriteArrayList<SerializableECA_Rule>();
         l.add(r);

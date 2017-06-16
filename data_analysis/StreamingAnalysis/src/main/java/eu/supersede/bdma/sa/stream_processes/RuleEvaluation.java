@@ -128,21 +128,13 @@ public class RuleEvaluation {
             List<Tuple2<String, Tuple2<String,Long>>> out = Lists.newArrayList();
             rules.forEach(rule -> {
                 String tuple = record.value().toString();
-
                 if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
                     out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
                 }
-                /*if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
-                    Utils.extractFeatures(tuple, rule.getFeature()).forEach(extractedElement -> {
-                        out.add(new Tuple2<String, Tuple2<String,Long>>(rule.getEca_ruleID(), new Tuple2<String,Long>(extractedElement,System.currentTimeMillis())));
-                        Sockets.sendMessageToSocket("analysis", "["+rule.getName()+"] Received value - "+extractedElement);
-                    });
-                }*/
-
             });
             System.out.println("Extracted "+out.toString().substring(0,50));
             return out.iterator();
-        }).window(new Duration(300000), new Duration(5000));
+        }).window(new Duration(3600000), new Duration(5000));
 
         window.groupByKey()
             .foreachRDD(records -> {
@@ -152,7 +144,7 @@ public class RuleEvaluation {
                             if (set._1().equals(rule.getEca_ruleID())) {
                                 List<String> data = Lists.newArrayList();
                                 set._2().forEach(t -> {
-                                    if (firedRulesXTimestamp.get(rule.getEca_ruleID()) < t._2()) {
+                                    if (firedRulesXTimestamp.get(rule.getEca_ruleID()) < t._2() && firedRulesXTimestamp.get(rule.getEca_ruleID())+3600000 < System.currentTimeMillis()) {
                                         data.add(t._1());
                                     }
                                 });

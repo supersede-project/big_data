@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import net.minidev.json.JSONArray;
 import org.bson.Document;
 import eu.supersede.mdm.storage.util.Utils;
@@ -22,11 +23,8 @@ import java.util.UUID;
 @Path("metadataStorage")
 public class DatasetResource {
 
-    @Context
-    ServletContext context;
-
     private MongoCollection<Document> getDatasetsCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("datasets");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("datasets");
     }
 
     @GET @Path("datasets/{username}")
@@ -35,7 +33,7 @@ public class DatasetResource {
     public Response GET_datasets(@PathParam("username") String username) {
         System.out.println("[GET /datasets/"+username);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         List<String> allDatasets = Lists.newArrayList();
         JSONArray arr = new JSONArray();
         getDatasetsCollection(client).find().iterator().forEachRemaining(document -> arr.add(document));
@@ -49,7 +47,7 @@ public class DatasetResource {
     public Response GET_dataset(@PathParam("datasetID") String datasetID, @PathParam("username") String username) {
         System.out.println("[GET /datasets/"+datasetID+"/"+username);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         Document query = new Document("datasetID",datasetID);
         Document res = getDatasetsCollection(client).find(query).first();
         client.close();
@@ -62,7 +60,7 @@ public class DatasetResource {
     public Response POST_datasets(@PathParam("username") String username, String JSON_dataset) {
         System.out.println("[POST /datasets/"+username+"] JSON_dataset = "+JSON_dataset);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         Document theDoc = Document.parse(JSON_dataset);
         theDoc.put("datasetID", UUID.randomUUID().toString());
         getDatasetsCollection(client).insertOne(theDoc);
@@ -75,7 +73,7 @@ public class DatasetResource {
     public Response DELETE_artifacts(@PathParam("datasetID") String datasetID, @PathParam("username") String username) {
         System.out.println("[DELETE /datasets/"+datasetID+"/"+username);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         getDatasetsCollection(client).deleteOne(new Document("datasetID",datasetID));
         client.close();
 

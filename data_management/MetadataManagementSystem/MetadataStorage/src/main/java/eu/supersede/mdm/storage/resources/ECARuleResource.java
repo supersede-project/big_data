@@ -11,6 +11,7 @@ import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.PredicatesTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.generation.BDIOntologyGenerationStrategies;
 import eu.supersede.mdm.storage.model.bdi_ontology.generation.Strategy_CopyFromSources;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.Rules;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
@@ -37,11 +38,8 @@ import java.util.UUID;
 public class ECARuleResource {
 
     private MongoCollection<Document> getEcaRulesCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("eca_rules");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("eca_rules");
     }
-
-    @Context
-    ServletContext context;
 
     @GET
     @Path("eca_rule/")
@@ -50,7 +48,7 @@ public class ECARuleResource {
     public Response GET_all_ECA_rules() {
         System.out.println("[GET /eca_rule/]");
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         JSONArray arr = new JSONArray();
         getEcaRulesCollection(client).find().iterator().forEachRemaining(document -> arr.add(document));
         client.close();
@@ -64,7 +62,7 @@ public class ECARuleResource {
     public Response GET_eca_rule(@PathParam("eca_ruleID") String eca_ruleID) {
         System.out.println("[GET /eca_rule/"+eca_ruleID+"]");
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         Document query = new Document("eca_ruleID",eca_ruleID);
         Document res = getEcaRulesCollection(client).find(query).first();
         client.close();
@@ -81,7 +79,7 @@ public class ECARuleResource {
         System.out.println("[POST /eca_rule/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
 
         // Store in MongoDB
         objBody.put("eca_ruleID", UUID.randomUUID().toString());

@@ -11,12 +11,12 @@ import javax.servlet.ServletContext;
  */
 public class Utils {
 
-    public static MongoClient getMongoDBClient(ServletContext context) {
-        return new MongoClient(/*context.getInitParameter("system_metadata_db_server")*/"localhost");
+    public static MongoClient getMongoDBClient() {
+        return new MongoClient(ConfigManager.getProperty("system_metadata_db_server"));
     }
 
-    public static Dataset getTDBDataset(ServletContext context) {
-        return TDBFactory.createDataset(/*context.getInitParameter("metadata_db_file")*/"BolsterMetadataStorage" +
-                /*context.getInitParameter("metadata_db_name")*/"BolsterMetadataStorage");
+    public static Dataset getTDBDataset() {
+        return TDBFactory.createDataset(ConfigManager.getProperty("metadata_db_file")/*"BolsterMetadataStorage"*/ +
+                ConfigManager.getProperty("metadata_db_name")/*"BolsterMetadataStorage"*/);
     }
 }

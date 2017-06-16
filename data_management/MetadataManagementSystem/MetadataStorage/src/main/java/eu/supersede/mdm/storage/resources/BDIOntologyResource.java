@@ -6,6 +6,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import eu.supersede.mdm.storage.model.bdi_ontology.generation.BDIOntologyGenerationStrategies;
 import eu.supersede.mdm.storage.model.bdi_ontology.generation.Strategy_CopyFromSources;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -30,15 +31,12 @@ import java.util.UUID;
 public class BDIOntologyResource {
 
     private MongoCollection<Document> getReleasesCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("releases");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("releases");
     }
 
     private MongoCollection<Document> getBDIOntologyCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("bdi_ontologies");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("bdi_ontologies");
     }
-
-    @Context
-    ServletContext context;
 
     @GET
     @Path("bdi_ontology/")
@@ -48,7 +46,7 @@ public class BDIOntologyResource {
         org.glassfish.jersey.server.ApplicationHandler a;
         System.out.println("[GET /bdi_ontology/]");
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         // Non-complete ontologies means the ones where the release data is not populated
         List<String> nonCompleteOntologies = Lists.newArrayList();
         List<String> completeOntologies = Lists.newArrayList();
@@ -80,7 +78,7 @@ public class BDIOntologyResource {
     public Response GET_BDI_ontology(@PathParam("bdi_ontologyID") String bdi_ontologyID) {
         System.out.println("[GET /bdi_ontology/] bdi_ontologyID = "+bdi_ontologyID);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         Document query = new Document("bdi_ontologyID",bdi_ontologyID);
         Document res = getBDIOntologyCollection(client).find(query).first();
         client.close();
@@ -95,7 +93,7 @@ public class BDIOntologyResource {
     public Response GET_BDI_ontology_from_Graph(@PathParam("graph") String graph) {
         System.out.println("[GET /bdi_ontology/graph/] graph = "+graph);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         Document query = new Document("O",graph);
         Document res = getBDIOntologyCollection(client).find(query).first();
         client.close();
@@ -113,7 +111,7 @@ public class BDIOntologyResource {
         System.out.println("[POST /bdi_ontology/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
 
         objBody.put("bdi_ontologyID", UUID.randomUUID().toString());
         getBDIOntologyCollection(client).insertOne(Document.parse(objBody.toJSONString()));
@@ -130,9 +128,9 @@ public class BDIOntologyResource {
 
         JSONObject out = new JSONObject();
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         if (objBody.get("generationStrategy").equals(BDIOntologyGenerationStrategies.COPY_FROM_SOURCE.toString())) {
-            JSONObject graphs = Strategy_CopyFromSources.copyFromSourcesStrategy(this.context,getReleasesCollection(client),(JSONArray)objBody.get("releases"));
+            JSONObject graphs = Strategy_CopyFromSources.copyFromSourcesStrategy(getReleasesCollection(client),(JSONArray)objBody.get("releases"));
 
             out.put("G", graphs.get ("G"));
             out.put("M", graphs.get("M"));

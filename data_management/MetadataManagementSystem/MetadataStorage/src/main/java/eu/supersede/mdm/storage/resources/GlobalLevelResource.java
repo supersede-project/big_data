@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import eu.supersede.mdm.storage.parsers.OWLtoD3;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
@@ -39,11 +40,8 @@ import java.util.UUID;
 @Path("metadataStorage")
 public class GlobalLevelResource {
 
-    @Context
-    ServletContext context;
-
     private MongoCollection<Document> getArtifactsCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("artifacts");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("artifacts");
     }
 
     /**
@@ -55,7 +53,7 @@ public class GlobalLevelResource {
     public Response GET_allFeatures(@PathParam("graph") String graph) {
         System.out.println("[GET /global_level/"+graph+"/features");
 
-        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.READ);
         List<Tuple3<Resource,Property,Resource>> triples = Lists.newArrayList();
         String out = "";

@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  */
 public class Strategy_CopyFromSources {
 
-    public static JSONObject copyFromSourcesStrategy(ServletContext context, MongoCollection<Document> releasesCollection, JSONArray releases) throws FileNotFoundException {
+    public static JSONObject copyFromSourcesStrategy(MongoCollection<Document> releasesCollection, JSONArray releases) throws FileNotFoundException {
         OntModel G = ModelFactory.createOntologyModel();
         OntModel M = ModelFactory.createOntologyModel();
 
@@ -52,7 +52,7 @@ public class Strategy_CopyFromSources {
 
             String sourceLevel = res.getString("graph");
 
-            Dataset dataset = Utils.getTDBDataset(context);
+            Dataset dataset = Utils.getTDBDataset();
             dataset.begin(ReadWrite.READ);
             String out = "";
             try(QueryExecution qExec = QueryExecutionFactory.create("SELECT ?s ?p ?o ?g WHERE { GRAPH <"+sourceLevel+"> {?s ?p ?o} }",  dataset)) {

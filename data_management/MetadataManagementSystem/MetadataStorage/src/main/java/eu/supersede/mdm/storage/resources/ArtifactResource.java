@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -38,12 +39,8 @@ import java.util.UUID;
 public class ArtifactResource {
 
     private MongoCollection<Document> getArtifactsCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("artifacts");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("artifacts");
     }
-
-
-    @Context
-    ServletContext context;
 
     /** System Metadata **/
     @GET @Path("artifacts/{artifactType}")
@@ -52,7 +49,7 @@ public class ArtifactResource {
     public Response GET_artifacts(@PathParam("artifactType") String artifactType) {
         System.out.println("[GET /artifacts/"+artifactType);
 
-        MongoClient client = Utils.getMongoDBClient(this.context);
+        MongoClient client = Utils.getMongoDBClient();
 
         List<String> allArtifacts = Lists.newArrayList();
         Document query = new Document("type",artifactType);
@@ -67,7 +64,7 @@ public class ArtifactResource {
     public Response POST_artifacts(String JSON_artifact) {
         System.out.println("[POST /artifacts/] JSON_artifact = "+JSON_artifact);
 
-        MongoClient client = Utils.getMongoDBClient(this.context);
+        MongoClient client = Utils.getMongoDBClient();
         getArtifactsCollection(client).insertOne(Document.parse(JSON_artifact));
         client.close();
         return Response.ok().build();
@@ -82,13 +79,11 @@ public class ArtifactResource {
     public Response GET_artifact(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[GET /artifact/"+artifactType+"/"+graph);
         try {
-
-            MongoClient client = Utils.getMongoDBClient(context);
+            MongoClient client = Utils.getMongoDBClient();
             Document query = new Document("graph", graph);
             query.put("type", artifactType);
             Document res = getArtifactsCollection(client).find(query).first();
             client.close();
-
             return Response.ok((res.toJson())).build();
         } catch (Exception e ){
             String ret = "";
@@ -96,7 +91,6 @@ public class ArtifactResource {
                 ret += s.toString()+"\n";
             }
             return Response.notModified(ret).build();
-
         }
     }
 
@@ -109,7 +103,7 @@ public class ArtifactResource {
     public Response GET_artifact_content(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[GET /artifacts/"+artifactType+"/"+graph+"/content");
 
-        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.READ);
         String out = "";
         try(QueryExecution qExec = QueryExecutionFactory.create("SELECT ?s ?p ?o ?g WHERE { GRAPH <"+graph+"> {?s ?p ?o} }",  dataset)) {
@@ -133,7 +127,7 @@ public class ArtifactResource {
     public Response GET_artifact_content_graphical(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[GET /artifacts/"+artifactType+"/"+graph+"/graphical");
 
-        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.READ);
         List<Tuple3<Resource,Property,Resource>> triples = Lists.newArrayList();
         String out = "";
@@ -164,7 +158,7 @@ public class ArtifactResource {
     public Response POST_artifacts(@PathParam("graph") String graph, String RDF) {
         System.out.println("[POST /artifacts/"+graph);
 
-        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.WRITE);
 
         Model model = dataset.getNamedModel(graph);
@@ -197,7 +191,7 @@ public class ArtifactResource {
     public Response POST_triple(@PathParam("graph") String graph, @PathParam("s") String s, @PathParam("p") String p, @PathParam("o") String o) {
         System.out.println("[POST /artifacts/"+graph+"/triple");
 
-        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.WRITE);
 
         Model model = dataset.getNamedModel(graph);
@@ -217,7 +211,7 @@ public class ArtifactResource {
     public Response DELETE_artifacts(@PathParam("artifactType") String artifactType, @PathParam("graph") String graph) {
         System.out.println("[DELETE /artifacts/"+artifactType+"/"+graph);
 
-        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.WRITE);
 
         dataset.removeNamedModel(graph);
@@ -226,7 +220,7 @@ public class ArtifactResource {
         dataset.end();
         dataset.close();
 
-        MongoClient client = Utils.getMongoDBClient(this.context);
+        MongoClient client = Utils.getMongoDBClient();
         getArtifactsCollection(client).deleteOne(new Document("graph",graph));
         client.close();
 
@@ -238,7 +232,7 @@ public class ArtifactResource {
     public Response POST_graphicalGraph(@PathParam("graph") String graph, String body) {
         System.out.println("[POST /artifacts/"+graph+"/graphicalGraph");
 
-        MongoClient client = Utils.getMongoDBClient(this.context);
+        MongoClient client = Utils.getMongoDBClient();
         MongoCollection<Document> artifacts = getArtifactsCollection(client);
 
         artifacts.findOneAndUpdate(

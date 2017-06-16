@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -29,11 +30,8 @@ import java.util.UUID;
 public class ReleaseResource {
 
     private MongoCollection<Document> getReleasesCollection(MongoClient client) {
-        return client.getDatabase("BolsterMetadataStorage"/*context.getInitParameter("system_metadata_db_name")*/).getCollection("releases");
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("releases");
     }
-
-    @Context
-    ServletContext context;
 
     @GET
     @Path("release/")
@@ -42,7 +40,7 @@ public class ReleaseResource {
     public Response GET_release() {
         System.out.println("[GET /release/]");
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         List<String> allReleases = Lists.newArrayList();
         JSONArray arr = new JSONArray();
         //getReleasesCollection(client).find().iterator().forEachRemaining(document -> allReleases.add(document.toJson()));
@@ -58,12 +56,12 @@ public class ReleaseResource {
     public Response GET_release(@PathParam("releaseID") String releaseID) {
         System.out.println("[GET /release/]");
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
         Document query = new Document("releaseID",releaseID);
         Document res = getReleasesCollection(client).find(query).first();
         client.close();
 
-        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.READ);
         String out = "";
         try(QueryExecution qExec = QueryExecutionFactory.create("SELECT ?s ?p ?o ?g WHERE { GRAPH <"+res.getString("graph")+"> {?s ?p ?o} }",  dataset)) {
@@ -94,7 +92,7 @@ public class ReleaseResource {
         System.out.println("[POST /release/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
 
-        MongoClient client = Utils.getMongoDBClient(context);
+        MongoClient client = Utils.getMongoDBClient();
 
         JSONObject content = new JSONObject();
         try {
