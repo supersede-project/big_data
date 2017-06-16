@@ -16,7 +16,14 @@ public class Utils {
     }
 
     public static Dataset getTDBDataset() {
-        return TDBFactory.createDataset(ConfigManager.getProperty("metadata_db_file")/*"BolsterMetadataStorage"*/ +
+        System.out.println("obtaining tdb dataset "+ConfigManager.getProperty("metadata_db_file")/*"BolsterMetadataStorage"*/ +
                 ConfigManager.getProperty("metadata_db_name")/*"BolsterMetadataStorage"*/);
+        try {
+            return TDBFactory.createDataset(ConfigManager.getProperty("metadata_db_file")/*"BolsterMetadataStorage"*/ +
+                    ConfigManager.getProperty("metadata_db_name")/*"BolsterMetadataStorage"*/);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("An error has occurred obtaining TDB dataset");
     }
 }
