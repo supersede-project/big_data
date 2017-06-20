@@ -15,7 +15,7 @@ import org.apache.jena.tdb.TDBFactory;
 public class JenaTDB_Test {
 
     public static void main(String[] args) throws Exception {
-        Dataset dataset = TDBFactory.createDataset("/opt/jenkins/apps/jenkins/jenkins_home/workspace/MetadataManagementSystem/data_management/MetadataManagementSystem/MetadataStorage/BolsterMetadataStorage");
+        Dataset dataset = TDBFactory.createDataset("/home/snadal/Desktop/BolsterMetadataStorage");
         dataset.begin(ReadWrite.WRITE);
         Model model = dataset.getDefaultModel();
         RDFUtil.addTriple(model, Namespaces.R.val()+"DataGatheringTool", Namespaces.rdf.val()+"type", GlobalLevel.CONCEPT.val());
