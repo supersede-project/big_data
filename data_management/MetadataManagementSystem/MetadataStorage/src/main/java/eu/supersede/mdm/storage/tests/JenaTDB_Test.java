@@ -5,6 +5,7 @@ import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.GlobalLevel;
 import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import org.apache.jena.query.Dataset;
+import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.tdb.TDBFactory;
 
@@ -15,6 +16,7 @@ public class JenaTDB_Test {
 
     public static void main(String[] args) throws Exception {
         Dataset dataset = TDBFactory.createDataset("/opt/jenkins/apps/jenkins/jenkins_home/workspace/MetadataManagementSystem/data_management/MetadataManagementSystem/MetadataStorage/BolsterMetadataStorage");
+        dataset.begin(ReadWrite.WRITE);
         Model model = dataset.getDefaultModel();
         RDFUtil.addTriple(model, Namespaces.R.val()+"DataGatheringTool", Namespaces.rdf.val()+"type", GlobalLevel.CONCEPT.val());
         model.commit();
