@@ -25,13 +25,13 @@ public class NamespaceFiles {
         this.ignoredNamespaces = Sets.newHashSet();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        try (Stream<String> stream = Files.lines(new File(classLoader.getResource("namespaces.txt").getFile()).toPath())) {
+        try (Stream<String> stream = Files.lines(new File(ConfigManager.getProperty("resources_path")+"namespaces.txt"/*classLoader.getResource("namespaces.txt").getFile()*/).toPath())) {
             stream.forEach(line -> namespaces.add(line));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try (Stream<String> stream = Files.lines(new File(classLoader.getResource("ignoredNamespaces.txt").getFile()).toPath())) {
+        try (Stream<String> stream = Files.lines(new File(ConfigManager.getProperty("resources_path")+"ignoredNamespaces.txt"/*classLoader.getResource("ignoredNamespaces.txt").getFile()*/).toPath())) {
             stream.forEach(line -> ignoredNamespaces.add(line));
         } catch (IOException e) {
             e.printStackTrace();
