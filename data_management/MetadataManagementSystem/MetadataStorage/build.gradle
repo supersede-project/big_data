@@ -72,7 +72,8 @@ jar {
         exclude "META-INF/*.RSA"
     }
     manifest {
-        attributes 'Main-Class': 'eu.supersede.mdm.storage.ApacheMain'
+        /*attributes 'Main-Class': 'eu.supersede.mdm.storage.ApacheMain'*/
+        attributes 'Main-Class': 'eu.supersede.mdm.storage.tests.JenaTDB_Test'
     }
 }
 
