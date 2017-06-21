@@ -24,6 +24,7 @@
     "underscore":"latest",
     "request":"latest",
     "randomstring":"latest",
-    "uuid":"latest"
+    "uuid":"latest",
+    "async":"latest"
   }
 }

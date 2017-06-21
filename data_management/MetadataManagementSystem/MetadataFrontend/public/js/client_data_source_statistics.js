@@ -23,6 +23,13 @@ function getParameterByName(name) {
 }
 
 $(function() {
+    $('#refreshButton').on("click", function(e){
+        e.preventDefault();
+        location.reload();
+    });
+});
+
+$(function() {
     var topic = getParameterByName("topic");
     var socket = io("/socket_data_source_statistics");
 
@@ -59,7 +66,7 @@ $(function() {
 });
 
 function getNewDataElement() {
-    var ret = {"start":(new Date()).getTime()-6000*150+140000,"end":(((new Date()).getTime())+6000*30*6),"step":5000,"names":["Stats_count2xx"],"values":[[starting_value],[0]]};
+    var ret = {"start":(new Date()).getTime()-6000*150+140000,"end":(((new Date()).getTime())+6000*30*6),"step":1000,"names":["Stats_count2xx"],"values":[[starting_value],[0]]};
     for (var i = 0; i < 150; ++i) {
         ret.values[0].push([0]);
     }
