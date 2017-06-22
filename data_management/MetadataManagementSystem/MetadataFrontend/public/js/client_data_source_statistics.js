@@ -6,7 +6,7 @@ var breakdown;
 var containerIndex;
 var plots;
 var plotsData;
-var starting_value = 250;
+var starting_value = 5000;
 
 $(function() {
     breakdown = new Object();
