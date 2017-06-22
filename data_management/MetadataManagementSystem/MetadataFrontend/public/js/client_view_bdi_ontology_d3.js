@@ -13,7 +13,7 @@ $(window).load(function() {
 
     d3.json('/artifacts/BDI_ONTOLOGY/'+encodeURIComponent(getParameterByName('graph'))+'/graphical', function (error, graph) {
 
-        var width = $(window).width()*0.75;
+        var width = $(window).width()*0.95;
         var height = $(window).height()*0.75;
         var nodeRadius = 7;
 

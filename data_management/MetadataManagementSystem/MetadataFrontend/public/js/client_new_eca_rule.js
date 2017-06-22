@@ -21,9 +21,13 @@ $(window).load(function() {
     });
 
     $("#bdiOntology").change(function(o) {
+        console.log("/bdi_ontology/"+$("#bdiOntology").val());
         $.get("/bdi_ontology/"+$("#bdiOntology").val(), function(ontology) {
+            console.log("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features");
             $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
-                $("#feature").val(null);
+                //$("#feature").val(null);
+                $("#feature").empty().trigger('change');
+
                 _.each(JSON.parse(data), function(element,index,list) {
                     $("#feature").append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
                 });

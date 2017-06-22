@@ -11,6 +11,7 @@ $(window).load(function() {
 
         $("#event").val(releaseObj.event);
         $("#schemaVersion").val(releaseObj.schemaVersion);
+        $("#kafkaTopic").val(releaseObj.kafkaTopic);
         if (releaseObj.dispatch === "true") $("#dispatch").prop('checked', true);
         $("#dispatchTo").val(releaseObj.dispatcherPath ? releaseObj.dispatcherPath : '-');
         $("input:checkbox").click(function() { return false; });

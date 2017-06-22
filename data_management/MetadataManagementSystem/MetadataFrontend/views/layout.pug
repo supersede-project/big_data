@@ -49,6 +49,11 @@ html
                 a(href='/manage_bdi_ontologies') Manage BDI Ontologies
 
         ul.nav.navbar-nav
+          li
+            h5
+              span.badge Data Analysis
+
+        ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
               | Data Feed
@@ -56,15 +61,10 @@ html
             ul.dropdown-menu(aria-labelledby='release')
               li
                 a(href='/live_data_feeds') Raw Data
-              li
+              //li
                 a(href='/general_statistics') General Statistics
               li
                 a(href='/data_source_statistics_wrapper') Graphical Viewer
-
-        ul.nav.navbar-nav
-          li
-            h5
-              span.badge Data Analysis
 
 
         //ul.nav.navbar-nav
@@ -78,7 +78,7 @@ html
               li
                 a(href='/manage_statistical_analysis_models') Manage Statistical Analysis Models
 
-        ul.nav.navbar-nav
+        //ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
               | Statistical Analysis Models

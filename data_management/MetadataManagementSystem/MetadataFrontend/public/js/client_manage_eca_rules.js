@@ -22,10 +22,7 @@ function getRules() {
                         .text(i)
                     ).append($('<td>')
                         .text(theObj.name)
-                    //).append($('<td>')
-                    //    .text(theObj.dispatcherPath ? theObj.dispatcherPath : '-')
-                    //).append($('<td>').append($('<a href="/view_release?releaseID='+(theObj.releaseID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
-                    //).append($('<td>').append($('<a href="/view_source_level?graph='+(theObj.graph)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
+                    ).append($('<td>').append($('<a href="/view_eca_rule?eca_ruleID='+(theObj.eca_ruleID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
                     )
 
                 );

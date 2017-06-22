@@ -79,7 +79,10 @@ public class OWLtoD3 {
                 nodesMap.put(triple._1().getURI(), i);
                 ++i;
                 JSONObject d3Node = new JSONObject();
-                d3Node.put("name", triple._1().getLocalName());
+                if (triple._1().getURI().contains("Event/AtoS")) {
+                    System.out.println("A");
+                }
+                d3Node.put("name", triple._1().getURI().substring(triple._1().getURI().lastIndexOf("/")+1));
                 d3Node.put("iri", triple._1().getURI());
                 // Get the color from the namespace of the element
                 d3Node.put("color", colorMap.get(triple._3().getURI()) == null ? colorMap.get(triple._1().getURI()) : colorMap.get(triple._3().getURI()));
