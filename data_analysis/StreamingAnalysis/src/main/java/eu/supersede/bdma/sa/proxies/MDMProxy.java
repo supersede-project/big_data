@@ -73,8 +73,8 @@ public class MDMProxy {
         r1.setAction(ActionTypes.ALERT_DYNAMIC_ADAPTATION);
         r1.setEca_ruleID(UUID.randomUUID().toString());
         r1.setGlobalLevel("http://supersede/GLOBAL/rBOxtCPqD3nImChe1zRWOpO469e7Py66");
-        r1.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseTime");
-        r1.setName("Response time greater than 200ms more than 3 times");
+        r1.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseCode");
+        r1.setName("AtoS - Response code greater than 200 more than 3 times");
         r1.setWindowTime(5); // Hardcoded to 5 right now
         r1.setWindowSize(3); // Number of elements in the window to trigger alert
         r1.setValue(200);
@@ -90,7 +90,7 @@ public class MDMProxy {
         r2.setEca_ruleID(UUID.randomUUID().toString());
         r2.setGlobalLevel("http://supersede/GLOBAL/rBOxtCPqD3nImChe1zRWOpO469e7Py66");
         r2.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseCode");
-        r2.setName("Response time greater than 200ms more than 3 times");
+        r2.setName("SIEMENS - Response code greater than 200 more than 6 times");
         r2.setWindowTime(5); // Hardcoded to 5 right now
         r2.setWindowSize(3); // Number of elements in the window to trigger alert
         r2.setValue(200);
@@ -105,14 +105,14 @@ public class MDMProxy {
         r3.setAction(ActionTypes.ALERT_DYNAMIC_ADAPTATION);
         r3.setEca_ruleID(UUID.randomUUID().toString());
         r3.setGlobalLevel("http://supersede/GLOBAL/rBOxtCPqD3nImChe1zRWOpO469e7Py66");
-        r3.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseCode");
-        r3.setName("Response time greater than 200ms more than 3 times");
-        r3.setWindowTime(5); // Hardcoded to 5 right now
-        r3.setWindowSize(6); // Number of elements in the window to trigger alert
-        r3.setValue(200);
+        r3.setFeature("http://www.BDIOntology.com/global/Feature/ratingFeedbacks/rating");
+        r3.setName("SEnerCon - 3 feedbacks with a rating less than 3");
+        r3.setWindowTime(5);
+        r3.setWindowSize(3);
+        r3.setValue(3);
         r3.setGraph("http://supersede/RULES/vdeQiAhdKaFc9Ct7Vn7Sn9BCQEVujRG4");
         r3.setOperator(OperatorTypes.VALUE);
-        r3.setPredicate(PredicatesTypes.GT);
+        r3.setPredicate(PredicatesTypes.LT);
         r3.setTenant("senercon");
         r3.setKafkaTopic("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4");
 
