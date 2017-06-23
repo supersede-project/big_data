@@ -17,6 +17,7 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.integration.api.mdm.types.ActionTypes;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
@@ -116,27 +117,32 @@ public class RuleEvaluation {
     }
 
 
-    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream, List<SerializableECA_Rule> rules) {
-
+    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream, Broadcast<Map<String, Tuple2<Boolean,String>>> broadcastReleases,
+                               List<SerializableECA_Rule> rules, String evo_adapt) {
         for (SerializableECA_Rule r : rules) {
             firedRulesXTimestamp.put(r.getEca_ruleID(), Long.valueOf(0));
         }
 
-        JavaPairDStream<String, Tuple2<String,Long>> window = kafkaStream.
+        JavaPairDStream<String, Tuple2<String,Long>> theStream = kafkaStream.
                 filter(record -> !record.value().isEmpty()).
                 flatMapToPair(record -> {
             List<Tuple2<String, Tuple2<String,Long>>> out = Lists.newArrayList();
             rules.forEach(rule -> {
-                String tuple = record.value().toString();
-                if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
-                    out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+                if (rule.getKafkaTopic().equals(record.topic())) {
+                    //if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                    String tuple = record.value().toString();
+                    if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
+                        out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+                    }
+                    //}
                 }
             });
             System.out.println("Extracted "+out.toString().substring(0,50));
             return out.iterator();
-        }).window(new Duration(3600000), new Duration(5000));
+        }).window(new Duration(evo_adapt.equals("evolution") ? 7200000 : 300000/*5 min*/), new Duration(5000));
 
-        window.groupByKey()
+        theStream
+            .groupByKey()
             .foreachRDD(records -> {
                 records.foreach(set -> {
                         for (SerializableECA_Rule rule : rules) {
@@ -144,7 +150,7 @@ public class RuleEvaluation {
                             if (set._1().equals(rule.getEca_ruleID())) {
                                 List<String> data = Lists.newArrayList();
                                 set._2().forEach(t -> {
-                                    if (firedRulesXTimestamp.get(rule.getEca_ruleID()) < t._2() && firedRulesXTimestamp.get(rule.getEca_ruleID())+3600000 < System.currentTimeMillis()) {
+                                    if (firedRulesXTimestamp.get(rule.getEca_ruleID()) < t._2() && firedRulesXTimestamp.get(rule.getEca_ruleID())+(evo_adapt.equals("evolution") ? 7200000 : 300000) < System.currentTimeMillis()) {
                                         data.add(t._1());
                                     }
                                 });

@@ -21,6 +21,8 @@ public class SerializableECA_Rule implements Serializable {
     private int windowTime;
     private int windowSize;
     private ActionTypes action;
+    private String tenant;
+    private String kafkaTopic;
 
     public SerializableECA_Rule() {
     }
@@ -113,4 +115,19 @@ public class SerializableECA_Rule implements Serializable {
         this.action = action;
     }
 
+    public String getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        this.tenant = tenant;
+    }
+
+    public String getKafkaTopic() {
+        return kafkaTopic;
+    }
+
+    public void setKafkaTopic(String kafkaTopic) {
+        this.kafkaTopic = kafkaTopic;
+    }
 }

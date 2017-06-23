@@ -12,6 +12,7 @@ import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
 import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
 import eu.supersede.bdma.sa.proxies.MDMProxy;
 import eu.supersede.bdma.sa.stream_processes.*;
+import eu.supersede.bdma.sa.tests.WindowTests;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
@@ -82,7 +83,7 @@ public class StreamProcessing {
         System.out.println("Dispatcher path "+dispatcher_path);
     }
 
-    public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx) throws Exception {
+    public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx, String evo_adapt) throws Exception {
         // Broadcast variable to workers
         Broadcast<Map<String, Tuple2<Boolean,String>>> broadcastReleases = ctx.broadcast(releases);
 
@@ -93,7 +94,7 @@ public class StreamProcessing {
         //GenericStreamStatistics.process(kafkaStream,broadcastReleases);
         DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
         RawDataToLiveFeed.process(kafkaStream);
-        RuleEvaluation.process(kafkaStream,rules);
+        RuleEvaluation.process(kafkaStream,broadcastReleases,rules,evo_adapt);
 
 
     }

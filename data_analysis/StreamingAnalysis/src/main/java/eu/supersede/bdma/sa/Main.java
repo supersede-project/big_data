@@ -31,8 +31,8 @@ public class Main {
 
         //System.setProperty("hadoop.home.dir", HADOOP_COMMON_PATH);
 
-        if (args.length != 1) {
-            throw new Exception("Usage: [0]=config.properties path");
+        if (args.length != 2) {
+            throw new Exception("Usage: [0]=config.properties path; [1] evolution/adaptation");
         }
         properties = new Properties(args[0]);
         if (!validProperties(properties)) {
@@ -52,7 +52,7 @@ public class Main {
         Logger.getRootLogger().setLevel(Level.OFF);
 
         StreamProcessing processor = new StreamProcessing();
-        processor.process(context,streamContext);
+        processor.process(context,streamContext,args[1]);
 
         streamContext.start();
         streamContext.awaitTermination();

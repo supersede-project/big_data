@@ -20,7 +20,6 @@ public class RawDataToLiveFeed {
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
-                    System.out.println(record.value());
                     if (!record.value().trim().isEmpty()) {
                         Sockets.sendMessageToSocket(o.topic(), record.value());
                     }
