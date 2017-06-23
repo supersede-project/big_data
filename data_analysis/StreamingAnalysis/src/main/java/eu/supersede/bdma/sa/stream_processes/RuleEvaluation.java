@@ -206,8 +206,7 @@ public class RuleEvaluation {
                             }
                         }
                     });
-                System.out.println("");
-                System.out.println("");
+                System.out.println("###############################################");
 
             });
 
