@@ -54,7 +54,7 @@ public class SoftwareEvolutionAlert {
         for (String classificationLabel : feedbackClassified.keySet()) {
             Alert SE_alert = new Alert();
             SE_alert.setId(UUID.randomUUID().toString());
-            SE_alert.setApplicationId("Video_June14");
+            SE_alert.setApplicationId("SEnerCon feedback");
             SE_alert.setTimestamp(System.currentTimeMillis());
             SE_alert.setTenant("senercon");
 

@@ -23,8 +23,14 @@ public class DynamicAdaptationAlert {
 
         alert.setId("id"+ System.currentTimeMillis());
         alert.setApplicationId("dynamic");
-        alert.setTimestamp(Calendar.getInstance().getTimeInMillis());
-        alert.setTenant(ModelSystem.Atos_HSK);
+
+        if (r.getTenant().equals("siemens")) {
+            alert.setTenant(ModelSystem.Siemens);
+        }
+        else if (r.getTenant().equals("atos_hsk")) {
+            alert.setTenant(ModelSystem.Atos_HSK);
+        }
+
 
         List<Condition> conditions = Lists.newArrayList();
 
