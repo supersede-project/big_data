@@ -108,7 +108,7 @@ public class MDMProxy {
         r3.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseCode");
         r3.setName("Response time greater than 200ms more than 3 times");
         r3.setWindowTime(5); // Hardcoded to 5 right now
-        r3.setWindowSize(3); // Number of elements in the window to trigger alert
+        r3.setWindowSize(6); // Number of elements in the window to trigger alert
         r3.setValue(200);
         r3.setGraph("http://supersede/RULES/vdeQiAhdKaFc9Ct7Vn7Sn9BCQEVujRG4");
         r3.setOperator(OperatorTypes.VALUE);

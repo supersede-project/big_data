@@ -129,12 +129,13 @@ public class RuleEvaluation {
             List<Tuple2<String, Tuple2<String,Long>>> out = Lists.newArrayList();
             rules.forEach(rule -> {
                 if (rule.getKafkaTopic().equals(record.topic())) {
-                    //if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                    // Filter for feedback demo, not to interfere with other users
+
+
                     String tuple = record.value().toString();
                     if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
                         out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
                     }
-                    //}
                 }
             });
             System.out.println("Extracted "+out.toString());
