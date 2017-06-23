@@ -81,7 +81,7 @@ public class MDMProxy {
         r1.setGraph("http://supersede/RULES/vdeQiAhdKaFc9Ct7Vn7Sn9BCQEVujRG4");
         r1.setOperator(OperatorTypes.VALUE);
         r1.setPredicate(PredicatesTypes.GT);
-        r1.setTenant("atos");
+        r1.setTenant("atos_hsk");
         r1.setKafkaTopic("cbdc0cc2-9c08-46a3-8cb5-d2924b02bcfd");
 
         // SIEMENS adaptation rule
@@ -92,7 +92,7 @@ public class MDMProxy {
         r2.setFeature("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseCode");
         r2.setName("SIEMENS - Response code greater than 200 more than 6 times");
         r2.setWindowTime(5); // Hardcoded to 5 right now
-        r2.setWindowSize(3); // Number of elements in the window to trigger alert
+        r2.setWindowSize(6); // Number of elements in the window to trigger alert
         r2.setValue(200);
         r2.setGraph("http://supersede/RULES/vdeQiAhdKaFc9Ct7Vn7Sn9BCQEVujRG4");
         r2.setOperator(OperatorTypes.VALUE);
