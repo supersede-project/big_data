@@ -137,7 +137,7 @@ public class RuleEvaluation {
                     //}
                 }
             });
-            System.out.println("Extracted "+out.toString().substring(0,50));
+            System.out.println("Extracted "+out.toString());
             return out.iterator();
         }).window(new Duration(evo_adapt.equals("evolution") ? 7200000 : 300000/*5 min*/), new Duration(5000));
 
