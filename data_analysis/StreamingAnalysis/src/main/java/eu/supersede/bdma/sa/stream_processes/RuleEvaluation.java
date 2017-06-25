@@ -129,12 +129,19 @@ public class RuleEvaluation {
             List<Tuple2<String, Tuple2<String,Long>>> out = Lists.newArrayList();
             rules.forEach(rule -> {
                 if (rule.getKafkaTopic().equals(record.topic())) {
-                    // Filter for feedback demo, not to interfere with other users
-
-
                     String tuple = record.value().toString();
-                    if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
-                        out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+
+                    // Filter for feedback demo, not to interfere with other users
+                    if (rule.getEca_ruleID().equals("f2254dda-b310-406f-8091-37740af51cd0")) {
+                        if (Utils.extractFeatures(tuple, rule.getFeature()) != null &&
+                            Utils.extractFeatures(tuple,"http://www.BDIOntology.com/global/Feature/ratingFeedbacks/userIdentification").equals("243205")) {
+                            out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+                        }
+
+                    } else {
+                        if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
+                            out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+                        }
                     }
                 }
             });
