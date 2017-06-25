@@ -51,7 +51,7 @@ public class Main {
 
         Logger.getRootLogger().setLevel(Level.OFF);
 
-        StreamProcessing processor = new StreamProcessing();
+        StreamProcessing processor = new StreamProcessing(args[1]);
         processor.process(context,streamContext,args[1]);
 
         streamContext.start();

@@ -63,8 +63,8 @@ public class StreamProcessing {
 
     private static String dispatcher_path;
 
-    public StreamProcessing() throws Exception {
-        releases = MDMProxy.getReleasesIndexedPerKafkaTopic2();
+    public StreamProcessing(String evo_adapt) throws Exception {
+        releases = MDMProxy.getReleasesIndexedPerKafkaTopic2(evo_adapt);
         System.out.println(releases);
 
         kafkaParams = Maps.newHashMap();

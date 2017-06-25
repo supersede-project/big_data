@@ -33,12 +33,22 @@ public class MDMProxy {
         return Collections.unmodifiableMap(m);
     }
 
-    public static Map<String, Tuple2<Boolean,String>> getReleasesIndexedPerKafkaTopic2() throws Exception {
+    public static Map<String, Tuple2<Boolean,String>> getReleasesIndexedPerKafkaTopic2(String evo_adapt) throws Exception {
         IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
 
         Map<String, Tuple2<Boolean,String>> m = Maps.newConcurrentMap();
-        for (Release r : proxy.getAllReleases()) {
+        /*for (Release r : proxy.getAllReleases()) {
             m.put(r.getKafkaTopic(),new Tuple2<Boolean,String>(r.isDispatch(),r.getDispatcherPath()));
+        }*/
+
+        // Evolution
+        if (evo_adapt.equals("evolution")) {
+            m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean, String>(false, ""));
+        }
+        // Adaptation
+        if (evo_adapt.equals("adaptation")) {
+            m.put("cbdc0cc2-9c08-46a3-8cb5-d2924b02bcfd", new Tuple2<Boolean, String>(false, ""));
+            m.put("6433f460-48dc-425f-9200-04464db56ce7", new Tuple2<Boolean, String>(false, ""));
         }
         // Feedback
         //m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean,String>(false,""));
