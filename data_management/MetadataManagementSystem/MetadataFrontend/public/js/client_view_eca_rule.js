@@ -26,7 +26,7 @@ $(window).load(function() {
         var eca_ruleObj = (data);
 
         $("#name").val(eca_ruleObj.name);
-        //$("#bdiOntology").val(releaseObj.schemaVersion);
+        $("#bdiOntology").val(eca_ruleObj.globalLevel);
         $("#feature").val(eca_ruleObj.feature);
         $("#operator").val(eca_ruleObj.operator);
         $("#predicate").val(eca_ruleObj.predicate);
