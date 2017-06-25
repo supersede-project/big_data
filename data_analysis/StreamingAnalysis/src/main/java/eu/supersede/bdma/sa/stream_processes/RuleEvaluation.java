@@ -134,10 +134,9 @@ public class RuleEvaluation {
                     // Filter for feedback demo, not to interfere with other users
                     if (rule.getEca_ruleID().equals("f2254dda-b310-406f-8091-37740af51cd0")) {
                         if (Utils.extractFeatures(tuple, rule.getFeature()) != null &&
-                            Utils.extractFeatures(tuple,"http://www.BDIOntology.com/global/Feature/ratingFeedbacks/userIdentification").equals("243205")) {
+                            Utils.extractFeatures(tuple,"http://www.BDIOntology.com/global/Feature/ratingFeedbacks/userIdentification").get(0).equals("243205")) {
                             out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
                         }
-
                     } else {
                         if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
                             out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
