@@ -138,8 +138,10 @@ public class RuleEvaluation {
                             out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
                         }
                     } else {
-                        if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
-                            out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+                        if (evo_adapt.equals("adaptation")) {
+                            if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
+                                out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
+                            }
                         }
                     }
                 }
