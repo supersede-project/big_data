@@ -112,7 +112,7 @@ public class MDMProxy {
 
         // SEnerCon evolution rule
         SerializableECA_Rule r3 = new SerializableECA_Rule();
-        r3.setAction(ActionTypes.ALERT_DYNAMIC_ADAPTATION);
+        r3.setAction(ActionTypes.ALERT_EVOLUTION);
         r3.setEca_ruleID(UUID.randomUUID().toString());
         r3.setGlobalLevel("http://supersede/GLOBAL/rBOxtCPqD3nImChe1zRWOpO469e7Py66");
         r3.setFeature("http://www.BDIOntology.com/global/Feature/ratingFeedbacks/rating");
