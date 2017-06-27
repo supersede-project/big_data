@@ -18,9 +18,10 @@ $(function() {
         console.log(JSON.parse(fromSocket.message).message);*/
         var socketMsg = JSON.parse(fromSocket.message)/*JSON.parse(Object.keys(JSON.parse(fromSocket.message))[0])*/;
         if (socketMsg.topic == topic) {
-            var currentdate = new Date();
-            var datetime = currentdate.getHours() + ":"
-                + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+            var current = new Date();
+            var datetime = (current.getHours() < 10? '0' : '') + current.getHours() + ":"
+                + (current.getMinutes() < 10? '0' : '') + current.getMinutes() +
+                ":" + (current.getSeconds() < 10? '0' : '') + current.getSeconds();
 
 
             $('#liveDataFeed').find('tbody')
@@ -29,7 +30,7 @@ $(function() {
                         .text(datetime + " - " +socketMsg.message)
                     )
                 );
-            $("#liveDataFeed tr:eq(5)").remove();
+            $("#liveDataFeed tr:eq(10)").remove();
         }
     });
 

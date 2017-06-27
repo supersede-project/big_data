@@ -44,7 +44,7 @@ $(function() {
                 plots[socketMsg.iri] = new Object();
                 var newData = getNewDataElement();
                 newData["displayNames"] = ["Current value"];
-                newData["colors"] = ["red"];
+                newData["colors"] = ["yellow"];
                 newData["scale"] = "linear";
 
 
