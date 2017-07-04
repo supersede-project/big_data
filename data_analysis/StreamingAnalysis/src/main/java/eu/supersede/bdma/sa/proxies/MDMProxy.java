@@ -40,7 +40,12 @@ public class MDMProxy {
         /*for (Release r : proxy.getAllReleases()) {
             m.put(r.getKafkaTopic(),new Tuple2<Boolean,String>(r.isDispatch(),r.getDispatcherPath()));
         }*/
-
+        /**
+         * What we store right now for the Dispatcher
+         */
+        m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean, String>(false, ""));
+        m.put("890da5f6-6310-465a-9493-9e0021bf94c5", new Tuple2<Boolean, String>(false, ""));
+/**
         // Evolution
         if (evo_adapt.equals("evolution")) {
             m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean, String>(false, ""));
@@ -50,6 +55,7 @@ public class MDMProxy {
             m.put("cbdc0cc2-9c08-46a3-8cb5-d2924b02bcfd", new Tuple2<Boolean, String>(false, ""));
             m.put("6433f460-48dc-425f-9200-04464db56ce7", new Tuple2<Boolean, String>(false, ""));
         }
+ **/
         // Feedback
         //m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean,String>(false,""));
         // HTTP Monitor
