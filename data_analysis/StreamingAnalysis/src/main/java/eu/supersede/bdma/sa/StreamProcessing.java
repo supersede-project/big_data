@@ -90,11 +90,11 @@ public class StreamProcessing {
         JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
                 Utils.getKafkaStream(streamCtx, broadcastReleases.value().keySet(), this.kafkaParams);
 
-        //Dispatcher.process(kafkaStream);
+        Dispatcher.process(kafkaStream);
         //GenericStreamStatistics.process(kafkaStream,broadcastReleases);
-        DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
-        RawDataToLiveFeed.process(kafkaStream);
-        RuleEvaluation.process(kafkaStream,broadcastReleases,rules,evo_adapt);
+        //DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
+        //RawDataToLiveFeed.process(kafkaStream);
+        //RuleEvaluation.process(kafkaStream,broadcastReleases,rules,evo_adapt);
 
 
     }
