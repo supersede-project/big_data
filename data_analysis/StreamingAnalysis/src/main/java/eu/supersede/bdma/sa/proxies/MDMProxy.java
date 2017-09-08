@@ -37,14 +37,14 @@ public class MDMProxy {
         IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
 
         Map<String, Tuple2<Boolean,String>> m = Maps.newConcurrentMap();
-        /*for (Release r : proxy.getAllReleases()) {
+        for (Release r : proxy.getAllReleases()) {
             m.put(r.getKafkaTopic(),new Tuple2<Boolean,String>(r.isDispatch(),r.getDispatcherPath()));
-        }*/
+        }
         /**
          * What we store right now for the Dispatcher
          */
-        m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean, String>(false, ""));
-        m.put("890da5f6-6310-465a-9493-9e0021bf94c5", new Tuple2<Boolean, String>(false, ""));
+        //m.put("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4", new Tuple2<Boolean, String>(false, ""));
+        //m.put("890da5f6-6310-465a-9493-9e0021bf94c5", new Tuple2<Boolean, String>(false, ""));
 /**
         // Evolution
         if (evo_adapt.equals("evolution")) {
