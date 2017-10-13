@@ -32,6 +32,8 @@ var statistical_analysis_model_routes = require(__dirname+'/routes/statistical_a
 var dispatcher_strategies_routes = require(__dirname+'/routes/dispatcher_strategies_routes');
 var eca_rule_routes = require(__dirname+'/routes/eca_rule_routes');
 var admin_routes = require(__dirname+'/routes/admin_routes');
+var files_routes = require(__dirname+'/routes/files_routes');
+var classification_routes = require(__dirname+'/routes/classification_routes');
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -50,6 +52,7 @@ app.use(bodyParser.json());                          // parse application/json
 app.use(bodyParser.urlencoded({ extended: true }));  // parse application/x-www-form-urlencoded
 app.use(multer());                                   // parse multipart/form-data
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.raw({uploadDir:config.FILES_PATH}));
 
 app.use(flash());
 app.use(passport.initialize());
@@ -148,6 +151,15 @@ app.post('/eca_rule', eca_rule_routes.postEcaRule);
 app.get('/eca_rule_operator_types', eca_rule_routes.getEcaRuleOperatorTypes);
 app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
 app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
+
+/**********************************   Files   ********************************************/
+
+app.post('/files', files_routes.postFile);
+
+/****************************   Feedback classification  *********************************/
+
+app.post('/classify/feedback', classification_routes.classifyFeedback);
+
 
 /********** Admin resource *************************************************************/
 app.get('/admin/deleteAll', admin_routes.deleteAll);
