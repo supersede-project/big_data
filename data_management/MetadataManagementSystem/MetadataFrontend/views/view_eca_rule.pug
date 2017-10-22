@@ -16,7 +16,7 @@ block content
                     br
 
             .container-fluid
-                .col-lg-8
+                .col-lg-9
                     .well.bs-component
                         form#ecaRuleForm(role='form').form-horizontal
                             .form-group#nameForm
@@ -29,26 +29,45 @@ block content
                                 .col-lg-10
                                     input#bdiOntology.form-control(type='text',style="width:100%",required='required',readonly='')
 
-                            .form-group#globalElementForm
-                                label.col-lg-2.control-label(for='feature') Feature
-                                .col-lg-10
-                                    input#feature.form-control(type='text',required='required',readonly='')
+                            .form-group#simpleClauses
+                                label.col-md-2.control-label Simple clauses
+                                ul.nav.nav-tabs(role='tablist')#tabPanel
+                                    li(role='presentation')
+                                        a#button_tab_1(href='#tab_1' aria-controls="settings" role="tab" data-toggle="tab") SC1
 
-                            .form-group#operatorForm
-                                label.col-lg-2.control-label(for='operator') Operator
-                                .col-lg-10
-                                    input#operator.form-control(type='text',style="width:100%",readonly='')
+                                .tab-content.fill#tabContent
+                                    .tab-pane.fill.active#tab_1(role="tabpanel" style="float:right; width:80%; padding-right:5%")
 
-                            .form-group#predicateForm
-                                label.col-lg-2.control-label(for='predicate') Predicate
-                                .col-lg-10
-                                    input#predicate.form-control(type='text',style="width:100%",readonly='')
+                                        .form-group#globalElementForm
+                                            label.col-lg-2.control-label(for='feature') Feature 1
+                                            .col-lg-10
+                                                input#feature1.form-control(type='text',required='required',readonly='')
 
-                            .form-group#valueForm
-                                label.col-lg-2.control-label(for='value') Value
-                                .col-lg-10
-                                    input#value.form-control(type='text', name='value', required='required',readonly='')
+                                        .form-group#operatorForm
+                                            label.col-lg-2.control-label(for='operator') Operator 1
+                                            .col-lg-10
+                                                input#operator1.form-control(type='text',style="width:100%",readonly='')
 
+                                        .form-group#predicateForm
+                                            label.col-lg-2.control-label(for='predicate') Predicate 1
+                                            .col-lg-10
+                                                input#predicate1.form-control(type='text',style="width:100%",readonly='')
+
+                                        .form-group#valueForm
+                                            label.col-lg-2.control-label(for='value') Value 1
+                                            .col-lg-10
+                                                input#value1.form-control(type='text', name='value', required='required',readonly='')
+
+                                        .form-group#filterForm
+                                            label.col-lg-2.control-label(for='filter') Filter 1
+                                            .col-lg-10
+                                                input#filter1.form-control(type='text', name='filter', required='required',readonly='')
+
+                            .form-group#actionForm
+                                label.col-lg-2.control-label(for='feature') Action
+                                .col-lg-10
+                                    input#action.form-control(type='text',style="width:100%",readonly='')
+                        //
                             .form-group#windowTimeForm
                                 label.col-lg-2.control-label(for='windowTime') Bounded in a Time Window of (min)
                                 .col-lg-10
@@ -58,8 +77,3 @@ block content
                                 label.col-lg-2.control-label(for='windowSize') Number of Elements in Window
                                 .col-lg-10
                                     input#windowSize.form-control(type='text', name='windowSize', required='required',readonly='')
-
-                            .form-group#actionForm
-                                label.col-lg-2.control-label(for='feature') Action
-                                .col-lg-10
-                                    input#action.form-control(type='text',style="width:100%",readonly='')

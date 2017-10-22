@@ -25,39 +25,47 @@ block content
                                     input#name.form-control(type='text', name='name', required='required')
 
                             .form-group#bdiOntologyForm
-                                label.col-lg-2.control-label(for='bdiOntology') Tenant
+                                label.col-md-2.control-label(for='bdiOntology') Tenant
                                 .col-lg-10
                                     select#bdiOntology(style="width:100%")
 
-                            .form-group#globalElementForm
-                                label.col-lg-2.control-label(for='feature') Feature
-                                .col-lg-10
-                                    select#feature(style="width:100%")
+                            .form-group#simpleClauses
+                                label.col-md-2.control-label Simple clauses
+                                ul.nav.nav-tabs(role='tablist')#tabPanel
+                                    button#addSimpleClause.btn.btn-primary.btn-md(type='submit') +
+                                    li(role='presentation')
+                                        a#button_tab_1(href='#tab_1' aria-controls="settings" role="tab" data-toggle="tab") SC1
 
-                            .form-group#operatorForm
-                                label.col-lg-2.control-label(for='operator') Operator
-                                .col-lg-10
-                                    select#operator(style="width:100%")
+                                .tab-content.fill#tabContent
+                                    .tab-pane.fill.active#tab_1(role="tabpanel" style="float:right; width:80%; padding-right:5%")
+                                        .form-group
+                                            label.col-lg-2.control-label(for='feature') Feature 1
+                                            .col-lg-10
+                                                select.feature#feature1(style="width:100%")
 
-                            .form-group#predicateForm
-                                label.col-lg-2.control-label(for='predicate') Predicate
-                                .col-lg-10
-                                    select#predicate(style="width:100%")
+                                        .form-group
+                                            label.col-lg-2.control-label(for='operator') Operator 1
+                                            .col-lg-10
+                                                select.operator#operator1(style="width:100%")
 
-                            .form-group#valueForm
-                                label.col-lg-2.control-label(for='value') Value
-                                .col-lg-10
-                                    input#value.form-control(type='text', name='value', required='required')
+                                        .form-group
+                                            label.col-lg-2.control-label(for='predicate') Predicate 1
+                                            .col-lg-10
+                                                select.predicate#predicate1(style="width:100%")
 
-                            .form-group#windowTimeForm
-                                label.col-lg-2.control-label(for='windowTime') Bounded in a Time Window of (min)
-                                .col-lg-10
-                                    input#windowTime.form-control(type='text', name='windowTime', required='required')
+                                        .form-group
+                                            label.col-lg-2.control-label(for='value') Value 1
+                                            .col-lg-10
+                                                input.value.form-control#value1(type='text', name='value', required='required')
 
-                            .form-group#windowSizeForm
-                                label.col-lg-2.control-label(for='windowSize') Number of Elements in Window
-                                .col-lg-10
-                                    input#windowSize.form-control(type='text', name='windowSize', required='required')
+                                        .form-group
+                                            label.col-lg-2.control-label(for='filter') Filter 1
+                                            .col-lg-10
+                                                input.filter.form-control#filter1(type='text', name='filter', required='required')
+
+                            //.form-group#addSCButton
+                                .col-lg-10.col-lg-offset-2
+                                    button#addSimpleClause.btn.btn-primary.btn-md(type='submit') Add simple clause
 
                             .form-group#actionForm
                                 label.col-lg-2.control-label(for='feature') Action
@@ -67,3 +75,14 @@ block content
                             .form-group
                                 .col-lg-10.col-lg-offset-2
                                     button#submitEcaRule.btn.btn-primary.btn-lg.btn-block(type='submit') Submit
+
+                        //
+                            .form-group#windowTimeForm
+                                label.col-lg-2.control-label(for='windowTime') Bounded in a Time Window of (min)
+                                .col-lg-10
+                                    input#windowTime.form-control(type='text', name='windowTime', required='required')
+
+                            .form-group#windowSizeForm
+                                label.col-lg-2.control-label(for='windowSize') Number of Elements in Window
+                                .col-lg-10
+                                    input#windowSize.form-control(type='text', name='windowSize', required='required')
