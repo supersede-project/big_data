@@ -2,7 +2,7 @@
  * Created by snadal on 07/06/16.
  */
 
-var tabCount = 1;
+var tabCount = 0;
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -21,41 +21,17 @@ function registerCloseEvent() {
     });
 }
 
-function getLeftOperators() {
-    $.get("/bdi_ontology/"+$("#event"+tabCount).val(), function(ontology) {
-        alert("jhfn");
-        console.log("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features");
-        $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
-            //$("#feature").val(null);
-            $("#leftOperator"+tabCount).empty().trigger('change');
-
-            _.each(JSON.parse(data), function(element,index,list) {
-                $("#leftOperator"+tabCount).append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
-            });
-            $("#leftOperator"+tabCount).select2({
-                theme: "bootstrap"
-            });
-        });
-    });
- }
-
 function getEvents() {
-    $("#bdiOntology").on("change", function() {
-        var id = $("#bdiOntology option:selected").last().val();
-        $.get("/bdi_ontology", function (data) {
-            _.each(data, function(element,index,list) {
-                var obj = JSON.parse(element);
-                if (id == obj.bdi_ontologyID) {
-                    $("#event"+tabCount).append($('<option value="' + obj.bdi_ontologyID + '">').text(obj.name));
-                    getLeftOperators();
-                    return;
-                }
-            });
-            $("#event"+tabCount).select2({
-                theme: "bootstrap"
-            });
+    var patterns = $("#bdiOntology").val();
+    $("#event"+tabCount).empty().trigger('change');
+    for (i = 0; i < patterns.length; ++i) {
+        $.get("/bdi_ontology/"+patterns[i], function(ontology) {
+            $("#event"+tabCount).append($('<option value="' + ontology.bdi_ontologyID + '">').text(ontology.name));
         });
-    });
+        $("#event"+tabCount).select2({
+            theme: "bootstrap"
+        });
+    }
 }
 
 function getComparators() {
@@ -72,8 +48,15 @@ function getComparators() {
 $(window).load(function() {
     $('#tabPanel li:first').tab('show'); // Select first tab
 
-    getComparators();
-    getEvents();
+    $("select").select2();
+    $("select").on("select2:select", function (evt) {
+        var element = evt.params.data.element;
+        var $element = $(element);
+
+        $element.detach();
+        $(this).append($element);
+        $(this).trigger("change");
+    });
 
     $.get("/bdi_ontology", function(data) {
         _.each(data, function(element,index,list) {
@@ -86,6 +69,54 @@ $(window).load(function() {
         $("#bdiOntology").trigger('change');
     });
 
+  /**  $("#bdiOntology").on("change", function() {
+        var id = $("#bdiOntology option:selected").last().val();
+        $.get("/bdi_ontology", function (data) {
+            _.each(data, function(element,index,list) {
+                var obj = JSON.parse(element);
+                if (id == obj.bdi_ontologyID) {
+                    $("#event"+tabCount).append($('<option value="' + obj.bdi_ontologyID + '">').text(obj.name));
+                }
+            });
+            $("#event"+tabCount).select2({
+                theme: "bootstrap"
+            });
+        });
+    })*/
+
+    $("#bdiOntology").change(function() {
+        var patterns = $("#bdiOntology").val();
+        $(".event").empty().trigger('change');
+        for (i = 0; i < patterns.length; ++i) {
+            $.get("/bdi_ontology/"+patterns[i], function(ontology) {
+                $(".event").append($('<option value="' + ontology.bdi_ontologyID + '">').text(ontology.name));
+            });
+            $(".event").select2({
+                theme: "bootstrap"
+            });
+        }
+    });
+
+    $("#event"+tabCount).change(function(o) {
+        alert("his");
+        $.get("/bdi_ontology/"+$("#event"+tabCount).val(), function(ontology) {
+            console.log("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features");
+            $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
+                //$("#feature").val(null);
+                $("#leftOperator"+tabCount).empty().trigger('change');
+
+                _.each(JSON.parse(data), function(element,index,list) {
+                    $("#leftOperator"+tabCount).append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
+                });
+                $("#leftOperator"+tabCount).select2({
+                    theme: "bootstrap"
+                });
+            });
+        });
+    });
+
+    getComparators();
+
     $.get("/eca_rule_action_types", function(data) {
         _.each(data, function(element,index,list) {
             $("#action").append($('<option value="'+element.key+'">').text(element.val));
@@ -95,17 +126,34 @@ $(window).load(function() {
         });
     });
 
+
+    $.get("/bdi_ontology/"+$("#event"+tabCount).val(), function(ontology) {
+        console.log("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features");
+        $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
+            //$("#feature").val(null);
+            $("#leftOperator"+tabCount).empty().trigger('change');
+
+            _.each(JSON.parse(data), function(element,index,list) {
+                $("#leftOperator"+tabCount).append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
+            });
+            $("#leftOperator"+tabCount).select2({
+                theme: "bootstrap"
+            });
+        });
+    });
+
     $('#addSimpleClause').on("click", function(e) {
         e.preventDefault();
         ++tabCount;
         $("#tabPanel").append($('<li role="presentation"><a id="button_tab_'+(tabCount)+'" href="#tab_'+(tabCount)+'" aria-controls="settings" role="tab" data-toggle="tab">'+'SC'+(tabCount)+'<button type="button" class="close closeTab">&nbsp &times;</button></a></li>'));
         $("#tabContent").append($('<div id="tab_'+(tabCount)+'" role="tabpanel" class="tab-pane fill">'+'<div class="form-group"> <label class="col-lg-2 control-label">'+'Name '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="name'+(tabCount)+'" type="text" required="required"> </input></div></div>'+
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Event '+(tabCount)+'</label><div class="col-lg-10"><select class="event" id="event'+(tabCount)+'" style="width:100%"></select></div></div>' +
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Left Operator '+(tabCount)+'</label><div class="col-lg-10"><select class="leftOperator" id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Comparator '+(tabCount)+'</label><div class="col-lg-10"><select class="comparator" id="comparator'+(tabCount)+'" style="width:100%"> </select></div></div>' +
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operator '+(tabCount)+'</label><div class="col-lg-10"><input class="rightOperator form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Left Operator '+(tabCount)+'</label><div class="col-lg-10"><select id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Comparator '+(tabCount)+'</label><div class="col-lg-10"><select id="comparator'+(tabCount)+'" style="width:100%"> </select></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operator '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
         registerCloseEvent();
         getComparators();
+        getEvents();
     });
 
     $('#submitEcaRule').on("click", function(e){

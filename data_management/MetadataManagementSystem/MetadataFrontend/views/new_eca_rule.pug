@@ -40,10 +40,10 @@ block content
                                     ul.nav.nav-tabs(role='tablist')#tabPanel
                                         button#addSimpleClause.btn.btn-primary.btn-md(type='submit') +
                                         li(role='presentation')
-                                            a#button_tab_1(href='#tab_1' aria-controls="settings" role="tab" data-toggle="tab") SC1
+                                         //   a#button_tab_1(href='#tab_1' aria-controls="settings" role="tab" data-toggle="tab") SC1
 
                                     .tab-content.fill#tabContent
-                                        .tab-pane.fill.active#tab_1(role="tabpanel")
+                                     //   .tab-pane.fill.active#tab_1(role="tabpanel")
                                             .form-group
                                                 label.col-lg-2.control-label Name 1
                                                 .col-lg-10
@@ -52,7 +52,7 @@ block content
                                             .form-group
                                                 label.col-lg-2.control-label Event 1
                                                 .col-lg-10
-                                                    select#event1(style="width:100%")
+                                                    select.event#event1(style="width:100%")
 
                                             .form-group
                                                 label.col-lg-2.control-label Left operator 1
@@ -80,12 +80,12 @@ block content
                                     .form-group
                                         label.col-lg-2.control-label Type
                                         .col-lg-10
-                                            select#action(multiple='multiple', style="width:100%")
+                                            select#action(style="width:100%")
 
                                     .form-group
                                         label.col-lg-2.control-label Parameters
                                         .col-lg-10
-                                            select#actionParameters(style="width:100%")
+                                            select#actionParameters(multiple="multiple", style="width:100%")
 
                             .form-group#windowTimeForm
                                 label.col-lg-2.control-label(for='windowTime') Bounded in a Time Window of (min)
