@@ -22,8 +22,8 @@
       <file leaf-file-name="new_eca_rule.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/new_eca_rule.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="553">
-              <caret line="42" column="43" lean-forward="false" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
+            <state relative-caret-position="1230">
+              <caret line="82" column="61" lean-forward="false" selection-start-line="82" selection-start-column="61" selection-end-line="82" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -32,13 +32,13 @@
       <file leaf-file-name="client_new_eca_rule.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/client_new_eca_rule.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="129" column="75" lean-forward="true" selection-start-line="129" selection-start-column="75" selection-end-line="129" selection-end-column="75" />
+            <state relative-caret-position="-696">
+              <caret line="47" column="53" lean-forward="false" selection-start-line="47" selection-start-column="53" selection-end-line="47" selection-end-column="53" />
               <folding>
-                <marker date="1509364126051" expanded="true" signature="5554:5561" ph="×" />
-                <marker date="1509364126051" expanded="true" signature="6097:6107" ph="..." />
-                <marker date="1509364126051" expanded="true" signature="6319:6329" ph="..." />
-                <marker date="1509364126051" expanded="true" signature="6536:6546" ph="..." />
+                <marker date="1509445133169" expanded="true" signature="3850:3857" ph="×" />
+                <marker date="1509445133169" expanded="true" signature="4379:4389" ph="..." />
+                <marker date="1509445133169" expanded="true" signature="4601:4611" ph="..." />
+                <marker date="1509445133169" expanded="true" signature="4818:4828" ph="..." />
               </folding>
             </state>
           </provider>
@@ -47,7 +47,7 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
+            <state relative-caret-position="2235">
               <caret line="149" column="47" lean-forward="false" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
               <folding />
             </state>
@@ -80,6 +80,7 @@
       <find>bdiOntology</find>
       <find>event1</find>
       <find>event</find>
+      <find>action</find>
     </findStrings>
     <replaceStrings>
       <replace>i</replace>
@@ -181,8 +182,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -432,7 +433,9 @@
       <workItem from="1509028011298" duration="3781000" />
       <workItem from="1509269854325" duration="5230000" />
       <workItem from="1509345339837" duration="1473000" />
-      <workItem from="1509357770245" duration="7844000" />
+      <workItem from="1509357770245" duration="8210000" />
+      <workItem from="1509373236382" duration="2069000" />
+      <workItem from="1509439648604" duration="5549000" />
     </task>
     <task id="LOCAL-00001" summary="predicate types added">
       <created>1509348936751</created>
@@ -445,17 +448,18 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="278082000" />
+    <option name="totallyTimeSpent" value="286066000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="715" y="24" width="1617" height="1062" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14117648" sideWeight="0.49382716" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14117648" sideWeight="0.49382716" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17226891" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22059953" sideWeight="0.50617284" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17226891" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -815,7 +819,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
+        <state relative-caret-position="2235">
           <caret line="149" column="47" lean-forward="false" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
           <folding />
         </state>
@@ -823,21 +827,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/new_eca_rule.pug">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="42" column="43" lean-forward="false" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
+        <state relative-caret-position="1230">
+          <caret line="82" column="61" lean-forward="false" selection-start-line="82" selection-start-column="61" selection-end-line="82" selection-end-column="61" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/client_new_eca_rule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="129" column="75" lean-forward="true" selection-start-line="129" selection-start-column="75" selection-end-line="129" selection-end-column="75" />
+        <state relative-caret-position="-696">
+          <caret line="47" column="53" lean-forward="false" selection-start-line="47" selection-start-column="53" selection-end-line="47" selection-end-column="53" />
           <folding>
-            <marker date="1509364126051" expanded="true" signature="5554:5561" ph="×" />
-            <marker date="1509364126051" expanded="true" signature="6097:6107" ph="..." />
-            <marker date="1509364126051" expanded="true" signature="6319:6329" ph="..." />
-            <marker date="1509364126051" expanded="true" signature="6536:6546" ph="..." />
+            <marker date="1509445133169" expanded="true" signature="3850:3857" ph="×" />
+            <marker date="1509445133169" expanded="true" signature="4379:4389" ph="..." />
+            <marker date="1509445133169" expanded="true" signature="4601:4611" ph="..." />
+            <marker date="1509445133169" expanded="true" signature="4818:4828" ph="..." />
           </folding>
         </state>
       </provider>

@@ -35,7 +35,7 @@ block content
                                     input#condition.form-control(type='text', name='condition')
 
                             .form-group#filters
-                                label.col-md-2.control-label Filters
+                                label.col-md-2.control-label Filters for selected Pattern
                                 .col-lg-10
                                     ul.nav.nav-tabs(role='tablist')#tabPanel
                                         button#addSimpleClause.btn.btn-primary.btn-md(type='submit') +
@@ -75,12 +75,12 @@ block content
                                     .form-group
                                         label.col-lg-2.control-label Name
                                         .col-lg-10
-                                            input.form-control(type='text', name='actionName', required='required')
+                                            input#actionName.form-control(type='text', name='actionName', required='required')
 
                                     .form-group
                                         label.col-lg-2.control-label Type
                                         .col-lg-10
-                                            select#action(style="width:100%")
+                                            select#actionType(style="width:100%")
 
                                     .form-group
                                         label.col-lg-2.control-label Parameters
