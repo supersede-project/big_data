@@ -44,7 +44,8 @@ exports.postEcaRule = function (req, res, next) {
         rule.action = req.body.action;
         rule.windowTime = req.body.windowTime;
         rule.windowSize = req.body.windowSize;
-
+        rule.type = "RULES";
+        rule.graph = config.DEFAULT_NAMESPACE+"RULE/"+randomstring.generate();
 
         console.log("Posting "+JSON.stringify(rule));
 
