@@ -21,7 +21,7 @@ function getRules() {
                     .append($('<td>')
                         .text(i)
                     ).append($('<td>')
-                        .text(theObj.name)
+                        .text(theObj.ruleName)
                     ).append($('<td>').append($('<a href="/view_eca_rule?eca_ruleID='+(theObj.eca_ruleID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
                     )
 

@@ -44,23 +44,6 @@ function getComparators() {
     });
 }
 
-function getActionParameters() {
-    $("#actionParameters").empty().trigger('change');
-    for (i = 1; i <= tabCount; ++i) {
-        $.get("/bdi_ontology/"+$("#event"+i).val(), function(ontology) {
-            console.log("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features");
-            $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
-                _.each(JSON.parse(data), function(element,index,list) {
-                    $("#actionParameters").append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
-                });
-                $("#actionParameters").select2({
-                    theme: "bootstrap"
-                });;
-            });
-        });
-    }
-}
-
 $(window).load(function() {
     $('#tabPanel li:first').tab('show'); // Select first tab
 
@@ -89,6 +72,19 @@ $(window).load(function() {
         $(".closeTab").click();
         $("#actionParameters").empty().trigger("change");
         tabCount = 0;
+        var pattern = $("#bdiOntology").val();
+        for (i = 0; i <pattern.length; ++i) {
+            $.get("/bdi_ontology/"+pattern[i], function(ontology) {
+                $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
+                    _.each(JSON.parse(data), function(element,index,list) {
+                        $("#actionParameters").append($('<option value="'+element.iri+'">').text(ontology.name + '.' + element.name +" ("+element.iri+")"));
+                    });
+                    $("#actionParameters").select2({
+                        theme: "bootstrap"
+                    });;
+                });
+            });
+        }
     });
 
     $.get("/eca_rule_action_types", function(data) {
@@ -104,8 +100,8 @@ $(window).load(function() {
         e.preventDefault();
         ++tabCount;
         $("#tabPanel").append($('<li role="presentation"><a id="button_tab_'+(tabCount)+'" href="#tab_'+(tabCount)+'" aria-controls="settings" role="tab" data-toggle="tab">'+'Filter '+(tabCount)+'<button type="button" class="close closeTab">&nbsp &times;</button></a></li>'));
-        $("#tabContent").append($('<div id="tab_'+(tabCount)+'" role="tabpanel" class="tab-pane fill">'+'<div class="form-group"> <label class="col-lg-2 control-label">'+'Name '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="name'+(tabCount)+'" type="text" required="required"> </input></div></div>'+
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Event '+(tabCount)+'</label><div class="col-lg-10"><select id="event'+(tabCount)+'" style="width:100%"></select></div></div>' +
+        $("#tabContent").append($('<div id="tab_'+(tabCount)+'" role="tabpanel" class="tab-pane fill" style="border:1px solid; padding:5px">'+'<div class="form-group"> <label class="col-lg-2 control-label">'+'Name '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="name'+(tabCount)+'" type="text" required="required"> </input></div></div>'+
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Event '+(tabCount)+'</label><div class="col-lg-10"><select class="event" id="event'+(tabCount)+'" style="width:100%"></select></div></div>' +
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Left Operator '+(tabCount)+'</label><div class="col-lg-10"><select id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Comparator '+(tabCount)+'</label><div class="col-lg-10"><select id="comparator'+(tabCount)+'" style="width:100%"> </select></div></div>' +
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operator '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
@@ -113,7 +109,6 @@ $(window).load(function() {
         getEvents();
         $("#event"+tabCount).change(function(o) {
             $.get("/bdi_ontology/"+$("#event"+tabCount).val(), function(ontology) {
-                console.log("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features");
                 $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
                     //$("#feature").val(null);
                     $("#leftOperator"+tabCount).empty().trigger('change');
@@ -127,10 +122,8 @@ $(window).load(function() {
                 });
             });
         });
-
         registerCloseEvent();
         getComparators();
-        getActionParameters();
     });
 
     $('#submitEcaRule').on("click", function(e){
@@ -139,37 +132,37 @@ $(window).load(function() {
         var Eca_Rule = new Object();
         Eca_Rule.ruleName = $("#ruleName").val();
 
-        Eca_Rule.pattern = new Array();
-        var pat = $("#bdiOntology").val();
-        for (i = 0; i < pat.length; ++i) {
-            $.get("/bdi_ontology/"+pat[i], function(ontology) {
-                var p = new Array(2);
-                p[0] = ontology.globalLevel;
-                p[1] = ontology.rules;
+        Eca_Rule.pattern = $("#bdiOntology").val();
+        /*for(i = 0; i < $("#bdiOntology").val().length; ++i) {
+            $.get("/bdi_ontology/"+$("#bdiOntology").val()[i], function(ontology) {
+                var p = new Object();
+                p.graph = ontology.rules;
+                p.globalLevel = ontology.globalLevel;
                 Eca_Rule.pattern.push(p);
             });
-        }
 
-        Eca_Rule.condition = $("#condition");
+        }*/
+        Eca_Rule.condition = $("#condition").val();
 
-        Eca_Rule.simpleClauses = new Array();
+        Eca_Rule.filters = new Array();
         for (i = 1; i <= tabCount; ++i) {
-            var sc = new Array(5);
-            sc[0] = $("#name"+i).val();
-            sc[1] = $("#event"+i).val();
-            sc[2] = $("#leftOperator"+i).val();
-            sc[3] = $("#comparator"+i).val();
-            sc[4] = $("#rightOperator"+i).val();
-            Eca_Rule.simpleClauses.push(sc);
+            var sc = new Object();
+            sc.name = $("#name"+i).val();
+            sc.event = $("#event"+i).val();
+            sc.leftOperator = $("#leftOperator"+i).val();
+            sc.comparator = $("#comparator"+i).val();
+            sc.rightOperator = $("#rightOperator"+i).val();
+            Eca_Rule.filters.push(sc);
         }
 
-        Eca_Rule.actionName = $("#actionName").val();
-        Eca_Rule.actionType = $("#actionType").val();
-        Eca_Rule.actionParameters = $("#actionParameters").val();
+        Eca_Rule.action = new Object();
+        Eca_Rule.action.name = $("#actionName").val();
+        Eca_Rule.action.type = $("#actionType").val();
+        Eca_Rule.action.parameters = $("#actionParameters").val();
 
         Eca_Rule.windowTime = $("#windowTime").val();
         Eca_Rule.windowSize = $("#windowSize").val();
-
+        console.log(Eca_Rule);
         $.ajax({
             url: '/eca_rule',
             type: 'POST',

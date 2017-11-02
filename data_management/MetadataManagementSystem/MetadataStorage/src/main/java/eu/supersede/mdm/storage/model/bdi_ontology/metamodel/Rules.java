@@ -7,7 +7,11 @@ import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
  */
 public enum Rules {
 
-    ECA_RULE(Namespaces.R.val()+"ECARule/"),
+    ECA_RULE(Namespaces.R.val()+"Rule/"),
+
+
+
+
     CONDITION(Namespaces.R.val()+"Condition/"),
     HAS_CONDITION(Namespaces.R.val()+"hasCondition/"),
     VALUE(Namespaces.R.val()+"Value/"),

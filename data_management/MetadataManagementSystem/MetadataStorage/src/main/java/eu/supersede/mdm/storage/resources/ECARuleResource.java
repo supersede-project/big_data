@@ -86,7 +86,7 @@ public class ECARuleResource {
         getEcaRulesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
 
         // Store in RDF
-/*        Dataset dataset = Utils.getTDBDataset(this.context);
+        Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.WRITE);
 
         Model model = dataset.getNamedModel(objBody.getAsString("graph"));
@@ -101,6 +101,11 @@ public class ECARuleResource {
 
         // Instantiate
         RDFUtil.addTriple(model, ECA_RULE_IRI, Namespaces.rdf.val()+"type", Rules.ECA_RULE.val());
+
+
+
+
+
         RDFUtil.addTriple(model, CONDITION_IRI, Namespaces.rdf.val()+"type", Rules.CONDITION.val());
         RDFUtil.addTriple(model, PREDICATE_IRI, Namespaces.rdf.val()+"type", Rules.PREDICATE.val());
         RDFUtil.addTriple(model, VALUE_IRI, Namespaces.rdf.val()+"type", Rules.VALUE.val());
@@ -118,7 +123,7 @@ public class ECARuleResource {
         dataset.commit();
         dataset.end();
         dataset.close();
-*/
+
         client.close();
         return Response.ok(objBody.toJSONString()).build();
     }

@@ -8,7 +8,7 @@ public enum Namespaces {
     S("http://www.BDIOntology.com/source/"),
     G("http://www.BDIOntology.com/global/"),
     M("http://www.BDIOntology.com/mappings/"),
-    R("http://www.BDIOntology.com/eca_rule/"),
+    R("http://www.essi.upc.edu/~jvarga/sm4cep/"),
 
     owl("http://www.w3.org/2002/07/owl#"),
     rdf("http://www.w3.org/1999/02/22-rdf-syntax-ns#"),

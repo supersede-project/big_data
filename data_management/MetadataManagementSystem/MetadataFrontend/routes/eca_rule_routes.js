@@ -28,21 +28,23 @@ exports.getAllEcaRules = function (req, res, next) {
 };
 
 exports.postEcaRule = function (req, res, next) {
-    if (!(req.body.hasOwnProperty('name')) || req.body.name == null
-        || !(req.body.hasOwnProperty('globalLevel')) || req.body.globalLevel == null
-        || !(req.body.hasOwnProperty('graph')) || req.body.graph == null
-        || !(req.body.hasOwnProperty('simpleClauses')) || req.body.simpleClauses == null
-        || !(req.body.hasOwnProperty('action')) || req.body.action == null) {
-        res.status(400).json({msg: "(Bad Request) data format: {name, globalLevel, graph, simpleClauses, action}"});
-    } else {
+   if (!(req.body.hasOwnProperty('ruleName')) || req.body.ruleName == null
+        || !(req.body.hasOwnProperty('pattern')) || req.body.pattern == null
+        || !(req.body.hasOwnProperty('filters')) || req.body.filters == null
+        || !(req.body.hasOwnProperty('action')) || req.body.action == null
+        || !(req.body.hasOwnProperty('windowTime')) || req.body.windowTime == null
+        || !(req.body.hasOwnProperty('windowSize')) || req.body.windowSize == null) {
+        res.status(400).json({msg: "(Bad Request) data format: ruleName, pattern, filters, action, windowTime, windowSize}"});
+   }
+   else {
         var rule = new Object();
-        rule.name = req.body.name;
-        rule.globalLevel = req.body.globalLevel;
-        rule.graph = req.body.graph;
-        rule.simpleClauses = req.body.simpleClauses;
-        //rule.windowTime = req.body.windowTime;
-        //rule.windowSize = req.body.windowSize;
+        rule.ruleName = req.body.ruleName;
+        rule.pattern = req.body.pattern;
+        rule.filters = req.body.filters;
         rule.action = req.body.action;
+        rule.windowTime = req.body.windowTime;
+        rule.windowSize = req.body.windowSize;
+
 
         console.log("Posting "+JSON.stringify(rule));
 
