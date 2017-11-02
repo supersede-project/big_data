@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.util.JSON;
 import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.ActionTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.OperatorTypes;
@@ -91,32 +92,37 @@ public class ECARuleResource {
 
         Model model = dataset.getNamedModel(objBody.getAsString("graph"));
 
-        String ECA_RULE_IRI = Rules.ECA_RULE.val()+objBody.getAsString("name");
+        String ECA_RULE_IRI = Rules.RULE.val()+objBody.getAsString("ruleName");
         // TODO Update for multiple conditions
-        String CONDITION_IRI = Rules.CONDITION.val()+objBody.getAsString("name")+"/"+"Condition1";
-        String FEATURE_IRI = objBody.getAsString("feature");
-        String PREDICATE_IRI = Rules.PREDICATE.val()+objBody.getAsString("predicate");
-        String VALUE_IRI = Rules.VALUE.val()+objBody.getAsString("value");
+        JSONArray arrayPattern = (JSONArray) objBody.get("pattern");
+
+        String PATTERN_IRI;
+        for (Object p : arrayPattern) {
+            System.out.println(p);
+        }
+
+        String CONDITION_IRI = Rules.CONDITION.val()+objBody.getAsString("condition");
+
+        JSONArray arrayFilters = (JSONArray) objBody.get("filters");
+        System.out.println(arrayFilters);
+        for (Object f : arrayFilters) {
+            RDFUtil.addTriple(model, f.leftOperator, Namespaces.rdf.val()+"type", Rules.OPERAND.val());
+        }
+
         String ACTION_IRI = Rules.ACTION.val()+objBody.getAsString("action");
+        String WINDOW_IRI = Rules.WINDOW.val()+objBody.getAsString("windowTime");
 
         // Instantiate
-        RDFUtil.addTriple(model, ECA_RULE_IRI, Namespaces.rdf.val()+"type", Rules.ECA_RULE.val());
-
-
-
-
-
+        RDFUtil.addTriple(model, ECA_RULE_IRI, Namespaces.rdf.val()+"type", Rules.RULE.val());
+       // RDFUtil.addTriple(model, PATTERN_IRI, Namespaces.rdf.val()+"type", Rules.PATTERN.val());
         RDFUtil.addTriple(model, CONDITION_IRI, Namespaces.rdf.val()+"type", Rules.CONDITION.val());
-        RDFUtil.addTriple(model, PREDICATE_IRI, Namespaces.rdf.val()+"type", Rules.PREDICATE.val());
-        RDFUtil.addTriple(model, VALUE_IRI, Namespaces.rdf.val()+"type", Rules.VALUE.val());
         RDFUtil.addTriple(model, ACTION_IRI, Namespaces.rdf.val()+"type", Rules.ACTION.val());
+        RDFUtil.addTriple(model, WINDOW_IRI, Namespaces.rdf.val()+"type", Rules.WINDOW.val());
 
         // Link
+      //  RDFUtil.addTriple(model, ECA_RULE_IRI, Rules.HAS_CEP_ELEMENT.val(), PATTERN_IRI);
         RDFUtil.addTriple(model, ECA_RULE_IRI, Rules.HAS_CONDITION.val(), CONDITION_IRI);
-        RDFUtil.addTriple(model, CONDITION_IRI, Rules.HAS_FEATURE.val(), FEATURE_IRI);
-        RDFUtil.addTriple(model, CONDITION_IRI, Rules.HAS_PREDICATE.val(), PREDICATE_IRI);
-        RDFUtil.addTriple(model, CONDITION_IRI, Rules.HAS_VALUE.val(), VALUE_IRI);
-        RDFUtil.addTriple(model, CONDITION_IRI, Rules.HAS_ACTION.val(), ACTION_IRI);
+        RDFUtil.addTriple(model, ECA_RULE_IRI, Rules.HAS_WINDOW.val(), WINDOW_IRI);
 
         model.commit();
         model.close();
