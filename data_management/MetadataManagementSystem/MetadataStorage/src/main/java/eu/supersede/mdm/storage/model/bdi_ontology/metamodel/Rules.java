@@ -1,6 +1,7 @@
 package eu.supersede.mdm.storage.model.bdi_ontology.metamodel;
 
 import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
+import org.apache.jena.tdb.sys.Names;
 
 /**
  * Created by snadal on 22/11/16.
@@ -26,7 +27,7 @@ public enum Rules {
     EVENT_UNIT(Namespaces.R.val()+"EventUnit/"),
 
     ACTION(Namespaces.R.val()+"Action/"),
-    HAS_EVENT(Namespaces.R.val()+"hasEvent/"),
+    AS_EVENT(Namespaces.R.val()+"hasEvent/"),
     HAS_ACTION_PARAMETER(Namespaces.R.val()+"hasActionParameter/"),
 
     ACTION_PARAMETER(Namespaces.R.val()+"ActionParameter/"),
@@ -73,14 +74,21 @@ public enum Rules {
     CONDITION(Namespaces.R.val()+"Condition/"),
 
     SIMPLE_CLAUSE(Namespaces.R.val()+"SimpleClause/"),
+    OPERAND(Namespaces.R.val()+"Operand/"),
+    HAS_LEFT_OPERAND(Namespaces.R.val()+"hasLeftOperand/"),
+    HAS_RIGHT_OPERAND(Namespaces.R.val()+"hasRightOperand/"),
+    FOR_EVENT(Namespaces.R.val()+"forEvent/"),
+    USED_ATTRIBUTE(Namespaces.R.val()+"UsedAttribute/"),
+    COMPARISON_OPERATOR(Namespaces.R.val()+"ComparisonOperator/"),
+    HAS_COMPARISON_OPERATOR(Namespaces.R.val()+"hasComparisonOperator/"),
 
     VALUE(Namespaces.R.val()+"Value/"),
     HAS_VALUE(Namespaces.R.val()+"hasValue/"),
     HAS_FEATURE(Namespaces.R.val()+"hasFeature/"),
     PREDICATE(Namespaces.R.val()+"Predicate/"),
-    HAS_PREDICATE(Namespaces.R.val()+"hasPredicate/");
+    HAS_PREDICATE(Namespaces.R.val()+"hasPredicate/"),
 
-
+    POSITIVE_INTEGER(Namespaces.R.val()+"positiveInteger");
     private String element;
 
     Rules(String element) {
