@@ -34,9 +34,9 @@ function createNewTab(i, ecaRule) {
         '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operator '+(tabCount)+'</label><div class="col-lg-10"><input class="value form-control" id="rightOperator'+(tabCount)+'" type="text" required="required" readonly=""> </input></div></div></div>'));
     $("#name"+tabCount).val(ecaRule.filters[i].name);
     $("#event"+tabCount).val(ecaRule.filters[i].event);
-    $("#leftOperator"+tabCount).val(ecaRule.filters[i].leftOperator);
+    $("#leftOperator"+tabCount).val(ecaRule.filters[i].leftOperand);
     $("#comparator"+tabCount).val(ecaRule.filters[i].comparator);
-    $("#rightOperator"+tabCount).val(ecaRule.filters[i].rightOperator);
+    $("#rightOperator"+tabCount).val(ecaRule.filters[i].rightOperand);
     ++tabCount;
 }
 
@@ -45,6 +45,7 @@ $(window).load(function() {
         var eca_ruleObj = (data);
         $("#name").val(eca_ruleObj.ruleName);
         $("#bdiOntology").val(eca_ruleObj.pattern);
+        $("#condition").val(eca_ruleObj.condition);
         for(i = 0; i < eca_ruleObj.filters.length; ++i) {
             createNewTab(i, eca_ruleObj);
         }

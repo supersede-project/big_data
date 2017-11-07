@@ -47,8 +47,7 @@ function getComparators() {
 $(window).load(function() {
     $('#tabPanel li:first').tab('show'); // Select first tab
 
-    $("select").select2();
-    $("select").on("select2:select", function (evt) {
+    $("#bdiOntology").on("select2:select", function (evt) {
         var element = evt.params.data.element;
         var $element = $(element);
 
@@ -102,9 +101,9 @@ $(window).load(function() {
         $("#tabPanel").append($('<li role="presentation"><a id="button_tab_'+(tabCount)+'" href="#tab_'+(tabCount)+'" aria-controls="settings" role="tab" data-toggle="tab">'+'Filter '+(tabCount)+'<button type="button" class="close closeTab">&nbsp &times;</button></a></li>'));
         $("#tabContent").append($('<div id="tab_'+(tabCount)+'" role="tabpanel" class="tab-pane fill" style="border:1px solid; padding:5px">'+'<div class="form-group"> <label class="col-lg-2 control-label">'+'Name '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="name'+(tabCount)+'" type="text" required="required"> </input></div></div>'+
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Event '+(tabCount)+'</label><div class="col-lg-10"><select class="event" id="event'+(tabCount)+'" style="width:100%"></select></div></div>' +
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Left Operator '+(tabCount)+'</label><div class="col-lg-10"><select id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Left Operand '+(tabCount)+'</label><div class="col-lg-10"><select id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Comparator '+(tabCount)+'</label><div class="col-lg-10"><select id="comparator'+(tabCount)+'" style="width:100%"> </select></div></div>' +
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operator '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operand '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
 
         getEvents();
         $("#event"+tabCount).change(function(o) {
@@ -149,9 +148,9 @@ $(window).load(function() {
             var sc = new Object();
             sc.name = $("#name"+i).val();
             sc.event = $("#event"+i).val();
-            sc.leftOperator = $("#leftOperator"+i).val();
+            sc.leftOperand = $("#leftOperator"+i).val();
             sc.comparator = $("#comparator"+i).val();
-            sc.rightOperator = $("#rightOperator"+i).val();
+            sc.rightOperand = $("#rightOperator"+i).val();
             Eca_Rule.filters.push(sc);
         }
 
@@ -162,7 +161,9 @@ $(window).load(function() {
 
         Eca_Rule.windowTime = $("#windowTime").val();
         Eca_Rule.windowSize = $("#windowSize").val();
-        console.log(Eca_Rule);
+
+        alert(JSON.stringify(Eca_Rule));
+
         $.ajax({
             url: '/eca_rule',
             type: 'POST',
