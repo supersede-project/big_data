@@ -4,10 +4,12 @@ package eu.supersede.mdm.storage.model.bdi_ontology.eca_rules;
  * Created by snadal on 20/01/17.
  */
 public enum PredicatesTypes {
-    GT(">"),
-    EQ("=="),
-    LT("<"),
-    CONTAINS("Contains");
+    EQUAL("=="),
+    NOT_EQUAL("!="),
+    GREATER_THAN(">"),
+    GREATER_OR_EQUAL(">="),
+    LESS_THAN("<"),
+    LESS_OR_EQUAL("<=");
 
     private String element;
 

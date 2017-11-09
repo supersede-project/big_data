@@ -1,6 +1,8 @@
 /**
  * Created by snadal on 07/06/16.
  */
+
+var tabCount = 0;
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -8,7 +10,52 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+function registerCloseEvent() {
+    $(".closeTab").click(function () {
+        var tabContentId = $(this).parent().attr("href");
+        $(this).parent().parent().remove(); //remove li of tab
+        $('#tabPanel a:last').tab('show'); // Select first tab
+        $(tabContentId).remove(); //remove respective tab content
+         --tabCount;
+    });
+}
+
+function getEvents() {
+    var patterns = $("#bdiOntology").val();
+    $("#event"+tabCount).empty().trigger('change');
+    for (i = 0; i < patterns.length; ++i) {
+        $.get("/bdi_ontology/"+patterns[i], function(ontology) {
+            $("#event"+tabCount).append($('<option value="' + ontology.bdi_ontologyID + '">').text(ontology.name));
+        });
+        $("#event"+tabCount).select2({
+            theme: "bootstrap"
+        });
+    }
+}
+
+function getComparators() {
+    $.get("/eca_rule_predicate_types", function(data) {
+        _.each(data, function(element,index,list) {
+            $("#comparator"+tabCount).append($('<option value="'+element.key+'">').text(element.key + " (" + element.val + ")"));
+        });
+        $("#comparator"+tabCount).select2({
+            theme: "bootstrap"
+        });
+    });
+}
+
 $(window).load(function() {
+    $('#tabPanel li:first').tab('show'); // Select first tab
+
+    $("#bdiOntology").on("select2:select", function (evt) {
+        var element = evt.params.data.element;
+        var $element = $(element);
+
+        $element.detach();
+        $(this).append($element);
+        $(this).trigger("change");
+    });
+
     $.get("/bdi_ontology", function(data) {
         _.each(data, function(element,index,list) {
             var obj = JSON.parse(element);
@@ -20,81 +67,111 @@ $(window).load(function() {
         $("#bdiOntology").trigger('change');
     });
 
-    $("#bdiOntology").change(function(o) {
-        console.log("/bdi_ontology/"+$("#bdiOntology").val());
-        $.get("/bdi_ontology/"+$("#bdiOntology").val(), function(ontology) {
-            console.log("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features");
-            $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
-                //$("#feature").val(null);
-                $("#feature").empty().trigger('change');
-
-                _.each(JSON.parse(data), function(element,index,list) {
-                    $("#feature").append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
-                });
-                $("#feature").select2({
-                    theme: "bootstrap"
+    $("#bdiOntology").change(function() {
+        $(".closeTab").click();
+        $("#actionParameters").empty().trigger("change");
+        tabCount = 0;
+        var pattern = $("#bdiOntology").val();
+        for (i = 0; i <pattern.length; ++i) {
+            $.get("/bdi_ontology/"+pattern[i], function(ontology) {
+                $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
+                    _.each(JSON.parse(data), function(element,index,list) {
+                        $("#actionParameters").append($('<option value="'+element.iri+'">').text(ontology.name + '.' + element.name +" ("+element.iri+")"));
+                    });
+                    $("#actionParameters").select2({
+                        theme: "bootstrap"
+                    });;
                 });
             });
-        });
-
-
-    });
-
-    $.get("/eca_rule_operator_types", function(data) {
-        _.each(data, function(element,index,list) {
-            $("#operator").append($('<option value="'+element.key+'">').text(element.val));
-        });
-        $("#operator").select2({
-            theme: "bootstrap"
-        });
-    });
-
-    $.get("/eca_rule_predicate_types", function(data) {
-        _.each(data, function(element,index,list) {
-            $("#predicate").append($('<option value="'+element.key+'">').text(element.key + " (" + element.val + ")"));
-        });
-        $("#predicate").select2({
-            theme: "bootstrap"
-        });
+        }
     });
 
     $.get("/eca_rule_action_types", function(data) {
         _.each(data, function(element,index,list) {
-            $("#action").append($('<option value="'+element.key+'">').text(element.val));
+            $("#actionType").append($('<option value="'+element.key+'">').text(element.val));
         });
-        $("#action").select2({
-            action: "bootstrap"
+        $("#actionType").select2({
+            theme: "bootstrap"
         });
+    });
+
+    $('#addSimpleClause').on("click", function(e) {
+        e.preventDefault();
+        ++tabCount;
+        $("#tabPanel").append($('<li role="presentation"><a id="button_tab_'+(tabCount)+'" href="#tab_'+(tabCount)+'" aria-controls="settings" role="tab" data-toggle="tab">'+'Filter '+(tabCount)+'<button type="button" class="close closeTab">&nbsp &times;</button></a></li>'));
+        $("#tabContent").append($('<div id="tab_'+(tabCount)+'" role="tabpanel" class="tab-pane fill" style="border:1px solid; padding:5px">'+'<div class="form-group"> <label class="col-lg-2 control-label">'+'Name '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="name'+(tabCount)+'" type="text" required="required"> </input></div></div>'+
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Event '+(tabCount)+'</label><div class="col-lg-10"><select class="event" id="event'+(tabCount)+'" style="width:100%"></select></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Left Operand '+(tabCount)+'</label><div class="col-lg-10"><select id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Comparator '+(tabCount)+'</label><div class="col-lg-10"><select id="comparator'+(tabCount)+'" style="width:100%"> </select></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operand '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
+
+        getEvents();
+        $("#event"+tabCount).change(function(o) {
+            $.get("/bdi_ontology/"+$("#event"+tabCount).val(), function(ontology) {
+                $.get("/global_level/"+encodeURIComponent(ontology.globalLevel)+"/features", function(data) {
+                    //$("#feature").val(null);
+                    $("#leftOperator"+tabCount).empty().trigger('change');
+
+                    _.each(JSON.parse(data), function(element,index,list) {
+                        $("#leftOperator"+tabCount).append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
+                    });
+                    $("#leftOperator"+tabCount).select2({
+                        theme: "bootstrap"
+                    });;
+                });
+            });
+        });
+        registerCloseEvent();
+        getComparators();
     });
 
     $('#submitEcaRule').on("click", function(e){
         e.preventDefault();
 
-        $.get("/bdi_ontology/"+$("#bdiOntology").val(), function(ontology) {
-            var Eca_Rule = new Object();
-            Eca_Rule.name = $("#name").val();
-            Eca_Rule.globalLevel = ontology.globalLevel;
-            Eca_Rule.graph = ontology.rules;
-            Eca_Rule.feature = $("#feature").val();
-            Eca_Rule.operator = $("#operator").val();
-            Eca_Rule.predicate = $("#predicate").val();
-            Eca_Rule.value = $("#value").val();
-            Eca_Rule.windowTime = $("#windowTime").val();
-            Eca_Rule.windowSize = $("#windowSize").val();
-            Eca_Rule.action = $("#action").val();
+        var Eca_Rule = new Object();
+        Eca_Rule.ruleName = $("#ruleName").val();
 
-            $.ajax({
-                url: '/eca_rule',
-                type: 'POST',
-                data: Eca_Rule
-            }).done(function() {
-                window.location.href = '/manage_eca_rules';
-            }).fail(function(err) {
-                alert("error "+JSON.stringify(err));
+        Eca_Rule.pattern = $("#bdiOntology").val();
+        /*for(i = 0; i < $("#bdiOntology").val().length; ++i) {
+            $.get("/bdi_ontology/"+$("#bdiOntology").val()[i], function(ontology) {
+                var p = new Object();
+                p.graph = ontology.rules;
+                p.globalLevel = ontology.globalLevel;
+                Eca_Rule.pattern.push(p);
             });
 
+        }*/
+        Eca_Rule.condition = $("#condition").val();
+
+        Eca_Rule.filters = new Array();
+        for (i = 1; i <= tabCount; ++i) {
+            var sc = new Object();
+            sc.name = $("#name"+i).val();
+            sc.event = $("#event"+i).val();
+            sc.leftOperand = $("#leftOperator"+i).val();
+            sc.comparator = $("#comparator"+i).val();
+            sc.rightOperand = $("#rightOperator"+i).val();
+            Eca_Rule.filters.push(sc);
+        }
+
+        Eca_Rule.action = new Object();
+        Eca_Rule.action.name = $("#actionName").val();
+        Eca_Rule.action.type = $("#actionType").val();
+        Eca_Rule.action.parameters = $("#actionParameters").val();
+
+        Eca_Rule.windowTime = $("#windowTime").val();
+        Eca_Rule.windowSize = $("#windowSize").val();
+
+        alert(JSON.stringify(Eca_Rule));
+
+        $.ajax({
+            url: '/eca_rule',
+            type: 'POST',
+            data: Eca_Rule
+        }).done(function() {
+            window.location.href = '/manage_eca_rules';
+        }).fail(function(err) {
+            alert("error "+JSON.stringify(err));
         });
-
     });
-
 });
