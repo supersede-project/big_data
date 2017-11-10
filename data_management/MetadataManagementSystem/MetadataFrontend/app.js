@@ -124,6 +124,7 @@ app.get('/global_level/:artifactID/features', global_level_routes.getAllFeatures
 /********** Source Level resource ********************************************************/
 
 app.post('/sourceLevel', source_level_routes.postSourceLevel);
+app.get('/sourceLevel/:graph/attributes', source_level_routes.getReleaseAttributes);
 
 /********** Release resource *************************************************************/
 

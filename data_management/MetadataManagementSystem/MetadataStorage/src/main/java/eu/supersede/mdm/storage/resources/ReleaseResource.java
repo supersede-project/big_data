@@ -5,13 +5,22 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.util.JSON;
+import eu.supersede.mdm.storage.parsers.OWLtoD3;
 import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.impl.PropertyImpl;
+import org.apache.jena.rdf.model.impl.ResourceImpl;
 import org.bson.Document;
+import scala.Tuple3;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
@@ -125,6 +134,48 @@ public class ReleaseResource {
 
         client.close();
         return Response.ok(content.toJSONString()).build();
+    }
+
+    @GET
+    @Path("release/{graph}/attributes")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_releaseAttributes(@PathParam("graph") String graph) {
+        System.out.println("[GET /release/"+graph+"/attributes");
+
+        Dataset dataset = Utils.getTDBDataset();
+        dataset.begin(ReadWrite.READ);
+        List<Tuple3<Resource,Property,Resource>> triples = Lists.newArrayList();
+        try(QueryExecution qExec = QueryExecutionFactory.create("SELECT * WHERE { GRAPH <"+graph+"> {?s ?p ?o} }",  dataset)) {
+            ResultSet rs = qExec.execSelect();
+
+            rs.forEachRemaining(triple -> {
+                String p = triple.get("p").toString();
+                String o = triple.get("o").toString();
+                if (p.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") && o.equals("http://www.BDIOntology.com/source/Attribute")) {
+                    triples.add(new Tuple3<Resource, Property, Resource>(new ResourceImpl(triple.get("s").toString()), new PropertyImpl(p), new ResourceImpl(o)));
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.ok("Error: "+e.toString()).build();
+        }
+
+        String d3Representation = OWLtoD3.parse("GLOBAL", triples);
+        JSONObject d3 = (JSONObject) JSONValue.parse(d3Representation);
+
+        JSONArray attributes = new JSONArray();
+        ((JSONArray)d3.get("nodes")).forEach(attribute -> {
+            JSONObject iri = new JSONObject();
+            iri.put("name", ((JSONObject)attribute).get("name").toString());
+            iri.put("iri", ((JSONObject)attribute).get("iri").toString());
+            attributes.add(iri);
+        });
+
+        dataset.end();
+        dataset.close();
+        return Response.ok(attributes.toJSONString()).build();
     }
 
 }

@@ -22,6 +22,7 @@ import org.apache.jena.base.Sys;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.tdb.sys.Names;
 import org.bson.Document;
 
 import javax.servlet.ServletContext;
@@ -92,51 +93,54 @@ public class ECARuleResource {
         dataset.begin(ReadWrite.WRITE);
         Model model = dataset.getNamedModel(objBody.getAsString("graph"));
 
+        // RULE
+        System.out.println("Rule definition");
         String RULE_IRI = Namespaces.ex.val()+objBody.getAsString("ruleName");
-        String CONDITION_IRI = RULE_IRI+"/"+objBody.getAsString("condition");
-        String WINDOW_TIME_IRI = RULE_IRI+"/"+objBody.getAsString("windowTime");
-        String WINDOW_SIZE_IRI = RULE_IRI+"/"+objBody.getAsString("windowSize");
-        String PATTERN_IRI = RULE_IRI+"/Pattern";
-
-
-        // Instantiate
         RDFUtil.addTriple(model, RULE_IRI, Namespaces.rdf.val()+"type", Rules.RULE.val());
-        RDFUtil.addTriple(model, PATTERN_IRI, Namespaces.rdf.val()+"type", Rules.PATTERN.val());
-        RDFUtil.addTriple(model, CONDITION_IRI, Namespaces.rdf.val()+"type", Rules.CONDITION.val());
-        RDFUtil.addTriple(model, WINDOW_SIZE_IRI, Namespaces.rdf.val()+"type", Rules.WINDOW.val());
 
-        // Link
-        RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_CEP_ELEMENT.val(), PATTERN_IRI);
-        RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_CONDITION.val(), CONDITION_IRI);
+        // WINDOW
+        System.out.println("Window definition");
+        String WINDOW_SIZE_IRI = RULE_IRI+"/"+objBody.getAsString("windowSize");
+        RDFUtil.addTriple(model, WINDOW_SIZE_IRI, Namespaces.rdf.val()+"type", Rules.WINDOW.val());
         RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_WINDOW.val(), WINDOW_SIZE_IRI);
 
+        // EVENT
+        String EVENT_IRI = RULE_IRI+"/Event";
+
         // PATTERN RELEASES
-        System.out.println("----PATTERN----");
+        System.out.println("Pattern definition");
+        String PATTERN_IRI = RULE_IRI+"/Pattern";
+        RDFUtil.addTriple(model, PATTERN_IRI, Namespaces.rdf.val()+"type", Rules.PATTERN.val());
+        RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_CEP_ELEMENT.val(), PATTERN_IRI);
         JSONArray arrayPattern = (JSONArray) objBody.get("pattern");
         int patternElementOrder = 1;
         for (Object obj : arrayPattern) {
-            // Instantiate
             RDFUtil.addTriple(model, PATTERN_IRI+"/"+obj.toString(), Namespaces.rdf.val()+"type", Rules.INCLUDED_ELEMENT.val());
+            RDFUtil.addTriple(model, EVENT_IRI+"/"+obj.toString(), Namespaces.rdf.val()+"type", Rules.EVENT.val());
             //   RDFUtil.addTriple(model, Integer.toString(patternElementOrder), Namespaces.rdf.val()+"type", Rules.POSITIVE_INTEGER.val());
-            // Link
             RDFUtil.addTriple(model, PATTERN_IRI+"/"+obj.toString(), Rules.HAS_ELEMENT_ORDER.val(), Integer.toString(patternElementOrder));
             RDFUtil.addTriple(model, PATTERN_IRI, Rules.CONTAINS_ELEMENT.val(), PATTERN_IRI+"/"+obj.toString());
             ++patternElementOrder;
         }
 
+        // CONDITION
+        String CONDITION_IRI = RULE_IRI+"/"+objBody.getAsString("condition");
+        RDFUtil.addTriple(model, CONDITION_IRI, Namespaces.rdf.val()+"type", Rules.CONDITION.val());
+        RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_CONDITION.val(), CONDITION_IRI);
+
         // FILTERS
+        System.out.println("Filters definitions");
         JSONArray arrayFilters = (JSONArray) objBody.get("filters");
         for (Object f : arrayFilters) {
             JSONObject obj = (JSONObject) f;
             System.out.println("----FILTER " + obj.getAsString("name") + "----");
             String FILTER_IRI = RULE_IRI+"/Filter"+obj.getAsString("name");
             //  RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_FILTER.val(), "Filter"+filterNum);
-            // Instantiate
             RDFUtil.addTriple(model, FILTER_IRI+"/", Namespaces.rdf.val()+"type", Rules.SIMPLE_CLAUSE.val());
             RDFUtil.addTriple(model, FILTER_IRI+"/"+obj.getAsString("leftOperand"), Namespaces.rdf.val()+"type", Rules.USED_ATTRIBUTE.val());
-          //  RDFUtil.addTriple(model, FILTER_IRI+"/"+obj.getAsString("event"), Namespaces.rdf.val()+"type", Rules.EVENT.val());
-            // Link
-           // RDFUtil.addTriple(model, FILTER_IRI+"/"+obj.getAsString("leftOperand"), Rules.FOR_EVENT.val(), FILTER_IRI+"/"+obj.getAsString("event"));
+            //  RDFUtil.addTriple(model, FILTER_IRI+"/"+obj.getAsString("event"), Namespaces.rdf.val()+"type", Rules.EVENT.val());
+
+            RDFUtil.addTriple(model, FILTER_IRI+"/"+obj.getAsString("leftOperand"), Rules.FOR_EVENT.val(), EVENT_IRI+"/"+obj.getAsString("event"));
             RDFUtil.addTriple(model, FILTER_IRI, Rules.HAS_RIGHT_OPERAND.val(), FILTER_IRI+"/"+obj.getAsString("rightOperand"));
             RDFUtil.addTriple(model, FILTER_IRI, Rules.HAS_LEFT_OPERAND.val(), FILTER_IRI+"/"+obj.getAsString("leftOperand"));
             RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_FILTER.val(), FILTER_IRI);
