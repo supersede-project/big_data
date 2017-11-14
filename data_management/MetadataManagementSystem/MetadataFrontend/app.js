@@ -12,8 +12,9 @@ var app = express();
 var io = require('socket.io').listen(app.listen(port));
 var flash = require('express-flash');
 var multer = require('multer');
+var upload = multer({ dest: config.FILES_PATH });
 var passport = require('passport');
-
+var fs = require('fs');
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -50,7 +51,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(bodyParser.json());                          // parse application/json
 app.use(bodyParser.urlencoded({ extended: true }));  // parse application/x-www-form-urlencoded
-app.use(multer());                                   // parse multipart/form-data
+//app.use(multer());                                   // parse multipart/form-data
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.raw({uploadDir:config.FILES_PATH}));
 
@@ -154,7 +155,23 @@ app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
 
 /**********************************   Files   ********************************************/
 
-app.post('/files', files_routes.postFile);
+//app.post('/files', files_routes.postFile);
+app.post('/files', upload.single('file'), function (req, res, next) {
+    if (req.file==null){
+        res.status(400).json({msg: "(Bad Request) data format: {path, file}"});
+    } else {
+        var tmp_path = req.file.path;
+        var target_path = config.FILES_PATH + req.file.originalname;
+        fs.rename(tmp_path, target_path, function(err) {
+            if (err) throw err;
+            fs.unlink(tmp_path, function() {
+                if (err) throw err;
+                res.send('File uploaded to: ' + target_path);
+            });
+        });
+    }
+})
+
 
 /****************************   Feedback classification  *********************************/
 
