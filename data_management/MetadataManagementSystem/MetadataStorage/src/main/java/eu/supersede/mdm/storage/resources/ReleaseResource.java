@@ -136,6 +136,7 @@ public class ReleaseResource {
         return Response.ok(content.toJSONString()).build();
     }
 
+
     @GET
     @Path("release/{graph}/attributes")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -152,10 +153,12 @@ public class ReleaseResource {
             rs.forEachRemaining(triple -> {
                 String p = triple.get("p").toString();
                 String o = triple.get("o").toString();
+                System.out.println(p);
                 if (p.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") && o.equals("http://www.BDIOntology.com/source/Attribute")) {
                     triples.add(new Tuple3<Resource, Property, Resource>(new ResourceImpl(triple.get("s").toString()), new PropertyImpl(p), new ResourceImpl(o)));
                 }
             });
+            System.out.println(triples);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,5 +180,4 @@ public class ReleaseResource {
         dataset.close();
         return Response.ok(attributes.toJSONString()).build();
     }
-
 }

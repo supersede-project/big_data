@@ -86,6 +86,4 @@ public class GlobalLevelResource {
         dataset.close();
         return Response.ok(features.toJSONString()).build();
     }
-
-
 }
