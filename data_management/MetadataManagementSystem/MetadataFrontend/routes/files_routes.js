@@ -8,9 +8,8 @@ var request = require('request'),
 
 
 exports.postFile = function (req, res, next) {
-    if (!(req.body.hasOwnProperty('path')) || req.body.path==null
-        || !(req.files.hasOwnProperty('file')) || req.files.file==null){
-        res.status(400).json({msg: "(Bad Request) data format: {path, file}"});
+    if (req.files.file==null){
+        res.status(400).json({msg: "(Bad Request) data format: {file}"});
     } else {
         var tmp_path = req.files.file.path;
         var target_path = config.FILES_PATH + req.files.file.originalname;
