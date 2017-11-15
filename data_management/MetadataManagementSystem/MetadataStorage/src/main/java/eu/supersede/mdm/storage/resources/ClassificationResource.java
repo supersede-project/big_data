@@ -35,7 +35,7 @@ public class ClassificationResource {
         String feedback = objBody.getAsString("feedback");
 
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
-        String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
+        String pathToClassificationModel = ConfigManager.getProperty("resources_path");// Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         //String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
         //String pathToFeatureExtractor = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
 
