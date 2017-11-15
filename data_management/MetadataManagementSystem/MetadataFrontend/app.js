@@ -1,4 +1,4 @@
-var config = require(__dirname+'/config_alba');
+var config = require(__dirname+'/config');
 var port = config.PORT;
 var express = require('express');
 var path = require('path');
