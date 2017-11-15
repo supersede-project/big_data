@@ -53,7 +53,7 @@ $(window).load(function() {
 
         $element.detach();
         $(this).append($element);
-        $(this).trigger("change");
+     //   $(this).trigger("change");
     });
 
     $.get("/release", function(data) {
@@ -67,10 +67,9 @@ $(window).load(function() {
         $("#bdiOntology").trigger('change');
     });
 
-    $("#bdiOntology").change(function() {
+    $("#bdiOntology").on('change', function() {
+        $("#actionParameters").empty().trigger('change');
         $(".closeTab").click();
-        $("#actionParameters").empty().trigger("change");
-        $("#filtersCol").empty().trigger("change");
         tabCount = 0;
         var pattern = $("#bdiOntology").val();
         for (i = 0; i <pattern.length; ++i) {
@@ -85,6 +84,7 @@ $(window).load(function() {
                 });
             });
         }
+
     });
 
 
@@ -161,8 +161,6 @@ $(window).load(function() {
 
         Eca_Rule.windowTime = $("#windowTime").val();
         Eca_Rule.windowSize = $("#windowSize").val();
-
-        alert(JSON.stringify(Eca_Rule));
 
         $.ajax({
             url: '/eca_rule',

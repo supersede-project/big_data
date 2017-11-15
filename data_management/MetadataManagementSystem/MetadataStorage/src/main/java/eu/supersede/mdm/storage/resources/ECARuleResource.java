@@ -30,7 +30,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.UUID;
 
@@ -261,5 +264,20 @@ public class ECARuleResource {
         return Response.ok(new Gson().toJson(out)).build();
     }
 
-
+    @GET
+    @Path("eca_rule/{ruleName}/generate_config_file")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_ECA_rule_config_file(@PathParam("ruleName") String ruleName) {
+       /* try {
+            File f = File.createTempFile("exFile", ".ttl", new File("~/SUPERSEDE/tmpFiles/"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            bw.write(ruleName);
+            bw.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        } */
+        return Response.ok(new Gson().toJson(ruleName)).build();
+    }
 }

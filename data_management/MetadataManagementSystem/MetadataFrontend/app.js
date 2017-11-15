@@ -1,4 +1,4 @@
-var config = require(__dirname+'/config');
+var config = require(__dirname+'/config_alba');
 var port = config.PORT;
 var express = require('express');
 var path = require('path');
@@ -153,6 +153,7 @@ app.post('/eca_rule', eca_rule_routes.postEcaRule);
 app.get('/eca_rule_operator_types', eca_rule_routes.getEcaRuleOperatorTypes);
 app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
 app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
+app.get('/eca_rule/:ruleName/generate_config_file', eca_rule_routes.generateConfigFile);
 
 /**********************************   Files   ********************************************/
 
