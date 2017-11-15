@@ -94,3 +94,13 @@ exports.getEcaRuleActionTypes = function (req, res, next) {
         }
     });
 };
+
+exports.generateConfigFile = function (req, res) {
+    request.get(config.METADATA_DATA_LAYER_URL + "eca_rule/" + req.params.ruleName + "/generate_config_file/", function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json(JSON.parse(body));
+        } else {
+            res.status(500).send("Error retrieving ECA Rule configuration file");
+        }
+    })
+}
