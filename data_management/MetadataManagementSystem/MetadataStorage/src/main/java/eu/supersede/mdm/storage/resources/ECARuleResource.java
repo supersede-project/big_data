@@ -269,15 +269,17 @@ public class ECARuleResource {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public Response GET_ECA_rule_config_file(@PathParam("ruleName") String ruleName) {
-       /* try {
-            File f = File.createTempFile("exFile", ".ttl", new File("~/SUPERSEDE/tmpFiles/"));
+        System.out.println("[GET /eca_rule/{ruleName}/generate_config_file]");
+        try {
+            File f = File.createTempFile("exFile", ".ttl", new File("/home/alba/SUPERSEDE/tmpFiles/"));
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
             bw.write(ruleName);
             bw.close();
+            //return Response.ok(new Gson().toJson(f)).build();
         }
         catch (Exception e){
             e.printStackTrace();
-        } */
+        }
         return Response.ok(new Gson().toJson(ruleName)).build();
     }
 }

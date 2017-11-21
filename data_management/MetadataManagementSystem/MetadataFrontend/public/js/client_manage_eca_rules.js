@@ -1,6 +1,7 @@
 /**
  * Created by snadal on 29/05/16.
  */
+
 /*
 function removeDataset(dataset) {
     $.ajax({
@@ -11,6 +12,14 @@ function removeDataset(dataset) {
     });
 }
 */
+
+function generateFile(rule) {
+    $.get("/eca_rule/" + rule + "/generate_config_file", function (data) {
+        var file = new Blob ([data], {type: "text/plain;charset=utf-8"})
+        saveAs(file, rule+".ttl");
+    });
+}
+
 function getRules() {
     $.get("/eca_rule", function(data) {
         var i = 1;
@@ -23,7 +32,7 @@ function getRules() {
                     ).append($('<td>')
                         .text(theObj.ruleName)
                     ).append($('<td>').append($('<a href="/view_eca_rule?eca_ruleID='+(theObj.eca_ruleID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
-                    ).append($('<td>').append($('<a href="/eca_rule/' + (theObj.ruleName) + '/generate_config_file">').append($('<span class="glyphicon glyphicon-plus-sign"></span>'))))
+                    ).append($('<td>').append($('<btn onclick="generateFile(\'' + (theObj.ruleName) +'\')"> </btn>').append($('<span class="glyphicon glyphicon-plus-sign"></span>'))))
                 );
             ++i;
         });
@@ -32,13 +41,6 @@ function getRules() {
 
 $(function() {
     getRules();
-   /* $(".btn").on('click', function(e) {
-        e.defaultPrevented();
-        alert("button clicked");
-        $.get("/eca_rule/" + $(this).getAttribute("id") + "/generate_config_file", function (data) {
-            alert(data);
-        });
-    });*/
 });
 
 
