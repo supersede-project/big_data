@@ -5,6 +5,9 @@ import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.util.JSON;
+import eu.supersede.mdm.storage.cep.RDF_Model.Rule;
+import eu.supersede.mdm.storage.cep.manager.Manager;
+import eu.supersede.mdm.storage.cep.sm4cep.Sm4cepParser;
 import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.ActionTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.OperatorTypes;
@@ -19,10 +22,13 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.apache.jena.base.Sys;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.tdb.sys.Names;
+import org.apache.jena.util.FileManager;
 import org.bson.Document;
 
 import javax.servlet.ServletContext;
@@ -77,7 +83,7 @@ public class ECARuleResource {
     }
 
     /**
-     * POST a BDI Ontology
+     * POST an ECA RULE
      */
     @POST @Path("eca_rule/")
     @Consumes("text/plain")
@@ -112,7 +118,7 @@ public class ECARuleResource {
         // EVENT SCHEMA
         System.out.println("# Event schema definition");
         JSONArray arrayEvents = (JSONArray) objBody.get("filters");
-        String EVENT_IRI = RULE_IRI+"/Event";
+        String EVENT_IRI = RULE_IRI+"/Event/";
         for (Object e : arrayEvents) {
             JSONObject obj = (JSONObject) e;
             String name = EVENT_IRI + obj.getAsString("event") + "Schema";
@@ -191,7 +197,7 @@ public class ECARuleResource {
         JSONArray arrayFilters = (JSONArray) objBody.get("filters");
         for (Object f : arrayFilters) {
             JSONObject obj = (JSONObject) f;
-            String FILTER_IRI = RULE_IRI+"/Filter"+obj.getAsString("name");
+            String FILTER_IRI = RULE_IRI+"/Filter/"+obj.getAsString("name");
             System.out.println("# "+obj.getAsString("name"));
             //  RDFUtil.addTriple(model, RULE_IRI, Rules.HAS_FILTER.val(), "Filter"+filterNum);
             RDFUtil.addTriple(model, FILTER_IRI+"/", Namespaces.rdf.val()+"type", Rules.SIMPLE_CLAUSE.val());
@@ -200,7 +206,7 @@ public class ECARuleResource {
             //  RDFUtil.addTriple(model, FILTER_IRI+"/"+obj.getAsString("event"), Namespaces.rdf.val()+"type", Rules.EVENT.val());
 
            // RDFUtil.addTriple(model, FILTER_IRI+"/"+obj.getAsString("leftOperand"), Rules.FOR_EVENT.val(), EVENT_IRI+"/"+obj.getAsString("event"));
-             RDFUtil.addTriple(model, FILTER_IRI, Rules.HAS_LEFT_OPERAND.val(), FILTER_IRI+"/"+obj.getAsString("leftOperand"));
+            RDFUtil.addTriple(model, FILTER_IRI, Rules.HAS_LEFT_OPERAND.val(), FILTER_IRI+"/"+obj.getAsString("leftOperand"));
             RDFUtil.addTriple(model, FILTER_IRI, Rules.HAS_COMPARISON_OPERATOR.val(), FILTER_IRI+"/"+obj.getAsString("comparator"));
             RDFUtil.addTriple(model, FILTER_IRI, Rules.HAS_RIGHT_OPERAND.val(), FILTER_IRI+"/"+obj.getAsString("rightOperand"));
         }
@@ -271,10 +277,18 @@ public class ECARuleResource {
     public Response GET_ECA_rule_config_file(@PathParam("ruleName") String ruleName) {
         System.out.println("[GET /eca_rule/{ruleName}/generate_config_file]");
         try {
-            File f = File.createTempFile("exFile", ".ttl", new File("/home/alba/SUPERSEDE/tmpFiles/"));
-            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            Sm4cepParser sm4cepparser = new Sm4cepParser();
+            sm4cepparser.getAllEventSchemata();
+            Rule r = sm4cepparser.getRule(ruleName);
+
+            Manager m = new Manager();
+            String s = m.CreateConfiguration("SergiAgent",Lists.newArrayList(sm4cepparser.getEventSchemata().values()), Lists.newArrayList(r),"localhost:9092","stream_type",false,"");
+
+            File f = File.createTempFile(UUID.randomUUID().toString(), ".config"/*, new File("/home/alba/SUPERSEDE/tmpFiles/")*/);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(s));
             bw.write(ruleName);
             bw.close();
+            System.out.println(f.getAbsolutePath());
             //return Response.ok(new Gson().toJson(f)).build();
         }
         catch (Exception e){
@@ -282,4 +296,24 @@ public class ECARuleResource {
         }
         return Response.ok(new Gson().toJson(ruleName)).build();
     }
+
+    /** Load metamodel sm4cep **/
+    @GET @Path("eca_rule/load_sm4cep")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response GET_admin_delete_all() {
+        System.out.println("[GET /eca_rule/load_sm4cep/");
+        Dataset dataset = Utils.getTDBDataset();
+        dataset.begin(ReadWrite.WRITE);
+        Model model = dataset.getDefaultModel();
+        OntModel ontModel = ModelFactory.createOntologyModel();
+        model.add(FileManager.get().readModel(ontModel, "sm4cep_metamodel.ttl"));
+        model.commit();
+        model.close();
+        dataset.commit();
+        dataset.end();
+        dataset.close();
+        return Response.ok("OK").build();
+    }
+
 }

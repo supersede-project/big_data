@@ -1,0 +1,433 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix sm4cep: <http://www.essi.upc.edu/~jvarga/sm4cep/> . 
+@prefix ex: <http://www.example.com/> .
+
+
+<http://www.essi.upc.edu/~jvarga/sm4cep> rdf:type voaf:Vocabulary ;
+				vann:preferredNamespacePrefix "sm4cep";
+				vann:preferredNamespaceUri "http://www.essi.upc.edu/~jvarga/sm4cep/";
+				rdfs:label "The SM4CEP vocabulary" ;
+				dcterms:created "2017-04-28"^^xsd:date ;
+				dcterms:modified "2017-06-12"^^xsd:date ;
+				dcterms:title "SM4CEP: A Semantic Model for Complex Event Processing" ;
+				rdfs:comment "SM4CEP is an RDF-based vocabulary for representing rules for complex event processing on the Semantic Web." .
+
+
+###   Classes    ###
+
+
+sm4cep:Rule rdf:type rdfs:Class;
+    	rdfs:label "CEP rule"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .
+
+# Action classes #
+sm4cep:Action rdf:type rdfs:Class;
+    	rdfs:label "CEP action"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+sm4cep:ActionParameter rdf:type rdfs:Class;
+    	rdfs:label "Action parameter"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+# Window classes#
+sm4cep:Window rdf:type rdfs:Class;
+    	rdfs:label "Rule window"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+sm4cep:WindowAttribute rdf:type rdfs:Class;
+    	rdfs:label "Window attribute"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:WindowKind rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:WindowAttribute ;
+    	rdfs:label "Window kind"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+sm4cep:WindowUnit rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:WindowAttribute ;
+    	rdfs:label "Window unit"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .			
+		
+# Event classes #		
+sm4cep:CEPElement rdf:type rdfs:Class;
+    	rdfs:label "CEP element"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:EventSchema rdf:type rdfs:Class;
+    	rdfs:label "Event schema"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+		
+sm4cep:EventAttribute rdf:type rdfs:Class;
+    	rdfs:label "Event attribute as a condition operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:Event rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:CEPElement ;
+    	rdfs:label "Event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .			
+
+sm4cep:TimeEvent rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:CEPElement ;
+    	rdfs:label "Time event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .			
+
+sm4cep:Pattern rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:CEPElement ;
+    	rdfs:label "CEP pattern"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+sm4cep:TemporalPattern rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Pattern ;
+    	rdfs:label "CEP temporal pattern"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .			
+		
+sm4cep:LogicPattern rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Pattern ;
+    	rdfs:label "CEP logic pattern"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:IncludedElement rdf:type rdfs:Class;
+    	rdfs:label "Event included in a complex event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .			
+
+# Condition classes #		
+sm4cep:Condition rdf:type rdfs:Class;
+    	rdfs:label "Condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+		
+sm4cep:SimpleClause rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Condition ;
+    	rdfs:label "Simple condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+sm4cep:ComplexPredicate rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Condition ;
+    	rdfs:label "Complex condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+		
+sm4cep:PredicateCondition rdf:type rdfs:Class;
+    	rdfs:label "Condition belonging to a predicate"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .			
+
+# Operand classes #	
+sm4cep:Operand rdf:type rdfs:Class;
+    	rdfs:label "Operand in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+				
+sm4cep:UsedAttribute rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Operand ;
+    	rdfs:label "Event attribute of an event that is used as a condition operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+sm4cep:Literal rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Operand ;
+    	rdfs:label "Literal as a condition operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:Function rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Operand ;
+    	rdfs:label "Function as a condition operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+sm4cep:FunctionParameter rdf:type rdfs:Class;
+    	rdfs:label "Function parameter as a condition operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+# Operator classes #
+sm4cep:Operator rdf:type rdfs:Class;
+    	rdfs:label "Operator in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+sm4cep:TemporalOperator rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Operator ;
+    	rdfs:label "CEP temporal operator in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+sm4cep:WithIn rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:TemporalOperator ;
+    	rdfs:label "With in operator with an explicit duration specified"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:OperatorWithImplicitTime rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:TemporalOperator ;
+    	rdfs:label "Temporal operator with implicit time"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+sm4cep:LogicOperator rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Operator ;
+    	rdfs:label "Logic operator in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:ComparisonOperator rdf:type rdfs:Class;
+		rdfs:subClassOf sm4cep:Operator ;
+    	rdfs:label "Comparison operator in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+
+###  Instances  ###
+
+
+# Window attribute instances #
+sm4cep:SlidingWindow rdf:type sm4cep:WindowKind;
+    	rdfs:label "Sliding window as an instance of window kind"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+		
+sm4cep:TumblingWindow rdf:type sm4cep:WindowKind;
+    	rdfs:label "Tumbling window as an instance of window kind"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+sm4cep:TimeUnit rdf:type sm4cep:WindowUnit;
+    	rdfs:label "Time as window unit"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+sm4cep:EventUnit rdf:type sm4cep:WindowUnit;
+    	rdfs:label "Event as window unit"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .			
+
+# Temporal operator instances #
+sm4cep:Sequence rdf:type sm4cep:OperatorWithImplicitTime;
+    	rdfs:label "Sequence operator with implicit time"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+# Logic operator instances #
+sm4cep:Conjunction rdf:type sm4cep:LogicOperator;
+    	rdfs:label "Conjunction operator in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+sm4cep:Disjunction rdf:type sm4cep:LogicOperator ;
+    	rdfs:label "Disjunction operator in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+
+sm4cep:Negation rdf:type sm4cep:LogicOperator ;
+    	rdfs:label "Negation operator in a condition expression"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+		
+# Comparison operator instances #
+sm4cep:Equal rdf:type sm4cep:ComparisonOperator ;
+    	rdfs:label "Equal operator"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+		
+sm4cep:NotEqual rdf:type sm4cep:ComparisonOperator ;
+    	rdfs:label "Not equal operator"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .	
+		
+sm4cep:GreaterThan rdf:type sm4cep:ComparisonOperator ;
+    	rdfs:label "Greater than operator"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .
+		
+sm4cep:GreaterOrEqual rdf:type sm4cep:ComparisonOperator ;
+    	rdfs:label "Greater or equal operator"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .
+		
+sm4cep:LessThan rdf:type sm4cep:ComparisonOperator ;
+    	rdfs:label "Less than operator"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .
+		
+sm4cep:LessOrEqual rdf:type sm4cep:ComparisonOperator ;
+    	rdfs:label "Less or equal operator"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> .		
+
+		
+###  Properties  ###
+
+
+# Rule properties #
+sm4cep:hasCondition rdf:type rdf:Property ;
+		rdfs:label "Rule has a condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Rule ;
+		rdfs:range sm4cep:Condition .
+
+sm4cep:hasAction rdf:type rdf:Property ;
+		rdfs:label "Rule has an action"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Rule ;
+		rdfs:range sm4cep:Action .
+
+sm4cep:hasCEPElement rdf:type rdf:Property ;
+		rdfs:label "Rule has a CEP element"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Rule ;
+		rdfs:range sm4cep:CEPElement .
+
+sm4cep:hasWindow rdf:type rdf:Property ;
+		rdfs:label "Rule has a window"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Rule ;
+		rdfs:range sm4cep:Window .	
+		
+sm4cep:hasFilter rdf:type rdf:Property ;
+		rdfs:label "Rule has a filter"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Rule ;
+		rdfs:range sm4cep:SimpleClause .		
+		
+		
+# Action properties #
+sm4cep:asEvent rdf:type rdf:Property ;
+		rdfs:label "Action generates an event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Action ;
+		rdfs:range sm4cep:Event .		
+		
+sm4cep:hasActionParameter rdf:type rdf:Property ;
+		rdfs:label "Action has an action parameter"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Action ;
+		rdfs:range sm4cep:ActionParameter .		
+		
+sm4cep:representedWith rdf:type rdf:Property ;
+		rdfs:label "Action parameter represented with an operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:ActionParameter ;
+		rdfs:range sm4cep:Operand .		
+
+sm4cep:hasActionParameterOrder rdf:type rdf:Property ;
+		rdfs:label "Action parameter order"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:ActionParameter ;
+		rdfs:range xsd:positiveInteger .		
+
+# Window properties #		
+sm4cep:hasWindowAttribute rdf:type rdf:Property ;
+		rdfs:label "Attribute of a window"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Window ;
+		rdfs:range sm4cep:WindowAttribute .
+		
+# Complex event properties #
+sm4cep:containsElement rdf:type rdf:Property ;
+		rdfs:label "Pattern contains an element with its order"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Pattern ;
+		rdfs:range sm4cep:IncludedElement .
+		
+sm4cep:representsElement rdf:type rdf:Property ;
+		rdfs:label "Included element representing a CEP element"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:IncludedElement ;
+		rdfs:range sm4cep:CEPElement .		
+		
+sm4cep:hasElementOrder rdf:type rdf:Property ;
+		rdfs:label "Included element has an order in a complex event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:IncludedElement ;
+		rdfs:range xsd:positiveInteger .		
+
+sm4cep:usesTemporalOperator rdf:type rdf:Property ;
+		rdfs:label "Temporal operator of a complex event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:TemporalPattern ;
+		rdfs:range sm4cep:TemporalOperator .
+
+sm4cep:usesLogicOperator rdf:type rdf:Property ;
+		rdfs:label "CEP logic operator used in a complex event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:LogicPattern ;
+		rdfs:range sm4cep:LogicOperator .
+
+# Simple event property #
+sm4cep:hasEventSchema rdf:type rdf:Property ;
+		rdfs:label "Schema of an event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Event ;
+		rdfs:range sm4cep:EventSchema .
+
+sm4cep:hasEventAttribute rdf:type rdf:Property ;
+		rdfs:label "Attribute of a simple event"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:EventSchema ;
+		rdfs:range sm4cep:EventAttribute .
+		
+sm4cep:hasTimeStamp rdf:type rdf:Property ;
+		rdfs:label "Time event has the time stamp"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:TimeEvent ;
+		rdfs:range xsd:dateTimeStamp .		
+
+# Complex condition properties #
+sm4cep:hasLogicOperator rdf:type rdf:Property ;
+		rdfs:label "Logic operator used in a complex condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:ComplexPredicate ;
+		rdfs:range sm4cep:LogicOperator .		
+		
+sm4cep:containsCondition rdf:type rdf:Property ;
+		rdfs:label "Condition that is part of a complex predicate"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:ComplexPredicate ;
+		rdfs:range sm4cep:PredicateCondition .
+
+sm4cep:representsCondition rdf:type rdf:Property ;
+		rdfs:label "Predicate condition that represents a condition together with its order"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:PredicateCondition ;
+		rdfs:range sm4cep:Condition .
+		
+sm4cep:hasConditionOrder rdf:type rdf:Property ;
+		rdfs:label "Order of a predicate condition in a complex predicate"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:PredicateCondition ;
+		rdfs:range xsd:positiveInteger .		
+		
+# Simple condition properties #
+sm4cep:hasComparisonOperator rdf:type rdf:Property ;
+		rdfs:label "Comparison operator used in a simple condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:SimpleClause ;
+		rdfs:range sm4cep:ComparisonOperator .
+
+sm4cep:hasLeftOperand rdf:type rdf:Property ;
+		rdfs:label "Left operand used in a simple condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:SimpleClause ;
+		rdfs:range sm4cep:Operand .
+
+sm4cep:hasRightOperand rdf:type rdf:Property ;
+		rdfs:label "Right operand used in a simple condition"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:SimpleClause ;
+		rdfs:range sm4cep:Operand .
+		
+sm4cep:forAttribute rdf:type rdf:Property ;
+		rdfs:label "Attribute used as an operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:UsedAttribute ;
+		rdfs:range sm4cep:EventAttribute .		
+		
+sm4cep:forEvent rdf:type rdf:Property ;
+		rdfs:label "Event for which an attribute is used as an operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:UsedAttribute ;
+		rdfs:range sm4cep:Event .		
+
+# Function properties #		
+sm4cep:hasFunctionParameter rdf:type rdf:Property ;
+		rdfs:label "Function has a parameter"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:Function ;
+		rdfs:range sm4cep:FunctionParameter .	
+
+sm4cep:hasFunctionParameterOrder rdf:type rdf:Property ;
+		rdfs:label "Function parameter order in a function signature"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:FunctionParameter ;
+		rdfs:range xsd:positiveInteger .
+
+sm4cep:representsOperand rdf:type rdf:Property ;
+		rdfs:label "Function parameter representing an operand"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:FunctionParameter ;
+		rdfs:range sm4cep:Operand .
+
+# Temporal properties #		
+sm4cep:hasOffset rdf:type rdf:Property ;
+		rdfs:label "Operator has the offset"@en ;
+		rdfs:isDefinedBy <http://www.essi.upc.edu/~jvarga/sm4cep> ;
+		rdfs:domain sm4cep:WithIn ;
+		rdfs:range xsd:duration .

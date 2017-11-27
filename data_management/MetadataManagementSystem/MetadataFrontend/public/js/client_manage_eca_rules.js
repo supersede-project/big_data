@@ -25,6 +25,7 @@ function getRules() {
         var i = 1;
         $.each((data), function(key, value) {
             var theObj = (value);
+            console.log(JSON.stringify(value));
             $('#rules').find('tbody')
                 .append($('<tr>')
                     .append($('<td>')
