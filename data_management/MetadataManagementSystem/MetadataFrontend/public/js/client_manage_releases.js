@@ -28,6 +28,8 @@ function getReleases() {
                         .text(theObj.kafkaTopic)
                     ).append($('<td>')
                         .text(theObj.dispatcherPath ? theObj.dispatcherPath : '-')
+                    ).append($('<td>')
+                        .text(theObj.platform)
                     ).append($('<td>').append($('<a href="/view_release?releaseID='+(theObj.releaseID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
                     ).append($('<td>').append($('<a href="/view_source_level?graph='+(theObj.graph)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
                     )

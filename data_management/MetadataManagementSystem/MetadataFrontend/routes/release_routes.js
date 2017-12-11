@@ -42,13 +42,15 @@ exports.getAllReleases = function (req, res, next) {
 exports.postRelease = function (req, res, next) {
     if (!(req.body.hasOwnProperty('event')) || req.body.event == null
         || !(req.body.hasOwnProperty('schemaVersion')) || req.body.schemaVersion == null
-        || !(req.body.hasOwnProperty('jsonInstances')) || req.body.jsonInstances == null) {
-        res.status(400).json({msg: "(Bad Request) data format: {event, schemaVersion, jsonInstances}"});
+        || !(req.body.hasOwnProperty('jsonInstances')) || req.body.jsonInstances == null
+        || !(req.body.hasOwnProperty('platform')) || req.body.platform == null) {
+        res.status(400).json({msg: "(Bad Request) data format: {event, schemaVersion, jsonInstances, platform}"});
     } else {
         var release = new Object();
         release.event = req.body.event;
         release.schemaVersion = req.body.schemaVersion;
         release.jsonInstances = req.body.jsonInstances;
+        release.platform = req.body.platform;
 
         if (!req.body.kafkaTopic) release.kafkaTopic = "";
         else release.kafkaTopic = req.body.kafkaTopic;

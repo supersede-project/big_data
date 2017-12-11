@@ -14,6 +14,8 @@ $(window).load(function() {
         $("#kafkaTopic").val(releaseObj.kafkaTopic);
         if (releaseObj.dispatch === "true") $("#dispatch").prop('checked', true);
         $("#dispatchTo").val(releaseObj.dispatcherPath ? releaseObj.dispatcherPath : '-');
+        $("#platform").val(releaseObj.platform);
+
         $("input:checkbox").click(function() { return false; });
 
         var container = document.getElementById("jsoneditor");

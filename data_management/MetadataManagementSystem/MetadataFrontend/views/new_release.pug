@@ -51,6 +51,11 @@ block content
                                 .col-lg-10
                                     select#dispatcherStrategy(style="width:100%")
 
+                            .form-group#platformForm
+                                label.col-lg-2.control-label(for='event') Platform
+                                .col-lg-10
+                                    input#platform.form-control(type='text', name='platform', required='required')
+
                             .form-group
                                 .col-lg-10.col-lg-offset-2
                                     button#submitRelease.btn.btn-primary.btn-lg.btn-block(type='submit') Submit

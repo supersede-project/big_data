@@ -61,6 +61,8 @@ $(document).ready( function() {
         release["kafkaTopic"] = $("#kafkaTopic").val();
         release["dispatch"] = $("#dispatch")[0].checked;
         release["dispatcherStrategy"] = $("#dispatcherStrategy").val();
+        release["platform"] = $("#platform").val();
+
 
         $.ajax({
             url: '/release',
