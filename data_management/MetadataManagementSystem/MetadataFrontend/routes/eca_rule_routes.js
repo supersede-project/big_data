@@ -28,26 +28,29 @@ exports.getAllEcaRules = function (req, res, next) {
 };
 
 exports.postEcaRule = function (req, res, next) {
-   if (!(req.body.hasOwnProperty('ruleName')) || req.body.ruleName == null
-        || !(req.body.hasOwnProperty('pattern')) || req.body.pattern == null
-        || !(req.body.hasOwnProperty('condition')) || req.body.condition == null
-        || !(req.body.hasOwnProperty('filters')) || req.body.filters == null
-        || !(req.body.hasOwnProperty('action')) || req.body.action == null
+    if (!(req.body.hasOwnProperty('name')) || req.body.name == null
+        || !(req.body.hasOwnProperty('globalLevel')) || req.body.globalLevel == null
+        || !(req.body.hasOwnProperty('graph')) || req.body.graph == null
+        || !(req.body.hasOwnProperty('feature')) || req.body.feature == null
+        || !(req.body.hasOwnProperty('operator')) || req.body.operator == null
+        || !(req.body.hasOwnProperty('predicate')) || req.body.predicate == null
+        || !(req.body.hasOwnProperty('value')) || req.body.value == null
         || !(req.body.hasOwnProperty('windowTime')) || req.body.windowTime == null
-        || !(req.body.hasOwnProperty('windowSize')) || req.body.windowSize == null) {
-        res.status(400).json({msg: "(Bad Request) data format: ruleName, pattern, filters, action, windowTime, windowSize}"});
-   }
-   else {
+        || !(req.body.hasOwnProperty('windowSize')) || req.body.windowSize == null
+        || !(req.body.hasOwnProperty('action')) || req.body.action == null) {
+        res.status(400).json({msg: "(Bad Request) data format: {name, globalLevel, graph, feature, operator, predicate, value, windowTime, windowSize, action}"});
+    } else {
         var rule = new Object();
-        rule.ruleName = req.body.ruleName;
-        rule.pattern = req.body.pattern;
-        rule.condition = req.body.condition;
-        rule.filters = req.body.filters;
-        rule.action = req.body.action;
+        rule.name = req.body.name;
+        rule.globalLevel = req.body.globalLevel;
+        rule.graph = req.body.graph;
+        rule.feature = req.body.feature;
+        rule.operator = req.body.operator;
+        rule.predicate = req.body.predicate;
+        rule.value = req.body.value;
         rule.windowTime = req.body.windowTime;
         rule.windowSize = req.body.windowSize;
-        rule.type = "RULES";
-        rule.graph = config.DEFAULT_NAMESPACE+"RULE/"+randomstring.generate();
+        rule.action = req.body.action;
 
         console.log("Posting "+JSON.stringify(rule));
 
@@ -94,13 +97,3 @@ exports.getEcaRuleActionTypes = function (req, res, next) {
         }
     });
 };
-
-exports.generateConfigFile = function (req, res) {
-    request.get(config.METADATA_DATA_LAYER_URL + "eca_rule/" + req.params.ruleName + "/generate_config_file/", function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            res.status(200).json(JSON.parse(body));
-        } else {
-            res.status(500).send("Error retrieving ECA Rule configuration file");
-        }
-    })
-}

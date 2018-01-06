@@ -1,16 +1,16 @@
 extends layout
 block headers
     link(rel='stylesheet', href='/stylesheets/loading.css')
-    script(src='/js/client_manage_eca_rules.js')
+    script(src='/js/client_manage_cer_rules.js')
     link(rel='stylesheet', href='/stylesheets/manage_styles.css')
-
+    script(src='/js/FileSaver.js')
 
 block content
     .container
         .banner
             .row
                 .col-lg-8.col-md-7.col-sm-6
-                    h2 Manage ECA Rules
+                    h2 Manage CER Rules
                     br
             .container-fluid
                 .bs-component
@@ -20,4 +20,5 @@ block content
                                 th #
                                 th Name
                                 th View Details
+                                th Generate config file
                         tbody

@@ -16,86 +16,53 @@ block content
                     br
 
             .container-fluid
-                .col-lg-9
+                .col-lg-8
                     .well.bs-component
                         form#ecaRuleForm(role='form').form-horizontal
-                            .form-group
+                            .form-group#nameForm
                                 label.col-lg-2.control-label(for='name') Name
                                 .col-lg-10
-                                    input#ruleName.form-control(type='text', name='name', required='required')
+                                    input#name.form-control(type='text', name='name', required='required')
 
-                            .form-group
-                                label.col-md-2.control-label(for='bdiOntology') Pattern
+                            .form-group#bdiOntologyForm
+                                label.col-lg-2.control-label(for='bdiOntology') Tenant
                                 .col-lg-10
-                                    select#bdiOntology(multiple='multiple',style="width:100%")
+                                    select#bdiOntology(style="width:100%")
 
-                            .form-group
-                                label.col-lg-2.control-label(for='condition') Condition
+                            .form-group#globalElementForm
+                                label.col-lg-2.control-label(for='feature') Feature
                                 .col-lg-10
-                                    input#condition.form-control(type='text', name='condition')
+                                    select#feature(style="width:100%")
 
-                            .form-group#filters
-                                label.col-md-2.control-label Filters for selected Pattern
+                            .form-group#operatorForm
+                                label.col-lg-2.control-label(for='operator') Operator
                                 .col-lg-10
-                                    ul.nav.nav-tabs(role='tablist')#tabPanel
-                                        button#addSimpleClause.btn.btn-primary.btn-md(type='submit') +
-                                        li(role='presentation')
-                                         //   a#button_tab_1(href='#tab_1' aria-controls="settings" role="tab" data-toggle="tab") SC1
+                                    select#operator(style="width:100%")
 
-                                    .tab-content.fill#tabContent
-                                     //   .tab-pane.fill.active#tab_1(role="tabpanel")
-                                            .form-group
-                                                label.col-lg-2.control-label Name 1
-                                                .col-lg-10
-                                                    input.form-control#name1(type='text', required='required')
-
-                                            .form-group
-                                                label.col-lg-2.control-label Event 1
-                                                .col-lg-10
-                                                    select.event#event1(style="width:100%")
-
-                                            .form-group
-                                                label.col-lg-2.control-label Left operator 1
-                                                .col-lg-10
-                                                    select#leftOperator1(style="width:100%")
-
-                                            .form-group
-                                                label.col-lg-2.control-label Comparator 1
-                                                .col-lg-10
-                                                    select#comparator1(style="width:100%")
-
-                                            .form-group
-                                                label.col-lg-2.control-label Right operator 1
-                                                .col-lg-10
-                                                    input.form-control#rightOperator1(type='text', required='required')
-
-                            .form-group#actionForm
-                                label.col-lg-2.control-label Action
+                            .form-group#predicateForm
+                                label.col-lg-2.control-label(for='predicate') Predicate
                                 .col-lg-10
-                                    .form-group
-                                        label.col-lg-2.control-label Name
-                                        .col-lg-10
-                                            input#actionName.form-control(type='text', name='actionName', required='required')
+                                    select#predicate(style="width:100%")
 
-                                    .form-group
-                                        label.col-lg-2.control-label Type
-                                        .col-lg-10
-                                            select#actionType(style="width:100%")
-
-                                    .form-group
-                                        label.col-lg-2.control-label Parameters
-                                        .col-lg-10
-                                            select#actionParameters(multiple="multiple", style="width:100%")
+                            .form-group#valueForm
+                                label.col-lg-2.control-label(for='value') Value
+                                .col-lg-10
+                                    input#value.form-control(type='text', name='value', required='required')
 
                             .form-group#windowTimeForm
                                 label.col-lg-2.control-label(for='windowTime') Bounded in a Time Window of (min)
                                 .col-lg-10
-                                    input#windowTime.form-control(type='text', name='windowTime')
+                                    input#windowTime.form-control(type='text', name='windowTime', required='required')
 
                             .form-group#windowSizeForm
                                 label.col-lg-2.control-label(for='windowSize') Number of Elements in Window
                                 .col-lg-10
-                                    input#windowSize.form-control(type='text', name='windowSize')
+                                    input#windowSize.form-control(type='text', name='windowSize', required='required')
+
+                            .form-group#actionForm
+                                label.col-lg-2.control-label(for='feature') Action
+                                .col-lg-10
+                                    select#action(style="width:100%")
 
                             .form-group
                                 .col-lg-10.col-lg-offset-2

@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.util.JSON;
 import eu.supersede.mdm.storage.cep.RDF_Model.Rule;
 import eu.supersede.mdm.storage.cep.manager.Manager;
 import eu.supersede.mdm.storage.cep.sm4cep.Sm4cepParser;
@@ -12,8 +11,6 @@ import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.ActionTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.OperatorTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.PredicatesTypes;
-import eu.supersede.mdm.storage.model.bdi_ontology.generation.BDIOntologyGenerationStrategies;
-import eu.supersede.mdm.storage.model.bdi_ontology.generation.Strategy_CopyFromSources;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.Rules;
 import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.RDFUtil;
@@ -21,81 +18,76 @@ import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import org.apache.jena.base.Sys;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.tdb.sys.Names;
 import org.apache.jena.util.FileManager;
 import org.bson.Document;
 
-import javax.servlet.ServletContext;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.util.List;
 import java.util.UUID;
 
 /**
  * Created by snadal on 22/11/16.
  */
 @Path("metadataStorage")
-public class ECARuleResource {
+public class CERRuleResource {
 
-    private MongoCollection<Document> getEcaRulesCollection(MongoClient client) {
-        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("eca_rules");
+    private MongoCollection<Document> getCerRulesCollection(MongoClient client) {
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("cer_rules");
     }
 
     @GET
-    @Path("eca_rule/")
+    @Path("cer_rule/")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_all_ECA_rules() {
-        System.out.println("[GET /eca_rule/]");
+    public Response GET_all_CER_rules() {
+        System.out.println("[GET /cer_rule/]");
 
         MongoClient client = Utils.getMongoDBClient();
         JSONArray arr = new JSONArray();
-        getEcaRulesCollection(client).find().iterator().forEachRemaining(document -> arr.add(document));
+        getCerRulesCollection(client).find().iterator().forEachRemaining(document -> arr.add(document));
         client.close();
         return Response.ok(new Gson().toJson(arr)).build();
     }
 
     @GET
-    @Path("eca_rule/{eca_ruleID}")
+    @Path("cer_rule/{cer_ruleID}")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_eca_rule(@PathParam("eca_ruleID") String eca_ruleID) {
-        System.out.println("[GET /eca_rule/"+eca_ruleID+"]");
+    public Response GET_CER_rule(@PathParam("cer_ruleID") String cer_ruleID) {
+        System.out.println("[GET /cer_rule/"+cer_ruleID+"]");
 
         MongoClient client = Utils.getMongoDBClient();
-        Document query = new Document("eca_ruleID",eca_ruleID);
-        Document res = getEcaRulesCollection(client).find(query).first();
+        Document query = new Document("cer_ruleID",cer_ruleID);
+        Document res = getCerRulesCollection(client).find(query).first();
         client.close();
 
         return Response.ok((res.toJson())).build();
     }
 
     /**
-     * POST an ECA RULE
+     * POST a CER RULE
      */
-    @POST @Path("eca_rule/")
+    @POST @Path("cer_rule/")
     @Consumes("text/plain")
-    public Response POST_ECA_rule(String body) throws FileNotFoundException {
-        System.out.println("[POST /eca_rule/] body = "+body);
+    public Response POST_CER_rule(String body) throws FileNotFoundException {
+        System.out.println("[POST /cer_rule/] body = "+body);
         JSONObject objBody = (JSONObject) JSONValue.parse(body);
 
         MongoClient client = Utils.getMongoDBClient();
 
         // Store in MongoDB
-        objBody.put("eca_ruleID", UUID.randomUUID().toString());
-        getEcaRulesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
+        objBody.put("cer_ruleID", UUID.randomUUID().toString());
+        getCerRulesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
 
         // Store in RDF
         Dataset dataset = Utils.getTDBDataset();
@@ -220,56 +212,7 @@ public class ECARuleResource {
         client.close();
         return Response.ok(objBody.toJSONString()).build();
     }
-
-    @GET
-    @Path("eca_rule_operator_types")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_ECA_rule_operator_types() {
-        System.out.println("[GET /eca_rule_operator_types/]");
-        JSONArray out = new JSONArray();
-        for (OperatorTypes t : OperatorTypes.values()) {
-            JSONObject inner = new JSONObject();
-            inner.put("key",t.name());
-            inner.put("val",t.val());
-            out.add(inner);
-        }
-        return Response.ok(new Gson().toJson(out)).build();
-    }
-
-
-    @GET
-    @Path("eca_rule_predicate_types")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_ECA_rule_predicate_types() {
-        System.out.println("[GET /eca_rule_predicate_types/]");
-        JSONArray out = new JSONArray();
-        for (PredicatesTypes t : PredicatesTypes.values()) {
-            JSONObject inner = new JSONObject();
-            inner.put("key",t.name());
-            inner.put("val",t.val());
-            out.add(inner);
-        }
-        return Response.ok(new Gson().toJson(out)).build();
-    }
-
-    @GET
-    @Path("eca_rule_action_types")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_ECA_rule_action_types() {
-        System.out.println("[GET /eca_rule_action_types/]");
-        JSONArray out = new JSONArray();
-        for (ActionTypes t : ActionTypes.values()) {
-            JSONObject inner = new JSONObject();
-            inner.put("key",t.name());
-            inner.put("val",t.val());
-            out.add(inner);
-        }
-        return Response.ok(new Gson().toJson(out)).build();
-    }
-
+/**
     @GET
     @Path("eca_rule/{ruleName}/generate_config_file")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -284,7 +227,7 @@ public class ECARuleResource {
             Manager m = new Manager();
             String s = m.CreateConfiguration("SergiAgent",Lists.newArrayList(sm4cepparser.getEventSchemata().values()), Lists.newArrayList(r),"localhost:9092","stream_type",false,"");
 
-            File f = File.createTempFile(UUID.randomUUID().toString(), ".config"/*, new File("/home/alba/SUPERSEDE/tmpFiles/")*/);
+            File f = File.createTempFile(UUID.randomUUID().toString(), ".config"/*, new File("/home/alba/SUPERSEDE/tmpFiles/"));
             BufferedWriter bw = new BufferedWriter(new FileWriter(s));
             bw.write(ruleName);
             bw.close();
@@ -297,7 +240,7 @@ public class ECARuleResource {
         return Response.ok(new Gson().toJson(ruleName)).build();
     }
 
-    /** Load metamodel sm4cep **/
+    //Load metamodel sm4cep
     @GET @Path("eca_rule/load_sm4cep")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
@@ -315,5 +258,5 @@ public class ECARuleResource {
         dataset.close();
         return Response.ok("OK").build();
     }
-
+**/
 }

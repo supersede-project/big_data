@@ -100,6 +100,27 @@ html
               li
                 a(href='/manage_eca_rules') Manage ECA Rules
 
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | CER Rules
+              span.caret
+            ul.dropdown-menu(aria-labelledby='release')
+              li
+                a(href='/new_cer_rule') New CER Rule
+              li
+                a(href='/manage_cer_rules') Manage CER Rules
+
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Ontology-Mediated Queries
+              span.caret
+            //ul.dropdown-menu(aria-labelledby='release')
+              li
+                a(href='/new_eca_rule') New OMQ
+              li
+                a(href='/manage_eca_rules') Manage OMQs
 
         //ul.nav.navbar-nav
           li.dropdown

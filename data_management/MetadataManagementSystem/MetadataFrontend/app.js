@@ -32,6 +32,7 @@ var release_routes = require(__dirname+'/routes/release_routes');
 var statistical_analysis_model_routes = require(__dirname+'/routes/statistical_analysis_model_routes');
 var dispatcher_strategies_routes = require(__dirname+'/routes/dispatcher_strategies_routes');
 var eca_rule_routes = require(__dirname+'/routes/eca_rule_routes');
+var cer_rule_routes = require(__dirname+'/routes/cer_rule_routes');
 var admin_routes = require(__dirname+'/routes/admin_routes');
 var files_routes = require(__dirname+'/routes/files_routes');
 var classification_routes = require(__dirname+'/routes/classification_routes');
@@ -153,7 +154,14 @@ app.post('/eca_rule', eca_rule_routes.postEcaRule);
 app.get('/eca_rule_operator_types', eca_rule_routes.getEcaRuleOperatorTypes);
 app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
 app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
-app.get('/eca_rule/:ruleName/generate_config_file', eca_rule_routes.generateConfigFile);
+
+/********** CER Rule resource *************************************************************/
+
+app.get('/cer_rule/:eca_ruleID', cer_rule_routes.getCerRule);
+app.get('/cer_rule', cer_rule_routes.getAllCerRules);
+app.post('/cer_rule', cer_rule_routes.postCerRule);
+app.get('/cer_rule/:ruleName/generate_config_file', cer_rule_routes.generateConfigFile);
+
 
 /**********************************   Files   ********************************************/
 
@@ -365,6 +373,25 @@ app.get('/view_eca_rules', checkAuthenticated, function(req,res) {
 app.get('/view_eca_rule', checkAuthenticated, function(req,res) {
     res.render('view_eca_rule', {user:req.session.passport.user});
 });
+
+/******* Complex Event Recognition section *********************************************/
+
+app.get('/new_cer_rule', checkAuthenticated, function(req,res) {
+    res.render('new_cer_rule', {user:req.session.passport.user});
+});
+
+app.get('/manage_cer_rules', checkAuthenticated, function(req,res) {
+    res.render('manage_cer_rules', {user:req.session.passport.user});
+});
+
+app.get('/view_cer_rules', checkAuthenticated, function(req,res) {
+    res.render('view_cer_rules', {user:req.session.passport.user});
+});
+
+app.get('/view_cer_rule', checkAuthenticated, function(req,res) {
+    res.render('view_cer_rule', {user:req.session.passport.user});
+});
+
 
 /**********************************   END   ********************************************/
 

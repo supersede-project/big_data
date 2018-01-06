@@ -12,6 +12,7 @@ function euclidean(xA,yA,xB,yB) {
 $(window).load(function() {
 
     d3.json('/artifacts/SOURCE/'+encodeURIComponent(getParameterByName('graph'))+'/graphical', function (error, graph) {
+        console.log(JSON.stringify(graph));
         var width = $(window).width()*0.75;
         var height = $(window).height()*0.75;
         var nodeRadius = 7;
