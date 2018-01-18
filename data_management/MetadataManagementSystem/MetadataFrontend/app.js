@@ -24,11 +24,13 @@ var fs = require('fs');
 
 var user_routes = require(__dirname+'/routes/user_routes');
 var dataset_routes = require(__dirname+'/routes/dataset_routes');
+var supersede_routes = require(__dirname+'/routes/supersede_routes');
 var artifact_routes = require(__dirname+'/routes/artifact_routes');
 var global_level_routes = require(__dirname+'/routes/global_level_routes');
 var bdi_ontology_routes = require(__dirname+'/routes/bdi_ontology_routes');
 var source_level_routes = require(__dirname+'/routes/source_level_routes');
 var release_routes = require(__dirname+'/routes/release_routes');
+var event_routes = require(__dirname+'/routes/event_routes');
 var statistical_analysis_model_routes = require(__dirname+'/routes/statistical_analysis_model_routes');
 var dispatcher_strategies_routes = require(__dirname+'/routes/dispatcher_strategies_routes');
 var eca_rule_routes = require(__dirname+'/routes/eca_rule_routes');
@@ -114,7 +116,6 @@ app.get('/bdi_ontology/:bdi_ontologyID', bdi_ontology_routes.getBDIOntology);
 app.get('/bdi_ontology/graph/:graph', bdi_ontology_routes.getBDIOntologyFromGraph);
 app.get('/bdi_ontology', bdi_ontology_routes.getAllBDIOntologies);
 app.post('/bdi_ontology', bdi_ontology_routes.postBDIOntology);
-
 app.get('/bdi_ontology_generation_strategies', bdi_ontology_routes.getGenerationStrategies);
 
 /********** Global Level resource ********************************************************/
@@ -133,6 +134,18 @@ app.get('/release/:releaseID/attributes', release_routes.getReleaseAttributes);
 app.get('/release/:releaseID', release_routes.getRelease);
 app.get('/release', release_routes.getAllReleases);
 app.post('/release', release_routes.postRelease);
+
+/********** Event resource *************************************************************/
+
+//app.get('/event/:graph/attributes', event_routes.getEventAttributes);
+app.get('/event/:eventID', event_routes.getEvent);
+app.get('/event', event_routes.getAllEvents);
+app.post('/event', event_routes.postEvent);
+
+
+/********** SUPERSEDE resource *************************************************************/
+
+app.get('/supersede/platforms', supersede_routes.getPlatforms);
 
 /********** Statistical Analysis Model resource ******************************************/
 
@@ -245,6 +258,20 @@ app.get('/view_release', checkAuthenticated, function(req,res) {
     res.render('view_release', {user:req.session.passport.user});
 });
 
+/********** Events section ***************************************************************/
+
+app.get('/new_event', checkAuthenticated, function(req,res) {
+    res.render('new_event', {user:req.session.passport.user});
+});
+
+app.get('/manage_events', checkAuthenticated, function(req,res) {
+    res.render('manage_events', {user:req.session.passport.user});
+});
+
+app.get('/view_event', checkAuthenticated, function(req,res) {
+    res.render('view_event', {user:req.session.passport.user});
+});
+
 /********** BDI Ontology section ***********************************************************/
 
 app.get('/new_bdi_ontology', checkAuthenticated, function(req,res) {
@@ -300,6 +327,12 @@ app.get('/manage_source_levels', checkAuthenticated, function(req,res) {
 
 app.get('/view_source_level', checkAuthenticated, function(req,res) {
     res.render('view_source_level', {user:req.session.passport.user});
+});
+
+/********** Event Ontology section ******************************************************/
+
+app.get('/view_event_ontology', checkAuthenticated, function(req,res) {
+    res.render('view_event_ontology', {user:req.session.passport.user});
 });
 
 /********** Reference Dataset section ********************************************************/

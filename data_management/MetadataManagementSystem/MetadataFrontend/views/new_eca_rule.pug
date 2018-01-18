@@ -24,30 +24,18 @@ block content
                                 .col-lg-10
                                     input#name.form-control(type='text', name='name', required='required')
 
-                            .form-group#bdiOntologyForm
-                                label.col-lg-2.control-label(for='bdiOntology') Tenant
+                            .form-group#eventForm
+                                label.col-lg-2.control-label(for='event') Event
                                 .col-lg-10
-                                    select#bdiOntology(style="width:100%")
+                                    select#event(style="width:100%")
 
-                            .form-group#globalElementForm
-                                label.col-lg-2.control-label(for='feature') Feature
+                            .form-group#filters
+                                label.col-md-2.control-label Conditions (AND)
                                 .col-lg-10
-                                    select#feature(style="width:100%")
-
-                            .form-group#operatorForm
-                                label.col-lg-2.control-label(for='operator') Operator
-                                .col-lg-10
-                                    select#operator(style="width:100%")
-
-                            .form-group#predicateForm
-                                label.col-lg-2.control-label(for='predicate') Predicate
-                                .col-lg-10
-                                    select#predicate(style="width:100%")
-
-                            .form-group#valueForm
-                                label.col-lg-2.control-label(for='value') Value
-                                .col-lg-10
-                                    input#value.form-control(type='text', name='value', required='required')
+                                    ul.nav.nav-tabs(role='tablist')#tabPanel
+                                        button#addCondition.btn.btn-primary.btn-md(type='submit') +
+                                        li(role='presentation')
+                                    .tab-content.fill#tabContent
 
                             .form-group#windowTimeForm
                                 label.col-lg-2.control-label(for='windowTime') Bounded in a Time Window of (min)
@@ -60,7 +48,7 @@ block content
                                     input#windowSize.form-control(type='text', name='windowSize', required='required')
 
                             .form-group#actionForm
-                                label.col-lg-2.control-label(for='feature') Action
+                                label.col-lg-2.control-label(for='action') Action
                                 .col-lg-10
                                     select#action(style="width:100%")
 

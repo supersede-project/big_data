@@ -26,7 +26,7 @@ html
             h5
               span.badge Data Management
 
-        ul.nav.navbar-nav
+        //ul.nav.navbar-nav
           li.dropdown
             a.dropdown-toggle(data-toggle='dropdown', href='#')
               | Releases
@@ -36,6 +36,17 @@ html
                 a(href='/new_release') New Release
               li
                 a(href='/manage_releases') Manage Releases
+
+        ul.nav.navbar-nav
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Events
+              span.caret
+            ul.dropdown-menu(aria-labelledby='event')
+              li
+                a(href='/new_event') New Event
+              li
+                a(href='/manage_events') Manage Events
 
         ul.nav.navbar-nav
           li.dropdown

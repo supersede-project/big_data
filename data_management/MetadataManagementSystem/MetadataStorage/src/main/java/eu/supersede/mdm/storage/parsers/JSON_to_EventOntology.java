@@ -1,7 +1,7 @@
 package eu.supersede.mdm.storage.parsers;
 
 import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.EventOntology;
 import eu.supersede.mdm.storage.util.RDFUtil;
 import org.apache.jena.ontology.OntModel;
 import net.minidev.json.JSONArray;
@@ -10,20 +10,20 @@ import net.minidev.json.JSONObject;
 /**
  * Created by snadal on 10/11/16.
  */
-public class JSON_to_SourceLevel {
+public class JSON_to_EventOntology {
 
     private static String getProperClass(JSONObject jsonDataset, String key) {
-        if (jsonDataset.get(key) == null) return SourceLevel.ATTRIBUTE.val();
-        if (jsonDataset.get(key).getClass().getName().equals(JSONObject.class.getName())) return SourceLevel.EMBEDDED_OBJECT.val();
-        if (jsonDataset.get(key).getClass().getName().equals(JSONArray.class.getName())) return SourceLevel.ARRAY.val();
-        return SourceLevel.ATTRIBUTE.val();
+        if (jsonDataset.get(key) == null) return EventOntology.ATTRIBUTE.val();
+        if (jsonDataset.get(key).getClass().getName().equals(JSONObject.class.getName())) return EventOntology.EMBEDDED_OBJECT.val();
+        if (jsonDataset.get(key).getClass().getName().equals(JSONArray.class.getName())) return EventOntology.ARRAY.val();
+        return EventOntology.ATTRIBUTE.val();
     }
 
     private static String getProperLink(JSONObject jsonDataset, String key) {
-        if (jsonDataset.get(key) == null) return SourceLevel.HAS_ATTRIBUTE.val();
-        if (jsonDataset.get(key).getClass().getName().equals(JSONObject.class.getName())) return SourceLevel.HAS_EMBEDDED_OBJECT.val();
-        if (jsonDataset.get(key).getClass().getName().equals(JSONArray.class.getName())) return SourceLevel.HAS_ARRAY.val();
-        return SourceLevel.HAS_ATTRIBUTE.val();
+        if (jsonDataset.get(key) == null) return EventOntology.HAS_ATTRIBUTE.val();
+        if (jsonDataset.get(key).getClass().getName().equals(JSONObject.class.getName())) return EventOntology.HAS_EMBEDDED_OBJECT.val();
+        if (jsonDataset.get(key).getClass().getName().equals(JSONArray.class.getName())) return EventOntology.HAS_ARRAY.val();
+        return EventOntology.HAS_ATTRIBUTE.val();
     }
 
     public static void extractRec(OntModel theModel, JSONObject jsonDataset, String parentElement) {

@@ -21,16 +21,14 @@ function registerCloseEvent() {
 }
 
 function getEvents() {
-    var patterns = $("#bdiOntology").val();
-    $("#event"+tabCount).empty().trigger('change');
-    for (i = 0; i < patterns.length; ++i) {
-        $.get("/release/"+patterns[i], function(release) {
-            $("#event"+tabCount).append($('<option value="' + release.releaseID + '">').text(release.event));
-        });
-        $("#event"+tabCount).select2({
-            theme: "bootstrap"
-        });
-    }
+    $("#event" + tabCount).empty().trigger('change');
+    var pattern = $("#pattern").select2('data');
+    _.each(pattern, function (event) {
+        $("#event" + tabCount).append($('<option value="' + event.id + '">').text(event.text));
+    });
+    $("#event"+tabCount).select2({
+        theme: "bootstrap"
+    });
 }
 
 function getComparators() {
@@ -47,7 +45,7 @@ function getComparators() {
 $(window).load(function() {
     $('#tabPanel li:first').tab('show'); // Select first tab
 
-    $("#bdiOntology").on("select2:select", function (evt) {
+    $("#pattern").on("select2:select", function (evt) {
         var element = evt.params.data.element;
         var $element = $(element);
 
@@ -56,34 +54,32 @@ $(window).load(function() {
      //   $(this).trigger("change");
     });
 
-    $.get("/release", function(data) {
-        $.each((data), function(key, value) {
+    $.get("/event", function(data) {
+        $.each(data, function(key, value) {
             var obj = (value);
-            $("#bdiOntology").append($('<option value="'+obj.releaseID+'">').text(obj.event));
+            $("#pattern").append($('<option value="'+obj.eventID+'">').text(obj.event));
         });
-        $("#bdiOntology").select2({
+        $("#pattern").select2({
             theme: "bootstrap"
         })
-        $("#bdiOntology").trigger('change');
+        $("#pattern").trigger('change');
     });
 
-    $("#bdiOntology").on('change', function() {
+    $("#pattern").on('change', function() {
         $("#actionParameters").empty().trigger('change');
         $(".closeTab").click();
         tabCount = 0;
-        var pattern = $("#bdiOntology").val();
-        for (i = 0; i <pattern.length; ++i) {
-            $.get("/release/"+pattern[i], function(release) {
-                $.get("/release/"+encodeURIComponent(release.graph)+"/attributes", function(data) {
-                    _.each(JSON.parse(data), function(element,index,list) {
-                        $("#actionParameters").append($('<option value="'+element.iri+'">').text(release.event + '.' + element.name +" ("+element.iri+")"));
-                    });
-                    $("#actionParameters").select2({
-                        theme: "bootstrap"
-                    });;
+        var pattern = $("#pattern").select2('data');
+        _.each(pattern, function(event) {
+            $.get("/event/"+event.id, function(eventData) {
+                _.each(eventData.attributes, function(element,index,list) {
+                    $("#actionParameters").append($('<option value="'+element.iri+'">').text(eventData.event + '.' + element.name +" ("+element.iri+")"));
+                });
+                $("#actionParameters").select2({
+                    theme: "bootstrap"
                 });
             });
-        }
+        });
 
     });
 
@@ -109,15 +105,13 @@ $(window).load(function() {
 
         getEvents();
         $("#event"+tabCount).change(function(o) {
-            $.get("/release/"+$("#event"+tabCount).val(), function(release) {
-                $.get("/release/"+encodeURIComponent(release.graph)+"/attributes", function(data) {
-                    $("#leftOperator"+tabCount).empty().trigger('change');
-                    _.each(JSON.parse(data), function(element,index,list) {
-                        $("#leftOperator"+tabCount).append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
-                    });
-                    $("#leftOperator"+tabCount).select2({
-                        theme: "bootstrap"
-                    });;
+            $.get("/event/"+$("#event"+tabCount).val(), function(eventData) {
+                $("#leftOperator"+tabCount).empty().trigger('change');
+                _.each(eventData.attributes, function(element,index,list) {
+                    $("#leftOperator"+tabCount).append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
+                });
+                $("#leftOperator"+tabCount).select2({
+                    theme: "bootstrap"
                 });
             });
         });
@@ -131,7 +125,7 @@ $(window).load(function() {
         var CER_rule = new Object();
         CER_rule.ruleName = $("#ruleName").val();
 
-        CER_rule.pattern = $("#bdiOntology").val();
+        CER_rule.pattern = $("#pattern").select2('data').map(function(e) { return e.id });
         CER_rule.condition = $("#condition").val();
 
         CER_rule.filters = new Array();

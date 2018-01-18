@@ -15,14 +15,20 @@ public class BolsterMetamodel {
             }
             return false;
         }
+        if (type.equals("Event")) {
+            for (EventOntology e : EventOntology.values()) {
+                if (e.val().equals(elem)) return true;
+            }
+            return false;
+        }
         if (type.equals("GLOBAL")) {
-            for (GlobalLevel g : GlobalLevel.values()) {
+            for (GlobalOntology g : GlobalOntology.values()) {
                 if (g.val().equals(elem)) return true;
             }
             return false;
         }
         if (type.equals("BDI_ONTOLOGY")) {
-            for (GlobalLevel g : GlobalLevel.values()) {
+            for (GlobalOntology g : GlobalOntology.values()) {
                 if (g.val().equals(elem)) return true;
             }
             for (SourceLevel g : SourceLevel.values()) {

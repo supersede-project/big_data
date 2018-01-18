@@ -9,12 +9,14 @@ apply plugin: 'maven'
 apply plugin: 'war'
 //apply plugin: 'jetty'
 apply plugin: 'maven-publish'
+apply plugin: 'com.github.johnrengelman.shadow'
+
 
 buildscript {
     repositories {
         mavenCentral()
         maven {
-            url 'http://supersede.es.atos.net:10080/artifactory/libs-snapshot'
+            url "${artifactory_contextUrl}/libs-snapshot"
             name = 'maven-supersede-snapshot'
             credentials {
                 username = "${artifactory_user}"
@@ -22,24 +24,25 @@ buildscript {
             }
         }
         maven {
-            url 'http://supersede.es.atos.net:10080/artifactory/libs-release'
+            url "${artifactory_contextUrl}/libs-release"
             name = 'maven-supersede-release'
             credentials {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
             }
         }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        //classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.7.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
         //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.0'
-
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.2"
     }
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
 
 /*
 jar {
@@ -69,6 +72,7 @@ shadowJar {
         attributes 'Main-Class': 'eu.supersede.mdm.storage.ApacheMain'
     }
     append 'META-INF/services/org.apache.jena.system.JenaSubsystemLifecycle'
+    zip64 true
 }
 
 sourceCompatibility = '1.8'
@@ -157,6 +161,8 @@ dependencies {
         exclude (group: 'com.github.fommil.netlib')
     }
     testCompile 'junit:junit:3.8.2'
+
+    compile("eu.supersede.if:eu.supersede.if.api:0.4.0-SNAPSHOT"){changing = true}
 }
 
 task wrapper(type: Wrapper) {

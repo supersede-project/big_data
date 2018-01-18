@@ -29,30 +29,20 @@ exports.getAllEcaRules = function (req, res, next) {
 
 exports.postEcaRule = function (req, res, next) {
     if (!(req.body.hasOwnProperty('name')) || req.body.name == null
-        || !(req.body.hasOwnProperty('globalLevel')) || req.body.globalLevel == null
-        || !(req.body.hasOwnProperty('graph')) || req.body.graph == null
-        || !(req.body.hasOwnProperty('feature')) || req.body.feature == null
-        || !(req.body.hasOwnProperty('operator')) || req.body.operator == null
-        || !(req.body.hasOwnProperty('predicate')) || req.body.predicate == null
-        || !(req.body.hasOwnProperty('value')) || req.body.value == null
+        || !(req.body.hasOwnProperty('eventID')) || req.body.eventID == null
+        || !(req.body.hasOwnProperty('conditions')) || req.body.conditions == null
         || !(req.body.hasOwnProperty('windowTime')) || req.body.windowTime == null
         || !(req.body.hasOwnProperty('windowSize')) || req.body.windowSize == null
         || !(req.body.hasOwnProperty('action')) || req.body.action == null) {
-        res.status(400).json({msg: "(Bad Request) data format: {name, globalLevel, graph, feature, operator, predicate, value, windowTime, windowSize, action}"});
+        res.status(400).json({msg: "(Bad Request) data format: {name, graph, conditions, windowTime, windowSize, action}"});
     } else {
         var rule = new Object();
         rule.name = req.body.name;
-        rule.globalLevel = req.body.globalLevel;
-        rule.graph = req.body.graph;
-        rule.feature = req.body.feature;
-        rule.operator = req.body.operator;
-        rule.predicate = req.body.predicate;
-        rule.value = req.body.value;
+        rule.eventID = req.body.eventID;
+        rule.conditions= req.body.conditions;
         rule.windowTime = req.body.windowTime;
         rule.windowSize = req.body.windowSize;
         rule.action = req.body.action;
-
-        console.log("Posting "+JSON.stringify(rule));
 
         request.post({
             url: config.METADATA_DATA_LAYER_URL + "eca_rule/",

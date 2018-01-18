@@ -48,20 +48,18 @@ $(document).ready( function() {
 
         var release = new Object();
         release["event"] = $("#event").val();
-        release["schemaVersion"] = $("#schemaVersion").val();
         release["jsonInstances"] = JSON.stringify(editor.get());
         release["kafkaTopic"] = $("#kafkaTopic").val();
         release["dispatch"] = $("#dispatch")[0].checked;
         release["dispatcherStrategy"] = $("#dispatcherStrategy").val();
         release["platform"] = $("#platform").val();
 
-
         $.ajax({
-            url: '/release',
+            url: '/event',
             type: 'POST',
             data: release
         }).done(function() {
-            window.location.href = '/manage_releases';
+            window.location.href = '/manage_events';
         }).fail(function(err) {
             alert("error "+JSON.stringify(err));
         });

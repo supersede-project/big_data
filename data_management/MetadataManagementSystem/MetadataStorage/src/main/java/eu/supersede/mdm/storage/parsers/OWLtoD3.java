@@ -3,10 +3,7 @@ package eu.supersede.mdm.storage.parsers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.BolsterMetamodel;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.GlobalLevel;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.Mappings;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.*;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.jena.rdf.model.Property;
@@ -23,6 +20,18 @@ import java.util.Map;
 public class OWLtoD3 {
 
     private static ImmutableMap<String,String> colorMap = ImmutableMap.<String, String>builder()
+            // Event Ontology colors
+            .put(EventOntology.EVENT.val(), "#FF3300")
+            //.put(EventOntology.FORMAT.val(), "#808000")
+            .put(EventOntology.EMBEDDED_OBJECT.val(), "#993366")
+            .put(EventOntology.HAS_EMBEDDED_OBJECT.val(), "#993366")
+            .put(EventOntology.ARRAY.val(), "#00FF00")
+            .put(EventOntology.HAS_ARRAY.val(), "#00FF00")
+            .put(EventOntology.ATTRIBUTE.val(), "#00CCFF")
+            .put(EventOntology.HAS_ATTRIBUTE.val(), "#00CCFF")
+            .put(EventOntology.KAFKA_TOPIC.val(), "#F7819F")
+            .put(EventOntology.HAS_KAFKA_TOPIC.val(), "#F7819F")
+
             // Source Level colors
             .put(SourceLevel.EVENT.val(), "#FF3300")
             .put(SourceLevel.SCHEMA_VERSION.val(), "#FECB98")
@@ -39,13 +48,13 @@ public class OWLtoD3 {
             .put(SourceLevel.HAS_KAFKA_TOPIC.val(), "#F7819F")
 
             // Global Level colors
-            .put(GlobalLevel.CONCEPT.val(), "#33CCCC")
-            .put(GlobalLevel.FEATURE.val(), "#D7DF01")
-            .put(GlobalLevel.HAS_FEATURE.val(), "#D7DF01")
-            .put(GlobalLevel.INTEGRITY_CONSTRAINT.val(), "#CC99FF")
-            .put(GlobalLevel.HAS_INTEGRITY_CONSTRAINT.val(), "#CC99FF")
-            .put(GlobalLevel.DATATYPE.val(), "#FF6600")
-            .put(GlobalLevel.HAS_DATATYPE.val(), "#FF6600")
+            .put(GlobalOntology.CONCEPT.val(), "#33CCCC")
+            .put(GlobalOntology.FEATURE.val(), "#D7DF01")
+            .put(GlobalOntology.HAS_FEATURE.val(), "#D7DF01")
+            .put(GlobalOntology.INTEGRITY_CONSTRAINT.val(), "#CC99FF")
+            .put(GlobalOntology.HAS_INTEGRITY_CONSTRAINT.val(), "#CC99FF")
+            .put(GlobalOntology.DATATYPE.val(), "#FF6600")
+            .put(GlobalOntology.HAS_DATATYPE.val(), "#FF6600")
 
             .put(Mappings.MAPS_TO.val(), "white")
             .build();
@@ -79,9 +88,6 @@ public class OWLtoD3 {
                 nodesMap.put(triple._1().getURI(), i);
                 ++i;
                 JSONObject d3Node = new JSONObject();
-                if (triple._1().getURI().contains("Event/AtoS")) {
-                    System.out.println("A");
-                }
                 d3Node.put("name", triple._1().getURI().substring(triple._1().getURI().lastIndexOf("/")+1));
                 d3Node.put("iri", triple._1().getURI());
                 // Get the color from the namespace of the element

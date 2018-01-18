@@ -53,6 +53,10 @@ public class ECARuleResource {
         return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("eca_rules");
     }
 
+    private MongoCollection<Document> getEventsCollection(MongoClient client) {
+        return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("events");
+    }
+
     @GET
     @Path("eca_rule/")
     @Consumes(MediaType.TEXT_PLAIN)
@@ -62,7 +66,12 @@ public class ECARuleResource {
 
         MongoClient client = Utils.getMongoDBClient();
         JSONArray arr = new JSONArray();
-        getEcaRulesCollection(client).find().iterator().forEachRemaining(document -> arr.add(document));
+        getEcaRulesCollection(client).find().iterator().forEachRemaining(document -> {
+            document.put("event",getEventsCollection(client).find(new Document("eventID",document.getString("eventID"))).first());
+            document.remove("eventID");
+            arr.add(document);
+        });
+
         client.close();
         return Response.ok(new Gson().toJson(arr)).build();
     }
@@ -77,6 +86,9 @@ public class ECARuleResource {
         MongoClient client = Utils.getMongoDBClient();
         Document query = new Document("eca_ruleID",eca_ruleID);
         Document res = getEcaRulesCollection(client).find(query).first();
+        res.put("event",getEventsCollection(client).find(new Document("eventID",res.getString("eventID"))).first());
+        res.remove("eventID");
+
         client.close();
 
         return Response.ok((res.toJson())).build();
@@ -96,7 +108,7 @@ public class ECARuleResource {
         // Store in MongoDB
         objBody.put("eca_ruleID", UUID.randomUUID().toString());
         getEcaRulesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
-
+/**
         // Store in RDF
         Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.WRITE);
@@ -216,7 +228,7 @@ public class ECARuleResource {
         dataset.commit();
         dataset.end();
         dataset.close();
-
+**/
         client.close();
         return Response.ok(objBody.toJSONString()).build();
     }

@@ -19,6 +19,10 @@ svg.line-graph .hover-line {
   stroke: #6E7B8B;
 }
 
+.line #series_0 {
+  stroke: yellow;
+}
+
 svg.line-graph .hide {
   opacity: 0;
 }

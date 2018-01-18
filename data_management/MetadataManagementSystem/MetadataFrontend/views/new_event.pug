@@ -1,7 +1,7 @@
 extends layout
 block headers
     link(rel='stylesheet', href='/stylesheets/loading.css')
-    script(src='/js/client_new_release.js')
+    script(src='/js/client_new_event.js')
     link(href='/js/jsoneditor/jsoneditor.min.css', rel='stylesheet', type='text/css')
     script(src='/js/jsoneditor/jsoneditor.min.js')
     link(href='/js/select2-4.0.3/dist/css/select2.min.css', rel='stylesheet', type='text/css')
@@ -14,7 +14,7 @@ block content
         .banner
             .row
                 .col-lg-8.col-md-7.col-sm-6
-                    h2 New Release
+                    h2 New Event
                     br
 
             .container-fluid
@@ -25,11 +25,6 @@ block content
                                 label.col-lg-2.control-label(for='event') Event
                                 .col-lg-10
                                     input#event.form-control(type='text', name='event', required='required')
-
-                            .form-group#schemaVersionForm
-                                label.col-lg-2.control-label(for='schemaVersion') Schema Version
-                                .col-lg-10
-                                    input#schemaVersion.form-control(type='text', name='schemaVersion', required='required')
 
                             .form-group#jsonInstancesForm
                                 label.col-lg-2.control-label(for='jsoneditor') JSON Instances

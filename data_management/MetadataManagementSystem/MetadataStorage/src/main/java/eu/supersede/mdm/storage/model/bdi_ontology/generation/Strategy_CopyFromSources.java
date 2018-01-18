@@ -1,10 +1,9 @@
 package eu.supersede.mdm.storage.model.bdi_ontology.generation;
 
-import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
 import eu.supersede.mdm.storage.model.bdi_ontology.Release;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.GlobalLevel;
+import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.GlobalOntology;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.Mappings;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.SourceLevel;
 import eu.supersede.mdm.storage.util.RDFUtil;
@@ -18,7 +17,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.bson.Document;
 
-import javax.servlet.ServletContext;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,11 +68,11 @@ public class Strategy_CopyFromSources {
                         }
                         //String globalElement = "/"+q.get("?s").asResource().getLocalName();
                         // Use the local name as name for G
-                        RDFUtil.addTriple(G, GlobalLevel.FEATURE.val()+globalElement, Namespaces.rdf.val()+"type", GlobalLevel.FEATURE.val());
-                        RDFUtil.addTriple(O, GlobalLevel.FEATURE.val()+globalElement, Namespaces.rdf.val()+"type", GlobalLevel.FEATURE.val());
+                        RDFUtil.addTriple(G, GlobalOntology.FEATURE.val()+globalElement, Namespaces.rdf.val()+"type", GlobalOntology.FEATURE.val());
+                        RDFUtil.addTriple(O, GlobalOntology.FEATURE.val()+globalElement, Namespaces.rdf.val()+"type", GlobalOntology.FEATURE.val());
                         // Create the mapping G->S
-                        RDFUtil.addTriple(M, q.get("?s").asResource().getURI(), Mappings.MAPS_TO.val(), GlobalLevel.FEATURE.val()+globalElement);
-                        RDFUtil.addTriple(O, q.get("?s").asResource().getURI(), Mappings.MAPS_TO.val(), GlobalLevel.FEATURE.val()+globalElement);
+                        RDFUtil.addTriple(M, q.get("?s").asResource().getURI(), Mappings.MAPS_TO.val(), GlobalOntology.FEATURE.val()+globalElement);
+                        RDFUtil.addTriple(O, q.get("?s").asResource().getURI(), Mappings.MAPS_TO.val(), GlobalOntology.FEATURE.val()+globalElement);
                     }
                     /*if (!q.get("?o").toString().equals("http://www.w3.org/2000/01/rdf-schema#Resource")) {
                         System.out.println("Inserting from S "+q.get("?s").toString()+", "+q.get("?p").toString()+", "+q.get("?o").toString());
