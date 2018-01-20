@@ -74,6 +74,30 @@ $(window).load(function() {
         getPredicates();
     });
 
+    $("#alertParameters").on("select2:select", function (evt) {
+        var element = evt.params.data.element;
+        var $element = $(element);
+        $element.detach();
+        $(this).append($element);
+    });
+
+    $("#event").on('change', function() {
+        $("#alertParameters").empty().trigger('change');
+        $(".closeTab").click();
+        var currentEvent = $("#event").select2('data');
+        _.each(currentEvent, function(event) {
+            $.get("/event/"+event.id, function(eventData) {
+                _.each(eventData.attributes, function(element,index,list) {
+                    $("#alertParameters").append($('<option value="'+element.iri+'">').text(element.name +" ("+element.iri+")"));
+                });
+                $("#alertParameters").select2({
+                    theme: "bootstrap"
+                });
+            });
+        });
+
+    });
+
     $.get("/eca_rule_action_types", function(data) {
         _.each(data, function(element,index,list) {
             $("#action").append($('<option value="'+element.key+'">').text(element.val));
@@ -118,6 +142,7 @@ $(window).load(function() {
         Eca_Rule.windowTime = $("#windowTime").val();
         Eca_Rule.windowSize = $("#windowSize").val();
         Eca_Rule.action = $("#action").val();
+        Eca_Rule.alertParameters = $("#alertParameters").select2('data').map(function(e) { return e.id });
 
         $.ajax({
             url: '/eca_rule',
@@ -129,5 +154,6 @@ $(window).load(function() {
             alert("error "+JSON.stringify(err));
         });
     });
+
 
 });

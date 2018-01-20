@@ -33,8 +33,9 @@ exports.postEcaRule = function (req, res, next) {
         || !(req.body.hasOwnProperty('conditions')) || req.body.conditions == null
         || !(req.body.hasOwnProperty('windowTime')) || req.body.windowTime == null
         || !(req.body.hasOwnProperty('windowSize')) || req.body.windowSize == null
-        || !(req.body.hasOwnProperty('action')) || req.body.action == null) {
-        res.status(400).json({msg: "(Bad Request) data format: {name, graph, conditions, windowTime, windowSize, action}"});
+        || !(req.body.hasOwnProperty('action')) || req.body.action == null
+        || !(req.body.hasOwnProperty('alertParameters')) || req.body.alertParameters == null) {
+        res.status(400).json({msg: "(Bad Request) data format: {name, graph, conditions, windowTime, windowSize, action, alertParameters}"});
     } else {
         var rule = new Object();
         rule.name = req.body.name;
@@ -43,6 +44,7 @@ exports.postEcaRule = function (req, res, next) {
         rule.windowTime = req.body.windowTime;
         rule.windowSize = req.body.windowSize;
         rule.action = req.body.action;
+        rule.alertParameters = req.body.alertParameters;
 
         request.post({
             url: config.METADATA_DATA_LAYER_URL + "eca_rule/",
