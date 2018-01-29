@@ -36,6 +36,7 @@ repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     //jcenter()
+	mavenLocal()
     mavenCentral()
     add buildscript.repositories.getByName ("maven-supersede-snapshot")
     add buildscript.repositories.getByName ("maven-supersede-release")
@@ -50,6 +51,7 @@ dependencies {
     /*compile 'com.googlecode.efficient-java-matrix-library:ejml:0.23'*/
     compile 'junit:junit:4.12'
     compile 'com.google.guava:guava:21.0'
+    compile 'eu.fbk.ict.fm.nlp:synaptic:1.0-SNAPSHOT'
 }
 
 
@@ -84,7 +86,7 @@ test {
         includeTestsMatching "*FEDataStoreProxyTest"
         includeTestsMatching "*IFAuthenticationManagerTest"
     }
-}
+} 
 
 allprojects {
     apply plugin: "com.jfrog.artifactory"

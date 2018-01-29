@@ -76,13 +76,13 @@ public class AttributeExtractor {
 	ArrayList<String> responsive_expressions;
 
 	StanfordCoreNLP pipeline ;
-	//static String pathToSWN = Thread.currentThread().getContextClassLoader().getResource("SentiWordNet_3.0.0_20130122.txt").toString().replace("file:","");
-	String pathToSWN;
+	static String pathToSWN = Thread.currentThread().getContextClassLoader().getResource("SentiWordNet_3.0.0_20130122.txt").toString().replace("file:","");
+//	String pathToSWN;
 	static SentiWord sentiwordnet;
 
 
-	public AttributeExtractor(String modelPath) throws IOException{
-		this.pathToSWN = modelPath + "SentiWordNet_3.0.0_20130122.txt";
+	public AttributeExtractor() throws IOException{
+//		this.pathToSWN = modelPath + "SentiWordNet_3.0.0_20130122.txt";
 
 		//out = new PrintWriter(System.out);
 		// Add in sentiment
