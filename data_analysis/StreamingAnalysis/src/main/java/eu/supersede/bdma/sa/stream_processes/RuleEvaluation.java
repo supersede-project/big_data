@@ -16,9 +16,11 @@ import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.integration.api.mdm.types.ActionTypes;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
+import eu.supersede.integration.api.mdm.types.Event;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.Duration;
+import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.drools.compiler.lang.api.DescrFactory;
@@ -43,7 +45,7 @@ import java.util.*;
  */
 public class RuleEvaluation {
 
-    private static Map<String, Long> firedRulesXTimestamp = Maps.newConcurrentMap();
+    private static Map<ECA_Rule, Long> firedRulesXTimestamp = Maps.newConcurrentMap();
 
     private static KnowledgePackage compilePkgDescr(PackageDescr pkg ) {
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -117,22 +119,35 @@ public class RuleEvaluation {
     }
 
 
-    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream, Broadcast<Map<String, Tuple2<Boolean,String>>> broadcastReleases,
-                               List<SerializableECA_Rule> rules, String evo_adapt) {
-        for (SerializableECA_Rule r : rules) {
-            firedRulesXTimestamp.put(r.getEca_ruleID(), Long.valueOf(0));
+    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream,
+                               Broadcast<List<Event>> events,
+                               Broadcast<List<ECA_Rule>> rules) {
+        for (ECA_Rule r : rules.value()) {
+            firedRulesXTimestamp.put(r, Long.valueOf(0));
         }
 
+        JavaDStream nonEmptyStream = kafkaStream.filter(record -> !record.value().isEmpty());
+
+        JavaDStream evolutionWindow = nonEmptyStream.window(new Duration(7200000),new Duration(5000));
+        JavaDStream adaptationWindow = nonEmptyStream.window(new Duration(300000),new Duration(5000));
+
+        System.out.println("Evolution window");
+        evolutionWindow.print();
+        System.out.println("Adaptation window");
+        adaptationWindow.print();
+
+
+/*
         JavaPairDStream<String, Tuple2<String,Long>> theStream = kafkaStream.
                 filter(record -> !record.value().isEmpty()).
                 flatMapToPair(record -> {
             List<Tuple2<String, Tuple2<String,Long>>> out = Lists.newArrayList();
-            rules.forEach(rule -> {
-                if (rule.getKafkaTopic().equals(record.topic())) {
+            rules.value().forEach(rule -> {
+                if (rule.getEvent().getKafkaTopic().equals(record.topic())) {
                     String tuple = record.value().toString();
-
                     // Filter for feedback demo, not to interfere with other users
-                    if (evo_adapt.equals("evolution")) {
+                    if (record.topic().equals("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4") && evo_adapt.equals("evolution")) {
+                        System.out.println(rule.getName() + " - " + rule.getKafkaTopic() + " - "+record.topic());
                         if (Utils.extractFeatures(tuple, rule.getFeature()) != null &&
                             Utils.extractFeatures(tuple,"http://www.BDIOntology.com/global/Feature/userIdentification").get(0).equals("243205")) {
                             out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
@@ -146,8 +161,9 @@ public class RuleEvaluation {
             });
             System.out.println("Extracted "+out.toString());
             return out.iterator();
-        }).window(new Duration(evo_adapt.equals("evolution") ? 7200000 : 300000/*5 min*/), new Duration(5000));
-
+        }).window(new Duration(evo_adapt.equals("evolution") ? 7200000 : 300000), new Duration(5000));
+*/
+/**
         theStream
             .groupByKey()
             .foreachRDD(records -> {
@@ -177,6 +193,9 @@ public class RuleEvaluation {
 
                                             if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
                                                 Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
+
+                                                //TO DO: remember to replace
+
                                                 DynamicAdaptationAlert.sendAlert(rule);
                                             } else {
                                                 Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
@@ -188,26 +207,27 @@ public class RuleEvaluation {
                                                         }
                                                     });
                                                 }
-                                                SoftwareEvolutionAlert.sendAlert(Iterables.toArray(feedbacks,String.class));
+                                                //TO DO: remember to replace
+                                                //SoftwareEvolutionAlert.sendAlert(Iterables.toArray(feedbacks,String.class));
+
                                             }
                                         }
                                         break;
                                     }
-                                    /*case FEEDBACK_CLASSIFIER_LABEL: {
-                                        int valids = evaluateFeedbackRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
-                                        Sockets.sendMessageToSocket("analysis", valids + "/" + rule.getWindowSize() + " satisfy the condition");
-                                        if (valids >= rule.getWindowSize()) {
-                                            if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
-                                                Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
-                                                DynamicAdaptationAlert.sendAlert(rule);
-                                            } else {
-                                                Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
-                                                SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
-                                            }
-                                        }
-
-                                        break;
-                                    }*/
+                                    //case FEEDBACK_CLASSIFIER_LABEL: {
+                                    //    int valids = evaluateFeedbackRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
+                                    //    Sockets.sendMessageToSocket("analysis", valids + "/" + rule.getWindowSize() + " satisfy the condition");
+                                    //    if (valids >= rule.getWindowSize()) {
+                                    //        if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
+                                    //            Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
+                                    //            DynamicAdaptationAlert.sendAlert(rule);
+                                    //        } else {
+                                    //            Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
+                                    //            SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
+                                    //        }
+                                    //    }
+                                    //    break;
+                                    //}
                                 }
                                 //}
                             }
@@ -215,6 +235,6 @@ public class RuleEvaluation {
                     });
                 System.out.println("#");
             });
-
+**/
     }
 }

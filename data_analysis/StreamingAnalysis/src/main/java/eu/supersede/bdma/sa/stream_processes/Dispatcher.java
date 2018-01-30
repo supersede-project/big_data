@@ -22,16 +22,11 @@ public class Dispatcher {
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
-                    // Dispatch always (For validation)
-                    //if (broadcastReleases.value().get(o.topic())._1()) { //isDispatch?
-                        // TODO Warning, using local FS methods. Must change for HDFS
-                        try {
-                            Files.append(record.value()+"\n", new File("/home/supersede/Bolster/DispatcherData/"+o.topic()+".txt"), Charset.defaultCharset());
-                            //Files.append(record.value()+"\n", new File(broadcastReleases.value().get(o.topic())._2()), Charset.defaultCharset());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    //}
+                    try {
+                        Files.append(record.value()+"\n", new File("/home/supersede/Bolster/DispatcherData/"+o.topic()+".txt"), Charset.defaultCharset());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
             });
         });

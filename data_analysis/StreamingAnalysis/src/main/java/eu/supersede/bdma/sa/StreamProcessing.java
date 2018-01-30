@@ -3,6 +3,7 @@ package eu.supersede.bdma.sa;
 import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
@@ -20,6 +21,7 @@ import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.integration.api.mdm.types.ActionTypes;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
+import eu.supersede.integration.api.mdm.types.Event;
 import net.minidev.json.JSONObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.TaskContext;
@@ -49,6 +51,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by snadal on 11/01/17.
@@ -57,15 +60,16 @@ public class StreamProcessing {
 
     private Map<String, Object> kafkaParams;
     // TODO Make Release serializable so it can be broadcast
-    private Map<String, Tuple2<Boolean,String>> releases;
+    //private Map<String, Tuple2<Boolean,String>> releases;
+    private List<Event> events;
     // TODO Make ECA_Rule serializable so it can be broadcast
-    private static List<SerializableECA_Rule> rules;
+    private List<ECA_Rule> rules;
 
     private static String dispatcher_path;
 
-    public StreamProcessing(String evo_adapt) throws Exception {
-        releases = MDMProxy.getReleasesIndexedPerKafkaTopic2(evo_adapt);
-        System.out.println(releases);
+    public StreamProcessing() throws Exception {
+        //releases = MDMProxy.getReleasesIndexedPerKafkaTopic2(evo_adapt);
+        events = MDMProxy.getAllEvents();
 
         kafkaParams = Maps.newHashMap();
         kafkaParams.put("bootstrap.servers", Main.properties.getProperty("BOOTSTRAP_SERVERS_CONFIG"));
@@ -75,27 +79,47 @@ public class StreamProcessing {
         kafkaParams.put("auto.offset.reset", Main.properties.getProperty("AUTO_OFFSET_RESET"));
         kafkaParams.put("enable.auto.commit", false);
 
-        //rules = MDMProxy.getRules();
         rules = MDMProxy.getRules();
-        System.out.println("Have "+rules.size());
 
-        dispatcher_path = Main.properties.getProperty("DISPATCHER_PATH");
-        System.out.println("Dispatcher path "+dispatcher_path);
+        System.out.println("####################################");
+        System.out.println("Events");
+        System.out.println("####################################");
+        events.forEach(e -> System.out.print(e.getEvent() + "(" + e.getKafkaTopic() + ")" + ", "));
+        System.out.println();
+        System.out.println("####################################");
+        System.out.println("Rules");
+        System.out.println("####################################");
+        rules.forEach(r -> System.out.print(r.getName() + ", "));
+        System.out.println();
     }
 
-    public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx, String evo_adapt) throws Exception {
+    public void process(JavaSparkContext ctx, JavaStreamingContext streamCtx) throws Exception {
         // Broadcast variable to workers
-        Broadcast<Map<String, Tuple2<Boolean,String>>> broadcastReleases = ctx.broadcast(releases);
+        Broadcast<List<Event>> broadcastEvents = ctx.broadcast(events);
+        Broadcast<List<ECA_Rule>> broadcastRules = ctx.broadcast(rules);
 
         JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
-                Utils.getKafkaStream(streamCtx, broadcastReleases.value().keySet(), this.kafkaParams);
+                Utils.getKafkaStream(streamCtx, Sets.newHashSet(events.stream().map(e -> e.getKafkaTopic()).collect(Collectors.toList())), this.kafkaParams);
 
-        Dispatcher.process(kafkaStream);
-        //GenericStreamStatistics.process(kafkaStream,broadcastReleases);
-        //DataSourceStatistics.process(kafkaStream,broadcastReleases,rules);
-        //RawDataToLiveFeed.process(kafkaStream);
-        //RuleEvaluation.process(kafkaStream,broadcastReleases,rules,evo_adapt);
-
-
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_DISPATCHER"))) {
+            System.out.println("LAUNCH_DISPATCHER");
+            Dispatcher.process(kafkaStream);
+        }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_DATA_SOURCE_STATISTICS"))) {
+            System.out.println("LAUNCH_DATA_SOURCE_STATISTICS");
+            DataSourceStatistics.process(kafkaStream);
+        }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_GENERIC_STREAM_STATISTICS"))) {
+            System.out.println("LAUNCH_GENERIC_STREAM_STATISTICS");
+            GenericStreamStatistics.process(kafkaStream,broadcastEvents);
+        }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_RAW_DATA_TO_LIVE_FEED"))) {
+            System.out.println("LAUNCH_RAW_DATA_TO_LIVE_FEED");
+            RawDataToLiveFeed.process(kafkaStream);
+        }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_RULE_EVALUATION"))) {
+            System.out.println("LAUNCH_RULE_EVALUATION");
+            RuleEvaluation.process(kafkaStream,broadcastEvents,broadcastRules/*,evo_adapt*/);
+        }
     }
 }

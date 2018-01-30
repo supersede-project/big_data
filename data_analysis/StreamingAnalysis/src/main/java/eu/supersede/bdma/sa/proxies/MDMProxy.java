@@ -15,6 +15,11 @@ import java.util.*;
  */
 public class MDMProxy {
 
+    public static List<Event> getAllEvents() throws Exception {
+        IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
+        return proxy.getAllEvents();
+    }
+
     public static Map<String, Release> getReleasesIndexedPerKafkaTopic() throws Exception {
         IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
 
@@ -63,9 +68,9 @@ public class MDMProxy {
         return Collections.unmodifiableMap(m);
     }
 
-    public static List<SerializableECA_Rule> getRules() throws Exception {
-        //IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
-        //return proxy.getAllECARules();
+    public static List<ECA_Rule> getRules() throws Exception {
+        IMetadataManagement proxy = new MetadataManagementProxy<Object, Object>();
+        return proxy.getAllECARules();
 
         // Evolution demo rule
         /*
@@ -85,7 +90,7 @@ public class MDMProxy {
         // Adaptation demo rule
 
         // AtoS adaptation rule
-        SerializableECA_Rule r1 = new SerializableECA_Rule();
+/*        SerializableECA_Rule r1 = new SerializableECA_Rule();
         r1.setAction(ActionTypes.ALERT_DYNAMIC_ADAPTATION);
         r1.setEca_ruleID(UUID.randomUUID().toString());
         r1.setGlobalLevel("http://supersede/GLOBAL/rBOxtCPqD3nImChe1zRWOpO469e7Py66");
@@ -136,6 +141,7 @@ public class MDMProxy {
         l.add(r1);l.add(r2);l.add(r3);
 
         return l;
+        */
     }
 
 }

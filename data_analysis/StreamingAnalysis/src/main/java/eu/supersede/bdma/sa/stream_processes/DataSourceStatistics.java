@@ -1,12 +1,10 @@
 package eu.supersede.bdma.sa.stream_processes;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import eu.supersede.bdma.sa.eca_rules.SerializableECA_Rule;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
-import eu.supersede.integration.api.mdm.types.ECA_Rule;
+import eu.supersede.integration.api.mdm.types.Event;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -28,8 +26,7 @@ public class DataSourceStatistics {
             build();
 
 
-    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream, Broadcast<Map<String, Tuple2<Boolean,String>>> broadcastReleases,
-                               List<SerializableECA_Rule> rules) {
+    public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream) {
         // Send the data
         kafkaStream.mapToPair(record ->new Tuple2<String,String>(record.topic(),record.value()))
                 .groupByKey()

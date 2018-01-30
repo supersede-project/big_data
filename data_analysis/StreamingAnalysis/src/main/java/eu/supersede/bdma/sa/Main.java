@@ -22,62 +22,42 @@ import java.util.Enumeration;
  */
 public class Main {
 
-    //final static Logger logger = LogManager.getLogger(Main.class);
     public static Properties properties;
-    //static String HADOOP_COMMON_PATH = "C:\\Users\\Sergi Nadal\\Downloads\\winutils";
 
     public static void main(String[] args) throws Exception {
-
-
-        //System.setProperty("hadoop.home.dir", HADOOP_COMMON_PATH);
-
-        if (args.length != 2) {
+        if (args.length != 1) {
             throw new Exception("Usage: [0]=config.properties path; [1] evolution/adaptation");
         }
         properties = new Properties(args[0]);
         if (!validProperties(properties)) {
             throw new Exception("Invalid properties, stopping execution");
         }
-
-        //logger.debug("Defining Spark context with master = "+properties.getProperty("SPARK_MASTER_HOSTNAME"));
-
-
-
         SparkConf conf = new SparkConf().setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
         JavaSparkContext context = new JavaSparkContext(conf);
         System.out.println("microbatch period = "+properties.getProperty("MICROBATCH_PERIOD"));
         JavaStreamingContext streamContext = new JavaStreamingContext(context, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
         streamContext.checkpoint("checkpoint");
-
         Logger.getRootLogger().setLevel(Level.OFF);
-
-        StreamProcessing processor = new StreamProcessing(args[1]);
-        processor.process(context,streamContext,args[1]);
-
+        StreamProcessing processor = new StreamProcessing();
+        processor.process(context,streamContext);
         streamContext.start();
         streamContext.awaitTermination();
-
     }
 
     private static boolean validProperties(Properties properties) {
-        if (properties.getProperty("BOOTSTRAP_SERVERS_CONFIG") == null) {
-            //logger.error("Missing property \"BOOTSTRAP_SERVERS_CONFIG\"");
-            return false;
-        }
-        if (properties.getProperty("KEY_SERIALIZER_CLASS_CONFIG") == null) {
-            //logger.error("Missing property \"KEY_SERIALIZER_CLASS_CONFIG\"");
-            return false;
-        }
-        if (properties.getProperty("VALUE_SERIALIZER_CLASS_CONFIG") == null) {
-            //logger.error("Missing property \"VALUE_SERIALIZER_CLASS_CONFIG\"");
-            return false;
-        }
-        if (properties.getProperty("SPARK_MASTER_HOSTNAME") == null) {
-            //logger.error("Missing property \"SPARK_MASTER_HOSTNAME\"");
-            return false;
-        }
-        if (properties.getProperty("MICROBATCH_PERIOD") == null) {
-            //logger.error("Missing property \"MICROBATCH_PERIOD\"");
+        if (properties.getProperty("BOOTSTRAP_SERVERS_CONFIG") == null ||
+            properties.getProperty("KEY_SERIALIZER_CLASS_CONFIG") == null ||
+            properties.getProperty("VALUE_SERIALIZER_CLASS_CONFIG") == null ||
+            properties.getProperty("SPARK_MASTER_HOSTNAME") == null ||
+            properties.getProperty("MICROBATCH_PERIOD") == null ||
+            properties.getProperty("GROUP_ID") == null ||
+            properties.getProperty("AUTO_OFFSET_RESET") == null ||
+            properties.getProperty("LAUNCH_DISPATCHER") == null ||
+            properties.getProperty("LAUNCH_DATA_SOURCE_STATISTICS") == null ||
+            properties.getProperty("LAUNCH_GENERIC_STREAM_STATISTICS") == null ||
+            properties.getProperty("LAUNCH_RAW_DATA_TO_LIVE_FEED") == null ||
+            properties.getProperty("LAUNCH_RULE_EVALUATION") == null
+        ) {
             return false;
         }
         return true;

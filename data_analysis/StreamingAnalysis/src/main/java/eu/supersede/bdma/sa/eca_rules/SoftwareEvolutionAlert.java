@@ -28,6 +28,7 @@ import java.util.UUID;
 public class SoftwareEvolutionAlert {
 
     public static void sendAlert(String[] contents) throws Exception {
+/*
         System.out.println("SOFTWARE EVOLUTION ALERT");
 
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
@@ -105,6 +106,6 @@ public class SoftwareEvolutionAlert {
             publisher.publishEvolutionAlertMesssage(SE_alert);
             publisher.closeTopicConnection();
         }
-
+*/
     }
 }

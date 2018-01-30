@@ -19,6 +19,7 @@ import java.util.List;
 public class DynamicAdaptationAlert {
 
     public static void sendAlert(SerializableECA_Rule r) throws Exception {
+/*
         Alert alert = new Alert();
 
         alert.setId("id"+ System.currentTimeMillis());
@@ -51,5 +52,7 @@ public class DynamicAdaptationAlert {
         publisher.closeTopicConnection();
 
         System.out.println("Im sending a dynamic adaptation alert!");
+*/
     }
+
 }
