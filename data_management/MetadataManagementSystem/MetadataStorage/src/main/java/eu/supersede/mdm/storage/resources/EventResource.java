@@ -36,7 +36,7 @@ public class EventResource {
         return client.getDatabase(ConfigManager.getProperty("system_metadata_db_name")).getCollection("events");
     }
 
-    private JSONArray getAttributesForEvent(String graph) {
+    public static JSONArray getAttributesForEvent(String graph) {
         Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.READ);
         List<Tuple3<Resource,Property,Resource>> triples = Lists.newArrayList();

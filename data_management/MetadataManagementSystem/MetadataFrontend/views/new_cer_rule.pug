@@ -18,7 +18,7 @@ block content
             .container-fluid
                 .col-lg-9
                     .well.bs-component
-                        form#ecaRuleForm(role='form').form-horizontal
+                        form#cerRuleForm(role='form').form-horizontal
                             .form-group
                                 label.col-lg-2.control-label(for='name') Name
                                 .col-lg-10
@@ -29,7 +29,7 @@ block content
                                 .col-lg-10
                                     select#pattern(multiple='multiple',style="width:100%")
 
-                            .form-group
+                            //.form-group
                                 label.col-lg-2.control-label(for='condition') Condition
                                 .col-lg-10
                                     input#condition.form-control(type='text', name='condition')
@@ -40,39 +40,13 @@ block content
                                     ul.nav.nav-tabs(role='tablist')#tabPanel
                                         button#addSimpleClause.btn.btn-primary.btn-md(type='submit') +
                                         li(role='presentation')
-                                         //   a#button_tab_1(href='#tab_1' aria-controls="settings" role="tab" data-toggle="tab") SC1
 
                                     .tab-content.fill#tabContent
-                                     //   .tab-pane.fill.active#tab_1(role="tabpanel")
-                                            .form-group
-                                                label.col-lg-2.control-label Name 1
-                                                .col-lg-10
-                                                    input.form-control#name1(type='text', required='required')
-
-                                            .form-group
-                                                label.col-lg-2.control-label Event 1
-                                                .col-lg-10
-                                                    select.event#event1(style="width:100%")
-
-                                            .form-group
-                                                label.col-lg-2.control-label Left operator 1
-                                                .col-lg-10
-                                                    select#leftOperator1(style="width:100%")
-
-                                            .form-group
-                                                label.col-lg-2.control-label Comparator 1
-                                                .col-lg-10
-                                                    select#comparator1(style="width:100%")
-
-                                            .form-group
-                                                label.col-lg-2.control-label Right operator 1
-                                                .col-lg-10
-                                                    input.form-control#rightOperator1(type='text', required='required')
 
                             .form-group#actionForm
                                 label.col-lg-2.control-label Action
                                 .col-lg-10
-                                    .form-group
+                                    //.form-group
                                         label.col-lg-2.control-label Name
                                         .col-lg-10
                                             input#actionName.form-control(type='text', name='actionName', required='required')
@@ -84,11 +58,14 @@ block content
 
                                     .form-group
                                         label.col-lg-2.control-label Parameters
-                                        .col-lg-10
-                                            select#actionParameters(multiple="multiple", style="width:100%")
+                                        ul.nav.nav-tabs(role='tablist')#actionTabPanel
+                                            button#addActionParameter.btn.btn-primary.btn-md(type='submit') +
+                                            li(role='presentation')
+
+                                        .tab-content.fill#actionTabContent
 
                             .form-group#windowTimeForm
-                                label.col-lg-2.control-label(for='windowTime') Bounded in a Time Window of (min)
+                                label.col-lg-2.control-label(for='windowTime') Within
                                 .col-lg-10
                                     input#windowTime.form-control(type='text', name='windowTime')
 
@@ -97,6 +74,9 @@ block content
                                 .col-lg-10
                                     input#windowSize.form-control(type='text', name='windowSize')
 
-                            .form-group
+                            //.form-group
                                 .col-lg-10.col-lg-offset-2
                                     button#submitEcaRule.btn.btn-primary.btn-lg.btn-block(type='submit') Submit
+                            .form-group
+                                .col-lg-10.col-lg-offset-2
+                                    button#directGeneration.btn.btn-primary.btn-lg.btn-block(type='submit') Direct Generation

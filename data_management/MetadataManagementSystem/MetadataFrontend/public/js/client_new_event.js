@@ -43,21 +43,21 @@ $(document).ready( function() {
         }
     });
 
-    $('#submitRelease').on("click", function(e){
+    $('#submitEvent').on("click", function(e){
         e.preventDefault();
 
-        var release = new Object();
-        release["event"] = $("#event").val();
-        release["jsonInstances"] = JSON.stringify(editor.get());
-        release["kafkaTopic"] = $("#kafkaTopic").val();
-        release["dispatch"] = $("#dispatch")[0].checked;
-        release["dispatcherStrategy"] = $("#dispatcherStrategy").val();
-        release["platform"] = $("#platform").val();
+        var event = new Object();
+        event.event = $("#event").val();
+        event.jsonInstances = JSON.stringify(editor.get());
+        event.kafkaTopic = $("#kafkaTopic").val();
+        event.dispatch = $("#dispatch")[0].checked;
+        event.dispatcherStrategy = $("#dispatcherStrategy").val();
+        event.platform = $("#platform").val();
 
         $.ajax({
             url: '/event',
             type: 'POST',
-            data: release
+            data: event
         }).done(function() {
             window.location.href = '/manage_events';
         }).fail(function(err) {

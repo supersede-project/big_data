@@ -156,7 +156,7 @@ public class ArtifactResource {
     @POST @Path("artifacts/{graph}")
     @Consumes("text/plain")
     public Response POST_artifacts(@PathParam("graph") String graph, String RDF) {
-        System.out.println("[POST /artifacts/"+graph);
+        System.out.println("[POST /artifacts/ "+graph);
 
         System.out.println("the RDF is "+RDF);
 

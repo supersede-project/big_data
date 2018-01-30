@@ -23,6 +23,7 @@ public class Attribute extends Operand {
     public Attribute(String name, AttributeType attributeType, EventSchema event) {
         super();
         this.name = name;
+        this.attributeType = attributeType;
         this.event = event;
     }
 
@@ -33,6 +34,7 @@ public class Attribute extends Operand {
     public Attribute(String name, AttributeType attributeType, String IRI, EventSchema event) {
         super(IRI);
         this.name = name;
+        this.attributeType = attributeType;
         this.event = event;
     }
 

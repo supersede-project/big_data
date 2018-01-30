@@ -5,7 +5,10 @@ package eu.supersede.mdm.storage.model.bdi_ontology.eca_rules;
  */
 public enum ActionTypes {
     ALERT_EVOLUTION("Software Evolution Alert"),
-    ALERT_DYNAMIC_ADAPTATION("Dynamic Adaptation Alert");
+    ALERT_DYNAMIC_ADAPTATION("Dynamic Adaptation Alert"),
+    ALERT_MONITOR_RECONFIGURATION("Monitors Reconfiguration Alert"),
+    ALERT_FEEDBACK_RECONFIGURATION("Feedback Reconfiguration Alert");
+
 
     private String element;
 

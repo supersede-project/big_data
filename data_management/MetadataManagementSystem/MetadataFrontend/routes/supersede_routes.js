@@ -15,3 +15,23 @@ exports.getPlatforms = function (req, res, next) {
     });
 };
 
+exports.feedbackReconfiguration = function (req, res, next) {
+    if (!(req.body.hasOwnProperty('applicationId')) || req.body.applicationId == null
+        || !(req.body.hasOwnProperty('configurationId')) || req.body.configurationId == null
+        || !(req.body.hasOwnProperty('tenant')) || req.body.tenant == null) {
+        res.status(400).json({msg: "(Bad Request) data format: applicationId, configurationId, tenant}"});
+    }
+    var reconf = new Object();
+    reconf.applicationId = req.body.applicationId;
+    reconf.configurationId = req.body.configurationId;
+    reconf.tenant = req.body.tenant;
+    $.ajax({
+        url: '/supersede/feedbackReconfiguration',
+        type: 'POST',
+        data: reconf
+    }).done(function() {
+        res.status(200).json("Success");
+    }).fail(function(err) {
+        res.status(500).json(err);
+    });
+};

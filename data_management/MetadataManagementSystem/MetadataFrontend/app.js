@@ -146,6 +146,7 @@ app.post('/event', event_routes.postEvent);
 /********** SUPERSEDE resource *************************************************************/
 
 app.get('/supersede/platforms', supersede_routes.getPlatforms);
+app.post('/supersede/feedbackReconfiguration', supersede_routes.feedbackReconfiguration);
 
 /********** Statistical Analysis Model resource ******************************************/
 
@@ -173,6 +174,7 @@ app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
 app.get('/cer_rule/:eca_ruleID', cer_rule_routes.getCerRule);
 app.get('/cer_rule', cer_rule_routes.getAllCerRules);
 app.post('/cer_rule', cer_rule_routes.postCerRule);
+app.post('/cer_rule/directGeneration', cer_rule_routes.directGeneration);
 app.get('/cer_rule/:ruleName/generate_config_file', cer_rule_routes.generateConfigFile);
 
 
