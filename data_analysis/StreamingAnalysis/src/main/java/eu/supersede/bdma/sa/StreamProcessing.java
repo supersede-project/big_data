@@ -101,6 +101,10 @@ public class StreamProcessing {
         JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
                 Utils.getKafkaStream(streamCtx, Sets.newHashSet(events.stream().map(e -> e.getKafkaTopic()).collect(Collectors.toList())), this.kafkaParams);
 
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_PRINT_STREAM_TO_STDOUT"))) {
+            System.out.println("LAUNCH_PRINT_STREAM_TO_STDOUT");
+            PrintStreamToStdout.process(kafkaStream);
+        }
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_DISPATCHER"))) {
             System.out.println("LAUNCH_DISPATCHER");
             Dispatcher.process(kafkaStream);
@@ -121,5 +125,10 @@ public class StreamProcessing {
             System.out.println("LAUNCH_RULE_EVALUATION");
             RuleEvaluation.process(kafkaStream,broadcastEvents,broadcastRules/*,evo_adapt*/);
         }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_FG_RECONFIGURATION"))) {
+            System.out.println("LAUNCH_FG_RECONFIGURATION");
+            FGReconfiguration.process(ctx);
+        }
+
     }
 }
