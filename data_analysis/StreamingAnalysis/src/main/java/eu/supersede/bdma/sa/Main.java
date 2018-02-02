@@ -1,21 +1,12 @@
 package eu.supersede.bdma.sa;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
 import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
-
-import eu.supersede.bdma.sa.usecase_specific.Atos_SA;
-import eu.supersede.bdma.sa.usecase_specific.Siemens_SA;
 import eu.supersede.bdma.sa.utils.Properties;
-
-import java.net.URL;
-import java.util.Enumeration;
 
 /**
  * Created by snadal on 20/09/16.
@@ -45,22 +36,29 @@ public class Main {
     }
 
     private static boolean validProperties(Properties properties) {
-        if (properties.getProperty("BOOTSTRAP_SERVERS_CONFIG") == null ||
+        return !
+            (properties.getProperty("BOOTSTRAP_SERVERS_CONFIG") == null ||
             properties.getProperty("KEY_SERIALIZER_CLASS_CONFIG") == null ||
             properties.getProperty("VALUE_SERIALIZER_CLASS_CONFIG") == null ||
             properties.getProperty("SPARK_MASTER_HOSTNAME") == null ||
             properties.getProperty("MICROBATCH_PERIOD") == null ||
             properties.getProperty("GROUP_ID") == null ||
             properties.getProperty("AUTO_OFFSET_RESET") == null ||
+
+            properties.getProperty("FG_RECONFIGURATION_PERIOD_MS") == null ||
+            properties.getProperty("FG_RECONFIGURATION_FROM_MS") == null ||
+            properties.getProperty("PATH_FEEDBACK_FILE") == null ||
+            properties.getProperty("IDs_FOR_CATEGORIES") == null ||
+
+            properties.getProperty("WINDOW_SIZE_EVOLUTION_MS") == null ||
+            properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS") == null ||
+            properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS") == null ||
+
             properties.getProperty("LAUNCH_DISPATCHER") == null ||
             properties.getProperty("LAUNCH_DATA_SOURCE_STATISTICS") == null ||
             properties.getProperty("LAUNCH_GENERIC_STREAM_STATISTICS") == null ||
             properties.getProperty("LAUNCH_RAW_DATA_TO_LIVE_FEED") == null ||
-            properties.getProperty("LAUNCH_RULE_EVALUATION") == null
-        ) {
-            return false;
-        }
-        return true;
+            properties.getProperty("LAUNCH_RULE_EVALUATION") == null);
     }
 
 }

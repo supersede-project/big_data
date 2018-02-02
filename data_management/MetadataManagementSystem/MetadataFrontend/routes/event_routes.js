@@ -54,7 +54,7 @@ exports.postEvent = function (req, res, next) {
         else event.kafkaTopic = req.body.kafkaTopic;
 
         event.dispatch = !(req.body.hasOwnProperty('event')) || req.body.event == null ? false : req.body.dispatch;
-        var graphName = config.DEFAULT_NAMESPACE+"Event/"+randomstring.generate();//randomstring.generate();
+        var graphName = config.DEFAULT_NAMESPACE+/*"Event/"+*/randomstring.generate();
         event.graph = graphName;
         event.dispatcherStrategy = req.body.dispatcherStrategy;
 

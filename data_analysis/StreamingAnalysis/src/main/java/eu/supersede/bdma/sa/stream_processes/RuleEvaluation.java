@@ -4,6 +4,7 @@ import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.io.Files;
+import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
 import eu.supersede.bdma.sa.eca_rules.SerializableECA_Rule;
 import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
@@ -17,6 +18,7 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.integration.api.mdm.types.ActionTypes;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
 import eu.supersede.integration.api.mdm.types.Event;
+import eu.supersede.integration.api.mdm.types.OperatorTypes;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.Duration;
@@ -118,6 +120,45 @@ public class RuleEvaluation {
         return nRules;
     }
 
+    private static void windowBasedRuleEvaluation(JavaPairDStream<String, Tuple2<String,Long>> window,
+                                                  ActionTypes windowType, Broadcast<List<Event>> events,
+                                                  Broadcast<List<ECA_Rule>> rules) {
+        window
+            .groupByKey()
+            .foreachRDD(rdd -> {
+                rdd.foreach(records -> {
+                    rules.value().forEach(eca_rule -> {
+                        if (eca_rule.getEvent().getKafkaTopic().equals(records._1)) {
+                            List<String> data = Lists.newArrayList();
+                            /*
+                            records._2().forEach(t -> {
+                                if (firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) < t._2() &&
+                                        firedRulesXTimestamp.get(rule.getEca_ruleID())+(evo_adapt.equals("evolution") ? 7200000 : 300000) < System.currentTimeMillis()) {
+                                    data.add(t._1());
+                                }
+                            });
+                            */
+                            eca_rule.getConditions().forEach(condition -> {
+                                switch (condition.getOperator()) {
+                                    case "Value": {
+                                        List<String> extractedData = Lists.newArrayList();
+                                        for (String json : data) {
+                                            Utils.extractFeatures(json,condition.getAttribute()).forEach(element -> extractedData.add(element));
+                                        }
+
+                                    }
+                                }
+                            });
+
+
+                        }
+                    });
+                });
+            });
+        System.out.println(windowType);
+        window.print();
+    }
+
 
     public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream,
                                Broadcast<List<Event>> events,
@@ -126,15 +167,51 @@ public class RuleEvaluation {
             firedRulesXTimestamp.put(r, Long.valueOf(0));
         }
 
-        JavaDStream nonEmptyStream = kafkaStream.filter(record -> !record.value().isEmpty());
+        JavaDStream<ConsumerRecord<String, String>> nonEmptyStream = kafkaStream.filter(record -> !record.value().isEmpty());
 
-        JavaDStream evolutionWindow = nonEmptyStream.window(new Duration(7200000),new Duration(5000));
-        JavaDStream adaptationWindow = nonEmptyStream.window(new Duration(300000),new Duration(5000));
+        JavaPairDStream<String, Tuple2<String,Long>> evolutionWindow = nonEmptyStream
+                .flatMapToPair(record -> {
+                    List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
+                    rules.value().forEach(rule -> {
+                        if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
+                                rule.getAction().val().equals(ActionTypes.ALERT_EVOLUTION.val())) {
+                            recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
+                                    new Tuple2<String, Long>(record.value(),System.currentTimeMillis())));
+                        }
+                    });
+                    return recordsPerRule.iterator();
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"))),new Duration(5000));
 
-        System.out.println("Evolution window");
-        evolutionWindow.print();
-        System.out.println("Adaptation window");
-        adaptationWindow.print();
+        JavaPairDStream<String, Tuple2<String,Long>> adaptationWindow = nonEmptyStream
+                .flatMapToPair(record -> {
+                    List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
+                    rules.value().forEach(rule -> {
+                        if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
+                                rule.getAction().val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val())) {
+                            recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
+                                    new Tuple2<String, Long>(record.value(),System.currentTimeMillis())));
+                        }
+                    });
+                    return recordsPerRule.iterator();
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"))),new Duration(5000));
+
+        JavaPairDStream<String, Tuple2<String,Long>> monitorReconfigurationWindow = nonEmptyStream
+                .flatMapToPair(record -> {
+                    List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
+                    rules.value().forEach(rule -> {
+                        System.out.println(rule.getAction().val() + " -- " +ActionTypes.ALERT_MONITOR_RECONFIGURATION.val());
+                        if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
+                                rule.getAction().val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val())) {
+                            recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
+                                    new Tuple2<String, Long>(record.value(),System.currentTimeMillis())));
+                        }
+                    });
+                    return recordsPerRule.iterator();
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"))),new Duration(5000));
+
+        windowBasedRuleEvaluation(evolutionWindow,ActionTypes.ALERT_EVOLUTION,events,rules);
+        windowBasedRuleEvaluation(adaptationWindow,ActionTypes.ALERT_DYNAMIC_ADAPTATION,events,rules);
+        windowBasedRuleEvaluation(monitorReconfigurationWindow,ActionTypes.ALERT_MONITOR_RECONFIGURATION,events,rules);
 
 
 /*

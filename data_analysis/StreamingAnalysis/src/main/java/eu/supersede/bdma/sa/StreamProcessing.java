@@ -89,7 +89,7 @@ public class StreamProcessing {
         System.out.println("####################################");
         System.out.println("Rules");
         System.out.println("####################################");
-        rules.forEach(r -> System.out.print(r.getName() + ", "));
+        rules.forEach(r -> System.out.print(r.getName() + "("+r.getEvent().getKafkaTopic()+"), "));
         System.out.println();
     }
 

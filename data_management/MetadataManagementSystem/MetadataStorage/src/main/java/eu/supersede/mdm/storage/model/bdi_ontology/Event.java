@@ -22,7 +22,7 @@ public class Event {
     public static JSONObject newEvent(String Evt, String JSON_artifact) throws FileNotFoundException {
         JSONObject J = (JSONObject) JSONValue.parse(JSON_artifact);
         //Line 2 @ Algorithm 2
-        String Evt_uri = EventOntology.EVENT.val()+"/"+Evt;
+        String Evt_uri = EventOntology.EVENT.val()+"/"+Evt+"/Attributes";
 
         /**
          * TODO: line 3,4,5 Algorithm 2

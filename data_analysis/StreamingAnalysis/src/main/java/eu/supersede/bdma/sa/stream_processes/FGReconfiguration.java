@@ -43,21 +43,14 @@ public class FGReconfiguration {
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                FeedbackOrchestratorProxy proxy = null;
-                try {
-                    proxy = new FeedbackOrchestratorProxy(System.getProperty("is.admin.user"),
-                            System.getProperty("is.admin.password"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
                 Alert alert = new Alert();
                 alert.setId("id"+ System.currentTimeMillis());
                 alert.setApplicationId("Senercon");
                 alert.setTimestamp(System.currentTimeMillis());
                 alert.setTenant(ModelSystem.SenerconFG);
                 List<Condition> conditions = Lists.newArrayList();
-                conditions.add(new Condition(new DataID("FGTool", "category"), Operator.GT, 1.0)); //feature category        alert.setConditions(conditions);
+                conditions.add(new Condition(new DataID("FGTool", "category"), Operator.GT, 1.0)); //feature category
+                alert.setConditions(conditions);
 
                 List<ActionOnAttribute> actions = Lists.newArrayList();
 
