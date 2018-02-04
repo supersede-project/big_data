@@ -19,5 +19,8 @@ public class TextCondition {
         this.x = x;
     }
 
+    public static int compareStrings(String A, String B) {
+        return A.equals(B) ? 1 : 0;
+    }
 
 }

@@ -55,7 +55,7 @@ public class Utils {
     public static List<String> extractFeatures(String JSON, String Feature) {
         List<String> out = Lists.newArrayList();
         // First, extract the namespace until "Feature" using regex
-        Pattern p = Pattern.compile(".*Feature\\/(.*)");
+        Pattern p = Pattern.compile(".*Attributes\\/(.*)");
         Matcher m = p.matcher(Feature);
         if (m.find()) {
             String path = m.group(1);

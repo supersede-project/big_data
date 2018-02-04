@@ -8,6 +8,7 @@ import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
 import eu.supersede.bdma.sa.eca_rules.SerializableECA_Rule;
 import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
+import eu.supersede.bdma.sa.eca_rules.conditions.ConditionEvaluator;
 import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
 import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
 import eu.supersede.bdma.sa.utils.Sockets;
@@ -15,10 +16,7 @@ import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
-import eu.supersede.integration.api.mdm.types.ActionTypes;
-import eu.supersede.integration.api.mdm.types.ECA_Rule;
-import eu.supersede.integration.api.mdm.types.Event;
-import eu.supersede.integration.api.mdm.types.OperatorTypes;
+import eu.supersede.integration.api.mdm.types.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.Duration;
@@ -47,78 +45,10 @@ import java.util.*;
  */
 public class RuleEvaluation {
 
-    private static Map<ECA_Rule, Long> firedRulesXTimestamp = Maps.newConcurrentMap();
+    private static Map<String, Long> firedRulesXTimestamp = Maps.newConcurrentMap();
 
-    private static KnowledgePackage compilePkgDescr(PackageDescr pkg ) {
-        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        kbuilder.add( ResourceFactory.newDescrResource( pkg ),
-                ResourceType.DESCR );
-        Collection<KnowledgePackage> kpkgs = kbuilder.getKnowledgePackages();
-        return kpkgs.iterator().next();
-    }
 
-    private static int evaluateNumericRule(String operator, String ruleValue, String[] values) {
-        if (operator.equals("=")) operator = "==";
-        System.out.println("evaluateNumericRule("+operator+","+ruleValue+","+ Arrays.toString(values));
-        PackageDescr pkg =
-                DescrFactory.newPackage()
-                        .name("sa.pkg")
-                        .newRule().name("numericRule")
-                        .lhs()
-                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
-                        .end()
-                        .rhs("System.out.println(\"\");")
-                        .end()
-                        .getDescr();
 
-        KnowledgePackage kpkg = compilePkgDescr(pkg);
-        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-        kbase.addKnowledgePackages(Collections.singleton(kpkg));
-        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
-
-        for (String strNum : values) {
-            ksession.insert(new DoubleCondition(Double.parseDouble(strNum)));
-        }
-
-        int nRules = ksession.fireAllRules();
-
-        return nRules;
-    }
-
-    private static int evaluateFeedbackRule(String operator, String ruleValue, String[] values) throws Exception {
-        if (operator.equals("=")) operator = "==";
-        System.out.println("evaluateFeedbackRule("+operator+","+ruleValue+","+Arrays.toString(values));
-
-        PackageDescr pkg =
-                DescrFactory.newPackage()
-                        .name("sa.pkg")
-                        .newRule().name("numericRule")
-                        .lhs()
-                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
-                        .end()
-                        .rhs("System.out.println(\"\");")
-                        .end()
-                        .getDescr();
-
-        KnowledgePackage kpkg = compilePkgDescr(pkg);
-        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-        kbase.addKnowledgePackages(Collections.singleton(kpkg));
-        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
-
-        FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
-        String path = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
-        for (String str : values) {
-            String label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
-            System.out.println("Extracted value ["+str+"]");
-            Sockets.sendMessageToSocket("analysis","Extracted value: "+str);
-            System.out.println("Classified as ["+label+"]");
-            Sockets.sendMessageToSocket("analysis","Classified as: "+label);
-            ksession.insert(new TextCondition(label));
-        }
-        int nRules = ksession.fireAllRules();
-        System.out.println(nRules + " satisfy the condition");
-        return nRules;
-    }
 
     private static void windowBasedRuleEvaluation(JavaPairDStream<String, Tuple2<String,Long>> window,
                                                   ActionTypes windowType, Broadcast<List<Event>> events,
@@ -128,35 +58,63 @@ public class RuleEvaluation {
             .foreachRDD(rdd -> {
                 rdd.foreach(records -> {
                     rules.value().forEach(eca_rule -> {
-                        if (eca_rule.getEvent().getKafkaTopic().equals(records._1)) {
+                        if (eca_rule.getEca_ruleID().equals(records._1)) {
                             List<String> data = Lists.newArrayList();
-                            /*
+
                             records._2().forEach(t -> {
+                                long windowSize;
+                                if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val()))
+                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"));
+                                else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val()))
+                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"));
+                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val()))
+                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"));
+                                else windowSize = 0;
+
                                 if (firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) < t._2() &&
-                                        firedRulesXTimestamp.get(rule.getEca_ruleID())+(evo_adapt.equals("evolution") ? 7200000 : 300000) < System.currentTimeMillis()) {
+                                        firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) + windowSize < System.currentTimeMillis()) {
                                     data.add(t._1());
                                 }
                             });
-                            */
-                            eca_rule.getConditions().forEach(condition -> {
-                                switch (condition.getOperator()) {
-                                    case "Value": {
-                                        List<String> extractedData = Lists.newArrayList();
-                                        for (String json : data) {
-                                            Utils.extractFeatures(json,condition.getAttribute()).forEach(element -> extractedData.add(element));
-                                        }
+                            boolean allConditionsOK = true;
+                            for (Condition condition : eca_rule.getConditions()) {
+                                if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.VALUE)) {
+                                    List<String> extractedData = Lists.newArrayList();
+                                    for (String json : data) {
+                                        Utils.extractFeatures(json, condition.getAttribute()).forEach(element -> extractedData.add(element));
+                                    }
+                                    //Check if we are comparing numbers or strings
+                                    int valids = 0;
+                                    if (!extractedData.isEmpty()) {
+                                        try {
+                                            Double.parseDouble(extractedData.get(0));
+                                            valids = ConditionEvaluator.evaluateNumericRule(condition.getPredicate(),
+                                                    condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                            System.out.println("Valids for numeric rule = "+valids+", window size = "+eca_rule.getWindowSize());
 
+                                        } catch (Exception exc) {
+                                            valids = ConditionEvaluator.evaluateTextualRule(condition.getPredicate(),
+                                                    condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                            System.out.println("Valids for textual rule = "+valids+", window size = "+eca_rule.getWindowSize());
+
+                                        }
+                                    }
+                                    if (valids < eca_rule.getWindowSize()) {
+                                        allConditionsOK = false;
                                     }
                                 }
-                            });
+                            }
+                            System.out.println("Conditions? - "+allConditionsOK);
+                            if (allConditionsOK) {
+                                firedRulesXTimestamp.put(eca_rule.getEca_ruleID(),System.currentTimeMillis());
+                                System.out.println("Firing alert!");
+                            }
 
 
                         }
                     });
                 });
             });
-        System.out.println(windowType);
-        window.print();
     }
 
 
@@ -164,7 +122,7 @@ public class RuleEvaluation {
                                Broadcast<List<Event>> events,
                                Broadcast<List<ECA_Rule>> rules) {
         for (ECA_Rule r : rules.value()) {
-            firedRulesXTimestamp.put(r, Long.valueOf(0));
+            firedRulesXTimestamp.put(r.getEca_ruleID(), Long.valueOf(0));
         }
 
         JavaDStream<ConsumerRecord<String, String>> nonEmptyStream = kafkaStream.filter(record -> !record.value().isEmpty());
@@ -199,7 +157,6 @@ public class RuleEvaluation {
                 .flatMapToPair(record -> {
                     List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
                     rules.value().forEach(rule -> {
-                        System.out.println(rule.getAction().val() + " -- " +ActionTypes.ALERT_MONITOR_RECONFIGURATION.val());
                         if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
                                 rule.getAction().val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val())) {
                             recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
