@@ -173,7 +173,7 @@ $(window).load(function() {
 
         //getComparators();
     });
-/*
+
     $('#submitEcaRule').on("click", function(e){
         e.preventDefault();
 
@@ -181,12 +181,12 @@ $(window).load(function() {
         CER_rule.ruleName = $("#name").val();
 
         CER_rule.pattern = $("#pattern").select2('data').map(function(e) { return e.id });
-        CER_rule.condition = $("#condition").val();
+        //CER_rule.condition = $("#condition").val();
 
         CER_rule.filters = new Array();
         for (i = 1; i <= tabCount; ++i) {
             var sc = new Object();
-            sc.name = $("#name"+i).val();
+            //sc.name = $("#name"+i).val();
             sc.event = $("#event"+i).val();
             sc.leftOperand = $("#leftOperator"+i).val();
             sc.comparator = $("#comparator"+i).val();
@@ -194,10 +194,15 @@ $(window).load(function() {
             CER_rule.filters.push(sc);
         }
 
-        //CER_rule.action = new Object();
-        CER_rule.actionName = $("#actionName").val();
+        //CER_rule.actionName = $("#actionName").val();
         CER_rule.actionType = $("#actionType").val();
-        CER_rule.actionParameters = $("#actionParameters").val();
+        CER_rule.actionParameters = new Array();
+        for (i = 1; i <= actionParameterTabCount; ++i) {
+            var ap = new Object();
+            ap.event = $("#actionEvent"+i).val();
+            ap.attribute = $("#attribute"+i).val();
+            CER_rule.actionParameters.push(ap);
+        }
 
         CER_rule.windowTime = $("#windowTime").val();
         CER_rule.windowSize = $("#windowSize").val();
@@ -212,7 +217,7 @@ $(window).load(function() {
             alert("error "+JSON.stringify(err));
         });
     });
-*/
+
     $('#directGeneration').on("click", function(e){
         e.preventDefault();
 

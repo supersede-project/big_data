@@ -171,7 +171,7 @@ app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
 
 /********** CER Rule resource *************************************************************/
 
-app.get('/cer_rule/:eca_ruleID', cer_rule_routes.getCerRule);
+app.get('/cer_rule/:cer_ruleID', cer_rule_routes.getCerRule);
 app.get('/cer_rule', cer_rule_routes.getAllCerRules);
 app.post('/cer_rule', cer_rule_routes.postCerRule);
 app.post('/cer_rule/directGeneration', cer_rule_routes.directGeneration);

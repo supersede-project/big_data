@@ -30,24 +30,23 @@ exports.getAllCerRules = function (req, res, next) {
 exports.postCerRule = function (req, res, next) {
    if (!(req.body.hasOwnProperty('ruleName')) || req.body.ruleName == null
         || !(req.body.hasOwnProperty('pattern')) || req.body.pattern == null
-        || !(req.body.hasOwnProperty('condition')) || req.body.condition == null
         || !(req.body.hasOwnProperty('filters')) || req.body.filters == null
-        || !(req.body.hasOwnProperty('action')) || req.body.action == null
+        || !(req.body.hasOwnProperty('actionParameters')) || req.body.actionParameters == null
         || !(req.body.hasOwnProperty('windowTime')) || req.body.windowTime == null
         || !(req.body.hasOwnProperty('windowSize')) || req.body.windowSize == null) {
-        res.status(400).json({msg: "(Bad Request) data format: ruleName, pattern, filters, action, windowTime, windowSize}"});
+        res.status(400).json({msg: "(Bad Request) data format: ruleName, pattern, filters, actionParameters, windowTime, windowSize}"});
    }
    else {
         var rule = new Object();
         rule.ruleName = req.body.ruleName;
         rule.pattern = req.body.pattern;
-        rule.condition = req.body.condition;
         rule.filters = req.body.filters;
-        rule.action = req.body.action;
+        rule.actionType = req.body.actionType;
+        rule.actionParameters = req.body.actionParameters;
         rule.windowTime = req.body.windowTime;
         rule.windowSize = req.body.windowSize;
-        rule.type = "RULES";
-        rule.graph = config.DEFAULT_NAMESPACE+"RULE/"+randomstring.generate();
+        //rule.type = "RULES";
+        //rule.graph = config.DEFAULT_NAMESPACE+"RULE/"+randomstring.generate();
 
         console.log("Posting "+JSON.stringify(rule));
 

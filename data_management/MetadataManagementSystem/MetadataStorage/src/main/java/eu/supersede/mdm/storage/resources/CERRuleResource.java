@@ -69,7 +69,38 @@ public class CERRuleResource {
 
         MongoClient client = Utils.getMongoDBClient();
         JSONArray arr = new JSONArray();
-        getCerRulesCollection(client).find().iterator().forEachRemaining(document -> arr.add(document));
+        getCerRulesCollection(client).find().iterator().forEachRemaining(document -> {
+            JSONArray pattern = new JSONArray();
+            ((JSONArray)(JSONValue.parse(document.get("pattern").toString()))).forEach(event -> {
+                pattern.add(getEventsCollection(client).find(new Document("eventID",event)).first());
+            });
+            document.remove("pattern");
+            document.put("pattern",pattern);
+
+            JSONArray filters = new JSONArray();
+            ((List)document.get("filters")).forEach(strFilter -> {
+                Document filter = (Document)(strFilter);
+                String theEvent = filter.getString("event");
+                filter.remove("event");
+                filter.put("event",getEventsCollection(client).find(new Document("eventID",theEvent)).first());
+                filters.add(filter);
+            });
+            document.remove("filters");
+            document.put("filters",filters);
+
+            JSONArray actionParameters = new JSONArray();
+            ((List)document.get("actionParameters")).forEach(strActionParameter -> {
+                Document actionParameter = (Document)(strActionParameter);
+                String theEvent = actionParameter.getString("event");
+                actionParameter.remove("event");
+                actionParameter.put("event",getEventsCollection(client).find(new Document("eventID",theEvent)).first());
+                actionParameters.add(actionParameter);
+            });
+            document.remove("actionParameters");
+            document.put("actionParameters",actionParameters);
+
+            arr.add(document);
+        });
         client.close();
         return Response.ok(new Gson().toJson(arr)).build();
     }
@@ -84,6 +115,36 @@ public class CERRuleResource {
         MongoClient client = Utils.getMongoDBClient();
         Document query = new Document("cer_ruleID",cer_ruleID);
         Document res = getCerRulesCollection(client).find(query).first();
+
+        JSONArray pattern = new JSONArray();
+        ((JSONArray)(JSONValue.parse(res.get("pattern").toString()))).forEach(event -> {
+            pattern.add(getEventsCollection(client).find(new Document("eventID",event)).first());
+        });
+        res.remove("pattern");
+        res.put("pattern",pattern);
+
+        JSONArray filters = new JSONArray();
+        ((List)res.get("filters")).forEach(strFilter -> {
+            Document filter = (Document)(strFilter);
+            String theEvent = filter.getString("event");
+            filter.remove("event");
+            filter.put("event",getEventsCollection(client).find(new Document("eventID",theEvent)).first());
+            filters.add(filter);
+        });
+        res.remove("filters");
+        res.put("filters",filters);
+
+        JSONArray actionParameters = new JSONArray();
+        ((List)res.get("actionParameters")).forEach(strActionParameter -> {
+            Document actionParameter = (Document)(strActionParameter);
+            String theEvent = actionParameter.getString("event");
+            actionParameter.remove("event");
+            actionParameter.put("event",getEventsCollection(client).find(new Document("eventID",theEvent)).first());
+            actionParameters.add(actionParameter);
+        });
+        res.remove("actionParameters");
+        res.put("actionParameters",actionParameters);
+
         client.close();
 
         return Response.ok((res.toJson())).build();
@@ -105,7 +166,8 @@ public class CERRuleResource {
         objBody.put("cer_ruleID", UUID.randomUUID().toString());
         getCerRulesCollection(client).insertOne(Document.parse(objBody.toJSONString()));
 
-        /** Store it in triplestore **/
+        /**
+        // Store it in triplestore
         Dataset dataset = Utils.getTDBDataset();
         dataset.begin(ReadWrite.WRITE);
         Model model = dataset.getNamedModel(objBody.getAsString("graph"));
@@ -224,7 +286,7 @@ public class CERRuleResource {
         dataset.commit();
         dataset.end();
         dataset.close();
-
+        **/
         client.close();
         return Response.ok(objBody.toJSONString()).build();
     }

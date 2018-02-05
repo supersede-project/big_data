@@ -1,7 +1,6 @@
 package eu.supersede.bdma.sa.eca_rules.conditions;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
