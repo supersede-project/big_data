@@ -109,6 +109,10 @@ public class StreamProcessing {
             System.out.println("LAUNCH_DISPATCHER");
             Dispatcher.process(kafkaStream);
         }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_STREAM_UNIFIER_CEP"))) {
+            System.out.println("LAUNCH_STREAM_UNIFIER_CEP");
+            StreamUnifierCEP.process(kafkaStream);
+        }
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_DATA_SOURCE_STATISTICS"))) {
             System.out.println("LAUNCH_DATA_SOURCE_STATISTICS");
             DataSourceStatistics.process(kafkaStream);

@@ -3,19 +3,11 @@ package eu.supersede.bdma.sa.stream_processes;
 import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
-import com.google.common.io.Files;
 import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
-import eu.supersede.bdma.sa.eca_rules.SerializableECA_Rule;
 import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
 import eu.supersede.bdma.sa.eca_rules.conditions.ConditionEvaluator;
-import eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition;
-import eu.supersede.bdma.sa.eca_rules.conditions.TextCondition;
-import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
-import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
-import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
-import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.integration.api.mdm.types.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.broadcast.Broadcast;
@@ -23,21 +15,7 @@ import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
-import org.drools.compiler.lang.api.DescrFactory;
-import org.drools.compiler.lang.descr.PackageDescr;
-import org.kie.api.io.ResourceType;
-import org.kie.internal.KnowledgeBase;
-import org.kie.internal.KnowledgeBaseFactory;
-import org.kie.internal.builder.KnowledgeBuilder;
-import org.kie.internal.builder.KnowledgeBuilderFactory;
-import org.kie.internal.definition.KnowledgePackage;
-import org.kie.internal.io.ResourceFactory;
-import org.kie.internal.runtime.StatefulKnowledgeSession;
 import scala.Tuple2;
-
-import java.io.File;
-import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -46,9 +24,6 @@ import java.util.*;
 public class RuleEvaluation {
 
     private static Map<String, Long> firedRulesXTimestamp = Maps.newConcurrentMap();
-
-
-
 
     private static void windowBasedRuleEvaluation(JavaPairDStream<String, Tuple2<String,Long>> window,
                                                   ActionTypes windowType, Broadcast<List<Event>> events,
@@ -78,39 +53,62 @@ public class RuleEvaluation {
                             });
                             boolean allConditionsOK = true;
                             for (Condition condition : eca_rule.getConditions()) {
+                                int valids = 0;
+                                List<String> extractedData = Lists.newArrayList();
+                                for (String json : data) {
+                                    Utils.extractFeatures(json, condition.getAttribute()).forEach(element -> extractedData.add(element));
+                                }
+
                                 if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.VALUE)) {
-                                    List<String> extractedData = Lists.newArrayList();
-                                    for (String json : data) {
-                                        Utils.extractFeatures(json, condition.getAttribute()).forEach(element -> extractedData.add(element));
-                                    }
                                     //Check if we are comparing numbers or strings
-                                    int valids = 0;
                                     if (!extractedData.isEmpty()) {
                                         try {
                                             Double.parseDouble(extractedData.get(0));
                                             valids = ConditionEvaluator.evaluateNumericRule(condition.getPredicate(),
                                                     condition.getValue(), Iterables.toArray(extractedData, String.class));
-                                            System.out.println("Valids for numeric rule = "+valids+", window size = "+eca_rule.getWindowSize());
-
                                         } catch (Exception exc) {
                                             valids = ConditionEvaluator.evaluateTextualRule(condition.getPredicate(),
                                                     condition.getValue(), Iterables.toArray(extractedData, String.class));
-                                            System.out.println("Valids for textual rule = "+valids+", window size = "+eca_rule.getWindowSize());
-
                                         }
                                     }
-                                    if (valids < eca_rule.getWindowSize()) {
-                                        allConditionsOK = false;
-                                    }
                                 }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.FEEDBACK_CLASSIFIER_LABEL)) {
+                                    valids = ConditionEvaluator.evaluateFeedbackClassifierRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.OVERALL_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateOverallSentimentRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.POSITIVE_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluatePositiveSentimentRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.NEGATIVE_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateNegativeSentimentRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+
+                                if (valids < eca_rule.getWindowSize()) allConditionsOK = false;
+
                             }
-                            System.out.println("Conditions? - "+allConditionsOK);
                             if (allConditionsOK) {
                                 firedRulesXTimestamp.put(eca_rule.getEca_ruleID(),System.currentTimeMillis());
-                                System.out.println("Firing alert!");
+                                if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val())) {
+                                    List<String> feedbacks = Lists.newArrayList();
+                                    for (String json : data) {
+                                         Utils.extractFeatures(json,"Attributes/textFeedbacks/text").
+                                                 forEach(e -> feedbacks.add(e));
+                                    }
+                                    SoftwareEvolutionAlert.sendAlert(eca_rule, Iterables.toArray(feedbacks,String.class));
+                                }
+                                else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val())) {
+                                    DynamicAdaptationAlert.sendAlert(eca_rule);
+                                }
+                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val())) {
+
+                                }
                             }
-
-
                         }
                     });
                 });
@@ -170,105 +168,5 @@ public class RuleEvaluation {
         windowBasedRuleEvaluation(adaptationWindow,ActionTypes.ALERT_DYNAMIC_ADAPTATION,events,rules);
         windowBasedRuleEvaluation(monitorReconfigurationWindow,ActionTypes.ALERT_MONITOR_RECONFIGURATION,events,rules);
 
-
-/*
-        JavaPairDStream<String, Tuple2<String,Long>> theStream = kafkaStream.
-                filter(record -> !record.value().isEmpty()).
-                flatMapToPair(record -> {
-            List<Tuple2<String, Tuple2<String,Long>>> out = Lists.newArrayList();
-            rules.value().forEach(rule -> {
-                if (rule.getEvent().getKafkaTopic().equals(record.topic())) {
-                    String tuple = record.value().toString();
-                    // Filter for feedback demo, not to interfere with other users
-                    if (record.topic().equals("5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4") && evo_adapt.equals("evolution")) {
-                        System.out.println(rule.getName() + " - " + rule.getKafkaTopic() + " - "+record.topic());
-                        if (Utils.extractFeatures(tuple, rule.getFeature()) != null &&
-                            Utils.extractFeatures(tuple,"http://www.BDIOntology.com/global/Feature/userIdentification").get(0).equals("243205")) {
-                            out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
-                        }
-                    } else {
-                        if (Utils.extractFeatures(tuple, rule.getFeature()) != null) {
-                            out.add(new Tuple2<String, Tuple2<String, Long>>(rule.getEca_ruleID(), new Tuple2<String, Long>(tuple, System.currentTimeMillis())));
-                        }
-                    }
-                }
-            });
-            System.out.println("Extracted "+out.toString());
-            return out.iterator();
-        }).window(new Duration(evo_adapt.equals("evolution") ? 7200000 : 300000), new Duration(5000));
-*/
-/**
-        theStream
-            .groupByKey()
-            .foreachRDD(records -> {
-                records.foreach(set -> {
-                        for (SerializableECA_Rule rule : rules) {
-                            // if the data is for that rule
-                            if (set._1().equals(rule.getEca_ruleID())) {
-                                List<String> data = Lists.newArrayList();
-                                set._2().forEach(t -> {
-                                    if (firedRulesXTimestamp.get(rule.getEca_ruleID()) < t._2() && firedRulesXTimestamp.get(rule.getEca_ruleID())+(evo_adapt.equals("evolution") ? 7200000 : 300000) < System.currentTimeMillis()) {
-                                        data.add(t._1());
-                                    }
-                                });
-
-                                switch (rule.getOperator()) {
-                                    case VALUE: {
-                                        List<String> extractedData = Lists.newArrayList();
-                                        for (String json : data) {
-                                            Utils.extractFeatures(json,rule.getFeature()).forEach(element -> extractedData.add(element));
-                                        }
-
-                                        int valids = evaluateNumericRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(extractedData, String.class));
-                                        Sockets.sendMessageToSocket("analysis", "["+rule.getName()+"] "+valids + "/" + rule.getWindowSize() + " satisfy the condition");
-                                        if (valids >= rule.getWindowSize()) {
-                                            // Set the timestamp when the last alert has been triggered
-                                            firedRulesXTimestamp.put(rule.getEca_ruleID(),System.currentTimeMillis());
-
-                                            if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
-                                                Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
-
-                                                //TO DO: remember to replace
-
-                                                DynamicAdaptationAlert.sendAlert(rule);
-                                            } else {
-                                                Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
-                                                List<String> feedbacks = Lists.newArrayList();
-                                                for (String json : data) {
-                                                    Utils.extractFeatures(json,"http://www.BDIOntology.com/global/Feature/ratingFeedbacks/rating").forEach(element -> {
-                                                        if (Double.parseDouble(element)<3) {
-                                                            Utils.extractFeatures(json,"http://www.BDIOntology.com/global/Feature/textFeedbacks/text").forEach(e -> feedbacks.add(e));
-                                                        }
-                                                    });
-                                                }
-                                                //TO DO: remember to replace
-                                                //SoftwareEvolutionAlert.sendAlert(Iterables.toArray(feedbacks,String.class));
-
-                                            }
-                                        }
-                                        break;
-                                    }
-                                    //case FEEDBACK_CLASSIFIER_LABEL: {
-                                    //    int valids = evaluateFeedbackRule(rule.getPredicate().val(), rule.getValue().toString(), Iterables.toArray(set._2(), String.class));
-                                    //    Sockets.sendMessageToSocket("analysis", valids + "/" + rule.getWindowSize() + " satisfy the condition");
-                                    //    if (valids >= rule.getWindowSize()) {
-                                    //        if (rule.getAction().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION)) {
-                                    //            Sockets.sendMessageToSocket("analysis", "Sending alert for DYNAMIC_ADAPTATION");
-                                    //            DynamicAdaptationAlert.sendAlert(rule);
-                                    //        } else {
-                                    //            Sockets.sendMessageToSocket("analysis", "Sending alert for SOFTWARE_EVOLUTION");
-                                    //            SoftwareEvolutionAlert.sendAlert(Iterables.toArray(set._2(), String.class));
-                                    //        }
-                                    //    }
-                                    //    break;
-                                    //}
-                                }
-                                //}
-                            }
-                        }
-                    });
-                System.out.println("#");
-            });
-**/
     }
 }

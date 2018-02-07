@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
+import eu.supersede.feedbackanalysis.ds.SentimentAnalysisResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
+import eu.supersede.feedbackanalysis.sentiment.MLSentimentAnalyzer;
+import eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer;
 import org.drools.compiler.lang.api.DescrFactory;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.kie.api.io.ResourceType;
@@ -67,14 +70,13 @@ public class ConditionEvaluator {
     public static int evaluateTextualRule(String operator, String ruleValue, String[] values) {
         operator = operators.get(operator);
         System.out.println("evaluateTextualRule("+operator+","+ruleValue+","+ Arrays.toString(values));
-        /*
+
         PackageDescr pkg =
                 DescrFactory.newPackage()
                         .name("sa.pkg")
                         .newRule().name("textualRule")
                         .lhs()
-                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition")
-                            .constraint("java.util.Objects.equals(x,"+ruleValue+")").end()
+                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
                         .end()
                         .rhs("System.out.println(\"\");")
                         .end()
@@ -87,23 +89,25 @@ public class ConditionEvaluator {
             ksession.insert(new TextCondition(str));
         }
         int nRules = ksession.fireAllRules();
-        return nRules;*/
+        return nRules;
+        /*
         int nRules = 0;
         // TODO: compare strings using Drools
         for (String val : values) {
             if (val.equals(ruleValue)) ++nRules;
         }
         return nRules;
+        */
     }
 
-    public static int evaluateFeedbackRule(String operator, String ruleValue, String[] values) throws Exception {
-        if (operator.equals("=")) operator = "==";
-        System.out.println("evaluateFeedbackRule("+operator+","+ruleValue+","+Arrays.toString(values));
+    public static int evaluateFeedbackClassifierRule(String operator, String ruleValue, String[] values) {
+        operator = operators.get(operator);
+        System.out.println("evaluateFeedbackClassifierRule("+operator+","+ruleValue+","+Arrays.toString(values));
 
         PackageDescr pkg =
                 DescrFactory.newPackage()
                         .name("sa.pkg")
-                        .newRule().name("numericRule")
+                        .newRule().name("FeedbackClassifierRule")
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
                         .end()
@@ -119,12 +123,131 @@ public class ConditionEvaluator {
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String path = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         for (String str : values) {
-            String label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
+            String label = null;
+            try {
+                label = feedbackClassifier.classify(path, new UserFeedback(str)).getLabel();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             System.out.println("Extracted value ["+str+"]");
-            Sockets.sendMessageToSocket("analysis","Extracted value: "+str);
+            //Sockets.sendMessageToSocket("analysis","Extracted value: "+str);
             System.out.println("Classified as ["+label+"]");
-            Sockets.sendMessageToSocket("analysis","Classified as: "+label);
+            //Sockets.sendMessageToSocket("analysis","Classified as: "+label);
             ksession.insert(new TextCondition(label));
+        }
+        int nRules = ksession.fireAllRules();
+        System.out.println(nRules + " satisfy the condition");
+        return nRules;
+    }
+
+    public static int evaluateOverallSentimentRule(String operator, String ruleValue, String[] values) {
+        operator = operators.get(operator);
+        System.out.println("evaluateOverallSentimentRule("+operator+","+ruleValue+","+Arrays.toString(values));
+
+        PackageDescr pkg =
+                DescrFactory.newPackage()
+                        .name("sa.pkg")
+                        .newRule().name("OverallSentimentRule")
+                        .lhs()
+                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
+                        .end()
+                        .rhs("System.out.println(\"\");")
+                        .end()
+                        .getDescr();
+
+        KnowledgePackage kpkg = compilePkgDescr(pkg);
+        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+        kbase.addKnowledgePackages(Collections.singleton(kpkg));
+        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+
+        String path = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
+        for (String str : values) {
+            SentimentAnalyzer sa = new MLSentimentAnalyzer();
+            SentimentAnalysisResult saRes = null;
+            try {
+                saRes = sa.classify(path,new UserFeedback(str));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //Sockets.sendMessageToSocket("analysis","Classified as: "+label);
+            ksession.insert(new DoubleCondition(saRes.getOverallSentiment()));
+        }
+        int nRules = ksession.fireAllRules();
+        System.out.println(nRules + " satisfy the condition");
+        return nRules;
+    }
+
+    public static int evaluatePositiveSentimentRule(String operator, String ruleValue, String[] values) {
+        operator = operators.get(operator);
+        System.out.println("evaluatePositiveSentimentRule("+operator+","+ruleValue+","+Arrays.toString(values));
+
+        PackageDescr pkg =
+                DescrFactory.newPackage()
+                        .name("sa.pkg")
+                        .newRule().name("OverallSentimentRule")
+                        .lhs()
+                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
+                        .end()
+                        .rhs("System.out.println(\"\");")
+                        .end()
+                        .getDescr();
+
+        KnowledgePackage kpkg = compilePkgDescr(pkg);
+        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+        kbase.addKnowledgePackages(Collections.singleton(kpkg));
+        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+
+        String path = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
+        for (String str : values) {
+            SentimentAnalyzer sa = new MLSentimentAnalyzer();
+            SentimentAnalysisResult saRes = null;
+            try {
+                saRes = sa.classify(path,new UserFeedback(str));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //Sockets.sendMessageToSocket("analysis","Classified as: "+label);
+            ksession.insert(new DoubleCondition(saRes.getPositiveSentiment()));
+        }
+        int nRules = ksession.fireAllRules();
+        System.out.println(nRules + " satisfy the condition");
+        return nRules;
+    }
+
+    public static int evaluateNegativeSentimentRule(String operator, String ruleValue, String[] values) {
+        operator = operators.get(operator);
+        System.out.println("evaluateNegativeSentimentRule("+operator+","+ruleValue+","+Arrays.toString(values));
+
+        PackageDescr pkg =
+                DescrFactory.newPackage()
+                        .name("sa.pkg")
+                        .newRule().name("OverallSentimentRule")
+                        .lhs()
+                        .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
+                        .end()
+                        .rhs("System.out.println(\"\");")
+                        .end()
+                        .getDescr();
+
+        KnowledgePackage kpkg = compilePkgDescr(pkg);
+        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+        kbase.addKnowledgePackages(Collections.singleton(kpkg));
+        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+
+        String path = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
+        for (String str : values) {
+            SentimentAnalyzer sa = new MLSentimentAnalyzer();
+            SentimentAnalysisResult saRes = null;
+            try {
+                saRes = sa.classify(path,new UserFeedback(str));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //Sockets.sendMessageToSocket("analysis","Classified as: "+label);
+            ksession.insert(new DoubleCondition(saRes.getNegativeSentiment()));
         }
         int nRules = ksession.fireAllRules();
         System.out.println(nRules + " satisfy the condition");

@@ -62,11 +62,11 @@ public class FGReconfiguration {
                    .filter(t -> !t.contains("2017-"))
                    .filter(t -> {
                        long untilTime = System.currentTimeMillis()-Long.parseLong(Main.properties.getProperty("FG_RECONFIGURATION_FROM_MS"));
-                       return Long.parseLong(Utils.extractFeatures(t,"Feature/contextInformation/localTime").get(0))>untilTime;
+                       return Long.parseLong(Utils.extractFeatures(t,"Attributes/contextInformation/localTime").get(0))>untilTime;
                    })
                    .flatMapToPair(t -> {
                        List<Tuple2<String,Integer>> out = Lists.newArrayList();
-                       Utils.extractFeatures(t,"Feature/categoryFeedbacks/parameterId")
+                       Utils.extractFeatures(t,"Attributes/categoryFeedbacks/parameterId")
                                .forEach(id -> out.add(new Tuple2<String,Integer>(id,1)));
                        return out.iterator();
                    })

@@ -1,6 +1,7 @@
 package eu.supersede.bdma.sa.eca_rules;
 
 import com.clearspring.analytics.util.Lists;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
@@ -12,11 +13,14 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.feedbackanalysis.sentiment.MLSentimentAnalyzer;
 import eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer;
 import eu.supersede.integration.api.dm.types.*;
+import eu.supersede.integration.api.mdm.types.ECA_Rule;
 import eu.supersede.integration.api.pubsub.SubscriptionTopic;
 import eu.supersede.integration.api.pubsub.TopicPublisher;
 import eu.supersede.integration.api.pubsub.evolution.EvolutionPublisher;
 import scala.Tuple2;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,9 +31,7 @@ import java.util.UUID;
  */
 public class SoftwareEvolutionAlert {
 
-    public static void sendAlert(String[] contents) throws Exception {
-/*
-        System.out.println("SOFTWARE EVOLUTION ALERT");
+    public static void sendAlert(ECA_Rule rule, String[] contents) {
 
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
@@ -102,10 +104,19 @@ public class SoftwareEvolutionAlert {
 
             }
             SE_alert.setRequests(userRequests);
-            EvolutionPublisher publisher = new EvolutionPublisher(true);
-            publisher.publishEvolutionAlertMesssage(SE_alert);
-            publisher.closeTopicConnection();
+
+            try {
+                EvolutionPublisher publisher = new EvolutionPublisher(true,rule.getEvent().getPlatform());
+                publisher.publishEvolutionAlertMesssage(SE_alert);
+                publisher.closeTopicConnection();
+            } catch (NamingException e) {
+                e.printStackTrace();
+            } catch (JMSException e) {
+                e.printStackTrace();
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
         }
-*/
     }
 }
