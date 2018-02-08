@@ -2,6 +2,7 @@ package eu.supersede.bdma.sa.stream_processes;
 
 import com.google.common.io.Files;
 import eu.supersede.bdma.sa.Main;
+import net.minidev.json.JSONObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -28,15 +29,20 @@ public class StreamUnifierCEP {
         KAFKA_CONFIG.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, Main.properties.getProperty("KEY_SERIALIZER_CLASS_CONFIG"));
         KAFKA_CONFIG.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, Main.properties.getProperty("VALUE_SERIALIZER_CLASS_CONFIG"));
 
-        KafkaProducer<String,String> producer = new KafkaProducer<String, String>(KAFKA_CONFIG);
 
         kafkaStream.foreachRDD(records -> {
             final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
             records.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
+                    KafkaProducer<String,String> producer = new KafkaProducer<String, String>(KAFKA_CONFIG);
+
+                    JSONObject datum = new JSONObject();
+                    datum.put("topic",record.topic());
+                    datum.put("tuple",record.value());
+                    System.out.println("writing "+datum.toString());
                     ProducerRecord<String, String> message =
-                            new ProducerRecord<String, String>(Main.properties.getProperty("UNIFIED_CEP_TOPIC"), record.key(), record.value());
+                            new ProducerRecord<String, String>(Main.properties.getProperty("UNIFIED_CEP_TOPIC"), datum.toString());
                     producer.send(message);
                 });
             });

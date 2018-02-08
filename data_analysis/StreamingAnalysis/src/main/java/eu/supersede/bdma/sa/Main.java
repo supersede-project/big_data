@@ -27,7 +27,7 @@ public class Main {
         JavaSparkContext context = new JavaSparkContext(conf);
         System.out.println("microbatch period = "+properties.getProperty("MICROBATCH_PERIOD"));
         JavaStreamingContext streamContext = new JavaStreamingContext(context, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
-        streamContext.checkpoint("checkpoint");
+        //streamContext.checkpoint("checkpoint");
         Logger.getRootLogger().setLevel(Level.OFF);
         StreamProcessing processor = new StreamProcessing();
         processor.process(context,streamContext);
