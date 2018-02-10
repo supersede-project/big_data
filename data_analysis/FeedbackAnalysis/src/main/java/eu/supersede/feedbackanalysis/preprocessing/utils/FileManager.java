@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
 
@@ -335,6 +336,37 @@ public class FileManager{
 		File[] files = dataDir.listFiles();
 		return files;
 	}
+	
+	public static URL getResource(String resource, ClassLoader classLoader){
+
+        URL url ;
+
+        //Let's now try with the classloader that loaded this class.
+//        classLoader = getClass().getClassLoader();
+        if(classLoader != null){
+            url = classLoader.getResource(resource);
+            if(url != null){
+                return url;
+            }
+        }
+
+        //Try with the Thread Context Loader. 
+        classLoader = Thread.currentThread().getContextClassLoader();
+        if(classLoader != null){
+        	url = classLoader.getResource(resource);
+        	if(url != null){
+        		return url;
+        	}
+        }
+
+        //Last ditch attempt. Get the resource from the classpath.
+        url = ClassLoader.getSystemResource(resource);
+        
+        if (url == null) {
+        	throw new RuntimeException("Unable to locate resource: " + resource);
+        }
+        return url;
+    }
 
 	public static void main(String arg[]) throws Exception{
 		FileManager mfiles=new FileManager();
