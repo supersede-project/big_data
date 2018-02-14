@@ -17,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
-            throw new Exception("Usage: [0]=config.properties path; [1] evolution/adaptation");
+            throw new Exception("Usage: [0]=config.properties path");
         }
         properties = new Properties(args[0]);
         if (!validProperties(properties)) {

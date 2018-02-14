@@ -1,6 +1,7 @@
 package eu.supersede.bdma.sa.stream_processes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import eu.supersede.bdma.sa.Main;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
@@ -35,6 +37,13 @@ import java.util.stream.Collectors;
  * Created by snadal on 28/05/17.
  */
 public class FGReconfiguration {
+
+    static final Map<Integer, String> IDs_to_LABELS = ImmutableMap.of(
+            514, "one",
+            515, "two",
+            516, ""
+    );
+
 
     public static void process(JavaSparkContext ctx) {
         List<String> IDs = Lists.newArrayList(Main.properties.getProperty("IDs_FOR_CATEGORIES").split(","));
@@ -77,12 +86,12 @@ public class FGReconfiguration {
                    .collect();
 
                 for (int i = 0; i < frequencies.size(); ++i) {
-                    actions.add(new ActionOnAttribute("category."+String.valueOf(frequencies.get(i)._2)+".order",AttributeAction.update,i+1));
+                    actions.add(new ActionOnAttribute("CATEGORY_TYPE."+(frequencies.get(i)._2)+".order",AttributeAction.update,i+1));
                 }
                 //Check for 0s
                 IDs.forEach(id -> {
                     if (actions.stream().filter(a -> a.getId().equals(id)).collect(Collectors.toList()).isEmpty()) {
-                        actions.add(new ActionOnAttribute("category."+id+".order",AttributeAction.update,actions.size()+1));
+                        actions.add(new ActionOnAttribute("CATEGORY_TYPE."+id+".order",AttributeAction.update,actions.size()+1));
                     }
                 });
 
