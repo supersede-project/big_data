@@ -26,7 +26,7 @@ public class SpeechActBasedClassifier implements FeedbackClassifier {
 		ClassificationResult result = new ClassificationResult ();
 		
 		// first apply feature extraction
-		AttributeExtractor extractor = new AttributeExtractor(modelPath);
+		AttributeExtractor extractor = new AttributeExtractor();
 		String arff = extractor.getARFF(userFeedback);
 		
 		InputStream arffInputStream = new ByteArrayInputStream(arff.getBytes());
@@ -35,7 +35,7 @@ public class SpeechActBasedClassifier implements FeedbackClassifier {
 //		System.out.println(instances.toString());
 		
 		// then load the trained model
-		RandomForest cls = (RandomForest) weka.core.SerializationHelper.read(modelPath+"rf.model");
+		RandomForest cls = (RandomForest) weka.core.SerializationHelper.read(modelPath); //+"rf.model");
 		
 		instances.setClassIndex(instances.numAttributes() - 1);
 		// finally apply the model on the new data

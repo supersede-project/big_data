@@ -1,0 +1,996 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix sdo: <https://www.supersede.eu/the-consortium/senercon/sdo/> . 
+@prefix G: <http://www.essi.upc.edu/~snadal/BDIOntology/Global/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix saref: <https://w3id.org/saref#> .
+@prefix suo: <https://www.supersede.eu/the-consortium/suo/> . 
+
+<https://www.supersede.eu/the-consortium/senercon/sdo/> rdf:type voaf:Vocabulary ;
+	vann:preferredNamespacePrefix "sdo";
+	vann:preferredNamespaceUri "https://www.supersede.eu/the-consortium/senercon/sdo/";
+	rdfs:label "The Senercon domain ontology" ;
+	dcterms:created "2017-11-13"^^xsd:date ;
+	dcterms:modified "2017-11-13"^^xsd:date ;
+	dcterms:title "Senercon Domain Ontology" ;
+	rdfs:comment "Senercon Domain Ontology devoloped for the SUPERSEDE project." .
+
+	
+###   Classes    ###
+
+
+#Form and its sub-classes
+sdo:Form rdf:type G:Concept, rdfs:Class, suo:Software ;
+   	rdfs:label "The application form"@en ;
+	rdfs:label "Form"@de ; 
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+
+#Household and its sub-classes	
+sdo:Household rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Data ;
+   	rdfs:label "Household"@en ;
+	rdfs:label "Haushalt"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Flat rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Household ;
+    rdfs:label "Flat"@en ;
+	rdfs:label "Wohnung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:House rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Household ;
+    rdfs:label "House"@en ;
+	rdfs:label "Haus"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+
+sdo:Building rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Household ;
+    rdfs:label "Building"@en ;
+	rdfs:label "Gebäude"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+#Device and its sub-classes	
+sdo:Device rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Data ;
+   	rdfs:label "Device"@en ;
+	rdfs:label "Gerät"@de ;
+	owl:sameAs saref:Device ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Meter rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Device ;
+    rdfs:label "Meter"@en ;
+	rdfs:label "Zähler"@de ;
+	owl:sameAs saref:Meter ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Pump rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Device ;
+    rdfs:label "Pump"@en ;
+	rdfs:label "Pumpe"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Generator rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Device ;
+    rdfs:label "Generator"@en ;
+	rdfs:label "Generator"@de ;
+	owl:sameAs saref:Generator;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+	
+sdo:AirConditioner rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Device ;
+    rdfs:label "Air conditioner"@en ;
+	rdfs:label "Klimaanlage"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Heater rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Device ;
+    rdfs:label "Heater"@en ;
+	rdfs:label "Heizung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Car rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Device ;
+    rdfs:label "Car"@en ;
+	rdfs:label "Auto"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Turbine rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Device ;
+    rdfs:label "Turbine"@en ;
+	rdfs:label "Turbine"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+	
+sdo:WaterTurbine rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Turbine ;
+    rdfs:label "Water turbine"@en ;
+	rdfs:label "Wasserturbine"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:WindTurbine rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Turbine ;
+    rdfs:label "Wind turbine"@en ;
+	rdfs:label "Windkraftanlage"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+#Record and its sub-classes	
+sdo:Record rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Data ;
+   	rdfs:label "Record"@en ;
+	rdfs:label "Rekord"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Bill rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Record ;
+    rdfs:label "Bill"@en ;
+	rdfs:label "Rechnung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Consumption rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Record ;
+    rdfs:label "Consumption"@en ;
+	rdfs:label "Verbrauch"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Production rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Record ;
+    rdfs:label "Production"@en ;
+	rdfs:label "Produktion"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+#Analysis and its sub-classes	
+sdo:Analysis rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:DomainTopic ;
+   	rdfs:label "Analysis"@en ;
+	rdfs:label "Analyse"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:PollutionFactor rdf:type G:Concept, rdfs:Class, suo:Domain ;
+    rdfs:label "Pollution factor"@en ;
+	rdfs:label "Verschmutzungsfaktor"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+#Person and its sub-classes	
+sdo:Person rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Person"@en ;
+	rdfs:label "Person"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Tenant rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Person ;
+    rdfs:label "Tenant"@en ;
+	rdfs:label "Mieter"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Owner rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Person ;
+    rdfs:label "Owner"@en ;
+	rdfs:label "Eigentümer"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
+	
+sdo:Address rdf:type G:Concept, rdfs:Class, suo:Domain ;
+    rdfs:label "Address"@en ;
+	rdfs:label "Adresse"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Street rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Street"@en ;
+	rdfs:label "Straße"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Area rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Area"@en ;
+	rdfs:label "Bereich"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:PostCode rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Post code"@en ;
+	rdfs:label "Postleitzahl"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+#Record attributes
+	
+sdo:ItemPrice rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Item price"@en ;
+	rdfs:label "Artikelpreis"@de ;
+	owl:sameAs saref:Price ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+	
+sdo:Quantity rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Quantity"@en ;
+	rdfs:label "Menge"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> . 
+	
+sdo:MeterReading rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:subClassOf sdo:Quantity ;
+	rdfs:label "Meter reading"@en ;
+	rdfs:label "Zählerstand"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Unit rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Unit"@en ;
+	rdfs:label "Einheit"@de ;
+	owl:sameAs saref:UnitOfMeasure ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> . 			
+	
+sdo:Item rdf:type G:Concept, rdfs:Class, suo:Domain ;
+   	rdfs:label "Item"@en ;
+	rdfs:label "Artikel"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> . 	
+
+sdo:Water rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Item ;
+   	rdfs:label "Water"@en ;
+	rdfs:label "Wasser"@de ;
+	owl:sameAs saref:Water ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Oil rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Item ;
+   	rdfs:label "Oil"@en ;
+	rdfs:label "Öl"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Wood rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Item ;
+   	rdfs:label "Wood"@en ;
+	rdfs:label "Holz"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Gas rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Item ;
+   	rdfs:label "Gas"@en ;
+	rdfs:label "Gas"@de ;
+	owl:sameAs 	saref:Gas;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+#Analysis related classes	
+sdo:Suggestion rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+   	rdfs:label "Suggestion"@en ;
+	rdfs:label "Vorschlag"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Diagram rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+   	rdfs:label "Diagram"@en ;
+	rdfs:label "Diagramm"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+
+sdo:Topic rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+   	rdfs:label "Topic"@en ;
+	rdfs:label "Thema"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Heating rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+	rdfs:subClassOf sdo:Topic ;
+   	rdfs:label "Heating"@en ;
+	rdfs:label "Heizen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:ElectricityConsumption rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+	rdfs:subClassOf sdo:Topic ;
+   	rdfs:label "Electricity consumption"@en ;
+	rdfs:label "Stromverbrauch"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:WaterConsumption rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+	rdfs:subClassOf sdo:Topic ;
+   	rdfs:label "Water consumption"@en ;
+	rdfs:label "Wasserverbrauch"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Mobility rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+	rdfs:subClassOf sdo:Topic ;
+   	rdfs:label "Mobility"@en ;
+	rdfs:label "Mobilität"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:ElectricityProduction rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+	rdfs:subClassOf sdo:Topic ;
+   	rdfs:label "Electricity production"@en ;
+	rdfs:label "Stromerzeugung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:AirConditioning rdf:type G:Concept, rdfs:Class, suo:Domain ;	
+	rdfs:subClassOf sdo:Topic ;
+   	rdfs:label "Air conditioning"@en ;
+	rdfs:label "Klimaanlage Thema"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+#Feedback Topic class and its sub-classes
+sdo:FeedbackTopic rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:label "Feedback topic"@en ;
+	rdfs:label "Feedback Thema"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+
+sdo:DiagramFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:subClassOf sdo:FeedbackTopic ;
+	rdfs:label "Diagram feedback"@en ;
+	rdfs:label "Diagramm Feedback"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+	
+sdo:FormFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:subClassOf sdo:FeedbackTopic ;
+	rdfs:label "Form feedback"@en ;
+	rdfs:label "Form feedback"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+#Diagram action class and its sub-classes	
+sdo:DiagramAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:Action ;
+	rdfs:label "Diagram action"@en ;
+	rdfs:label "Diagrammaktion"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .   
+	
+sdo:Navigation rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DiagramAction ;
+	rdfs:label "Navigation"@en ;
+	rdfs:label "Navigation"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Selection rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DiagramAction ;
+	rdfs:label "Selection"@en ;
+	rdfs:label "Auswahl"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Visualization rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DiagramAction ;
+	rdfs:label "Visualization"@en ;
+	rdfs:label "Visualisierung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+
+sdo:Tooltip rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DiagramAction ;
+	rdfs:label "Tooltip"@en ;
+	rdfs:label "Tooltip"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Estimation rdf:type G:Concept, rdfs:Class, suo:Domain  ;
+	rdfs:label "Estimation"@en ;
+	rdfs:label "Einschätzung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Splitting rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DiagramAction ;
+	rdfs:label "Splitting"@en ;
+	rdfs:label "Aufteilen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Enter rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DataAction ;
+	rdfs:label "Enter"@en ;
+	rdfs:label "Eingeben"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Edit rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DataAction ;
+	rdfs:label "Edit"@en ;
+	rdfs:label "Bearbeiten"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Exchange rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DeviceDataAction ;
+	rdfs:label "Exchange"@en ;
+	rdfs:label "Machen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Delete rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DataAction ;
+	rdfs:label "Delete"@en ;
+	rdfs:label "Löschen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Decommission rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DeviceDataAction ;
+	rdfs:label "Decommission"@en ;
+	rdfs:label "Außerbetriebnahme"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Create rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DataAction ;
+	rdfs:label "Create"@en ;
+	rdfs:label "Erstellen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Add rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:DataAction ;
+	rdfs:label "Add"@en ;
+	rdfs:label "Hinzufügen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+
+#Feedback message class and its sub-classes	
+sdo:FeedbackMessage rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:label "Feedback message"@en ;
+	rdfs:label "Rückmeldung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> . 	
+	
+sdo:BugReport rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:subClassOf sdo:FeedbackMessage ;
+	rdfs:label "Bug report"@en ;
+	rdfs:label "Fehlerbericht"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Freeze rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:subClassOf sdo:BugReport ;
+	rdfs:label "Freeze"@en ;
+	rdfs:label "Einfrieren"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:FeatureRequest rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:subClassOf sdo:FeedbackMessage ;
+	rdfs:label "Feature request"@en ;
+	rdfs:label "Funktionsanfrage"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:EnhancementRequest rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:subClassOf sdo:FeedbackMessage ;
+	rdfs:label "Enhancement request"@en ;
+	rdfs:label "Verbesserungsanfrage"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+#Rating class
+sdo:Rating rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:label "Rating"@en ;
+	rdfs:label "Bewertung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+#Form feature class
+sdo:FormFeature rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:label "Form feature"@en ;
+	rdfs:label "Form Feature"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Validation rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:FormFeature ;
+	rdfs:label "Validation"@en ;
+	rdfs:label "Validierung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+	
+	
+				
+###  Properties  ###
+
+				
+#Tenant property #
+sdo:hasMoveInDate rdf:type rdf:Property ;
+		rdfs:label "Tenant moved in on a date"@en ;
+		rdfs:label "Mieter ist zu einem Termin eingezogen"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Tenant ;
+		rdfs:range xsd:date .					
+				
+#Household properties #
+sdo:relatesToPerson rdf:type rdf:Property ;
+		rdfs:label "Household relates to a person"@en ;
+		rdfs:label "Haushalt bezieht sich auf eine Person"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Household ;
+		rdfs:range sdo:Person .					
+			
+sdo:hasSize rdf:type rdf:Property ;
+		rdfs:label "Household has size"@en ;
+		rdfs:label "Haushalt hat Größe"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Household ;
+		rdfs:range xsd:double .		
+		
+sdo:hasConstructionDate rdf:type rdf:Property ;
+		rdfs:label "Household has construction date"@en ;
+		rdfs:label "Haushalt hat Baudatum"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Household ;
+		rdfs:range xsd:date .	
+
+sdo:hasNumberOfTenants rdf:type rdf:Property ;
+		rdfs:label "Household has number of tenants"@en ;
+		rdfs:label "Haushalt hat Anzahl der Mieter"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Household ;
+		rdfs:range xsd:int .		
+
+sdo:hasAddress rdf:type rdf:Property ;
+		rdfs:label "Household has address"@en ;
+		rdfs:label "Haushalt hat Adresse"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Household ;
+		rdfs:range sdo:Address .
+		
+				
+sdo:inStreet rdf:type rdf:Property ;
+		rdfs:label "Address in a street"@en ;
+		rdfs:label "Adresse in einer Straße"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Address ;
+		rdfs:range sdo:Street .
+				
+sdo:inArea rdf:type rdf:Property ;
+		rdfs:label "Address in an area"@en ;
+		rdfs:label "Adresse in einem Bereich"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Address ;
+		rdfs:range sdo:Area .		
+
+sdo:withPostCode rdf:type rdf:Property ;
+		rdfs:label "Address in a post code"@en ;
+		rdfs:label "Adresse in einer Postleitzahl"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Address ;
+		rdfs:range sdo:PostCode .		
+		
+#Device property #
+sdo:inHousehold rdf:type rdf:Property ;
+		rdfs:label "Device in a household"@en ;
+		rdfs:label "Gerät in einem Haushalt"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Device ;
+		rdfs:range sdo:Household .			
+				
+#Record properties #
+sdo:forHousehold rdf:type rdf:Property ;
+		rdfs:label "Record for a household"@en ;
+		rdfs:label "Rekord für einen Haushalt"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Record ;
+		rdfs:range sdo:Household .	
+
+sdo:forDevice rdf:type rdf:Property ;
+		rdfs:label "Record for a device"@en ;
+		rdfs:label "Rekord für ein Gerät"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Record ;
+		rdfs:range sdo:Device .	
+
+sdo:onDate rdf:type rdf:Property ;
+		rdfs:label "Record on a date"@en ;
+		rdfs:label "Auf ein Datum rekord"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Record ;
+		rdfs:range xsd:date .		
+		
+sdo:usesPrice rdf:type rdf:Property ;
+		rdfs:label "Record uses a price"@en ;
+		rdfs:label "Rekord verwendet einen Preis"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Record ;
+		rdfs:range sdo:ItemPrice .		
+		
+sdo:hasQuantity rdf:type rdf:Property ;
+		rdfs:label "Record has quantity"@en ;
+		rdfs:label "Rekord hat Quantität"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Record ;
+		rdfs:range sdo:Quantity .	
+
+sdo:usesUnit rdf:type rdf:Property ;
+		rdfs:label "Record uses unit"@en ;
+		rdfs:label "Rekord verwendet Einheit"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Record ;
+		rdfs:range sdo:Unit .
+
+sdo:forItem rdf:type rdf:Property ;
+		rdfs:label "Record for an item"@en ;
+		rdfs:label "Rekord für einen Artikel"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Record ;
+		rdfs:range sdo:Item .		
+		
+#Analysis properties #		
+sdo:ofRecord rdf:type rdf:Property ;
+		rdfs:label "Analysis of a record"@en ;
+		rdfs:label "Analyse eines rekord"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Analysis ;
+		rdfs:range sdo:Record .	
+
+sdo:withTopic rdf:type rdf:Property ;
+		rdfs:label "Analysis with a topic"@en ;
+		rdfs:label "Analyse mit einem Thema"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Analysis ;
+		rdfs:range sdo:Topic .	
+		
+sdo:visualizedWith rdf:type rdf:Property ;
+		rdfs:label "Analysis visualized with a visualization format"@en ;
+		rdfs:label "Analyse visualisiert mit einem Visualisierungsformat"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Analysis ;
+		rdfs:range sdo:Diagram .		
+		
+sdo:includesSuggestion rdf:type rdf:Property ;
+		rdfs:label "Analysis includes a suggestion"@en ;
+		rdfs:label "Die Analyse enthält einen Vorschlag"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Analysis ;
+		rdfs:range sdo:Suggestion .			
+		
+#Feedback message properties #		
+sdo:hasFeedbackTopic rdf:type rdf:Property ;
+		rdfs:label "Feedback message has a feedback topic"@en ;
+		rdfs:label "Rückmeldung hat ein Feedback Thema"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:FeedbackMessage ;
+		rdfs:range sdo:FeedbackTopic .		
+		
+sdo:hasRating rdf:type rdf:Property ;
+		rdfs:label "Feedback message has rating"@en ;
+		rdfs:label "Rückmeldung hat Bewertung"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:FeedbackMessage ;
+		rdfs:range sdo:Rating .		
+		
+#Form feature property #		
+sdo:featureOfForm rdf:type rdf:Property ;
+		rdfs:label "Form feature of a form"@en ;
+		rdfs:label "Form Feature eines Form"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:FormFeature ;
+		rdfs:range sdo:Form .			
+		
+
+### EXTENDED ONTOLOGY ELEMENTS
+
+# CLASSES #
+
+#Application and User classes
+sdo:Application rdf:type G:Concept, rdfs:Class, suo:Software ;
+   	rdfs:label "Application"@en ;
+	rdfs:label "Programm"@de ; 
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+	
+sdo:WebPage rdf:type G:Concept, rdfs:Class, suo:Software ;
+   	rdfs:label "Web page"@en ;
+	rdfs:label "Webseite"@de ; 
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:User rdf:type G:Concept, rdfs:Class, suo:User ;
+   	rdfs:label "User"@en ;
+	rdfs:label "Nutzer"@de ; 
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:UserID rdf:type G:Feature, rdfs:Class, suo:Software ;
+   	rdfs:label "User ID"@en ;
+	rdfs:label "Nutzer ID"@de ; 
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Account rdf:type G:Concept, rdfs:Class, suo:Software ;
+   	rdfs:label "Account"@en ;
+	rdfs:label "Konto"@de ; 
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+	
+sdo:EnergySavingsAccount rdf:type G:Concept, rdfs:Class, suo:Software ;
+	rdfs:subClassOf sdo:Account ;
+   	rdfs:label "Energy Savings Account"@en ;
+	rdfs:label "Energiesparkonto"@de ; 
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Fuel rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Item ;
+   	rdfs:label "Fuel"@en ;
+	rdfs:label "Tank"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Electricity rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Item ;
+   	rdfs:label "Electricity"@en ;
+	rdfs:label "Strom"@de ;
+	owl:sameAs saref:Electricity ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Confirm rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:ApplicationAction ;
+	rdfs:label "Confirm"@en ;
+	rdfs:label "Bestätigen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:ApplicationFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
+	rdfs:subClassOf sdo:FeedbackTopic ;
+	rdfs:label "Application feedback"@en ;
+	rdfs:label "Programm feedback"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:ApplicationAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:Action ;
+	rdfs:label "Application action"@en ;
+	rdfs:label "Programm Aktion"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:LogIn rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:ApplicationAction ;
+	rdfs:label "Login"@en ;
+	rdfs:label "Login"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:LogOut rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:ApplicationAction ;
+	rdfs:label "Logout"@en ;
+	rdfs:label "Logout"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Register rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:ApplicationAction ;
+	rdfs:label "Register"@en ;
+	rdfs:label "Registrieren"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Help rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:ApplicationAction ;
+	rdfs:label "Help"@en ;
+	rdfs:label "Hilfe"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
+
+sdo:Action rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:label "Action"@en ;
+	rdfs:label "Aktion"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Heat rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Item ;
+   	rdfs:label "Heat"@en ;
+	rdfs:label "Heizen"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
+	
+# PROPERTIES #
+
+#Application properties #		
+sdo:hasWebPage rdf:type rdf:Property ;
+		rdfs:label "Application has a web page"@en ;
+		rdfs:label "Programm hat eine Webseite"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Application ;
+		rdfs:range sdo:WebPage .	
+		
+sdo:hasUser rdf:type rdf:Property ;
+		rdfs:label "Application has a user"@en ;
+		rdfs:label "Programm hat eine Nutzer"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Application ;
+		rdfs:range sdo:User .			
+		
+sdo:hasAccount rdf:type rdf:Property ;
+		rdfs:label "User has an account"@en ;
+		rdfs:label "Nutzer hat eine Konto"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:User ;
+		rdfs:range sdo:Account .	
+
+sdo:hasUserID rdf:type rdf:Property ;
+		rdfs:label "User has an ID"@en ;
+		rdfs:label "Nutzer hat eine Nutzer ID"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:User ;
+		rdfs:range sdo:UserID .		
+		
+	
+
+sdo:relatesToApplication rdf:type rdf:Property ;
+		rdfs:label "Application Action relates to an Application"@en ;
+		rdfs:label "Programm Aktion bezieht sich auf ein Programm"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:ApplicationAction ;
+		rdfs:range sdo:Application .	
+ 
+sdo:byUser rdf:type rdf:Property ;
+		rdfs:label "Action by User"@en ;
+		rdfs:label "Aktion von Nutzer"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Action ;
+		rdfs:range sdo:User .			
+		
+sdo:containsForm rdf:type rdf:Property ;
+		rdfs:label "Web Page contains a Form"@en ;
+		rdfs:label "Webseite enthält ein Form"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:WebPage ;
+		rdfs:range sdo:Form .			
+		
+		
+##### NEWLY ADDED ELEMENTS #####
+
+# CLASSES #
+
+#Domain Topic
+sdo:DomainTopic rdf:type G:Concept, rdfs:Class, suo:Domain  ;
+	rdfs:label "Domain topic"@en ;
+	rdfs:label "Domain-Thema"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
+	
+#Domain Data
+sdo:Data rdf:type G:Concept, rdfs:Class, suo:Domain  ;
+	rdfs:subClassOf sdo:DomainTopic ;
+	rdfs:label "Data"@en ;
+	rdfs:label "Daten"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+
+#Data Action
+sdo:DataAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:Action ;
+	rdfs:label "Data action"@en ;
+	rdfs:label "Datenaktion"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+#Device Data Action
+sdo:DeviceDataAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
+	rdfs:subClassOf sdo:Action ;
+	rdfs:label "Device data action"@en ;
+	rdfs:label "Gerätedatenaktion"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+#Click Monitor
+sdo:ClickMonitorData rdf:type G:Concept, rdfs:Class, suo:Monitoring  ;
+	rdfs:label "Click Monitor Data"@en ;
+	rdfs:label "Klicken Monitor Daten"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+# PROPERTIES #
+
+#Domain topic properties #
+sdo:relatesToDomainTopic rdf:type rdf:Property ;
+		rdfs:label "Form relates to a domain topic"@en ;
+		rdfs:label "Form bezieht sich auf eine domain-thema"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Form ;
+		rdfs:range sdo:DomainTopic .	
+		
+		
+sdo:includesEstimation rdf:type rdf:Property ;
+		rdfs:label "Analysis includes an estimation"@en ;
+		rdfs:label "Die Analyse enthält einen einschätzung"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Analysis ;
+		rdfs:range sdo:Estimation .		
+
+sdo:relatesToDiagram rdf:type rdf:Property ;
+		rdfs:label "Diagram Action relates to a diagram"@en ;
+		rdfs:label "Diagrammaktion bezieht sich auf ein Diagramm"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:DiagramAction ;
+		rdfs:range sdo:Diagram .		
+		
+sdo:relatesToDevice rdf:type rdf:Property ;
+		rdfs:label "Device Data Action relates to a device"@en ;
+		rdfs:label "Gerätedatenaktion bezieht sich auf ein Gerät"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:DeviceDataAction ;
+		rdfs:range sdo:Device .		
+		
+sdo:relatesToData rdf:type rdf:Property ;
+		rdfs:label "Data Action relates to data"@en ;
+		rdfs:label "Datenaktion bezieht sich auf daten"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:DataAction ;
+		rdfs:range sdo:Data .	
+
+sdo:providedBy rdf:type rdf:Property ;
+		rdfs:label "Feedback message provided by a user"@en ;
+		rdfs:label "Rückmeldung, die von einem Benutzer bereitgestellt wird"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:FeedbackMessage ;
+		rdfs:range sdo:User .		
+
+sdo:relatesToUser rdf:type rdf:Property ;
+		rdfs:label "Click monitor data relates to a user"@en ;
+		rdfs:label "Klickmonitordaten beziehen sich auf einen Benutzer"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:ClickMonitorData ;
+		rdfs:range sdo:User .	
+
+sdo:considersPollution rdf:type rdf:Property ;
+		rdfs:label "Analysis considers a pollution factor"@en ;
+		rdfs:label "Analyse berücksichtigt einen Verschmutzungsfaktor"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:Analysis ;
+		rdfs:range sdo:PollutionFactor .		
+
+# FEEDBACK FEATURES #	
+
+# Concepts #
+
+sdo:FeedbackText rdf:type G:Feature, rdfs:Class, suo:Feedback  ;
+	rdfs:label "Feedback text"@en ;
+	rdfs:label "Feedback-text"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:FeedbackSentiment rdf:type G:Feature, rdfs:Class, suo:Feedback  ;
+	rdfs:label "Feedback sentiment"@en ;
+	rdfs:label "Feedbackstimmung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:ClicksNumber rdf:type G:Feature, rdfs:Class, suo:Monitoring ;
+	rdfs:label "Clicks number"@en ;
+	rdfs:label "Klicks Nummer"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
+
+sdo:TimeAttribute rdf:type G:Feature, rdfs:Class, suo:Domain  ;
+	rdfs:label "Time Attribute"@en ;
+	rdfs:label "Zeitattribut"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:Year rdf:type G:Feature, rdfs:Class, suo:Domain  ;
+	rdfs:label "Year"@en ;
+	rdfs:label "Jahr"@de ;
+	owl:sameAs xsd:gYear ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Month rdf:type G:Feature, rdfs:Class, suo:Domain  ;
+	rdfs:label "Month"@en ;
+	rdfs:label "Monat"@de ;
+	owl:sameAs xsd:gYearMonth ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:Date rdf:type G:Feature, rdfs:Class, suo:Domain  ;
+	rdfs:label "Date"@en ;
+	rdfs:label "Datum"@de ;
+	owl:sameAs xsd:date ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+
+sdo:DateTime rdf:type G:Feature, rdfs:Class, suo:Domain  ;
+	rdfs:label "Date time"@en ;
+	rdfs:label "Terminzeit"@de ;
+	owl:sameAs xsd:dateTime ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
+	
+sdo:DateTimeStamp rdf:type G:Feature, rdfs:Class, suo:Domain  ;
+	rdfs:label "Date time stamp"@en ;
+	rdfs:label "Datum Zeitstempel"@de ;
+	owl:sameAs xsd:dateTimeStamp ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+sdo:Duration rdf:type G:Feature, rdfs:Class, suo:Domain  ;
+	rdfs:label "Duration"@en ;
+	rdfs:label "Dauer"@de ;
+	owl:sameAs xsd:duration ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	
+# Properties #
+
+sdo:FeedbackMessage G:hasFeature sdo:FeedbackText .	
+sdo:FeedbackMessage G:hasFeature sdo:FeedbackSentiment .	
+sdo:FeedbackMessage G:hasFeature sdo:TimeAttribute .
+
+sdo:ClickMonitorData G:hasFeature sdo:ClicksNumber .
+sdo:ClickMonitorData G:hasFeature sdo:TimeAttribute .
+
+# SOFTWARE USAGE METAMODEL #
+
+suo:SoftwareUsageElement rdf:type rdfs:Class ;
+	rdfs:label "Software usage element"@en ;
+	rdfs:label "Software-Nutzungselement"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .	
+	
+suo:Feedback rdf:type rdfs:Class ;
+	rdfs:subClassOf suo:SoftwareUsageElement ;
+	rdfs:label "Feedback"@en ;
+	rdfs:label "Feedback"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .		
+	
+suo:Monitoring rdf:type rdfs:Class ;
+	rdfs:subClassOf suo:SoftwareUsageElement ;
+	rdfs:label "Monitoring"@en ;
+	rdfs:label "Überwachung"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .		
+
+suo:Software rdf:type rdfs:Class ;
+	rdfs:subClassOf suo:SoftwareUsageElement ;
+	rdfs:label "Software"@en ;
+	rdfs:label "Software"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .	
+
+suo:Domain rdf:type rdfs:Class ;
+	rdfs:subClassOf suo:SoftwareUsageElement ;
+	rdfs:label "Domain"@en ;
+	rdfs:label "Domain"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .	
+	
+suo:User rdf:type rdfs:Class ;
+	rdfs:subClassOf suo:SoftwareUsageElement ;
+	rdfs:label "User"@en ;
+	rdfs:label "Benutzer"@de ;
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .		

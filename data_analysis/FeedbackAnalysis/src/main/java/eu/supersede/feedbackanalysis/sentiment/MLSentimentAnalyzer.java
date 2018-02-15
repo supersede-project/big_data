@@ -139,7 +139,7 @@ public class MLSentimentAnalyzer implements SentimentAnalyzer{
 		//new MLSentimentAnalyzer().train("resources/trainingsets/sentiment_reviews_3_scale.arff");
 		SentimentAnalyzer sentimentAnalyzer = new MLSentimentAnalyzer();
 		//String modelFile = "resources/models/sentiment_classifier.model";
-		String modelFile = "/home/snadal/UPC/Sergi/SUPERSEDE/Development/big_data/data_analysis/FeedbackAnalysis/src/main/resources/models/NB-3-scale-translated-mixed.model";
+		String modelFile = "src/main/resources/models/NB-3-scale-translated-mixed.model";
 		for (UserFeedback userFeedback : userFeedbacks){
 			SentimentAnalysisResult result = sentimentAnalyzer.classify(modelFile, userFeedback);
 			System.out.println(userFeedback.getFeedbackText() + " [" + result.getPositiveSentiment() + ", " + result.getNegativeSentiment() +
