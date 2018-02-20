@@ -137,7 +137,7 @@ dependencies {
     compile 'com.google.guava:guava:20.0'
     compile 'org.mongodb:mongo-java-driver:3.4.0-rc1'
     compile 'net.minidev:json-smart:2.2.1'
-    compile 'org.apache.jena:apache-jena-libs:3.1.1'
+    compile 'org.apache.jena:apache-jena-libs:3.6.0'
     compile 'com.google.code.gson:gson:2.8.0'
     /*compile 'org.scala-lang:scala-library:2.12.0'*/
     compile 'org.apache.kafka:kafka-clients:0.10.1.0'
@@ -160,6 +160,7 @@ dependencies {
         exclude (group: 'xml-apis')
         exclude (group: 'com.github.fommil.netlib')
         exclude (group: 'com.github.jaytaylor')//:jaws:1.3.1'
+        exclude (group: 'org.apache.jena')
     }
 
     testCompile 'junit:junit:3.8.2'
