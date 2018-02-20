@@ -9,7 +9,9 @@ public enum PredicatesTypes {
     GREATER_THAN(">"),
     GREATER_OR_EQUAL(">="),
     LESS_THAN("<"),
-    LESS_OR_EQUAL("<=");
+    LESS_OR_EQUAL("<="),
+    CONTAINS("CONTAINS"),
+    NOT_CONTAINS("NOT CONTAINS");
 
     private String element;
 
