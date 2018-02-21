@@ -20,6 +20,8 @@ import java.util.UUID;
 public class Event {
 
     public static JSONObject newEvent(String Evt, String JSON_artifact) throws FileNotFoundException {
+        Evt = Evt.replace(" ","_");
+        
         JSONObject J = (JSONObject) JSONValue.parse(JSON_artifact);
         //Line 2 @ Algorithm 2
         String Evt_uri = EventOntology.EVENT.val()+"/"+Evt+"/Attributes";
