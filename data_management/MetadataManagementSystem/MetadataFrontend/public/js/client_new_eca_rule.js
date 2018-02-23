@@ -3,6 +3,7 @@
  */
 
 var tabCount = 0;
+var tabCountParameters = 0;
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -18,6 +19,16 @@ function registerCloseEvent() {
         $('#tabPanel a:last').tab('show'); // Select first tab
         $(tabContentId).remove(); //remove respective tab content
         --tabCount;
+    });
+}
+
+function registerCloseEventParameters() {
+    $(".closeTabParameters").click(function () {
+        var tabContentId = $(this).parent().attr("href");
+        $(this).parent().parent().remove(); //remove li of tab
+        $('#tabPanelParameters a:last').tab('show'); // Select first tab
+        $(tabContentId).remove(); //remove respective tab content
+        --tabCountParameters;
     });
 }
 
@@ -123,6 +134,17 @@ $(window).load(function() {
         registerCloseEvent();
     });
 
+    $('#addParameter').on("click", function(e) {
+        e.preventDefault();
+        ++tabCountParameters;
+        $("#tabPanelParameters").append($('<li role="presentation"><a id="button_tab_parameters_'+(tabCountParameters)+'" href="#tab_parameters_'+(tabCountParameters)+'" aria-controls="settings" role="tab" data-toggle="tab">'+'Parameter '+(tabCountParameters)+'<button type="button" class="close closeTabParameters">&nbsp &times;</button></a></li>'));
+        $("#tabContentParameters").append($('<div id="tab_parameters_'+(tabCountParameters)+'" role="tabpanel" class="tab-pane fill" style="border:1px solid; padding:5px">'+
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Key '+(tabCountParameters)+'</label><div class="col-lg-10"><input class="form-control" id="parameterKey'+(tabCountParameters)+'" type="text" required="required"></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Value '+(tabCountParameters)+'</label><div class="col-lg-10"><input class="form-control" id="parameterValue'+(tabCountParameters)+'" type="text" required="required"></div></div>'));
+
+        registerCloseEventParameters();
+    });
+
     $('#submitEcaRule').on("click", function(e){
         e.preventDefault();
 
@@ -139,6 +161,14 @@ $(window).load(function() {
 
             Eca_Rule.conditions.push(condition);
         }
+        Eca_Rule.parameters = new Array();
+        for (i = 1; i <= tabCountParameters; ++i) {
+            var parameter = new Object();
+            parameter.key = $("#parameterKey"+i).val();
+            parameter.value = $("#parameterValue"+i).val();
+            Eca_Rule.parameters.push(parameter);
+        }
+
         Eca_Rule.windowTime = $("#windowTime").val();
         Eca_Rule.windowSize = $("#windowSize").val();
         Eca_Rule.action = $("#action").val();

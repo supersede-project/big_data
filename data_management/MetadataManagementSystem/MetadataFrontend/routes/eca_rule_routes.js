@@ -31,6 +31,7 @@ exports.postEcaRule = function (req, res, next) {
     if (!(req.body.hasOwnProperty('name')) || req.body.name == null
         || !(req.body.hasOwnProperty('eventID')) || req.body.eventID == null
         || !(req.body.hasOwnProperty('conditions')) || req.body.conditions == null
+        || !(req.body.hasOwnProperty('parameters')) || req.body.parameters == null
         || !(req.body.hasOwnProperty('windowTime')) || req.body.windowTime == null
         || !(req.body.hasOwnProperty('windowSize')) || req.body.windowSize == null
         || !(req.body.hasOwnProperty('action')) || req.body.action == null
@@ -41,6 +42,7 @@ exports.postEcaRule = function (req, res, next) {
         rule.name = req.body.name;
         rule.eventID = req.body.eventID;
         rule.conditions= req.body.conditions;
+        rule.parameters = req.body.parameters;
         rule.windowTime = req.body.windowTime;
         rule.windowSize = req.body.windowSize;
         rule.action = req.body.action;
