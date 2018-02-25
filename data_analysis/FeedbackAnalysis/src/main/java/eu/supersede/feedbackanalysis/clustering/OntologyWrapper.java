@@ -204,7 +204,42 @@ public class OntologyWrapper {
 		}
 		return fv;
 	}
-
+	
+	/**
+	 * this is just a convenience method to get the vector as a String so that it can be easily parsed to Weka Instances
+	 * @param concepts
+	 * @return
+	 */
+	public String conceptsToFeatureVectorString(Set<OntClass> concepts, boolean header, boolean addClass) {
+		StringBuffer fv = new StringBuffer();
+		
+		if (header) {
+			for (OntClass cl : classes) {
+				fv.append(cl.getLocalName() + ",");
+			}
+			if (addClass) {
+				fv.append("class");
+			}else {
+				fv.deleteCharAt(fv.length() - 1);
+			}
+			fv.append("\n");
+		}
+		
+		for (OntClass concept : classes) {
+			if (concepts.contains(concept)) {
+				fv.append("1,");
+			}else {
+				fv.append("0,");
+			}
+		}
+		if (addClass) {
+			fv.append("?");
+		}else {
+			fv.deleteCharAt(fv.length() - 1);
+		}
+		return fv.toString();
+	}
+	
 	public Set<OntClass> lookupConcepts(String term) {
 		term = term.trim().toLowerCase();
 
