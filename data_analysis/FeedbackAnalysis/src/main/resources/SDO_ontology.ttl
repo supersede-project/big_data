@@ -14,7 +14,8 @@
 <https://www.supersede.eu/the-consortium/senercon/sdo/> rdf:type voaf:Vocabulary ;
 	vann:preferredNamespacePrefix "sdo";
 	vann:preferredNamespaceUri "https://www.supersede.eu/the-consortium/senercon/sdo/";
-	rdfs:label "The Senercon domain ontology" ;
+	rdfs:label "The Senercon domain ontology"@en ;
+	rdfs:label "The Senercon Domain-Ontologie"@de ;
 	dcterms:created "2017-11-13"^^xsd:date ;
 	dcterms:modified "2017-11-13"^^xsd:date ;
 	dcterms:title "Senercon Domain Ontology" ;
@@ -27,7 +28,7 @@
 #Form and its sub-classes
 sdo:Form rdf:type G:Concept, rdfs:Class, suo:Software ;
    	rdfs:label "The application form"@en ;
-	rdfs:label "Form"@de ; 
+	rdfs:label "Formular"@de ; 
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
 
 #Household and its sub-classes	
@@ -123,7 +124,7 @@ sdo:WindTurbine rdf:type G:Concept, rdfs:Class, suo:Domain ;
 sdo:Record rdf:type G:Concept, rdfs:Class, suo:Domain ;
 	rdfs:subClassOf sdo:Data ;
    	rdfs:label "Record"@en ;
-	rdfs:label "Rekord"@de ;
+	rdfs:label "Erfassung"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
 	
 sdo:Bill rdf:type G:Concept, rdfs:Class, suo:Domain ;
@@ -141,7 +142,7 @@ sdo:Consumption rdf:type G:Concept, rdfs:Class, suo:Domain ;
 sdo:Production rdf:type G:Concept, rdfs:Class, suo:Domain ;
 	rdfs:subClassOf sdo:Record ;
     rdfs:label "Production"@en ;
-	rdfs:label "Produktion"@de ;
+	rdfs:label "Erzeugung"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
 	
 #Analysis and its sub-classes	
@@ -175,6 +176,7 @@ sdo:Owner rdf:type G:Concept, rdfs:Class, suo:Domain ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
 	
 sdo:Address rdf:type G:Concept, rdfs:Class, suo:Domain ;
+	rdfs:subClassOf sdo:Household ;
     rdfs:label "Address"@en ;
 	rdfs:label "Adresse"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
@@ -198,7 +200,7 @@ sdo:PostCode rdf:type G:Concept, rdfs:Class, suo:Domain ;
 	
 sdo:ItemPrice rdf:type G:Concept, rdfs:Class, suo:Domain ;
    	rdfs:label "Item price"@en ;
-	rdfs:label "Artikelpreis"@de ;
+	rdfs:label "Energiepreis"@de ;
 	owl:sameAs saref:Price ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
 	
@@ -317,7 +319,7 @@ sdo:DiagramFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
 sdo:FormFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
 	rdfs:subClassOf sdo:FeedbackTopic ;
 	rdfs:label "Form feedback"@en ;
-	rdfs:label "Form feedback"@de ;
+	rdfs:label "Formular feedback"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
 	
 #Diagram action class and its sub-classes	
@@ -353,13 +355,13 @@ sdo:Tooltip rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	
 sdo:Estimation rdf:type G:Concept, rdfs:Class, suo:Domain  ;
 	rdfs:label "Estimation"@en ;
-	rdfs:label "Einschätzung"@de ;
+	rdfs:label "Schätzung"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
 	
 sdo:Splitting rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	rdfs:subClassOf sdo:DiagramAction ;
 	rdfs:label "Splitting"@en ;
-	rdfs:label "Aufteilen"@de ;
+	rdfs:label "Aufteilung"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
 	
 sdo:Enter rdf:type G:Concept, rdfs:Class, suo:Software  ;
@@ -377,7 +379,7 @@ sdo:Edit rdf:type G:Concept, rdfs:Class, suo:Software  ;
 sdo:Exchange rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	rdfs:subClassOf sdo:DeviceDataAction ;
 	rdfs:label "Exchange"@en ;
-	rdfs:label "Machen"@de ;
+	rdfs:label "Austauschen"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
 	
 sdo:Delete rdf:type G:Concept, rdfs:Class, suo:Software  ;
@@ -389,7 +391,7 @@ sdo:Delete rdf:type G:Concept, rdfs:Class, suo:Software  ;
 sdo:Decommission rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	rdfs:subClassOf sdo:DeviceDataAction ;
 	rdfs:label "Decommission"@en ;
-	rdfs:label "Außerbetriebnahme"@de ;
+	rdfs:label "Stillegung"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
 	
 sdo:Create rdf:type G:Concept, rdfs:Class, suo:Software  ;
@@ -443,7 +445,7 @@ sdo:Rating rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
 #Form feature class
 sdo:FormFeature rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	rdfs:label "Form feature"@en ;
-	rdfs:label "Form Feature"@de ;
+	rdfs:label "Formular Feature"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
 	
 sdo:Validation rdf:type G:Concept, rdfs:Class, suo:Software  ;
@@ -490,7 +492,7 @@ sdo:hasConstructionDate rdf:type rdf:Property ;
 
 sdo:hasNumberOfTenants rdf:type rdf:Property ;
 		rdfs:label "Household has number of tenants"@en ;
-		rdfs:label "Haushalt hat Anzahl der Mieter"@de ;
+		rdfs:label "Haushalt hat eine Anzahl von Mietern"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Household ;
 		rdfs:range xsd:int .		
@@ -505,21 +507,21 @@ sdo:hasAddress rdf:type rdf:Property ;
 				
 sdo:inStreet rdf:type rdf:Property ;
 		rdfs:label "Address in a street"@en ;
-		rdfs:label "Adresse in einer Straße"@de ;
+		rdfs:label "Adresse ist in einer Straße"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Address ;
 		rdfs:range sdo:Street .
 				
 sdo:inArea rdf:type rdf:Property ;
 		rdfs:label "Address in an area"@en ;
-		rdfs:label "Adresse in einem Bereich"@de ;
+		rdfs:label "Adresse ist in einem Bereich"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Address ;
 		rdfs:range sdo:Area .		
 
 sdo:withPostCode rdf:type rdf:Property ;
 		rdfs:label "Address in a post code"@en ;
-		rdfs:label "Adresse in einer Postleitzahl"@de ;
+		rdfs:label "Adresse ist in einer Postleitzahl"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Address ;
 		rdfs:range sdo:PostCode .		
@@ -535,49 +537,49 @@ sdo:inHousehold rdf:type rdf:Property ;
 #Record properties #
 sdo:forHousehold rdf:type rdf:Property ;
 		rdfs:label "Record for a household"@en ;
-		rdfs:label "Rekord für einen Haushalt"@de ;
+		rdfs:label "Erfassung für einen Haushalt"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Record ;
 		rdfs:range sdo:Household .	
 
 sdo:forDevice rdf:type rdf:Property ;
 		rdfs:label "Record for a device"@en ;
-		rdfs:label "Rekord für ein Gerät"@de ;
+		rdfs:label "Erfassung für ein Gerät"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Record ;
 		rdfs:range sdo:Device .	
 
 sdo:onDate rdf:type rdf:Property ;
 		rdfs:label "Record on a date"@en ;
-		rdfs:label "Auf ein Datum rekord"@de ;
+		rdfs:label "Erfassung an einem Datum"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Record ;
 		rdfs:range xsd:date .		
 		
 sdo:usesPrice rdf:type rdf:Property ;
 		rdfs:label "Record uses a price"@en ;
-		rdfs:label "Rekord verwendet einen Preis"@de ;
+		rdfs:label "Erfassung verwendet einen Preis"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Record ;
 		rdfs:range sdo:ItemPrice .		
 		
 sdo:hasQuantity rdf:type rdf:Property ;
 		rdfs:label "Record has quantity"@en ;
-		rdfs:label "Rekord hat Quantität"@de ;
+		rdfs:label "Erfassung hat eine Menge"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Record ;
 		rdfs:range sdo:Quantity .	
 
 sdo:usesUnit rdf:type rdf:Property ;
 		rdfs:label "Record uses unit"@en ;
-		rdfs:label "Rekord verwendet Einheit"@de ;
+		rdfs:label "Erfassung verwendet Einheit"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Record ;
 		rdfs:range sdo:Unit .
 
 sdo:forItem rdf:type rdf:Property ;
 		rdfs:label "Record for an item"@en ;
-		rdfs:label "Rekord für einen Artikel"@de ;
+		rdfs:label "Erfassung für eine Energie"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Record ;
 		rdfs:range sdo:Item .		
@@ -585,14 +587,14 @@ sdo:forItem rdf:type rdf:Property ;
 #Analysis properties #		
 sdo:ofRecord rdf:type rdf:Property ;
 		rdfs:label "Analysis of a record"@en ;
-		rdfs:label "Analyse eines rekord"@de ;
+		rdfs:label "Analyse einer Erfassung"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Analysis ;
 		rdfs:range sdo:Record .	
 
 sdo:withTopic rdf:type rdf:Property ;
 		rdfs:label "Analysis with a topic"@en ;
-		rdfs:label "Analyse mit einem Thema"@de ;
+		rdfs:label "Analyse von einem Thema"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Analysis ;
 		rdfs:range sdo:Topic .	
@@ -629,7 +631,7 @@ sdo:hasRating rdf:type rdf:Property ;
 #Form feature property #		
 sdo:featureOfForm rdf:type rdf:Property ;
 		rdfs:label "Form feature of a form"@en ;
-		rdfs:label "Form Feature eines Form"@de ;
+		rdfs:label "Formular Feature eines Formulars"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:FormFeature ;
 		rdfs:range sdo:Form .			
@@ -674,7 +676,7 @@ sdo:EnergySavingsAccount rdf:type G:Concept, rdfs:Class, suo:Software ;
 sdo:Fuel rdf:type G:Concept, rdfs:Class, suo:Domain ;
 	rdfs:subClassOf sdo:Item ;
    	rdfs:label "Fuel"@en ;
-	rdfs:label "Tank"@de ;
+	rdfs:label "Treibstoff"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
 	
 sdo:Electricity rdf:type G:Concept, rdfs:Class, suo:Domain ;
@@ -749,14 +751,14 @@ sdo:hasWebPage rdf:type rdf:Property ;
 		
 sdo:hasUser rdf:type rdf:Property ;
 		rdfs:label "Application has a user"@en ;
-		rdfs:label "Programm hat eine Nutzer"@de ;
+		rdfs:label "Programm hat einen Nutzer"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Application ;
 		rdfs:range sdo:User .			
 		
 sdo:hasAccount rdf:type rdf:Property ;
 		rdfs:label "User has an account"@en ;
-		rdfs:label "Nutzer hat eine Konto"@de ;
+		rdfs:label "Nutzer hat ein Konto"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:User ;
 		rdfs:range sdo:Account .	
@@ -826,7 +828,7 @@ sdo:DeviceDataAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
 #Click Monitor
 sdo:ClickMonitorData rdf:type G:Concept, rdfs:Class, suo:Monitoring  ;
 	rdfs:label "Click Monitor Data"@en ;
-	rdfs:label "Klicken Monitor Daten"@de ;
+	rdfs:label "Klickmonitor Daten"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
 	
 # PROPERTIES #
@@ -834,7 +836,7 @@ sdo:ClickMonitorData rdf:type G:Concept, rdfs:Class, suo:Monitoring  ;
 #Domain topic properties #
 sdo:relatesToDomainTopic rdf:type rdf:Property ;
 		rdfs:label "Form relates to a domain topic"@en ;
-		rdfs:label "Form bezieht sich auf eine domain-thema"@de ;
+		rdfs:label "Formular bezieht sich auf ein Domain-Thema"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Form ;
 		rdfs:range sdo:DomainTopic .	
@@ -842,7 +844,7 @@ sdo:relatesToDomainTopic rdf:type rdf:Property ;
 		
 sdo:includesEstimation rdf:type rdf:Property ;
 		rdfs:label "Analysis includes an estimation"@en ;
-		rdfs:label "Die Analyse enthält einen einschätzung"@de ;
+		rdfs:label "Die Analyse enthält eine Schätzung"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:Analysis ;
 		rdfs:range sdo:Estimation .		
@@ -863,7 +865,7 @@ sdo:relatesToDevice rdf:type rdf:Property ;
 		
 sdo:relatesToData rdf:type rdf:Property ;
 		rdfs:label "Data Action relates to data"@en ;
-		rdfs:label "Datenaktion bezieht sich auf daten"@de ;
+		rdfs:label "Datenaktion bezieht sich auf die Daten"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:DataAction ;
 		rdfs:range sdo:Data .	
@@ -905,7 +907,7 @@ sdo:FeedbackSentiment rdf:type G:Feature, rdfs:Class, suo:Feedback  ;
 
 sdo:ClicksNumber rdf:type G:Feature, rdfs:Class, suo:Monitoring ;
 	rdfs:label "Clicks number"@en ;
-	rdfs:label "Klicks Nummer"@de ;
+	rdfs:label "Anzahl der Klicks"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
 
 sdo:TimeAttribute rdf:type G:Feature, rdfs:Class, suo:Domain  ;
