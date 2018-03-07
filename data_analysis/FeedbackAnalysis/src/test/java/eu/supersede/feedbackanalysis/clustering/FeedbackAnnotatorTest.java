@@ -33,7 +33,7 @@ public class FeedbackAnnotatorTest {
 	String ontologyFile = "SDO_ontology.ttl";
 	boolean classLabelsOnly = false;
 	boolean direct = true; 
-	String language = "en";
+	String language = "de";
 	FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, language, classLabelsOnly, direct);
 	
 	@Before

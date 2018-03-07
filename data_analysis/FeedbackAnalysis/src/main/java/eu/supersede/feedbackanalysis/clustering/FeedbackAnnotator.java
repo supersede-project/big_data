@@ -57,7 +57,7 @@ public class FeedbackAnnotator {
 
 		ontologyWrapper = new OntologyWrapper(ontologyFile, language, classLabelsOnly, directLinksOnly);
 		// posWrapper = new POSWrapper(analysisType);
-		wordnetWrapper = new WordNetWrapper(ontologyWrapper);
+		wordnetWrapper = new WordNetWrapper(ontologyWrapper, language);
 
 		// add header to stat buffer
 		statBuffer.append("feedback_id,feedback_text,num_terms,num_expanded_terms,delta,num_concepts_found,terms,expanded_terms,concepts,original_category\n");

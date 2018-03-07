@@ -28,7 +28,7 @@ public class OntologyWrapperTest {
 		String ontologyFile = "SDO_ontology.ttl"; //"saref.ttl"; //
 		boolean classOnly = false;
 		boolean direct = true;
-		String language = "en";
+		String language = "de";
 		ontologyWrapper = new OntologyWrapper(ontologyFile, language, classOnly, direct);
 	}
 	

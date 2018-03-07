@@ -99,6 +99,13 @@ public class OntologyWrapper {
 		for (OntClass cl : classes) {
 			Set<String> terms = new HashSet<String>();
 
+			String resourceName = cl.getLocalName();
+			System.out.println("Class: " + resourceName);
+			if (resourceName != null) {
+				String classLbl = cl.getLabel(language).toLowerCase();
+				terms.addAll(Arrays.asList(classLbl.split(" ")));
+			}
+
 			if (!classLabelsOnly) {
 				// get all Properties in which this class is either a Domain or Range
 				ExtendedIterator<OntProperty> declaredProperties = cl.listDeclaredProperties(direct);
@@ -108,11 +115,6 @@ public class OntologyWrapper {
 					String lbl = property.getLabel(language).toLowerCase();
 					terms.addAll(Arrays.asList(lbl.split(" ")));
 				}
-			}
-			String resourceName = cl.getLocalName();
-			if (resourceName != null) {
-				String classLbl = cl.getLabel(language).toLowerCase();
-				terms.addAll(Arrays.asList(classLbl.split(" ")));
 			}
 			
 			// add terms to map

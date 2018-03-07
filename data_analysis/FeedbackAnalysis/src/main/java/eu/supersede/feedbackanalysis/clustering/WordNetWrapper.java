@@ -45,7 +45,7 @@ public class WordNetWrapper {
 
 	private WordNetDatabase database;
 	private OntologyWrapper ontologyWrapper;
-	private String WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+	private String WORDNET_DB_PATH; // = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
 
 	private WnStemmer stemmer;
 //	private String modelFile = "stanford-postagger-2017-06-09/models/english-left3words-distsim.tagger";
@@ -54,12 +54,19 @@ public class WordNetWrapper {
 	private StanfordCoreNLP pipeline;
 //	private AnalysisType analysisType;
 
-	private String stopWordsFile = "stopwords_en.txt";
-	private Set<String> stopWords = Utils.readStopWords(stopWordsFile);
+	
+	private String language;
+	private String stopWordsFile; // = "stopwords_en.txt";
+	private Set<String> stopWords; // = Utils.readStopWords(stopWordsFile);
 
-	public WordNetWrapper(OntologyWrapper ow) {
+	public WordNetWrapper(OntologyWrapper ow, String lang) {
 		ontologyWrapper = ow;
+		language = lang;
 		
+		loadStopWords();
+		
+		WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+		System.out.println("WordnetDbPath: " + WORDNET_DB_PATH);
 		System.setProperty("wordnet.database.dir", WORDNET_DB_PATH);
 
 		database = WordNetDatabase.getFileInstance();
@@ -115,6 +122,17 @@ public class WordNetWrapper {
 //        return url;
 //    }
 	
+	/**
+	 * 
+	 */
+	private void loadStopWords() {
+		if (language == null || language.isEmpty()) {
+			language = "en";
+		}
+		stopWordsFile = "stopwords_" + language.toLowerCase() + ".txt";
+		stopWords = Utils.readStopWords(stopWordsFile);
+	}
+
 	public Synset[] getAllSenses (String term){
 		Synset[] synsets = database.getSynsets(term);
 		return synsets;
