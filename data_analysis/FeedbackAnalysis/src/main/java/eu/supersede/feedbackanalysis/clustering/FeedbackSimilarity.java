@@ -54,7 +54,7 @@ public class FeedbackSimilarity {
 		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, language, classLabelsOnly, directLinksOnly);
 	}
 	
-	Map<UserFeedback, Double> getSimilarFeedback (List<UserFeedback> allFeedbacks, UserFeedback feedback, int N){
+	public Map<UserFeedback, Double> getSimilarFeedback (List<UserFeedback> allFeedbacks, UserFeedback feedback, int N){
 		
 		// Get feedback concepts
 		Set<OntClass> feedbackConcepts = feedbackAnnotator.annotateFeedback2(new FeedbackMessage(feedback.getFeedbackText()));
