@@ -1,34 +1,16 @@
 package eu.supersede.mdm.storage.resources;
 
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.util.JSON;
-import eu.supersede.mdm.storage.cep.RDF_Model.Rule;
-import eu.supersede.mdm.storage.cep.manager.Manager;
-import eu.supersede.mdm.storage.cep.sm4cep.Sm4cepParser;
-import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.ActionTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.OperatorTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.PredicatesTypes;
-import eu.supersede.mdm.storage.model.bdi_ontology.generation.BDIOntologyGenerationStrategies;
-import eu.supersede.mdm.storage.model.bdi_ontology.generation.Strategy_CopyFromSources;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.Rules;
 import eu.supersede.mdm.storage.util.ConfigManager;
-import eu.supersede.mdm.storage.util.RDFUtil;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import org.apache.jena.base.Sys;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.query.Dataset;
-import org.apache.jena.query.ReadWrite;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.tdb.sys.Names;
-import org.apache.jena.util.FileManager;
 import org.bson.Document;
 
 import javax.servlet.ServletContext;

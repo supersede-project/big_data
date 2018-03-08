@@ -1,51 +1,21 @@
 package eu.supersede.mdm.storage.resources;
 
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import eu.supersede.mdm.storage.cep.RDF_Model.Operators.*;
-import eu.supersede.mdm.storage.cep.RDF_Model.Rule;
-import eu.supersede.mdm.storage.cep.RDF_Model.action.Action;
-import eu.supersede.mdm.storage.cep.RDF_Model.condition.ComplexPredicate;
-import eu.supersede.mdm.storage.cep.RDF_Model.condition.Condition;
-import eu.supersede.mdm.storage.cep.RDF_Model.condition.LiteralOperand;
-import eu.supersede.mdm.storage.cep.RDF_Model.condition.SimpleClause;
-import eu.supersede.mdm.storage.cep.RDF_Model.event.*;
-import eu.supersede.mdm.storage.cep.RDF_Model.window.Window;
-import eu.supersede.mdm.storage.cep.RDF_Model.window.WindowType;
-import eu.supersede.mdm.storage.cep.manager.FlumeCollector;
-import eu.supersede.mdm.storage.cep.manager.Manager;
-import eu.supersede.mdm.storage.cep.sm4cep.Sm4cepParser;
-import eu.supersede.mdm.storage.model.bdi_ontology.Namespaces;
-import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.ActionTypes;
-import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.OperatorTypes;
-import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.PredicatesTypes;
-import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.Rules;
 import eu.supersede.mdm.storage.util.ConfigManager;
-import eu.supersede.mdm.storage.util.RDFUtil;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.query.Dataset;
-import org.apache.jena.query.ReadWrite;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.util.FileManager;
 import org.bson.Document;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Created by snadal on 22/11/16.
@@ -289,179 +259,6 @@ public class CERRuleResource {
         **/
         client.close();
         return Response.ok(objBody.toJSONString()).build();
-    }
-
-    @GET
-    @Path("eca_rule/{ruleName}/generate_config_file")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_ECA_rule_config_file(@PathParam("ruleName") String ruleName) {
-        System.out.println("[GET /eca_rule/{ruleName}/generate_config_file]");
-        try {
-            Sm4cepParser sm4cepparser = new Sm4cepParser();
-            sm4cepparser.getAllEventSchemata();
-            Rule r = sm4cepparser.getRule(ruleName);
-
-            Manager m = new Manager();
-            String s = m.CreateConfiguration("SergiAgent",Lists.newArrayList(sm4cepparser.getEventSchemata().values()), Lists.newArrayList(r),"localhost:9092","stream_type",false,"");
-
-            File f = File.createTempFile(UUID.randomUUID().toString(), ".config", new File("/home/alba/SUPERSEDE/tmpFiles/"));
-            BufferedWriter bw = new BufferedWriter(new FileWriter(s));
-            bw.write(ruleName);
-            bw.close();
-            System.out.println(f.getAbsolutePath());
-            //return Response.ok(new Gson().toJson(f)).build();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return Response.ok(new Gson().toJson(ruleName)).build();
-    }
-
-    //Load metamodel sm4cep
-    @GET @Path("eca_rule/load_sm4cep")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response GET_load_sm4cep() {
-        System.out.println("[GET /eca_rule/load_sm4cep/");
-        Dataset dataset = Utils.getTDBDataset();
-        dataset.begin(ReadWrite.WRITE);
-        Model model = dataset.getDefaultModel();
-        OntModel ontModel = ModelFactory.createOntologyModel();
-        model.add(FileManager.get().readModel(ontModel, "sm4cep_metamodel.ttl"));
-        model.commit();
-        model.close();
-        dataset.commit();
-        dataset.end();
-        dataset.close();
-        return Response.ok("OK").build();
-    }
-
-    @POST @Path("cer_rule/directGeneration")
-    @Consumes("text/plain")
-    public Response directGeneration(String body) throws FileNotFoundException {
-        List<EventSchema> events = Lists.newArrayList();
-        JSONObject objBody = (JSONObject) JSONValue.parse(body);
-        MongoClient client = Utils.getMongoDBClient();
-
-        // Sequence
-        Sequence sequence = new Sequence();
-        TemporalPattern sequenceEvent = new TemporalPattern();
-        sequenceEvent.setTemporalOperator(sequence);
-
-        ((JSONArray)objBody.get("pattern")).stream().forEach(event -> {
-            String eventId = (String)event;
-            Document eventDocument = getEventsCollection(client).find(new Document("eventID",eventId)).first();
-            EventSchema schema = new EventSchema(/*eventDocument.getString("event")*/eventId,Lists.newArrayList());
-            schema.setIRI(eventDocument.getString("event"));
-            EventResource.getAttributesForEvent(eventDocument.getString("graph")).forEach(attribute -> {
-                JSONObject objAttribute = (JSONObject)JSONValue.parse(attribute.toString());
-                schema.getAttributes().add(new Attribute(objAttribute.getAsString("name"), AttributeType.TYPE_STRING,schema));
-            });
-            schema.setTopicName(eventDocument.getString("kafkaTopic"));
-
-            events.add(schema);
-
-            Event ev = new Event();
-            ev.setEventSchema(schema);
-            sequenceEvent.addEvents(ev);
-        });
-        Rule R = new Rule();
-        R.setIRI(objBody.getAsString("ruleName"));
-
-        // Process conditions (filters)
-        ComplexPredicate whereCondition = new ComplexPredicate();
-        whereCondition.setOperator(new LogicOperator(LogicOperatorEnum.Conjunction));
-        ((JSONArray)objBody.get("filters")).stream().forEach(filter -> {
-            JSONObject objFilter = (JSONObject)JSONValue.parse(filter.toString());
-            LiteralOperand l = new LiteralOperand(AttributeType.TYPE_STRING,objFilter.getAsString("rightOperand"));
-            SimpleClause c = new SimpleClause();
-
-            c.setOperand1(events.stream()
-                    .filter(es -> es.getEventName().equals(objFilter.getAsString("event"))).collect(Collectors.toList()).get(0)
-                    .getAttributes().stream()
-                    .filter(a -> a.getName().equals(objFilter.getAsString("leftOperand"))).collect(Collectors.toList()).get(0));
-            c.setOperator(new ComparasionOperator(ComparasionOperatorEnum.EQ));
-            c.setOperand2(l);
-
-            whereCondition.getConditions().add(c);
-        });
-
-        Within within = new Within();
-        within.setOffset(Integer.parseInt(objBody.getAsString("windowTime")));
-        within.setTimeUnit(TimeUnit.second);
-
-        TemporalPattern withinEvent = new TemporalPattern();
-        withinEvent.setTemporalOperator(within);
-        withinEvent.addEvents(sequenceEvent);
-
-        //Window
-        Window window = new Window();
-        window.setTimeUnit(TimeUnit.second);
-        window.setWindowType(WindowType.TUMBLING_WINDOW);
-        window.setWithin(Integer.parseInt(objBody.getAsString("windowSize")));
-
-        //Action
-        Action action = new Action();
-        ((JSONArray)objBody.get("actionParameters")).stream().forEach(actionParameter -> {
-            String actionEvent = ((JSONObject)actionParameter).getAsString("event");
-            String actionAttribute = ((JSONObject)actionParameter).getAsString("attribute");
-
-            action.addActionAttribute(
-                    events.stream().filter(es -> es.getEventName().equals(actionEvent)).collect(Collectors.toList()).get(0)
-                    .getAttributes().stream().filter(a -> a.getName().equals(actionAttribute)).collect(Collectors.toList()).get(0)
-            );
-        });
-
-        R.setCondition(whereCondition);
-        R.setCEPElement(withinEvent);
-        R.setWindow(window);
-        R.setAction(action);
-
-        System.out.println("######################################################################");
-        System.out.println("######################################################################");
-        System.out.println("######################################################################");
-
-        Manager m = new Manager();
-        String conf = "fail";
-        try {
-            conf = m.CreateConfiguration(objBody.getAsString("ruleName"),events,Lists.newArrayList(R),
-                    "localhost:9092","json",false,"");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(conf);
-
-        System.out.println("######################################################################");
-        System.out.println("######################################################################");
-        System.out.println("######################################################################");
-
-        FlumeCollector flumeCollector = new FlumeCollector();
-        try {
-            String collector = flumeCollector.interpret("collector", events, Lists.newArrayList(R), "localhost:9092", "json", false, "");
-            System.out.println("collector");
-            System.out.println(collector);
-        } catch (Exception exc) {
-            exc.printStackTrace();
-        }
-
-        System.out.println("######################################################################");
-        System.out.println("######################################################################");
-        System.out.println("######################################################################");
-
-/*
-        Manager m = new Manager();
-        String conf = "fail";
-        try {
-            conf = m.CreateConfiguration(objBody.getAsString("ruleName"),events,Lists.newArrayList(R),
-                    "localhost:9092","json",false,"");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(conf);
-*/
-        return Response.ok("ciao").build();
     }
 
 }
