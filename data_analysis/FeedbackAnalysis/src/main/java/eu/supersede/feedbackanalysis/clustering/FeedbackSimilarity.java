@@ -34,24 +34,24 @@ public class FeedbackSimilarity {
 	/**
 	 * 
 	 */
-	public FeedbackSimilarity(String ontologyFile, SimilarityMeasure sm) {
+	public FeedbackSimilarity(String ontologyFile, String wordnetDbPath, SimilarityMeasure sm) {
 		similarityMeasure = sm;
-		feedbackAnnotator = new FeedbackAnnotator(ontologyFile);
+		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath);
 	}
 	
-	public FeedbackSimilarity(String ontologyFile, String language) {
+	public FeedbackSimilarity(String ontologyFile, String wordnetDbPath, String language) {
 		similarityMeasure = SimilarityMeasure.JACCARD;
 		boolean classLabelsOnly = false;
 		boolean directLinksOnly = true;
-		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, language, classLabelsOnly, directLinksOnly);
+		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, directLinksOnly);
 	}
 	
-	public FeedbackSimilarity(String ontologyFile) {
+	public FeedbackSimilarity(String ontologyFile, String wordnetDbPath) {
 		similarityMeasure = SimilarityMeasure.JACCARD;
 		boolean classLabelsOnly = false;
 		boolean directLinksOnly = true;
 		String language = "en";
-		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, language, classLabelsOnly, directLinksOnly);
+		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, directLinksOnly);
 	}
 	
 	public Map<UserFeedback, Double> getSimilarFeedback (List<UserFeedback> allFeedbacks, UserFeedback feedback, int N){

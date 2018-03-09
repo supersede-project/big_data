@@ -59,13 +59,17 @@ public class WordNetWrapper {
 	private String stopWordsFile; // = "stopwords_en.txt";
 	private Set<String> stopWords; // = Utils.readStopWords(stopWordsFile);
 
-	public WordNetWrapper(OntologyWrapper ow, String lang) {
+	public WordNetWrapper(OntologyWrapper ow, String wordnetDbPath, String lang) {
 		ontologyWrapper = ow;
 		language = lang;
 		
 		loadStopWords();
 		
-		WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+		if (null != wordnetDbPath && !wordnetDbPath.isEmpty()) {
+			WORDNET_DB_PATH = wordnetDbPath;
+		}else {
+			WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+		}
 		System.out.println("WordnetDbPath: " + WORDNET_DB_PATH);
 		System.setProperty("wordnet.database.dir", WORDNET_DB_PATH);
 

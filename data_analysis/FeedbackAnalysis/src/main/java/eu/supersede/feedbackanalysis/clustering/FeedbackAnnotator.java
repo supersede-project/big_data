@@ -52,19 +52,19 @@ public class FeedbackAnnotator {
 		ALL, NOUNS_ONLY, VERBS_ONLY, NOUNS_AND_VERBS
 	}
 	
-	public FeedbackAnnotator(String ontologyFile, String language, boolean classLabelsOnly, boolean directLinksOnly) {
+	public FeedbackAnnotator(String ontologyFile, String wordnetDbPath, String language, boolean classLabelsOnly, boolean directLinksOnly) {
 //		analysisType = at;
 
 		ontologyWrapper = new OntologyWrapper(ontologyFile, language, classLabelsOnly, directLinksOnly);
 		// posWrapper = new POSWrapper(analysisType);
-		wordnetWrapper = new WordNetWrapper(ontologyWrapper, language);
+		wordnetWrapper = new WordNetWrapper(ontologyWrapper, wordnetDbPath, language);
 
 		// add header to stat buffer
 		statBuffer.append("feedback_id,feedback_text,num_terms,num_expanded_terms,delta,num_concepts_found,terms,expanded_terms,concepts,original_category\n");
 	}
 	
-	public FeedbackAnnotator(String ontologyFile) {
-		this(ontologyFile, "en", false, false);
+	public FeedbackAnnotator(String ontologyFile, String wordnetDbPath) {
+		this(ontologyFile, wordnetDbPath, "en", false, false);
 	}
 
 	private void exportCSVEntry (FeedbackMessage feedback, Set<String> terms, Set<String> expandedTerms, Set<OntClass> concepts) {
@@ -364,7 +364,8 @@ public class FeedbackAnnotator {
 		if (args.length == 4) {
 			directLinksOnly = Boolean.parseBoolean(args[3]);
 		}
-		FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, language, classLabelsOnly, directLinksOnly);
+		String wordnetDbPath = ""; // empty means let it be searched in classpath
+		FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, directLinksOnly);
 
 		String csvPath = "trainingsets/SENERCON_translated_ALL.csv";
 		List<FeedbackMessage> feedbackMessages = feedbackAnnotator.getFeedbackMessages(csvPath);

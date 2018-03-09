@@ -34,7 +34,8 @@ public class FeedbackAnnotatorTest {
 	boolean classLabelsOnly = false;
 	boolean direct = true; 
 	String language = "de";
-	FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, language, classLabelsOnly, direct);
+	String wordnetDbPath = ""; // let it be located from classpath
+	FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, direct);
 	
 	@Before
 	public void init() {
