@@ -201,6 +201,7 @@ app.post('/files', upload.single('file'), function (req, res, next) {
 /****************************   Feedback classification  *********************************/
 
 app.post('/classify/feedback', classification_routes.classifyFeedback);
+app.post('/cluster/feedback', classification_routes.clusterFeedback);
 
 
 /********** Admin resource *************************************************************/

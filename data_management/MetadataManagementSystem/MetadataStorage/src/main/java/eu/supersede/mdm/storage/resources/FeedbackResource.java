@@ -11,6 +11,7 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.FeedbackUtils;
 import eu.supersede.mdm.storage.util.Utils;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -76,10 +77,19 @@ public class FeedbackResource {
         }
         List<UserFeedback> allFeedbacks = FeedbackUtils.getAllFeedbacks(pathToFeedbacks);
 
-        FeedbackSimilarity sim = new FeedbackSimilarity(pathToOntology);
+        FeedbackSimilarity sim = new FeedbackSimilarity(pathToOntology,ConfigManager.getProperty("wordnet_path"));
         Map<UserFeedback,Double> clusters = sim.getSimilarFeedback(allFeedbacks,new UserFeedback(feedback),N);
 
-        return Response.ok(clusters.toString()).build();
+        JSONArray out = new JSONArray();
+        clusters.forEach((userFeedback, similarity) -> {
+            JSONObject anElement = new JSONObject();
+            anElement.put("feedback",userFeedback.getFeedbackText());
+            anElement.put("similarity",similarity);
+
+            out.add(anElement);
+        });
+
+        return Response.ok(out.toJSONString()).build();
     }
 
 

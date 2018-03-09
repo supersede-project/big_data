@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONValue;
-import org.json.JSONObject;
+import net.minidev.json.JSONObject;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -23,12 +23,13 @@ public class FeedbackUtils {
         for (String l : Files.lines(new File(path).toPath()).collect(Collectors.toList())) {
             json += (l.replace("\n",""));
             try {
-                JSONObject a = (JSONObject) JSONValue.parse(json.substring(0,json.length()-1));
+                JSONObject a = (JSONObject) JSONValue.parse(json);
                 if (a != null) {
                     allJsons.add(json);
                     json = "";
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
