@@ -1,6 +1,7 @@
 package eu.supersede.feedbackanalysis.ds;
 
 public class UserFeedback {
+	private String feedbackId;
 	private String feedbackText;
 	private ClassificationResult classificationResult;
 	
@@ -29,6 +30,14 @@ public class UserFeedback {
 
 	public void setClassificationResult(ClassificationResult classificationResult) {
 		this.classificationResult = classificationResult;
+	}
+
+	public String getFeedbackId() {
+		return feedbackId;
+	}
+
+	public void setFeedbackId(String feedbackId) {
+		this.feedbackId = feedbackId;
 	}
 	
 }
