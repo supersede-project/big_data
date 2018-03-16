@@ -42,13 +42,15 @@ exports.getAllEvents = function (req, res, next) {
 exports.postEvent = function (req, res, next) {
     if (!(req.body.hasOwnProperty('event')) || req.body.event == null
         || !(req.body.hasOwnProperty('jsonInstances')) || req.body.jsonInstances == null
-        || !(req.body.hasOwnProperty('platform')) || req.body.platform == null) {
-        res.status(400).json({msg: "(Bad Request) data format: {event, schemaVersion, jsonInstances, platform}"});
+        || !(req.body.hasOwnProperty('platform')) || req.body.platform == null
+        || !(req.body.hasOwnProperty('tenant')) || req.body.tenant == null) {
+        res.status(400).json({msg: "(Bad Request) data format: {event, jsonInstances, platform, tenant}"});
     } else {
         var event = new Object();
         event.event = req.body.event;
         event.jsonInstances = req.body.jsonInstances;
         event.platform = req.body.platform;
+        event.tenant = req.body.tenant;
 
         if (!req.body.kafkaTopic) event.kafkaTopic = "";
         else event.kafkaTopic = req.body.kafkaTopic;

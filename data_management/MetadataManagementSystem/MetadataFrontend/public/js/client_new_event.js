@@ -35,6 +35,15 @@ $(document).ready( function() {
         });
     });
 
+    $.get("/supersede/tenants", function(data) {
+        _.each(data, function(element,index,list) {
+            $("#tenant").append($('<option value="'+element+'">').text(element));
+        });
+        $("#tenant").select2({
+            theme: "bootstrap"
+        });
+    });
+
     $(".checkbox").change(function() {
         if(this.checked) {
             $("#dispatcherStrategyForm").show();
@@ -53,6 +62,7 @@ $(document).ready( function() {
         event.dispatch = $("#dispatch")[0].checked;
         event.dispatcherStrategy = $("#dispatcherStrategy").val();
         event.platform = $("#platform").val();
+        event.tenant = $("#tenant").val();
 
         $.ajax({
             url: '/event',

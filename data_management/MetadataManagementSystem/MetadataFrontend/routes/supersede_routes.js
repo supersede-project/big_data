@@ -15,6 +15,16 @@ exports.getPlatforms = function (req, res, next) {
     });
 };
 
+exports.getTenants = function (req, res, next) {
+    request.get(config.METADATA_DATA_LAYER_URL + "supersede/tenants", function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).json(JSON.parse(body));
+        } else {
+            res.status(500).send("Error retrieving list of tenants");
+        }
+    });
+};
+
 exports.feedbackReconfiguration = function (req, res, next) {
     if (!(req.body.hasOwnProperty('applicationId')) || req.body.applicationId == null
         || !(req.body.hasOwnProperty('configurationId')) || req.body.configurationId == null

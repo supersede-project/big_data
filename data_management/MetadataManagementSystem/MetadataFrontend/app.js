@@ -146,6 +146,7 @@ app.post('/event', event_routes.postEvent);
 /********** SUPERSEDE resource *************************************************************/
 
 app.get('/supersede/platforms', supersede_routes.getPlatforms);
+app.get('/supersede/tenants', supersede_routes.getTenants);
 app.post('/supersede/feedbackReconfiguration', supersede_routes.feedbackReconfiguration);
 
 /********** Statistical Analysis Model resource ******************************************/

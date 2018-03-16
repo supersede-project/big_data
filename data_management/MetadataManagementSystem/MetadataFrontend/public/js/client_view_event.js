@@ -22,5 +22,6 @@ $(window).load(function() {
         };
         var editor = new JSONEditor(container, options);
         editor.set(JSON.parse(eventObj.jsonInstances));
+        $("#tenant").val(eventObj.tenant);
     });
 });
