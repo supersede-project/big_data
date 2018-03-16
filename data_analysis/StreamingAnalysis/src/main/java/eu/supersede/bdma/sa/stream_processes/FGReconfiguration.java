@@ -38,13 +38,6 @@ import java.util.stream.Collectors;
  */
 public class FGReconfiguration {
 
-    static final Map<Integer, String> IDs_to_LABELS = ImmutableMap.of(
-            514, "one",
-            515, "two",
-            516, ""
-    );
-
-
     public static void process(JavaSparkContext ctx) {
         List<String> IDs = Lists.newArrayList(Main.properties.getProperty("IDs_FOR_CATEGORIES").split(","));
 
@@ -86,12 +79,12 @@ public class FGReconfiguration {
                    .collect();
 
                 for (int i = 0; i < frequencies.size(); ++i) {
-                    actions.add(new ActionOnAttribute("CATEGORY_TYPE."+(frequencies.get(i)._2)+".order",AttributeAction.update,i+1));
+                    actions.add(new ActionOnAttribute("category_type.id_"+(frequencies.get(i)._2)+".order",AttributeAction.update,i+1));
                 }
                 //Check for 0s
                 IDs.forEach(id -> {
                     if (actions.stream().filter(a -> a.getId().equals(id)).collect(Collectors.toList()).isEmpty()) {
-                        actions.add(new ActionOnAttribute("CATEGORY_TYPE."+id+".order",AttributeAction.update,actions.size()+1));
+                        actions.add(new ActionOnAttribute("category_type.id_"+id+".order",AttributeAction.update,actions.size()+1));
                     }
                 });
 

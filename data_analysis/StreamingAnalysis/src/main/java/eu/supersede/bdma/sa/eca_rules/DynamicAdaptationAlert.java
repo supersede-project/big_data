@@ -34,13 +34,16 @@ public class DynamicAdaptationAlert {
 
         List<Condition> conditions = Lists.newArrayList();
 
-        Operator o = null;
-        if (r.getPredicate().val().equals(PredicatesTypes.EQ)) o = Operator.EQ;
-        else if (r.getPredicate().val().equals(PredicatesTypes.GT)) o = Operator.GT;
-        else if (r.getPredicate().val().equals(PredicatesTypes.LT)) o = Operator.LT;
-
         for (eu.supersede.integration.api.mdm.types.Condition c : r.getConditions()) {
-            conditions.add(new Condition(new DataID("Tool", c.getAttribute()), o, Double.parseDouble(r.getValue().toString())));
+            Operator o = null;
+            if (c.getPredicate().equals("EQUALS")) o = Operator.EQ;
+            else if (c.getPredicate().equals("GREATER_THAN")) o = Operator.GT;
+            else if (c.getPredicate().equals("LESS_THAN")) o = Operator.LT;
+
+            String[] IRIparts = c.getAttribute().split("/");
+            String attrName = IRIparts[IRIparts.length-1];
+
+            conditions.add(new Condition(new DataID("Tool", attrName), o, Double.parseDouble(c.getValue().toString())));
 
         }
         alert.setConditions(conditions);

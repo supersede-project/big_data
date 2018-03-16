@@ -28,8 +28,8 @@ public class Sockets {
         //Development server
         //URL url = new URL("http://supersede.es.atos.net:3001/"+path);
         //Production server
-        URL url = new URL("http://platform.supersede.eu:3001/"+path);
-        //URL url = new URL("http://localhost:3000/"+path);
+        //URL url = new URL("http://platform.supersede.eu:3001/"+path);
+        URL url = new URL("http://localhost:3000/"+path);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("content-type", "application/json");

@@ -5,8 +5,12 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
+import eu.supersede.bdma.sa.eca_rules.FeedbackReconfigurationAlert;
+import eu.supersede.bdma.sa.eca_rules.MonitorReconfigurationAlert;
 import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
 import eu.supersede.bdma.sa.eca_rules.conditions.ConditionEvaluator;
+import eu.supersede.bdma.sa.utils.MonitorReconfigurationJSON;
+import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.integration.api.mdm.types.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -56,6 +60,9 @@ public class RuleEvaluation {
                                 int valids = 0;
                                 List<String> extractedData = Lists.newArrayList();
                                 for (String json : data) {
+                                    //This is for the monitoring reconfiguration monitor
+                                    if (json.contains("disk consumption attachments")) json = MonitorReconfigurationJSON.adaptJSON(json);
+
                                     Utils.extractFeatures(json, condition.getAttribute()).forEach(element -> extractedData.add(element));
                                 }
 
@@ -72,26 +79,49 @@ public class RuleEvaluation {
                                         }
                                     }
                                 }
-                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.FEEDBACK_CLASSIFIER_LABEL)) {
-                                    valids = ConditionEvaluator.evaluateFeedbackClassifierRule(condition.getPredicate(),
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.ENGLISH_FEEDBACK_CLASSIFIER_LABEL)) {
+                                    valids = ConditionEvaluator.evaluateEnglishFeedbackClassifierRule(condition.getPredicate(),
                                             condition.getValue(), Iterables.toArray(extractedData, String.class));
                                 }
-                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.OVERALL_SENTIMENT)) {
-                                    valids = ConditionEvaluator.evaluateOverallSentimentRule(condition.getPredicate(),
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.ENGLISH_OVERALL_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateEnglishOverallSentimentRule(condition.getPredicate(),
                                             condition.getValue(), Iterables.toArray(extractedData, String.class));
                                 }
-                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.POSITIVE_SENTIMENT)) {
-                                    valids = ConditionEvaluator.evaluatePositiveSentimentRule(condition.getPredicate(),
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.ENGLISH_POSITIVE_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateEnglishPositiveSentimentRule(condition.getPredicate(),
                                             condition.getValue(), Iterables.toArray(extractedData, String.class));
                                 }
-                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.NEGATIVE_SENTIMENT)) {
-                                    valids = ConditionEvaluator.evaluateNegativeSentimentRule(condition.getPredicate(),
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.ENGLISH_NEGATIVE_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateEnglishNegativeSentimentRule(condition.getPredicate(),
                                             condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.GERMAN_FEEDBACK_CLASSIFIER_LABEL)) {
+                                    valids = ConditionEvaluator.evaluateGermanFeedbackClassifierRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.GERMAN_OVERALL_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateGermanOverallSentimentRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.GERMAN_POSITIVE_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateGermanPositiveSentimentRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.GERMAN_NEGATIVE_SENTIMENT)) {
+                                    valids = ConditionEvaluator.evaluateGermanNegativeSentimentRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class));
+                                }
+                                else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.ONTOLOGICAL_DISTANCE)) {
+                                    valids = ConditionEvaluator.evaluateOntologicalDistanceRule(condition.getPredicate(),
+                                            condition.getValue(), Iterables.toArray(extractedData, String.class), eca_rule.getParameters(),
+                                            eca_rule.getEvent().getTenant());
+                                    //eca_rule.getEvent().get
                                 }
 
                                 if (valids < eca_rule.getWindowSize()) allConditionsOK = false;
 
                             }
+
                             if (allConditionsOK) {
                                 firedRulesXTimestamp.put(eca_rule.getEca_ruleID(),System.currentTimeMillis());
                                 if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val())) {
@@ -100,13 +130,16 @@ public class RuleEvaluation {
                                          Utils.extractFeatures(json,"Attributes/textFeedbacks/text").
                                                  forEach(e -> feedbacks.add(e));
                                     }
-                                    SoftwareEvolutionAlert.sendAlert(eca_rule, Iterables.toArray(feedbacks,String.class));
+                                    //SoftwareEvolutionAlert.sendAlert(eca_rule, Iterables.toArray(feedbacks,String.class));
                                 }
                                 else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val())) {
                                     DynamicAdaptationAlert.sendAlert(eca_rule);
                                 }
                                 else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val())) {
-
+                                    MonitorReconfigurationAlert.sendAlert(eca_rule,data);
+                                }
+                                else if (windowType.val().equals(ActionTypes.ALERT_FEEDBACK_RECONFIGURATION.val())) {
+                                    FeedbackReconfigurationAlert.sendAlert(eca_rule);
                                 }
                             }
                         }
@@ -114,7 +147,6 @@ public class RuleEvaluation {
                 });
             });
     }
-
 
     public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream,
                                Broadcast<List<Event>> events,
@@ -164,9 +196,22 @@ public class RuleEvaluation {
                     return recordsPerRule.iterator();
                 }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"))),new Duration(5000));
 
+        JavaPairDStream<String, Tuple2<String,Long>> feedbackReconfigurationWindow = nonEmptyStream
+                .flatMapToPair(record -> {
+                    List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
+                    rules.value().forEach(rule -> {
+                        if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
+                                rule.getAction().val().equals(ActionTypes.ALERT_FEEDBACK_RECONFIGURATION.val())) {
+                            recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
+                                    new Tuple2<String, Long>(record.value(),System.currentTimeMillis())));
+                        }
+                    });
+                    return recordsPerRule.iterator();
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_FEEDBACK_RECONF_MS"))),new Duration(5000));
+
         windowBasedRuleEvaluation(evolutionWindow,ActionTypes.ALERT_EVOLUTION,events,rules);
         windowBasedRuleEvaluation(adaptationWindow,ActionTypes.ALERT_DYNAMIC_ADAPTATION,events,rules);
         windowBasedRuleEvaluation(monitorReconfigurationWindow,ActionTypes.ALERT_MONITOR_RECONFIGURATION,events,rules);
-
+        windowBasedRuleEvaluation(feedbackReconfigurationWindow,ActionTypes.ALERT_FEEDBACK_RECONFIGURATION,events,rules);
     }
 }

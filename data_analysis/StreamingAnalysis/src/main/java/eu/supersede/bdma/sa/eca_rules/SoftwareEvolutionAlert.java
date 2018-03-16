@@ -32,7 +32,6 @@ import java.util.UUID;
 public class SoftwareEvolutionAlert {
 
     public static void sendAlert(ECA_Rule rule, String[] contents) {
-
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
@@ -53,13 +52,14 @@ public class SoftwareEvolutionAlert {
                 }
             }
         }
+        System.out.println(feedbackClassified);
 
         for (String classificationLabel : feedbackClassified.keySet()) {
             Alert SE_alert = new Alert();
             SE_alert.setId(UUID.randomUUID().toString());
-            SE_alert.setApplicationId("SEnerCon feedback");
+            SE_alert.setApplicationId("Atos feedback");
             SE_alert.setTimestamp(System.currentTimeMillis());
-            SE_alert.setTenant("senercon");
+            SE_alert.setTenant("atos");
 
             List<Condition> conditions = Lists.newArrayList();
             conditions.add(new Condition(DataID.UNSPECIFIED, Operator.EQ, 1.0));

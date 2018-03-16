@@ -14,6 +14,7 @@ import eu.supersede.bdma.sa.utils.Properties;
 public class Main {
 
     public static Properties properties;
+    public static JavaSparkContext ctx;
 
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
@@ -25,6 +26,7 @@ public class Main {
         }
         SparkConf conf = new SparkConf().setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
         JavaSparkContext context = new JavaSparkContext(conf);
+        ctx = context;
         System.out.println("microbatch period = "+properties.getProperty("MICROBATCH_PERIOD"));
         JavaStreamingContext streamContext = new JavaStreamingContext(context, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
         //streamContext.checkpoint("checkpoint");

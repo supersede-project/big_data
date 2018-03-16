@@ -26,7 +26,6 @@ import org.apache.spark.streaming.api.java.JavaPairReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 //import org.apache.spark.streaming.kafka.KafkaUtils;
 //import org.json.JSONObject;
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;

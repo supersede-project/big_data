@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
+import eu.supersede.integration.api.adaptation.types.Tenant;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -117,4 +118,9 @@ public class Utils {
         return S.length() < 30 ? S.substring(0,S.length()-1) : S.substring(0,30);
     }
 
+    public static String getOntologyPath(String tenant) {
+        if (tenant.equals(Tenant.SENERCON.getId())) return "SDO_ontology.ttl";
+        else if (tenant.equals(Tenant.ATOS.getId())) return "ATOS_ontology.ttl";
+        return "";
+    }
 }

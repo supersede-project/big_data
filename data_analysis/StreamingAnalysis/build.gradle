@@ -4,6 +4,11 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven'
 
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 buildscript {
     repositories {
         mavenCentral()
@@ -25,6 +30,10 @@ buildscript {
         }
         maven {
             url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url "https://jitpack.io"
+            name "jitpack"
         }
     }
     dependencies {
@@ -89,12 +98,20 @@ dependencies {
         exclude (group: 'com.github.fommil.netlib')
     }
 
+
     compile("eu.supersede.dynadapt.dm:eu.supersede.dynadapt.dm.integration:1.0.0-SNAPSHOT"){
         changing = true
         exclude (group: 'com.fasterxml.jackson.core')
     }
 
+    compile("eu.supersede.feedbackanalysis:FeedbackAnalysis:0.1.0-SNAPSHOT"){
+        changing=true
+        exclude (group: 'xml-apis')
+        exclude (group: 'com.github.fommil.netlib')
+    }
+
     compile 'com.opencsv:opencsv:3.9'
+    compile 'com.github.jaytaylor:jaws:1.3.1'
 }
 
 configurations {

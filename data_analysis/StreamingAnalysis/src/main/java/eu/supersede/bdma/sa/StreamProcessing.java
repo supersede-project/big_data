@@ -20,6 +20,7 @@ import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.integration.api.mdm.types.ActionTypes;
+import eu.supersede.integration.api.mdm.types.Condition;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
 import eu.supersede.integration.api.mdm.types.Event;
 import net.minidev.json.JSONObject;
@@ -68,7 +69,6 @@ public class StreamProcessing {
     private static String dispatcher_path;
 
     public StreamProcessing() throws Exception {
-        //releases = MDMProxy.getReleasesIndexedPerKafkaTopic2(evo_adapt);
         events = MDMProxy.getAllEvents();
 
         kafkaParams = Maps.newHashMap();
