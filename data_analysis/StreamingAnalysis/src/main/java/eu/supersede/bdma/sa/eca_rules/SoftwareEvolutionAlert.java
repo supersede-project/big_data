@@ -14,6 +14,7 @@ import eu.supersede.feedbackanalysis.sentiment.MLSentimentAnalyzer;
 import eu.supersede.feedbackanalysis.sentiment.SentimentAnalyzer;
 import eu.supersede.integration.api.dm.types.*;
 import eu.supersede.integration.api.mdm.types.ECA_Rule;
+import eu.supersede.integration.api.mdm.types.Event;
 import eu.supersede.integration.api.pubsub.SubscriptionTopic;
 import eu.supersede.integration.api.pubsub.TopicPublisher;
 import eu.supersede.integration.api.pubsub.evolution.EvolutionPublisher;
@@ -31,7 +32,7 @@ import java.util.UUID;
  */
 public class SoftwareEvolutionAlert {
 
-    public static void sendAlert(ECA_Rule rule, String[] contents) {
+    public static void sendAlert(Event event, String[] contents) {
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
@@ -57,9 +58,9 @@ public class SoftwareEvolutionAlert {
         for (String classificationLabel : feedbackClassified.keySet()) {
             Alert SE_alert = new Alert();
             SE_alert.setId(UUID.randomUUID().toString());
-            SE_alert.setApplicationId("Atos feedback");
+            SE_alert.setApplicationId("App ID?");
             SE_alert.setTimestamp(System.currentTimeMillis());
-            SE_alert.setTenant("atos");
+            SE_alert.setTenant(event.getTenant());
 
             List<Condition> conditions = Lists.newArrayList();
             conditions.add(new Condition(DataID.UNSPECIFIED, Operator.EQ, 1.0));
@@ -106,7 +107,7 @@ public class SoftwareEvolutionAlert {
             SE_alert.setRequests(userRequests);
 
             try {
-                EvolutionPublisher publisher = new EvolutionPublisher(true,rule.getEvent().getPlatform());
+                EvolutionPublisher publisher = new EvolutionPublisher(true,event.getPlatform());
                 publisher.publishEvolutionAlertMesssage(SE_alert);
                 publisher.closeTopicConnection();
             } catch (NamingException e) {

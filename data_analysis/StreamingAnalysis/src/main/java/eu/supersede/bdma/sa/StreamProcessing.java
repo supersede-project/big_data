@@ -133,6 +133,10 @@ public class StreamProcessing {
             System.out.println("LAUNCH_FG_RECONFIGURATION");
             FGReconfiguration.process(ctx);
         }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_1_FEEDBACK_1_ALERT"))) {
+            System.out.println("LAUNCH_1_FEEDBACK_1_ALERT");
+            OneFeedbackOneAlert.process(kafkaStream,broadcastEvents);
+        }
 
     }
 }

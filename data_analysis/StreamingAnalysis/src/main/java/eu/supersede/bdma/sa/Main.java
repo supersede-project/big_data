@@ -63,8 +63,9 @@ public class Main {
             properties.getProperty("LAUNCH_GENERIC_STREAM_STATISTICS") == null ||
             properties.getProperty("LAUNCH_RAW_DATA_TO_LIVE_FEED") == null ||
             properties.getProperty("LAUNCH_RULE_EVALUATION") == null ||
-            properties.getProperty("LAUNCH_FG_RECONFIGURATION") == null
-            );
+            properties.getProperty("LAUNCH_FG_RECONFIGURATION") == null ||
+            properties.getProperty("LAUNCH_1_FEEDBACK_1_ALERT") == null
+        );
     }
 
 }
