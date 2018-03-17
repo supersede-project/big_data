@@ -26,6 +26,13 @@ block content
                                 .col-lg-10
                                     input#event.form-control(type='text', name='event', required='required')
 
+                            .form-group#typeForm
+                                label.col-lg-2.control-label(for='event') Type
+                                .col-lg-10
+                                    select#type(style="width:100%")
+                                        option(value="feedback") Feedback data
+                                        option(value="monitoring") Monitoring data
+
                             .form-group#jsonInstancesForm
                                 label.col-lg-2.control-label(for='jsoneditor') JSON Instances
                                 .col-lg-10

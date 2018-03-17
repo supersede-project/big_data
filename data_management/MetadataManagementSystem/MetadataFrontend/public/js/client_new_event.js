@@ -16,6 +16,10 @@ $(document).ready( function() {
     editor.set(new Object());
 
 
+    $("#type").select2({
+        theme: "bootstrap"
+    });
+
     $.get("/dispatcher_strategies_types", function(data) {
         _.each(data, function(element,index,list) {
             var obj = (element);
@@ -57,6 +61,7 @@ $(document).ready( function() {
 
         var event = new Object();
         event.event = $("#event").val();
+        event.type = $("#type").val();
         event.jsonInstances = JSON.stringify(editor.get());
         event.kafkaTopic = $("#kafkaTopic").val();
         event.dispatch = $("#dispatch")[0].checked;

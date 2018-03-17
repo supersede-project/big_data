@@ -41,6 +41,7 @@ exports.getAllEvents = function (req, res, next) {
 
 exports.postEvent = function (req, res, next) {
     if (!(req.body.hasOwnProperty('event')) || req.body.event == null
+        || !(req.body.hasOwnProperty('type')) || req.body.type == null
         || !(req.body.hasOwnProperty('jsonInstances')) || req.body.jsonInstances == null
         || !(req.body.hasOwnProperty('platform')) || req.body.platform == null
         || !(req.body.hasOwnProperty('tenant')) || req.body.tenant == null) {
@@ -48,6 +49,7 @@ exports.postEvent = function (req, res, next) {
     } else {
         var event = new Object();
         event.event = req.body.event;
+        event.type = req.body.type;
         event.jsonInstances = req.body.jsonInstances;
         event.platform = req.body.platform;
         event.tenant = req.body.tenant;

@@ -9,6 +9,7 @@ $(window).load(function() {
     $.get("/event/"+getParameterByName("eventID"), function(data) {
         var eventObj = (data);
         $("#event").val(eventObj.event);
+        $("#type").val(eventObj.type);
         $("#kafkaTopic").val(eventObj.kafkaTopic);
         if (eventObj.dispatch === "true") $("#dispatch").prop('checked', true);
         $("#dispatchTo").val(eventObj.dispatcherPath ? eventObj.dispatcherPath : '-');
