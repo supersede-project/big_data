@@ -31,7 +31,9 @@ public class WordNetWrapperTest {
 		boolean direct = true;
 		String language = "en";
 		OntologyWrapper ow = new OntologyWrapper(ontologyFile, language, classOnly, direct);
-		wordnet = new WordNetWrapper(ow );
+		String lang = "en";
+		String wordnetDbPath = ""; // let it be searched in classpath
+		wordnet = new WordNetWrapper(ow, wordnetDbPath, lang);
 	}
 	
 	@Test

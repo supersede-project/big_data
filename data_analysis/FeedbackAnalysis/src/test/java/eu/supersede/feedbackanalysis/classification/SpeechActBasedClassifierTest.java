@@ -4,8 +4,11 @@ import static org.junit.Assert.*;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.lucene.util.MathUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +17,10 @@ import com.opencsv.CSVReader;
 import eu.supersede.feedbackanalysis.ds.ClassificationResult;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.feedbackanalysis.preprocessing.utils.*;
+import weka.core.AttributeStats;
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
+import weka.filters.Filter;
 
 public class SpeechActBasedClassifierTest {
 
@@ -33,7 +40,7 @@ public class SpeechActBasedClassifierTest {
 //	}
 	
 	String resourcesDir = Thread.currentThread().getContextClassLoader().getResource(".").toString().replaceAll("file:","");
-	String dataset = "Y2_DEMO_input"; //"SENERCON_userfeedback_from_tool_test"; //"SENERCON_autotranslated_600_3_scale";
+	String dataset = "ATOS_userfeedback_category"; //"Y2_DEMO_input"; //"SENERCON_userfeedback_from_tool_test"; //"SENERCON_autotranslated_600_3_scale";
 	String csvPath = Thread.currentThread().getContextClassLoader().getResource("trainingsets/" + dataset + ".csv").toString().replace("file:",""); //resourcesDir + "/trainingsets/" + dataset + ".csv";
 	
 	@Test
@@ -43,16 +50,26 @@ public class SpeechActBasedClassifierTest {
 		String arff = attributeExtractor.getARFF(csvPath);
 		fileManager.writeFile(resourcesDir + "trainingsets/", dataset + ".csv.arff", arff);
 		String pathIn = resourcesDir + "trainingsets/" + dataset + ".csv.arff";
-		String pathOut = resourcesDir + "models/"; // + dataset + ".rf.model";
+		String pathOut = resourcesDir + "models/" + dataset + ".rf.model";
 		FeedbackClassifier classifier = new SpeechActBasedClassifier();
 		classifier.train(pathIn, pathOut);
 	}
 
+	@Test
+	public void testSMOTEFilter () throws Exception {
+		String pathIn = resourcesDir + "trainingsets/" + dataset + ".csv.arff";
+		DataSource dataSource = new DataSource(pathIn);
+		Instances instances = dataSource.getDataSet();
+		instances.setClassIndex(instances.numAttributes() - 1);
+		SpeechActBasedClassifier classifier = new SpeechActBasedClassifier();
+		instances = classifier.applyOversampling(instances);
+		System.out.println(instances.toString());
+	}
 	
 	@Test
 	public void testClassify() throws Exception{
 		FeedbackClassifier classifier = new SpeechActBasedClassifier();
-		String modelPath = Thread.currentThread().getContextClassLoader().getResource("models/rf.model").toString().replace("file:","");
+		String modelPath = Thread.currentThread().getContextClassLoader().getResource("models/" + dataset + ".rf.model").toString().replace("file:","");
 
 //		List<UserFeedback> userFeedbacks = new ArrayList<UserFeedback>();
 		CSVReader reader = new CSVReader(new FileReader(csvPath));
