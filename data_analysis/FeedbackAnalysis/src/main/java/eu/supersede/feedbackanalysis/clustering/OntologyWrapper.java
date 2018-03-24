@@ -184,11 +184,11 @@ public class OntologyWrapper {
 				}
 			}
 			// append label, in this case category
-			String category = entry.getKey().getCategory().trim();
-			if (category.isEmpty()) {
-				category = "UNLABELED";
+			String clusterId = entry.getKey().getClusterId().trim();
+			if (clusterId.isEmpty()) {
+				clusterId = "UNLABELED";
 			}
-			buffer.append(category + "," + entry.getKey().getId() + "\n");
+			buffer.append(clusterId + "," + entry.getKey().getId() + "\n");
 		}
 
 		return buffer.toString();
@@ -205,6 +205,20 @@ public class OntologyWrapper {
 			}
 		}
 		return fv;
+	}
+	
+	public String getFeatureVectorHeader(boolean addClass) {
+		StringBuffer header = new StringBuffer();
+		for (OntClass cl : classes) {
+			header.append(cl.toString() + ",");
+		}
+		if (addClass) {
+			header.append("class");
+		}else {
+			header.deleteCharAt(header.length() - 1);
+		}
+		header.append("\n");
+		return header.toString();
 	}
 	
 	/**
@@ -238,6 +252,43 @@ public class OntologyWrapper {
 			fv.append("?");
 		}else {
 			fv.deleteCharAt(fv.length() - 1);
+		}
+		return fv.toString();
+	}
+	
+	/**
+	 * this is just a convenience method to get the vector as a String so that it can be easily parsed to Weka Instances
+	 * @param concepts
+	 * @return
+	 */
+	public String conceptsToFeatureVectorString(List<Set<OntClass>> allConcepts, boolean header, boolean addClass) {
+		StringBuffer fv = new StringBuffer();
+		
+		if (header) {
+			for (OntClass cl : classes) {
+				fv.append(cl.getLocalName() + ",");
+			}
+			if (addClass) {
+				fv.append("class");
+			}else {
+				fv.deleteCharAt(fv.length() - 1);
+			}
+			fv.append("\n");
+		}
+		
+		for (Set<OntClass> concepts : allConcepts) {
+			for (OntClass concept : classes) {
+				if (concepts.contains(concept)) {
+					fv.append("1,");
+				}else {
+					fv.append("0,");
+				}
+			}
+			if (addClass) {
+				fv.append("?");
+			}else {
+				fv.deleteCharAt(fv.length() - 1);
+			}
 		}
 		return fv.toString();
 	}

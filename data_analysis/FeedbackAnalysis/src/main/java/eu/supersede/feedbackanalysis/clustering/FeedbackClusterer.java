@@ -7,19 +7,30 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
+import org.apache.jena.ontology.OntClass;
+
+import eu.supersede.feedbackanalysis.ds.UserFeedback;
 import eu.supersede.feedbackanalysis.preprocessing.utils.FileManager;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.Clusterer;
 import weka.clusterers.EM;
 import weka.clusterers.HierarchicalClusterer;
 import weka.clusterers.SimpleKMeans;
+import weka.core.DenseInstance;
 import weka.core.DistanceFunction;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.ManhattanDistance;
+import weka.core.SparseInstance;
 import weka.core.converters.CSVLoader;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.core.neighboursearch.LinearNNSearch;
@@ -34,12 +45,20 @@ import weka.filters.Filter;
 public class FeedbackClusterer {
 
 	Instances instances;
-	Instances filteredInstances;
+//	Instances filteredInstances;
 
+	FeedbackAnnotator feedbackAnnotator;
+	OntologyWrapper ontologyWrapper;
+	
 	/**
 	 * 
 	 */
 	public FeedbackClusterer(String dataset, boolean arff, boolean file, double percent) {
+		loadDataset(dataset, arff, file);
+
+	}
+
+	private void loadDataset(String dataset, boolean arff, boolean file) {
 		try {
 			InputStream is;
 			if (file) {
@@ -57,49 +76,94 @@ public class FeedbackClusterer {
 				instances = csvLoader.getDataSet();
 			}
 
-			// set classindex
-			instances.setClassIndex(instances.numAttributes() - 2);
-			
-			weka.filters.unsupervised.attribute.Remove filter = new weka.filters.unsupervised.attribute.Remove();
-			filter.setAttributeIndices((instances.classIndex() + 1) + "-last");
-			filter.setInputFormat(instances);
-			filteredInstances = Filter.useFilter(instances, filter);
+//			// set classindex
+//			instances.setClassIndex(instances.numAttributes() - 2);
+//			
+//			weka.filters.unsupervised.attribute.Remove filter = new weka.filters.unsupervised.attribute.Remove();
+//			filter.setAttributeIndices((instances.classIndex() + 1) + "-last");
+//			filter.setInputFormat(instances);
+//			filteredInstances = Filter.useFilter(instances, filter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to load dataset");
 		}
-
 	}
 
+	public FeedbackClusterer (String ontologyFile, String wordnetDbPath, String language) {
+		
+		boolean classLabelsOnly = false;
+		boolean directLinksOnly = true;
+		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, directLinksOnly);
+		ontologyWrapper = feedbackAnnotator.getOntologyWrapper();
+		
+	}
 	
-	public void computeClusters(int numClusters) {
+	public SimpleKMeans computeClusters (List<UserFeedback> feedbacks, int numClusters) {
+		
+		StringBuffer fvs = new StringBuffer();
+		boolean header = false;
+		boolean addClass = false;
+		fvs.append(ontologyWrapper.getFeatureVectorHeader(addClass));
+		for (UserFeedback userFeedback : feedbacks) {
+			Set<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
+			String fv = ontologyWrapper.conceptsToFeatureVectorString(concepts, header, addClass);
+			fvs.append(fv + "\n");
+		}
+		boolean arff = false;
+		boolean file = false;
+		loadDataset(fvs.toString(), arff, file);
+		
+		// compute clusters
+		SimpleKMeans clusterer = computeClusters(numClusters);
+		
+		return clusterer;
+	}
+	
+	public Map<Integer, List<UserFeedback>> clusterUserFeedback(List<UserFeedback> allFeedback, SimpleKMeans clusterer) throws Exception{
+		Map<Integer, List<UserFeedback>> feedbackClusters = new HashMap<Integer, List<UserFeedback>>();
+		for (UserFeedback userFeedback : allFeedback) {
+			Set<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
+			int[] fv = ontologyWrapper.conceptsToFeatureVector(concepts);
+			double weight = instances.attribute(0).weight();
+			Instance instance = new DenseInstance(weight, Arrays.stream(fv).asDoubleStream().toArray());
+			int cluster = clusterer.clusterInstance(instance);
+			if (!feedbackClusters.containsKey(cluster)) {
+				feedbackClusters.put(cluster, new ArrayList<UserFeedback>());
+			}
+			feedbackClusters.get(cluster).add(userFeedback);
+		}
+		return feedbackClusters;
+	}
+	
+	public SimpleKMeans computeClusters(int numClusters) {
 
 		SimpleKMeans clusterer = new SimpleKMeans();
 		try {
 			clusterer.setNumClusters(numClusters);
 			clusterer.setMaxIterations(100);
-			DistanceFunction df = new ManhattanDistance(filteredInstances);
+			DistanceFunction df = new ManhattanDistance(instances);
 			clusterer.setDistanceFunction(df);
-			clusterer.buildClusterer(filteredInstances);
+			clusterer.buildClusterer(instances);
 
 			// evaluate the clusters
-			ClusterEvaluation eval = new ClusterEvaluation();
-			eval.setClusterer(clusterer);
-			eval.evaluateClusterer(instances);
+//			ClusterEvaluation eval = new ClusterEvaluation();
+//			eval.setClusterer(clusterer);
+//			eval.evaluateClusterer(instances);
 			
 			// print results
-			System.err.println(eval.clusterResultsToString());
+//			System.err.println(eval.clusterResultsToString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return clusterer;
 	}
 
 	public Instances computeNearestNeighbors (int k) {
 		Instances nearestNeighbours = null;
 		try {
-			Instance t = filteredInstances.remove(0);
-			NearestNeighbourSearch nn = new LinearNNSearch(filteredInstances);
-			nn.setDistanceFunction(new ManhattanDistance(filteredInstances));
+			Instance t = instances.remove(0);
+			NearestNeighbourSearch nn = new LinearNNSearch(instances);
+			nn.setDistanceFunction(new ManhattanDistance(instances));
 			
 			nearestNeighbours = nn.kNearestNeighbours(t, k);
 			Iterator<Instance> iterator = nearestNeighbours.iterator();
@@ -117,7 +181,7 @@ public class FeedbackClusterer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String dataset = "SDO_ontology.ttl.fv.csv";
+		String dataset = "trainingsets/SDO_ontology.ttl.class_only.fv.csv";
 		boolean arff = false;
 		boolean file = true;
 		double percent = 0.7;

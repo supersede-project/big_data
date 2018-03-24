@@ -65,33 +65,39 @@ public class WordNetWrapper {
 		
 		loadStopWords();
 		
-		if (null != wordnetDbPath && !wordnetDbPath.isEmpty()) {
-			WORDNET_DB_PATH = wordnetDbPath;
-		}else {
-			WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+		// WordNet is used only for English feedback
+		if ("en".equalsIgnoreCase(lang)) {
+			if (null != wordnetDbPath && !wordnetDbPath.isEmpty()) {
+				WORDNET_DB_PATH = wordnetDbPath;
+			}else {
+				WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+			}
+			System.out.println("WordnetDbPath: " + WORDNET_DB_PATH);
+			System.setProperty("wordnet.database.dir", WORDNET_DB_PATH);
+	
+			database = WordNetDatabase.getFileInstance();
+	
+			// setup the WordnetStemmer
+			final Dictionary dict = new Dictionary(new File(WORDNET_DB_PATH));
+			dict.getCache().setMaximumCapacity(Integer.MAX_VALUE);
+	
+			try {
+				dict.open();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+			stemmer = new WnStemmer(dict);
 		}
-		System.out.println("WordnetDbPath: " + WORDNET_DB_PATH);
-		System.setProperty("wordnet.database.dir", WORDNET_DB_PATH);
-
-		database = WordNetDatabase.getFileInstance();
-
-		// setup the WordnetStemmer
-		final Dictionary dict = new Dictionary(new File(WORDNET_DB_PATH));
-		dict.getCache().setMaximumCapacity(Integer.MAX_VALUE);
-
-		try {
-			dict.open();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		stemmer = new WnStemmer(dict);
 
 		// setup CoreNLP pipeline
 		Properties props;
 		props = new Properties();
 		String annotators = "tokenize, ssplit, pos, lemma";
 		props.put("annotators", annotators);
+		if ("de".equalsIgnoreCase(lang)) {
+			props.put("-props", "StanfordCoreNLP-german.properties");
+		}
 		pipeline = new StanfordCoreNLP(props);
 	}
 

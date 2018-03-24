@@ -5,13 +5,25 @@ import static org.junit.Assert.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
+import org.apache.jena.atlas.iterator.FilterUnique;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Triple;
 import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntProperty;
+import org.apache.jena.ontology.OntTools;
+import org.apache.jena.ontology.OntTools.Path;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.util.iterator.Filter;
+import org.apache.xalan.xsltc.dom.EmptyFilter;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.stanford.nlp.util.RegexStringFilter;
 import eu.supersede.feedbackanalysis.clustering.OntologyWrapper;
 
 /**
@@ -27,9 +39,39 @@ public class OntologyWrapperTest {
 	public void init() {
 		String ontologyFile = "SDO_ontology.ttl"; //"saref.ttl"; //
 		boolean classOnly = false;
-		boolean direct = true;
-		String language = "de";
+		boolean direct = false;
+		String language = "en";
 		ontologyWrapper = new OntologyWrapper(ontologyFile, language, classOnly, direct);
+	}
+	
+	@Test
+	public void testGraphs() {
+		String terms = "heat meter consumption gas house";
+		Set<OntClass> concepts = new HashSet<OntClass>();
+		for (String term : terms.split(" ")) {
+			concepts.addAll(ontologyWrapper.lookupConcepts(term));
+		}
+		assertNotNull(concepts);
+
+		OntModel ontModel = ontologyWrapper.getOntModel();
+//		Graph graph = ontModel.getGraph();
+		OntClass first = null;
+		for (OntClass concept : concepts) {
+			System.out.println(concept.getURI());
+			if (first == null) {
+				first = concept;
+			} else {
+				Predicate<Statement> onPath =  new FilterUnique<>();
+				Path shortestPath = OntTools.findShortestPath(ontModel, first, concept, Filter.any );
+//				OntClass lca = OntTools.getLCA(ontModel, first, concept);
+				if (shortestPath != null) {
+				System.out.println("Path: " + first.toString() + ", " + concept.toString() + " ==> " + shortestPath.toString());
+				}else {
+					System.err.println("Unable to compute shortest path between: " + first + " and " + concept);
+				}
+			}
+			
+		}
 	}
 	
 	@Test
