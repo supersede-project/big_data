@@ -82,7 +82,7 @@ public class FeedbackClusterTest {
 		List<UserFeedback> userFeedbacks = FeedbackAnnotator.getUserFeedbackForClustering(csvPath);
 		
 		FeedbackClusterer feedbackClusterer = new FeedbackClusterer(ontologyFile, wordnetDbPath, language);
-		int numClusters = 10;
+		int numClusters = 40;
 		SimpleKMeans clusterer = feedbackClusterer.computeClusters(userFeedbacks, numClusters);
 		
 		Map<Integer, List<UserFeedback>> feedbackClusters = feedbackClusterer.clusterUserFeedback(userFeedbacks, clusterer);
@@ -92,6 +92,30 @@ public class FeedbackClusterTest {
 				System.out.println(fb.getFeedbackText());
 			}
 		}
+	}
+	
+	@Test
+	public void testComputeClustersFromLabeledFeedback() throws Exception {
+		String ontologyFile = "SDO_ontology.ttl";
+		String wordnetDbPath = null;
+		String language = "en";
+		
+		String csvPath = "trainingsets/SENERCON_userfeedback_clustering.csv"; //SENERCON_userfeedback_clustering_old.csv";
+		List<FeedbackMessage> feedbackMessages = FeedbackAnnotator.getFeedbackMessagesForClustering(csvPath);
+		
+		FeedbackClusterer feedbackClusterer = new FeedbackClusterer(ontologyFile, wordnetDbPath, language);
+		int numClusters = 40;
+		SimpleKMeans clusterer = feedbackClusterer.computeClusters2(feedbackMessages, numClusters);
+		
+		Map<Integer, List<FeedbackMessage>> feedbackClusters = feedbackClusterer.clusterUserFeedback2(feedbackMessages, clusterer);
+		for (Entry<Integer, List<FeedbackMessage>> entry : feedbackClusters.entrySet()) {
+			System.out.print("Cluster: " + entry.getKey() + " ==> ");
+			for (FeedbackMessage fb : entry.getValue()) {
+				System.out.print(fb.getClusterId() + ", ");
+			}
+			System.out.println();
+		}
+		
 	}
 	
 }

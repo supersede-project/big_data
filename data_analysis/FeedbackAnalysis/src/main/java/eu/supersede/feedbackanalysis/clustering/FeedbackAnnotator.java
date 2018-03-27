@@ -336,10 +336,10 @@ public class FeedbackAnnotator {
 	 * @param csvPath
 	 * @return a list of FeedbackMessage objects
 	 */
-	public List<FeedbackMessage> getFeedbackMessagesForClustering(String csvPath) {
+	public static List<FeedbackMessage> getFeedbackMessagesForClustering(String csvPath) {
 		List<FeedbackMessage> feedbackMessages = new ArrayList<FeedbackMessage>();
 		try {
-			Reader reader = new FileReader(new File(FileManager.getResource(csvPath, getClass().getClassLoader()).getFile()));
+			Reader reader = new FileReader(new File(FileManager.getResource(csvPath, FeedbackAnnotator.class.getClassLoader()).getFile()));
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader("feedback_id","user_id","type","category","group","date","feedback","feedback_translated").parse(reader);
 			for (CSVRecord record : records) {
 				if (record.get("feedback_id").equals("feedback_id")) {

@@ -4,6 +4,7 @@
 package eu.supersede.feedbackanalysis.clustering;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.jena.ontology.OntClass;
 
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
@@ -92,7 +94,7 @@ public class FeedbackClusterer {
 	public FeedbackClusterer (String ontologyFile, String wordnetDbPath, String language) {
 		
 		boolean classLabelsOnly = false;
-		boolean directLinksOnly = true;
+		boolean directLinksOnly = false;
 		feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, directLinksOnly);
 		ontologyWrapper = feedbackAnnotator.getOntologyWrapper();
 		
@@ -129,6 +131,52 @@ public class FeedbackClusterer {
 			int cluster = clusterer.clusterInstance(instance);
 			if (!feedbackClusters.containsKey(cluster)) {
 				feedbackClusters.put(cluster, new ArrayList<UserFeedback>());
+			}
+			feedbackClusters.get(cluster).add(userFeedback);
+		}
+		return feedbackClusters;
+	}
+	
+	
+	public SimpleKMeans computeClusters2 (List<FeedbackMessage> feedbacks, int numClusters) {
+		
+		StringBuffer fvs = new StringBuffer();
+		boolean header = false;
+		boolean addClass = false;
+		fvs.append(ontologyWrapper.getFeatureVectorHeader(addClass));
+		for (FeedbackMessage userFeedback : feedbacks) {
+			Set<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
+			String fv = ontologyWrapper.conceptsToFeatureVectorString(concepts, header, addClass);
+			fvs.append(fv + "\n");
+		}
+		boolean arff = false;
+		boolean file = false;
+		loadDataset(fvs.toString(), arff, file);
+		
+		// save fv
+		try {
+			String fvFile = "src/test/resources/trainingsets/SENERCON_fv.csv";
+			FileUtils.writeStringToFile(new File(fvFile), fvs.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// compute clusters
+		SimpleKMeans clusterer = computeClusters(numClusters);
+		
+		return clusterer;
+	}
+	
+	public Map<Integer, List<FeedbackMessage>> clusterUserFeedback2 (List<FeedbackMessage> allFeedback, SimpleKMeans clusterer) throws Exception{
+		Map<Integer, List<FeedbackMessage>> feedbackClusters = new HashMap<Integer, List<FeedbackMessage>>();
+		for (FeedbackMessage userFeedback : allFeedback) {
+			Set<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
+			int[] fv = ontologyWrapper.conceptsToFeatureVector(concepts);
+			double weight = instances.attribute(0).weight();
+			Instance instance = new DenseInstance(weight, Arrays.stream(fv).asDoubleStream().toArray());
+			int cluster = clusterer.clusterInstance(instance);
+			if (!feedbackClusters.containsKey(cluster)) {
+				feedbackClusters.put(cluster, new ArrayList<FeedbackMessage>());
 			}
 			feedbackClusters.get(cluster).add(userFeedback);
 		}
