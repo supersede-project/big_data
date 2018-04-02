@@ -187,8 +187,8 @@ public class ArtifactResource {
         }
 
         model.add(FileManager.get().readModel(ontModel, filePath));
-        model.commit();
-        model.close();
+        //model.commit();
+        //model.close();
         dataset.commit();
         dataset.end();
         dataset.close();

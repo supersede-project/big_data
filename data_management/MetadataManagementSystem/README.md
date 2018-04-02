@@ -51,9 +51,11 @@ With both services running, issue the following **curl** request.
 ```sh
 curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -H "Postman-Token: 2f1123ba-418a-f614-7659-6b59fd6d49d8" -d '{
 	"event":"TwitterMonitor",
-    "schemaVersion" : "Sample_Version_1",
+    "platform":"development",
+    "tenant":"atos",
+    "type":"feedback",
     "jsonInstances" : "{\"SocialNetworksMonitoredData\":{\"idOutput\":\"12345\",\"confId\":\"67890\",\"searchTimeStamp\":\"2016-07-19 17:23:00.000\",\"numDataItems\":1,\"DataItems\":[{\"idItem\":\"6253282\",\"timeStamp\":\"2016-05-25 20:03\",\"message\":\"Game on. Big ten network in 10 mins. Hoop for water. Flint we got ya back\",\"author\":\"@SnoopDogg\",\"link\":\"https:\/\/twitter.com\/SnoopDogg\/status\/734894106967703552\"}]}}"
-}' "http://localhost:3000/release/"
+}' "http://localhost:3000/event/"
 ```
 You should get a similar output to the following one. This is the Kafka topic where the data analysis components will expect to read the data from the provided event and schema version.
 ```json
