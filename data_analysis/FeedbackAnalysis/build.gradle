@@ -23,6 +23,7 @@ buildscript {
                 password = "${artifactory_password}"
             }
         }
+
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
@@ -45,6 +46,9 @@ repositories {
     add buildscript.repositories.getByName ("maven-supersede-release")
 }
 
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
 dependencies {
     compile 'nz.ac.waikato.cms.weka:weka-stable:3.8.0'
     compile 'edu.stanford.nlp:stanford-corenlp:3.6.0'
@@ -61,7 +65,7 @@ dependencies {
     compile 'uk.ac.gate:jaspell:0.3.1'
     compile 'edu.stanford.nlp:stanford-corenlp:3.8.0'
     compile 'edu.mit:jwi:2.2.3'
-    compile files('lib/synaptic-1.0-SNAPSHOT-jar-with-dependencies.jar')
+    compile files('./lib/synaptic-1.0-SNAPSHOT-jar-with-dependencies.jar')
 }
 
 
