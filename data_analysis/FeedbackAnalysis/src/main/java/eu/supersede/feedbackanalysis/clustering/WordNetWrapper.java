@@ -258,20 +258,26 @@ public class WordNetWrapper {
 		for (CoreMap sentence : sentences) {
 			// Iterate over all tokens in a sentence
 			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
-				String lemma = token.get(LemmaAnnotation.class);
-				// if stop word, skip it
-				if (isStopWord(lemma)) {
-					System.err.println("Skipping stop word: " + token.word());
-					continue;
-				}
+				
+//				// if stop word, skip it
+//				if (isStopWord(lemma)) {
+//					//System.err.println("Skipping stop word: " + token.word());
+//					continue;
+//				}
 				
 				// get POS tag and collect the lemma only for NOUNS, ADJ, VERB
 				String pos = token.get(PartOfSpeechAnnotation.class);
 
 				if (includeCoreNLPTag(pos)) {
-					// Retrieve and add the lemma for each word into the
-					// list of lemmas
-					terms.add(lemma);
+					String longLemma = token.get(LemmaAnnotation.class);
+					// Retrieve and add the lemma for each word into the list of lemmas
+					// if composite word (e.g., water-meter, house/office, ...), break it up
+					String[] parts = longLemma.split("[-/]");
+					for (String lemma : parts) {
+						if (!isStopWord(lemma)) {
+							terms.add(lemma);
+						}
+					}
 				}
 			}
 		}
@@ -285,7 +291,7 @@ public class WordNetWrapper {
 				posTag.startsWith("JJ")){
 			return true;
 		}else {
-			System.err.println("Skipping POS: " + posTag);
+			//System.err.println("Skipping POS: " + posTag);
 			return false;
 		}
 	}

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import eu.supersede.feedbackanalysis.clustering.FeedbackClusterer;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
+import weka.clusterers.Clusterer;
 import weka.clusterers.SimpleKMeans;
 import weka.core.Instances;
 
@@ -66,7 +67,6 @@ public class FeedbackClusterTest {
 	@Test
 	public void testComputeClusters() {
 		FeedbackClusterer fCluster = new FeedbackClusterer(dataset, arff, file, percent);
-		fCluster.computeClusters(k);
 		
 		Instances nearestNeighbors = fCluster.computeNearestNeighbors(k);
 		assertTrue(nearestNeighbors.size() >= k);
@@ -83,9 +83,9 @@ public class FeedbackClusterTest {
 		
 		FeedbackClusterer feedbackClusterer = new FeedbackClusterer(ontologyFile, wordnetDbPath, language);
 		int numClusters = 40;
-		SimpleKMeans clusterer = feedbackClusterer.computeClusters(userFeedbacks, numClusters);
+//		Clusterer clusterer = feedbackClusterer.computeClusters(userFeedbacks, numClusters);
 		
-		Map<Integer, List<UserFeedback>> feedbackClusters = feedbackClusterer.clusterUserFeedback(userFeedbacks, clusterer);
+		Map<Integer, List<UserFeedback>> feedbackClusters = feedbackClusterer.clusterUserFeedback(userFeedbacks, numClusters);
 		for (Entry<Integer, List<UserFeedback>> entry : feedbackClusters.entrySet()) {
 			System.out.println("Cluster: " + entry.getKey());
 			for (UserFeedback fb : entry.getValue()) {
@@ -105,9 +105,8 @@ public class FeedbackClusterTest {
 		
 		FeedbackClusterer feedbackClusterer = new FeedbackClusterer(ontologyFile, wordnetDbPath, language);
 		int numClusters = 40;
-		SimpleKMeans clusterer = feedbackClusterer.computeClusters2(feedbackMessages, numClusters);
 		
-		Map<Integer, List<FeedbackMessage>> feedbackClusters = feedbackClusterer.clusterUserFeedback2(feedbackMessages, clusterer);
+		Map<Integer, List<FeedbackMessage>> feedbackClusters = feedbackClusterer.clusterFeedbackMessages(feedbackMessages, numClusters);
 		for (Entry<Integer, List<FeedbackMessage>> entry : feedbackClusters.entrySet()) {
 			System.out.print("Cluster: " + entry.getKey() + " ==> ");
 			for (FeedbackMessage fb : entry.getValue()) {

@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -69,7 +70,7 @@ public class FeedbackAnnotator {
 		this(ontologyFile, wordnetDbPath, "en", false, false);
 	}
 
-	private void exportCSVEntry (FeedbackMessage feedback, Set<String> terms, Set<String> expandedTerms, Set<OntClass> concepts) {
+	private void exportCSVEntry (FeedbackMessage feedback, Set<String> terms, Set<String> expandedTerms, Collection<OntClass> concepts) {
 		// write stats to csv
 		// feedback_id,feedback_text,num_terms,num_expanded_terms,delta,num_concepts_found
 		String csvTerms = stringSetToCSV(terms);
@@ -175,12 +176,84 @@ public class FeedbackAnnotator {
 		return annotations;
 	}
 
+	public Collection<OntClass> annotateFeedbackCount (FeedbackMessage feedback){
+		Set<String> terms = new HashSet<>();
+		Set<String> allExpandedTerms = new HashSet<>();
+		boolean unique = false;
+		Collection<OntClass> annotations = getConcepts(feedback.getMessage(), unique, terms, allExpandedTerms);
+		// export entry to csv report
+		exportCSVEntry(feedback, terms, allExpandedTerms, annotations);
+		return annotations;
+	}
+	
 	
 	public Set<OntClass> annotateFeedback2 (UserFeedback userFeedback){
 		Set<String> terms = new HashSet<>();
 		Set<String> allExpandedTerms = new HashSet<>();
 		Set<OntClass> annotations = getConcepts(userFeedback.getFeedbackText(), terms, allExpandedTerms);
 		return annotations;
+	}
+	
+	/**
+	 * 
+	 * @param text : the text based on which concepts are going to be looked up from the ontology
+	 * @param terms : (side effect) the important terms (after NLP) which are deemed significant
+	 * @param allExpandedTerms : (side effect) the terms discovered after the original terms are expanded using WordNet
+	 * @return
+	 */
+	private Collection<OntClass> getConcepts (String text, boolean unique, Set<String> terms, Set<String> allExpandedTerms){
+		Collection<OntClass> allConcepts;
+		if (unique) {
+			allConcepts = new HashSet<OntClass>();
+		} else {
+			allConcepts = new ArrayList<OntClass>();
+		}
+
+		if (terms == null) {
+			terms = new HashSet<String>();
+		}
+		
+		if (allExpandedTerms == null)
+			allExpandedTerms = new HashSet<String>();
+		
+		terms.addAll(wordnetWrapper.getTerms(text));
+		for (String term : terms) {
+			Set<OntClass> conceptsFound = new HashSet<OntClass>();
+			Set<String> expandedTerms = new HashSet<String>();
+			if ("en".equalsIgnoreCase(language)) {
+				Synset[] allSenses = wordnetWrapper.getAllSenses(term);
+				if (allSenses.length > 0) {
+					int maxCount = 0;
+					for (Synset sense : allSenses) {
+						String[] synonyms = sense.getWordForms();
+						Set<OntClass> concepts = new HashSet<OntClass>();
+						for (String synonym : synonyms) {
+							concepts.addAll(ontologyWrapper.lookupConcepts(synonym));
+						}
+						// is this the largest set?
+						int count = concepts.size();
+						if (count > maxCount) {
+							maxCount = count;
+							conceptsFound.clear();
+							conceptsFound.addAll(concepts);
+							
+							expandedTerms.clear();
+							expandedTerms.addAll(Arrays.asList(synonyms));
+						}
+					}
+				}else {
+					System.err.println("No senses found for term: " + term);
+					conceptsFound.addAll(ontologyWrapper.lookupConcepts(term));
+					expandedTerms.add(term);
+				}
+			}else {
+				conceptsFound.addAll(ontologyWrapper.lookupConcepts(term));
+				expandedTerms.add(term);
+			}
+			allConcepts.addAll(conceptsFound);
+			allExpandedTerms.addAll(expandedTerms);
+		}
+		return allConcepts;
 	}
 	
 	/**
@@ -263,7 +336,7 @@ public class FeedbackAnnotator {
 		return distance;
 	}
 	
-	private String resourceSetToCSV(Set<OntClass> classes) {
+	private String resourceSetToCSV(Collection<OntClass> classes) {
 		StringBuffer buffer = new StringBuffer();
 		for (OntClass cl : classes) {
 			buffer.append(cl.getLocalName() + ";");
@@ -353,6 +426,39 @@ public class FeedbackAnnotator {
 				String category = record.get("category");
 				String cluster = record.get("group");
 				FeedbackMessage feedbackMessage = new FeedbackMessage(id, messageEnglish, category, type, creationTime, cluster);
+				feedbackMessages.add(feedbackMessage);
+			}
+			reader.close();
+		} catch (IOException ioException) {
+			throw new RuntimeException("Error reading csv file: " + csvPath);
+		}
+		return feedbackMessages;
+	}
+	
+	
+	/**
+	 * Read feedback text and additional attributes as well. Format of csv as follows:
+	 * feedback_id	user_id	type	category	group	date	feedback	feedback_translated
+	 * @param csvPath
+	 * @return a list of FeedbackMessage objects
+	 */
+	public static List<FeedbackMessage> getGermanFeedbackMessagesForClustering(String csvPath) {
+		List<FeedbackMessage> feedbackMessages = new ArrayList<FeedbackMessage>();
+		try {
+			Reader reader = new FileReader(new File(FileManager.getResource(csvPath, FeedbackAnnotator.class.getClassLoader()).getFile()));
+			Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader("feedback_id","user_id","type","category","group","date","feedback","feedback_translated").parse(reader);
+			for (CSVRecord record : records) {
+				if (record.get("feedback_id").equals("feedback_id")) {
+					continue;
+				}
+				int id = Integer.parseInt(record.get("feedback_id"));
+				String messageGerman = record.get("feedback");
+				String messageEnglish = record.get("feedback_translated");
+				String creationTime = record.get("date");
+				String type = record.get("type");
+				String category = record.get("category");
+				String cluster = record.get("group");
+				FeedbackMessage feedbackMessage = new FeedbackMessage(id, messageGerman, category, type, creationTime, cluster);
 				feedbackMessages.add(feedbackMessage);
 			}
 			reader.close();
