@@ -1,5 +1,6 @@
 package eu.supersede.bdma.sa.stream_processes;
 
+import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.TaskContext;
@@ -23,7 +24,7 @@ public class Dispatcher {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
                     try {
-                        Files.append(record.value()+"\n", new File("/home/supersede/Bolster/DispatcherData/"+o.topic()+".txt"), Charset.defaultCharset());
+                        Files.append(record.value()+"\n", new File("/home/supersede/Bolster/DispatcherData/"+o.topic()+".txt"), Charsets.UTF_16);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
