@@ -137,6 +137,10 @@ public class StreamProcessing {
             System.out.println("LAUNCH_1_FEEDBACK_1_ALERT");
             OneFeedbackOneAlert.process(kafkaStream,broadcastEvents);
         }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_THRESHOLD_RECOMPUTATION"))) {
+            System.out.println("LAUNCH_THRESHOLD_RECOMPUTATION");
+            ThresholdRecomputation.process(ctx);
+        }
 
     }
 }

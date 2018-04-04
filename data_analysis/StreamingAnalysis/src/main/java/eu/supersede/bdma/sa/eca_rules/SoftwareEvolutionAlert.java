@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 public class SoftwareEvolutionAlert {
 
-    public static void sendAlert(Event event, String[] contents) {
+    public static void sendAlert(Event event, String[] contents, String appId) {
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
@@ -53,12 +53,11 @@ public class SoftwareEvolutionAlert {
                 }
             }
         }
-        System.out.println(feedbackClassified);
 
         for (String classificationLabel : feedbackClassified.keySet()) {
             Alert SE_alert = new Alert();
             SE_alert.setId(UUID.randomUUID().toString());
-            SE_alert.setApplicationId("App ID?");
+            SE_alert.setApplicationId(appId);
             SE_alert.setTimestamp(System.currentTimeMillis());
             SE_alert.setTenant(event.getTenant());
 

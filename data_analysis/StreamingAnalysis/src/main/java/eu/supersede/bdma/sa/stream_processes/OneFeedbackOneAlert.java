@@ -36,7 +36,8 @@ public class OneFeedbackOneAlert {
                 Event evt = events.value().stream().filter(e -> e.getKafkaTopic().equals(record.topic())).findFirst().get();
                 if (evt.getType().equals("feedback")) {
                     SoftwareEvolutionAlert.sendAlert(evt,Iterables.toArray(
-                            Utils.extractFeatures(JSON,"Attributes/textFeedbacks/text"),String.class));
+                            Utils.extractFeatures(JSON,"Attributes/textFeedbacks/text"),String.class),
+                            Utils.extractFeatures(JSON,"Attributes/applicationId").get(0));
                 }
             });
         });

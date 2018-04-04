@@ -1,5 +1,6 @@
 package eu.supersede.bdma.sa;
 
+import eu.supersede.bdma.sa.stream_processes.ThresholdRecomputation;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
@@ -27,6 +28,10 @@ public class Main {
         SparkConf conf = new SparkConf().setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
         JavaSparkContext context = new JavaSparkContext(conf);
         ctx = context;
+
+        /*ThresholdRecomputation.process(ctx);
+        System.exit(0);*/
+
         System.out.println("microbatch period = "+properties.getProperty("MICROBATCH_PERIOD"));
         JavaStreamingContext streamContext = new JavaStreamingContext(context, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
         //streamContext.checkpoint("checkpoint");
