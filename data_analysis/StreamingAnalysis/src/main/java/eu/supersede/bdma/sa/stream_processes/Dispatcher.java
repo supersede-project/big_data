@@ -24,7 +24,7 @@ public class Dispatcher {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
                     try {
-                        Files.append(record.value()+"\n", new File("/home/supersede/Bolster/DispatcherData/"+o.topic()+".txt"), Charsets.UTF_16);
+                        Files.append(record.value()+"\n", new File("/home/supersede/Bolster/DispatcherData/"+o.topic()+".txt"), Charsets.UTF_8);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
