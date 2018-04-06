@@ -143,6 +143,88 @@ public class FeedbackClusterer {
 	}
 	
 	/**
+	 * Clusters a given set of UserFeedback objects into numClusters clusters
+	 * @param allFeedback
+	 * @param numClusters
+	 * @return a map of cluster concepts to the set of UserFeedback objects in that cluster
+	 * @throws Exception
+	 */
+	public Map<Set<OntClass>, List<UserFeedback>> clusterUserFeedbackConceptsIntersection(List<UserFeedback> allFeedback, int numClusters) throws Exception{
+		
+		// first build the clusterer model
+		Clusterer clusterer = buildClustererFromUserFeedback(allFeedback, numClusters);
+		
+		Map<Set<OntClass>, List<UserFeedback>> feedbackClusters = new HashMap<Set<OntClass>, List<UserFeedback>>();
+		
+		Map<Integer, List<UserFeedback>> clusterFeedback = new HashMap<Integer, List<UserFeedback>>();
+		Map<Integer, Set<OntClass>> clusterConcepts = new HashMap<Integer, Set<OntClass>>();
+		
+		for (UserFeedback userFeedback : allFeedback) {
+			Set<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
+			int[] fv = ontologyWrapper.conceptsToFeatureVector(concepts);
+			double weight = instances.attribute(0).weight();
+			Instance instance = new DenseInstance(weight, Arrays.stream(fv).asDoubleStream().toArray());
+			int cluster = clusterer.clusterInstance(instance);
+			
+			if (!clusterFeedback.containsKey(cluster)) {
+				clusterFeedback.put(cluster, new ArrayList<UserFeedback>());
+			}
+			if(!clusterConcepts.containsKey(cluster)) {
+				clusterConcepts.put(cluster, new HashSet<OntClass>());
+				clusterConcepts.get(cluster).addAll(concepts);
+			}else { // keep only intersection
+				clusterConcepts.get(cluster).retainAll(concepts);
+			}
+			clusterFeedback.get(cluster).add(userFeedback);
+		}
+		for (Entry<Integer, List<UserFeedback>> entry : clusterFeedback.entrySet()) {
+			feedbackClusters.put(clusterConcepts.get(entry.getKey()), entry.getValue());
+		}
+		return feedbackClusters;
+	}
+	
+	
+	/**
+	 * Clusters a given set of UserFeedback objects into numClusters clusters
+	 * @param allFeedback
+	 * @param numClusters
+	 * @return a map of cluster concepts to the set of UserFeedback objects in that cluster
+	 * @throws Exception
+	 */
+	public Map<Set<OntClass>, List<UserFeedback>> clusterUserFeedbackConceptsUnion(List<UserFeedback> allFeedback, int numClusters) throws Exception{
+		
+		// first build the clusterer model
+		Clusterer clusterer = buildClustererFromUserFeedback(allFeedback, numClusters);
+		
+		Map<Set<OntClass>, List<UserFeedback>> feedbackClusters = new HashMap<Set<OntClass>, List<UserFeedback>>();
+		
+		Map<Integer, List<UserFeedback>> clusterFeedback = new HashMap<Integer, List<UserFeedback>>();
+		Map<Integer, Set<OntClass>> clusterConcepts = new HashMap<Integer, Set<OntClass>>();
+		
+		for (UserFeedback userFeedback : allFeedback) {
+			Set<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
+			int[] fv = ontologyWrapper.conceptsToFeatureVector(concepts);
+			double weight = instances.attribute(0).weight();
+			Instance instance = new DenseInstance(weight, Arrays.stream(fv).asDoubleStream().toArray());
+			int cluster = clusterer.clusterInstance(instance);
+			
+			if (!clusterFeedback.containsKey(cluster)) {
+				clusterFeedback.put(cluster, new ArrayList<UserFeedback>());
+			}
+			if(!clusterConcepts.containsKey(cluster)) {
+				clusterConcepts.put(cluster, new HashSet<OntClass>());
+			}
+			clusterConcepts.get(cluster).addAll(concepts);
+			
+			clusterFeedback.get(cluster).add(userFeedback);
+		}
+		for (Entry<Integer, List<UserFeedback>> entry : clusterFeedback.entrySet()) {
+			feedbackClusters.put(clusterConcepts.get(entry.getKey()), entry.getValue());
+		}
+		return feedbackClusters;
+	}
+	
+	/**
 	 * Build a clusterer models from a given set of UserFeedback objects
 	 * @param feedbacks
 	 * @param numClusters

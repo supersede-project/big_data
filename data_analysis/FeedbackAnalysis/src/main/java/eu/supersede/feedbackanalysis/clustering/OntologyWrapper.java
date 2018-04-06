@@ -105,7 +105,7 @@ public class OntologyWrapper {
 			Set<String> terms = new HashSet<String>();
 
 			String resourceName = cl.getLocalName();
-			System.out.println("Class: " + resourceName);
+//			System.out.println("Class: " + resourceName);
 			if (resourceName != null) {
 				String classLbl = cl.getLabel(language).toLowerCase().trim();
 				addTermsFromLabel (classLbl, terms);
@@ -458,7 +458,7 @@ public class OntologyWrapper {
 		ExtendedIterator<Triple> iterator = graph.find();
 		while (iterator.hasNext()) {
 			Triple triple = iterator.next();
-			System.out.println(triple);
+//			System.out.println(triple);
 		}
 		// }
 		return topConcepts;

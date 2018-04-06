@@ -139,7 +139,7 @@ public class FeedbackAnnotator {
 						}
 					}
 				}else {
-					System.err.println("No senses found for term: " + term);
+//					System.err.println("No senses found for term: " + term);
 					conceptsFound.addAll(ontologyWrapper.lookupConcepts(term));
 				}
 			} else {
@@ -242,7 +242,7 @@ public class FeedbackAnnotator {
 						}
 					}
 				}else {
-					System.err.println("No senses found for term: " + term);
+//					System.err.println("No senses found for term: " + term);
 					conceptsFound.addAll(ontologyWrapper.lookupConcepts(term));
 					expandedTerms.add(term);
 				}
@@ -299,7 +299,7 @@ public class FeedbackAnnotator {
 						}
 					}
 				}else {
-					System.err.println("No senses found for term: " + term);
+//					System.err.println("No senses found for term: " + term);
 					conceptsFound.addAll(ontologyWrapper.lookupConcepts(term));
 					expandedTerms.add(term);
 				}

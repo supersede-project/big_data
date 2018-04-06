@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.jena.ontology.OntClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,6 +90,60 @@ public class FeedbackClusterTest {
 		Map<Integer, List<UserFeedback>> feedbackClusters = feedbackClusterer.clusterUserFeedback(userFeedbacks, numClusters);
 		for (Entry<Integer, List<UserFeedback>> entry : feedbackClusters.entrySet()) {
 			System.out.println("Cluster: " + entry.getKey());
+			for (UserFeedback fb : entry.getValue()) {
+				System.out.println(fb.getFeedbackText());
+			}
+		}
+	}
+	
+	@Test
+	public void testComputeClustersFromFeedbackConceptIntersection() throws Exception {
+		String ontologyFile = "SDO_ontology.ttl";
+		String wordnetDbPath = null;
+		String language = "en";
+		
+		String csvPath = "trainingsets/SENERCON_userfeedback_clustering.csv";
+		List<UserFeedback> userFeedbacks = FeedbackAnnotator.getUserFeedbackForClustering(csvPath);
+		
+		FeedbackClusterer feedbackClusterer = new FeedbackClusterer(ontologyFile, wordnetDbPath, language);
+		int numClusters = 10;
+		
+		Map<Set<OntClass>, List<UserFeedback>> feedbackClusters = feedbackClusterer.clusterUserFeedbackConceptsIntersection(userFeedbacks, numClusters);
+		for (Entry<Set<OntClass>, List<UserFeedback>> entry : feedbackClusters.entrySet()) {
+			System.out.println("================================");
+			System.out.println("Cluster concepts: " + entry.getKey().size());
+			for (OntClass concept : entry.getKey()) {
+				System.out.print(concept.getLocalName() + ",");
+			}
+			System.out.println();
+			System.out.println("================================");
+			for (UserFeedback fb : entry.getValue()) {
+				System.out.println(fb.getFeedbackText());
+			}
+		}
+	}
+	
+	@Test
+	public void testComputeClustersFromFeedbackConceptUnion() throws Exception {
+		String ontologyFile = "SDO_ontology.ttl";
+		String wordnetDbPath = null;
+		String language = "en";
+		
+		String csvPath = "trainingsets/SENERCON_userfeedback_clustering.csv";
+		List<UserFeedback> userFeedbacks = FeedbackAnnotator.getUserFeedbackForClustering(csvPath);
+		
+		FeedbackClusterer feedbackClusterer = new FeedbackClusterer(ontologyFile, wordnetDbPath, language);
+		int numClusters = 10;
+		
+		Map<Set<OntClass>, List<UserFeedback>> feedbackClusters = feedbackClusterer.clusterUserFeedbackConceptsUnion(userFeedbacks, numClusters);
+		for (Entry<Set<OntClass>, List<UserFeedback>> entry : feedbackClusters.entrySet()) {
+			System.out.println("================================");
+			System.out.println("Cluster concepts: " + entry.getKey().size());
+			for (OntClass concept : entry.getKey()) {
+				System.out.print(concept.getLocalName() + ",");
+			}
+			System.out.println();
+			System.out.println("================================");
 			for (UserFeedback fb : entry.getValue()) {
 				System.out.println(fb.getFeedbackText());
 			}

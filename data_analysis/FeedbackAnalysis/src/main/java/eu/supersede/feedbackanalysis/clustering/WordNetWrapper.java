@@ -191,9 +191,9 @@ public class WordNetWrapper {
 						}
 					}
 				}
-			} else {
-				System.err.println("No synsets exist that contain " + "the word form '" + wordForm + "'");
-			}
+			} //else {
+//				System.err.println("No synsets exist that contain " + "the word form '" + wordForm + "'");
+			//}
 		}
 		return expandedTerms;
 	}
