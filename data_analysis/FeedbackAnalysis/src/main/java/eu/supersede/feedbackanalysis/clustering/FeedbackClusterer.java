@@ -354,7 +354,7 @@ public class FeedbackClusterer {
 		try {
 			((SimpleKMeans)clusterer).setNumClusters(numClusters);
 			((SimpleKMeans)clusterer).setMaxIterations(100);
-			DistanceFunction df = new EuclideanDistance(instances); // ManhattanDistance(instances);
+			DistanceFunction df = new ManhattanDistance(instances); //EuclideanDistance(instances);
 			((SimpleKMeans)clusterer).setDistanceFunction(df);
 			clusterer.buildClusterer(instances);
 
