@@ -336,6 +336,33 @@ public class FeedbackAnnotator {
 		return distance;
 	}
 	
+	public double ontologicalDistanceJaccard (UserFeedback userFeedback, Set<String> keywords) {
+		double distance = 0d;
+		
+		// get concepts from feedback
+		Set<OntClass> feedbackConcepts = getConcepts(userFeedback.getFeedbackText(), null, null);
+		
+		
+		// get concepts from keywords
+		String keywordString = "";
+		for (String kw : keywords) {
+			keywordString += (kw + " ");
+		}
+		Set<OntClass> keywordConcpets = getConcepts(keywordString, null, null);
+		
+		// compute union
+		Set<OntClass> union = new HashSet<>(feedbackConcepts);
+		union.addAll(keywordConcpets);
+		
+		// compute intersection
+		feedbackConcepts.retainAll(keywordConcpets);
+		
+		// distance is cardinality of intersection
+		distance = (double)feedbackConcepts.size() / (double)union.size();
+		
+		return distance;
+	}
+	
 	private String resourceSetToCSV(Collection<OntClass> classes) {
 		StringBuffer buffer = new StringBuffer();
 		for (OntClass cl : classes) {

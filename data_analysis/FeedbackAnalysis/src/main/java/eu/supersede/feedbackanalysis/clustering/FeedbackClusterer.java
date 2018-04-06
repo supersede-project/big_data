@@ -64,6 +64,8 @@ public class FeedbackClusterer {
 	FeedbackAnnotator feedbackAnnotator;
 	OntologyWrapper ontologyWrapper;
 	
+	boolean COUNT_FV = false;
+	
 	/**
 	 * 
 	 */
@@ -181,7 +183,7 @@ public class FeedbackClusterer {
 		boolean addClass = false;
 		fvs.append(ontologyWrapper.getFeatureVectorHeader(addClass));
 		for (FeedbackMessage userFeedback : feedbacks) {
-			Collection<OntClass> concepts = feedbackAnnotator.annotateFeedbackCount(userFeedback);
+			Collection<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
 			String fv = ontologyWrapper.conceptsToFeatureVectorString(concepts, header, addClass);
 			fvs.append(fv + "\n");
 		}
@@ -250,7 +252,7 @@ public class FeedbackClusterer {
 				
 		Map<FeedbackMessage, Integer> feedbackClusters = new HashMap<FeedbackMessage, Integer>();
 		for (FeedbackMessage userFeedback : allFeedback) {
-			Collection<OntClass> concepts = feedbackAnnotator.annotateFeedbackCount(userFeedback);
+			Collection<OntClass> concepts = feedbackAnnotator.annotateFeedback2(userFeedback);
 			int[] fv = ontologyWrapper.conceptsToFeatureVector(concepts);
 			double weight = instances.attribute(0).weight();
 			Instance instance = new DenseInstance(weight, Arrays.stream(fv).asDoubleStream().toArray());
@@ -500,7 +502,7 @@ public class FeedbackClusterer {
 	 * @param args
 	 */
 	public static void main(String[] args)  throws Exception {
-		String csvPath = "trainingsets/SENERCON_userfeedback_clustering.csv"; //SENERCON_userfeedback_clustering_old.csv";
+		String csvPath = "trainingsets/SENERCON_userfeedback_clustering_ALL.csv"; //SENERCON_userfeedback_clustering.csv";
 		String ontologyFile = "SDO_ontology_ER.ttl";
 		String wordnetDbPath = null;
 		String language = "en";
