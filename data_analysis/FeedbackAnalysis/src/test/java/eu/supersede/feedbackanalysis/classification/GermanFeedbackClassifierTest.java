@@ -6,7 +6,14 @@ package eu.supersede.feedbackanalysis.classification;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,8 +34,8 @@ public class GermanFeedbackClassifierTest {
 	
 	@Before
 	public void setup() {
-		String dataset = "src/test/resources/trainingsets/german/supersede-german-trainingset_ALL.tsv"; //"src/test/resources/trainingsets/german_train.tsv";
-		String modelPath = "src/test/resources/models/german_classify.model"; //"src/test/resources/trainingsets/german_train.tsv.ta.model";
+		String dataset = "src/test/resources/trainingsets/german/supersede-german-trainingset_feedbacks_global_since_2009.tsv"; //supersede-german-trainingset_iesa_userfeedback_from_ticket_system_2016.tsv"; //supersede-german-trainingset_ALL.tsv"; //"src/test/resources/trainingsets/german_train.tsv";
+		String modelPath = "src/test/resources/models/german_classify_2009.model"; //"src/test/resources/trainingsets/german_train.tsv.ta.model";
 		trainFile = new File(dataset);
 		modelFile = new File(modelPath);
 		germanClassifier = new GermanFeedbackClassifier();
@@ -69,4 +76,21 @@ public class GermanFeedbackClassifierTest {
 		}
 	}
 
+	@Test
+	public void testClassifySenercon() throws Exception {
+		String csvFile = "src/test/resources/trainingsets/senercon_german_classification.csv";
+		Reader reader = new FileReader(csvFile);
+		Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader("label", "text").parse(reader);
+		for (CSVRecord record : records) {
+			if (!record.get("label").equals("label")) {
+				String label = record.get("label");
+				String text = record.get("text");
+				ClassificationResult classificationResult = germanClassifier.classify(modelFile.getAbsolutePath(), new UserFeedback(text));
+				if (!classificationResult.getLabel().equalsIgnoreCase(label)) {
+					System.out.println("old ==> new " + label + " ==> " + classificationResult.getLabel());
+				}
+			}
+		}
+	}
+	
 }

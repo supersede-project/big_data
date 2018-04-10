@@ -23,6 +23,7 @@ public class FeedbackMessage {
 	private String type;
 	private Date creationTime;
 	private int sentiment;
+	private String clusterId;
 	
 	/**
 	 * 
@@ -43,6 +44,22 @@ public class FeedbackMessage {
 		}
 	}
 
+	public FeedbackMessage(int id, String message, String category, String type, String creationTime, String cluster) {
+		this.id = id;
+		this.message = message;
+		this.category = category;
+		this.type = type;
+		this.clusterId = cluster;
+		
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
+		try {
+		    this.creationTime = df.parse(creationTime);
+		} catch (ParseException e) {
+			this.creationTime = new Date();
+		    e.printStackTrace();
+		}
+	}
+	
 	public FeedbackMessage() {	
 	}
 	
@@ -108,5 +125,13 @@ public class FeedbackMessage {
 
 	public void setSentiment(int sentiment) {
 		this.sentiment = sentiment;
+	}
+
+	public String getClusterId() {
+		return clusterId;
+	}
+
+	public void setClusterId(String clusterId) {
+		this.clusterId = clusterId;
 	}
 }
