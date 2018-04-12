@@ -21,13 +21,14 @@ public class DynamicAdaptationAlert {
     public static void sendAlert(ECA_Rule r) {
         Alert alert = new Alert();
 
+
         alert.setId("id"+ System.currentTimeMillis());
         alert.setApplicationId("dynamic");
 
-        if (r.getEvent().getPlatform().contains("siemens")) {
-            alert.setTenant(ModelSystem.Siemens);
+        if (r.getEvent().getTenant().getId().contains("siemens")) {
+            alert.setTenant(ModelSystem.SiemensMonitoring);
         }
-        else if (r.getEvent().getPlatform().contains("atos")) {
+        else if (r.getEvent().getTenant().getId().contains("atos")) {
             alert.setTenant(ModelSystem.Atos_HSK);
         }
 

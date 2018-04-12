@@ -120,7 +120,7 @@ public class Utils {
 
     public static String getOntologyPath(String tenant) {
         if (tenant.equals(Tenant.SENERCON.getId())) return "SDO_ontology.ttl";
-        else if (tenant.equals(Tenant.ATOS.getId())) return "ATOS_ontology.ttl";
+        else if (tenant.equals(Tenant.ATOS.getId())) return "ATOS_ontology_1_1.ttl";
         return "";
     }
 }

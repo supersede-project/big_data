@@ -141,6 +141,10 @@ public class StreamProcessing {
             System.out.println("LAUNCH_THRESHOLD_RECOMPUTATION");
             ThresholdRecomputation.process(ctx);
         }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_THRESHOLD_EVALUATION"))) {
+            System.out.println("LAUNCH_THRESHOLD_EVALUATION");
+            ThresholdEvaluation.process(ctx);
+        }
 
     }
 }

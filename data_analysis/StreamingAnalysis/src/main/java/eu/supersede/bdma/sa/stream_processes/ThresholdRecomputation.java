@@ -10,12 +10,14 @@ import eu.supersede.integration.federation.SupersedeFederation;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import org.apache.commons.io.FileUtils;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.jsontocsv.writer.CSVWriter;
 import scala.Tuple2;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
+import java.io.File;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,21 +29,39 @@ import java.util.stream.Collectors;
 public class ThresholdRecomputation {
 
     public static void process(JavaSparkContext ctx) {
-        /*Timer t = new Timer();
+        Timer t = new Timer();
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
-            public void run() {*/
-                ctx.textFile(Main.properties.getProperty("PATH_LOG_FILE"))
-                    .map(t -> (JSONObject) ((JSONArray)((JSONObject)((JSONObject) JSONValue.parse(t)).get("JSONFiles")).get("DataItems")).get(0))
-                    .filter(t -> t.getAsString("level") != null && t.getAsString("Date") != null && t.getAsString("class_name") != null
-                        && t.getAsString("message") != null)
-                    .map(obj -> obj.getAsString("level") + " | " + obj.getAsString("Date") + " | " + obj.getAsString("class_name") +
-                            " | " + obj.getAsString("message"))
-                    .saveAsTextFile("/home/snadal/UPC/Sergi/SUPERSEDE/SIEMENS_DynAdapt/jsonData/converted.csv");
+            public void run() {
+                //First, delete the last generated CSV and previous thresholds (if exists)
+                FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_CONVERTED_LOG_FILE")));
+                FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_THRESHOLDS")));
 
+                //Convert the historical JSON to CSV
+                ctx.textFile(Main.properties.getProperty("PATH_LOG_FILE"))/*.sample(true,0.01)*/
+                        .filter(t -> !t.isEmpty())
+                        .map(t -> (JSONObject) ((JSONArray) ((JSONObject) ((JSONObject) JSONValue.parse(t)).get("JSONFiles")).get("DataItems")).get(0))
+                        .filter(t -> t.getAsString("level") != null && t.getAsString("Date") != null && t.getAsString("class_name") != null
+                                && t.getAsString("message") != null)
+                        .map(obj -> obj.getAsString("level") + " | " + obj.getAsString("Date") + " | " + obj.getAsString("class_name") +
+                                " | " + obj.getAsString("message"))
+                        .repartition(1)
+                        .saveAsTextFile(Main.properties.getProperty("PATH_CONVERTED_LOG_FILE"));
 
-            /*
-        },1000, Long.parseLong(Main.properties.getProperty("THRESHOLD_RECOMPUTATION_PERIOD_MS")));*/
+                //Call the R script to recompute thresholds
+                try {
+                    Process p = Runtime.getRuntime().exec(Main.properties.getProperty("COMMAND_EXECUTE_GET_THRESHOLDS") + " " +
+                            Main.properties.getProperty("PATH_CONVERTED_LOG_FILE") + "/part-00000" + " " +
+                            Main.properties.getProperty("PATH_THRESHOLDS") + " " +
+                            Main.properties.getProperty("PATH_METHOD_CLUSTERING"));
+                    p.waitFor();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Thresholds successfully recomputed");
+
+            }
+        },1000, Long.parseLong(Main.properties.getProperty("THRESHOLD_RECOMPUTATION_PERIOD_MS")));
 
     }
 

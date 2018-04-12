@@ -16,38 +16,31 @@ import java.util.List;
 /**
  * Created by snadal on 27/01/17.
  */
-public class MonitorReconfigurationAlert {
+public class MonitorReconfigurationDeterministicAlert {
 
     public static void sendAlert(ECA_Rule r, List<String> data) {
         Alert alert = new Alert();
 
         alert.setId("id"+ System.currentTimeMillis());
-        alert.setApplicationId("dynamic");
-
+        alert.setApplicationId("httpMonitor");
+        alert.setTimestamp(System.currentTimeMillis());
         alert.setTenant(ModelSystem.AtosMonitoring);
 
         List<Condition> conditions = Lists.newArrayList();
-
-        /*for (eu.supersede.integration.api.mdm.types.Condition c : r.getConditions()) {
-            Operator o = null;
-            if (c.getPredicate().equals("EQUALS")) o = Operator.EQ;
-            else if (c.getPredicate().equals("GREATER_THAN")) o = Operator.GT;
-            else if (c.getPredicate().equals("LESS_THAN")) o = Operator.LT;
-
-            String[] IRIparts = c.getAttribute().split("/");
-            String attrName = IRIparts[IRIparts.length-1];
-
-            conditions.add(new Condition(new DataID("Tool", attrName), o, Double.parseDouble(c.getValue().toString())));
-        }*/
-        Operator o = Operator.GT;
-
-        //String[] IRIparts = c.getAttribute().split("/");
-        //String attrName = IRIparts[IRIparts.length-1];
-
-        conditions.add(new Condition(new DataID("Tool", "responseTime"), o,
-                Double.parseDouble(Utils.extractFeatures(data.get(0),"Attributes/HttpMonitoredData/DataItems/responseTime").get(0))));
+        conditions.add(new Condition(new DataID("HTTPMonitor", "startMonitor"), Operator.EQ, 1.0)); //start http monitors
 
         alert.setConditions(conditions);
+
+        // FIXME here I'm adding actions (will not be used) b/c deterministic cases are determined by the presence of actions
+        List<ActionOnAttribute> actions = Lists.newArrayList();
+        // here put any attribute/action, it is not used in any way at the moment. We'll change it in the future if needed
+        actions.add(new ActionOnAttribute("httpMonitor", AttributeAction.update, 2));
+
+        /*
+        For the case 2 we will not have actions
+         */
+
+        alert.setActionAttributes(actions);
 
         TopicPublisher publisher = null;
         try {
@@ -59,6 +52,11 @@ public class MonitorReconfigurationAlert {
         } catch (JMSException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void main(String[] args) {
+        sendAlert(null,null);
     }
 
 }

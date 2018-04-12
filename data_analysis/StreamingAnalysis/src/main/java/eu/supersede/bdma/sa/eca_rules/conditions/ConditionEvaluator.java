@@ -438,18 +438,37 @@ public class ConditionEvaluator {
         Set<String> keywords = Sets.newHashSet(parameters.stream().filter(kv -> kv.getKey().equals("keyword"))
                 .map(kv -> kv.getValue()).collect(Collectors.toList()));
 
-        String ontologyFile = Thread.currentThread().getContextClassLoader().getResource(Utils.getOntologyPath(tenant))
-                .toString().replace("file:","");;
+        String ontologyFile = /*Thread.currentThread().getContextClassLoader().getResource(*/Utils.getOntologyPath(tenant)/*)
+                .toString().replace("file:","");*/;
         boolean classLabelsOnly = false;
         boolean direct = true;
         String language = "en";
         String wordnetDbPath = Main.properties.getProperty("WORDNET_DB_PATH");
         FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, direct);
+
+        int nRules = 0;
         for (String str : values) {
             double ontologicalDistance = feedbackAnnotator.ontologicalDistance(new UserFeedback(str), keywords);
-            ksession.insert(ontologicalDistance);
+            System.out.println(ontologicalDistance + " - " + Double.valueOf(ruleValue));
+            switch (operator) {
+                case "==":
+                    if (ontologicalDistance == Double.valueOf(ruleValue)) ++nRules;
+                    break;
+                case ">":
+                    if (ontologicalDistance > Double.valueOf(ruleValue)) ++nRules;
+                    break;
+                case "<":
+                    if (ontologicalDistance < Double.valueOf(ruleValue)) ++nRules;
+                    break;
+                case ">=":
+                    if (ontologicalDistance >= Double.valueOf(ruleValue)) ++nRules;
+                    break;
+                case "<=":
+                    if (ontologicalDistance <= Double.valueOf(ruleValue)) ++nRules;
+                    break;
+                default: break;
+            }
         }
-        int nRules = ksession.fireAllRules();
         System.out.println(nRules + " satisfy the condition");
         return nRules;
     }

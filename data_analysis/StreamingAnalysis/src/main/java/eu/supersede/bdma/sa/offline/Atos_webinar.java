@@ -23,9 +23,11 @@ import java.util.stream.Collectors;
 public class Atos_webinar {
 
     public static void analyzeFeedback(String s) throws Exception {
+
+
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
-        //String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
-        String pathToClassificationModel = "/home/snadal/UPC/Sergi/SUPERSEDE/Development/big_data/data_analysis/StreamingAnalysis/src/main/resources/";
+        String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
+        //String pathToClassificationModel = "/home/snadal/UPC/Sergi/SUPERSEDE/Development/big_data/data_analysis/StreamingAnalysis/src/main/resources/";
 
         String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
 
@@ -38,7 +40,8 @@ public class Atos_webinar {
         s += "Classifier: "+classification.getLabel() +"\n";
         s += "Sentiment: "+saRes.getOverallSentiment() + "\n";
         s += "################################## \n";
-        com.google.common.io.Files.append(s,new File("/home/snadal/Desktop/webinar.txt"), Charset.defaultCharset());
+        System.out.println(s);
+//        com.google.common.io.Files.append(s,new File("/home/snadal/Desktop/webinar.txt"), Charset.defaultCharset());
     }
 
     public static void main(String[] args) throws Exception {
@@ -47,8 +50,9 @@ public class Atos_webinar {
 
         List<String> allJsons = Lists.newArrayList();
         String json = "";
-        for (String l : Files.lines(new File("/home/snadal/UPC/Sergi/SUPERSEDE/T2.1/webinar_feedback.json").toPath()).collect(Collectors.toList())) {
-            json += (l.replace("\n",""));
+        for (String l : Files.lines(new File("/home/snadal/UPC/Sergi/SUPERSEDE/T2.1/webinar_feedback_final.json").toPath()).collect(Collectors.toList())) {
+            allJsons.add(l);
+            /*json += (l.replace("\n",""));
             try {
                 JSONObject a = (JSONObject)JSONValue.parse(json.substring(0,json.length()-1));
                 if (a != null) {
@@ -56,7 +60,7 @@ public class Atos_webinar {
                     json = "";
                 }
             } catch (Exception e) {
-            }
+            }*/
         }
 
         allJsons.forEach(aJSON -> {

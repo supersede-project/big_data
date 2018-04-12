@@ -1,5 +1,6 @@
 package eu.supersede.bdma.sa;
 
+import eu.supersede.bdma.sa.stream_processes.ThresholdEvaluation;
 import eu.supersede.bdma.sa.stream_processes.ThresholdRecomputation;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -28,9 +29,6 @@ public class Main {
         SparkConf conf = new SparkConf().setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
         JavaSparkContext context = new JavaSparkContext(conf);
         ctx = context;
-
-        /*ThresholdRecomputation.process(ctx);
-        System.exit(0);*/
 
         System.out.println("microbatch period = "+properties.getProperty("MICROBATCH_PERIOD"));
         JavaStreamingContext streamContext = new JavaStreamingContext(context, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
@@ -69,7 +67,9 @@ public class Main {
             properties.getProperty("LAUNCH_RAW_DATA_TO_LIVE_FEED") == null ||
             properties.getProperty("LAUNCH_RULE_EVALUATION") == null ||
             properties.getProperty("LAUNCH_FG_RECONFIGURATION") == null ||
-            properties.getProperty("LAUNCH_1_FEEDBACK_1_ALERT") == null
+            properties.getProperty("LAUNCH_1_FEEDBACK_1_ALERT") == null ||
+            properties.getProperty("LAUNCH_THRESHOLD_RECOMPUTATION") == null ||
+            properties.getProperty("LAUNCH_THRESHOLD_EVALUATION") == null
         );
     }
 

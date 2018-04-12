@@ -297,24 +297,6 @@ sdo:AirConditioning rdf:type G:Concept, rdfs:Class, suo:Domain ;
 	rdfs:label "Klimaanlage Thema"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
 	
-#Feedback Topic class and its sub-classes
-sdo:FeedbackTopic rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
-	rdfs:label "Feedback topic"@en ;
-	rdfs:label "Feedback Thema"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
-
-sdo:DiagramFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
-	rdfs:subClassOf sdo:FeedbackTopic ;
-	rdfs:label "Diagram feedback"@en ;
-	rdfs:label "Diagramm Feedback"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .
-	
-sdo:FormFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
-	rdfs:subClassOf sdo:FeedbackTopic ;
-	rdfs:label "Form feedback"@en ;
-	rdfs:label "Formular feedback"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-	
 #Diagram action class and its sub-classes	
 sdo:DiagramAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	rdfs:subClassOf sdo:Action ;
@@ -607,19 +589,20 @@ sdo:includesSuggestion rdf:type rdf:Property ;
 		rdfs:range sdo:Suggestion .			
 		
 #Feedback message properties #		
-sdo:hasFeedbackTopic rdf:type rdf:Property ;
-		rdfs:label "Feedback message has a feedback topic"@en ;
-		rdfs:label "Rückmeldung hat ein Feedback Thema"@de ;
-		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
-		rdfs:domain sdo:FeedbackMessage ;
-		rdfs:range sdo:FeedbackTopic .		
-		
+
 sdo:hasRating rdf:type rdf:Property ;
 		rdfs:label "Feedback message has rating"@en ;
 		rdfs:label "Rückmeldung hat Bewertung"@de ;
 		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
 		rdfs:domain sdo:FeedbackMessage ;
 		rdfs:range sdo:Rating .		
+		
+sdo:hasFeedbackDate rdf:type rdf:Property ;
+		rdfs:label "Feedback message has date"@en ;
+		rdfs:label "Rückmeldung hat Datum"@de ;
+		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
+		rdfs:domain sdo:FeedbackMessage ;
+		rdfs:range xsd:date .			
 		
 #Form feature property #		
 sdo:featureOfForm rdf:type rdf:Property ;
@@ -683,12 +666,6 @@ sdo:Confirm rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	rdfs:subClassOf sdo:ApplicationAction ;
 	rdfs:label "Confirm"@en ;
 	rdfs:label "Bestätigen"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-
-sdo:ApplicationFeedback rdf:type G:Concept, rdfs:Class, suo:Feedback  ;
-	rdfs:subClassOf sdo:FeedbackTopic ;
-	rdfs:label "Application feedback"@en ;
-	rdfs:label "Programm feedback"@de ;
 	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
 	
 sdo:ApplicationAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
@@ -816,13 +793,7 @@ sdo:DeviceDataAction rdf:type G:Concept, rdfs:Class, suo:Software  ;
 	rdfs:subClassOf sdo:Action ;
 	rdfs:label "Device data action"@en ;
 	rdfs:label "Gerätedatenaktion"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
-	
-#Click Monitor
-sdo:ClickMonitorData rdf:type G:Concept, rdfs:Class, suo:Monitoring  ;
-	rdfs:label "Click Monitor Data"@en ;
-	rdfs:label "Klickmonitor Daten"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
+	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
 	
 # PROPERTIES #
 
@@ -870,13 +841,6 @@ sdo:providedBy rdf:type rdf:Property ;
 		rdfs:domain sdo:FeedbackMessage ;
 		rdfs:range sdo:User .		
 
-sdo:relatesToUser rdf:type rdf:Property ;
-		rdfs:label "Click monitor data relates to a user"@en ;
-		rdfs:label "Klickmonitordaten beziehen sich auf einen Benutzer"@de ;
-		rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> ;
-		rdfs:domain sdo:ClickMonitorData ;
-		rdfs:range sdo:User .	
-
 sdo:considersPollution rdf:type rdf:Property ;
 		rdfs:label "Analysis considers a pollution factor"@en ;
 		rdfs:label "Analyse berücksichtigt einen Verschmutzungsfaktor"@de ;
@@ -884,118 +848,6 @@ sdo:considersPollution rdf:type rdf:Property ;
 		rdfs:domain sdo:Analysis ;
 		rdfs:range sdo:PollutionFactor .		
 
-# FEEDBACK FEATURES #	
-
-# Concepts #
-
-sdo:FeedbackText rdf:type G:Feature, rdfs:Class, suo:Feedback  ;
-	rdfs:label "Feedback text"@en ;
-	rdfs:label "Feedback-text"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-	
-sdo:FeedbackSentiment rdf:type G:Feature, rdfs:Class, suo:Feedback  ;
-	rdfs:label "Feedback sentiment"@en ;
-	rdfs:label "Feedbackstimmung"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-
-sdo:ClicksNumber rdf:type G:Feature, rdfs:Class, suo:Monitoring ;
-	rdfs:label "Clicks number"@en ;
-	rdfs:label "Anzahl der Klicks"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .			
-
-sdo:TimeAttribute rdf:type G:Feature, rdfs:Class, suo:Domain  ;
-	rdfs:label "Time Attribute"@en ;
-	rdfs:label "Zeitattribut"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-
-sdo:Year rdf:type G:Feature, rdfs:Class, suo:Domain  ;
-	rdfs:subClassOf sdo:TimeAttribute ;
-	rdfs:label "Year"@en ;
-	rdfs:label "Jahr"@de ;
-	owl:sameAs xsd:gYear ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-	
-sdo:Month rdf:type G:Feature, rdfs:Class, suo:Domain  ;
-	rdfs:subClassOf sdo:TimeAttribute ;
-	rdfs:label "Month"@en ;
-	rdfs:label "Monat"@de ;
-	owl:sameAs xsd:gYearMonth ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-	
-sdo:Date rdf:type G:Feature, rdfs:Class, suo:Domain  ;
-	rdfs:subClassOf sdo:TimeAttribute ;
-	rdfs:label "Date"@en ;
-	rdfs:label "Datum"@de ;
-	owl:sameAs xsd:date ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-
-sdo:DateTime rdf:type G:Feature, rdfs:Class, suo:Domain  ;
-	rdfs:subClassOf sdo:TimeAttribute ;
-	rdfs:label "Date time"@en ;
-	rdfs:label "Terminzeit"@de ;
-	owl:sameAs xsd:dateTime ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .	
-	
-sdo:DateTimeStamp rdf:type G:Feature, rdfs:Class, suo:Domain  ;
-	rdfs:subClassOf sdo:TimeAttribute ;
-	rdfs:label "Date time stamp"@en ;
-	rdfs:label "Datum Zeitstempel"@de ;
-	owl:sameAs xsd:dateTimeStamp ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
-	
-sdo:Duration rdf:type G:Feature, rdfs:Class, suo:Domain  ;
-	rdfs:subClassOf sdo:TimeAttribute ;
-	rdfs:label "Duration"@en ;
-	rdfs:label "Dauer"@de ;
-	owl:sameAs xsd:duration ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/senercon/sdo/> .		
-	
-# Properties #
-
-sdo:FeedbackMessage G:hasFeature sdo:FeedbackText .	
-sdo:FeedbackMessage G:hasFeature sdo:FeedbackSentiment .	
-sdo:FeedbackMessage G:hasFeature sdo:TimeAttribute .
-
-sdo:ClickMonitorData G:hasFeature sdo:ClicksNumber .
-sdo:ClickMonitorData G:hasFeature sdo:TimeAttribute .
-
-# SOFTWARE USAGE METAMODEL #
-
-suo:SoftwareUsageElement rdf:type rdfs:Class ;
-	rdfs:label "Software usage element"@en ;
-	rdfs:label "Software-Nutzungselement"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .	
-	
-suo:Feedback rdf:type rdfs:Class ;
-	rdfs:subClassOf suo:SoftwareUsageElement ;
-	rdfs:label "Feedback"@en ;
-	rdfs:label "Feedback"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .		
-	
-suo:Monitoring rdf:type rdfs:Class ;
-	rdfs:subClassOf suo:SoftwareUsageElement ;
-	rdfs:label "Monitoring"@en ;
-	rdfs:label "Überwachung"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .		
-
-suo:Software rdf:type rdfs:Class ;
-	rdfs:subClassOf suo:SoftwareUsageElement ;
-	rdfs:label "Software"@en ;
-	rdfs:label "Software"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .	
-
-suo:Domain rdf:type rdfs:Class ;
-	rdfs:subClassOf suo:SoftwareUsageElement ;
-	rdfs:label "Domain"@en ;
-	rdfs:label "Domain"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .	
-	
-suo:User rdf:type rdfs:Class ;
-	rdfs:subClassOf suo:SoftwareUsageElement ;
-	rdfs:label "User"@en ;
-	rdfs:label "Benutzer"@de ;
-	rdfs:isDefinedBy <https://www.supersede.eu/the-consortium/suo/> .		
-	
 	
 # added upon the expert request	
 

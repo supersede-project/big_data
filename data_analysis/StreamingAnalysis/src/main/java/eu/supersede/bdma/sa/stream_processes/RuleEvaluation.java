@@ -6,11 +6,10 @@ import com.google.common.collect.Maps;
 import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
 import eu.supersede.bdma.sa.eca_rules.FeedbackReconfigurationAlert;
-import eu.supersede.bdma.sa.eca_rules.MonitorReconfigurationAlert;
-import eu.supersede.bdma.sa.eca_rules.SoftwareEvolutionAlert;
+import eu.supersede.bdma.sa.eca_rules.MonitorReconfigurationDeterministicAlert;
+import eu.supersede.bdma.sa.eca_rules.MonitorReconfigurationNonDeterministicAlert;
 import eu.supersede.bdma.sa.eca_rules.conditions.ConditionEvaluator;
 import eu.supersede.bdma.sa.utils.MonitorReconfigurationJSON;
-import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.integration.api.mdm.types.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -46,8 +45,10 @@ public class RuleEvaluation {
                                     windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"));
                                 else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val()))
                                     windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"));
-                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val()))
-                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"));
+                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION.val()))
+                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"));
+                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION.val()))
+                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"));
                                 else windowSize = 0;
 
                                 if (firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) < t._2() &&
@@ -114,8 +115,7 @@ public class RuleEvaluation {
                                 else if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.ONTOLOGICAL_DISTANCE)) {
                                     valids = ConditionEvaluator.evaluateOntologicalDistanceRule(condition.getPredicate(),
                                             condition.getValue(), Iterables.toArray(extractedData, String.class), eca_rule.getParameters(),
-                                            eca_rule.getEvent().getTenant());
-                                    //eca_rule.getEvent().get
+                                            eca_rule.getEvent().getTenant().getId());
                                 }
 
                                 if (valids < eca_rule.getWindowSize()) allConditionsOK = false;
@@ -133,10 +133,16 @@ public class RuleEvaluation {
                                     //SoftwareEvolutionAlert.sendAlert(eca_rule, Iterables.toArray(feedbacks,String.class));
                                 }
                                 else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val())) {
-                                    DynamicAdaptationAlert.sendAlert(eca_rule);
+                                    if (!eca_rule.getEca_ruleID().equals("409151c8-a2cc-440a-8c2d-1af216e217d6") &&
+                                        !eca_rule.getEca_ruleID().equals("82c1d2c7-30f8-42b1-b863-72b576b8dc78")) {
+                                        DynamicAdaptationAlert.sendAlert(eca_rule);
+                                    }
                                 }
-                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val())) {
-                                    MonitorReconfigurationAlert.sendAlert(eca_rule,data);
+                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION.val())) {
+                                    MonitorReconfigurationDeterministicAlert.sendAlert(eca_rule,data);
+                                }
+                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION.val())) {
+                                    MonitorReconfigurationNonDeterministicAlert.sendAlert(eca_rule,data);
                                 }
                                 else if (windowType.val().equals(ActionTypes.ALERT_FEEDBACK_RECONFIGURATION.val())) {
                                     FeedbackReconfigurationAlert.sendAlert(eca_rule);
@@ -183,12 +189,25 @@ public class RuleEvaluation {
                     return recordsPerRule.iterator();
                 }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"))),new Duration(5000));
 
-        JavaPairDStream<String, Tuple2<String,Long>> monitorReconfigurationWindow = nonEmptyStream
+        JavaPairDStream<String, Tuple2<String,Long>> monitorDeterministicReconfigurationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
                     List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
                     rules.value().forEach(rule -> {
                         if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
-                                rule.getAction().val().equals(ActionTypes.ALERT_MONITOR_RECONFIGURATION.val())) {
+                                rule.getAction().val().equals(ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION.val())) {
+                            recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
+                                    new Tuple2<String, Long>(record.value(),System.currentTimeMillis())));
+                        }
+                    });
+                    return recordsPerRule.iterator();
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"))),new Duration(5000));
+
+        JavaPairDStream<String, Tuple2<String,Long>> monitorNonDeterministicReconfigurationWindow = nonEmptyStream
+                .flatMapToPair(record -> {
+                    List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
+                    rules.value().forEach(rule -> {
+                        if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
+                                rule.getAction().val().equals(ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION.val())) {
                             recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
                                     new Tuple2<String, Long>(record.value(),System.currentTimeMillis())));
                         }
@@ -211,7 +230,8 @@ public class RuleEvaluation {
 
         windowBasedRuleEvaluation(evolutionWindow,ActionTypes.ALERT_EVOLUTION,events,rules);
         windowBasedRuleEvaluation(adaptationWindow,ActionTypes.ALERT_DYNAMIC_ADAPTATION,events,rules);
-        windowBasedRuleEvaluation(monitorReconfigurationWindow,ActionTypes.ALERT_MONITOR_RECONFIGURATION,events,rules);
+        windowBasedRuleEvaluation(monitorDeterministicReconfigurationWindow,ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION,events,rules);
+        windowBasedRuleEvaluation(monitorNonDeterministicReconfigurationWindow,ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION,events,rules);
         windowBasedRuleEvaluation(feedbackReconfigurationWindow,ActionTypes.ALERT_FEEDBACK_RECONFIGURATION,events,rules);
     }
 }
