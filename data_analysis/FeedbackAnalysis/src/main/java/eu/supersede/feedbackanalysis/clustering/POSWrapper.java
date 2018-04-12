@@ -24,9 +24,9 @@ import eu.supersede.feedbackanalysis.clustering.FeedbackAnnotator.AnalysisType;
  */
 public class POSWrapper {
 
-	private MaxentTagger maxentTagger;
+//	private MaxentTagger maxentTagger;
 
-	private String modelFile;
+//	private String modelFile;
 
 	private StanfordCoreNLP pipeline;
 
@@ -35,7 +35,7 @@ public class POSWrapper {
 	public POSWrapper(AnalysisType at) {
 		analysisType = at;
 
-		modelFile = "/data/workspace/wordnet/stanford-postagger-2017-06-09/models/english-left3words-distsim.tagger";
+//		modelFile = "/data/workspace/wordnet/stanford-postagger-2017-06-09/models/english-left3words-distsim.tagger";
 		// maxentTagger = new MaxentTagger(modelFile);
 
 		Properties props;

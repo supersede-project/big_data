@@ -65,33 +65,39 @@ public class WordNetWrapper {
 		
 		loadStopWords();
 		
-		if (null != wordnetDbPath && !wordnetDbPath.isEmpty()) {
-			WORDNET_DB_PATH = wordnetDbPath;
-		}else {
-			WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+		// WordNet is used only for English feedback
+		if ("en".equalsIgnoreCase(lang)) {
+			if (null != wordnetDbPath && !wordnetDbPath.isEmpty()) {
+				WORDNET_DB_PATH = wordnetDbPath;
+			}else {
+				WORDNET_DB_PATH = FileManager.getResource("WordNet-3.0-dict", getClass().getClassLoader()).getFile();
+			}
+			System.out.println("WordnetDbPath: " + WORDNET_DB_PATH);
+			System.setProperty("wordnet.database.dir", WORDNET_DB_PATH);
+	
+			database = WordNetDatabase.getFileInstance();
+	
+			// setup the WordnetStemmer
+			final Dictionary dict = new Dictionary(new File(WORDNET_DB_PATH));
+			dict.getCache().setMaximumCapacity(Integer.MAX_VALUE);
+	
+			try {
+				dict.open();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+			stemmer = new WnStemmer(dict);
 		}
-		System.out.println("WordnetDbPath: " + WORDNET_DB_PATH);
-		System.setProperty("wordnet.database.dir", WORDNET_DB_PATH);
-
-		database = WordNetDatabase.getFileInstance();
-
-		// setup the WordnetStemmer
-		final Dictionary dict = new Dictionary(new File(WORDNET_DB_PATH));
-		dict.getCache().setMaximumCapacity(Integer.MAX_VALUE);
-
-		try {
-			dict.open();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		stemmer = new WnStemmer(dict);
 
 		// setup CoreNLP pipeline
 		Properties props;
 		props = new Properties();
 		String annotators = "tokenize, ssplit, pos, lemma";
 		props.put("annotators", annotators);
+		if ("de".equalsIgnoreCase(lang)) {
+			props.put("-props", "StanfordCoreNLP-german.properties");
+		}
 		pipeline = new StanfordCoreNLP(props);
 	}
 
@@ -185,9 +191,9 @@ public class WordNetWrapper {
 						}
 					}
 				}
-			} else {
-				System.err.println("No synsets exist that contain " + "the word form '" + wordForm + "'");
-			}
+			} //else {
+//				System.err.println("No synsets exist that contain " + "the word form '" + wordForm + "'");
+			//}
 		}
 		return expandedTerms;
 	}
@@ -252,20 +258,26 @@ public class WordNetWrapper {
 		for (CoreMap sentence : sentences) {
 			// Iterate over all tokens in a sentence
 			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
-				String lemma = token.get(LemmaAnnotation.class);
-				// if stop word, skip it
-				if (isStopWord(lemma)) {
-					System.err.println("Skipping stop word: " + token.word());
-					continue;
-				}
+				
+//				// if stop word, skip it
+//				if (isStopWord(lemma)) {
+//					//System.err.println("Skipping stop word: " + token.word());
+//					continue;
+//				}
 				
 				// get POS tag and collect the lemma only for NOUNS, ADJ, VERB
 				String pos = token.get(PartOfSpeechAnnotation.class);
 
 				if (includeCoreNLPTag(pos)) {
-					// Retrieve and add the lemma for each word into the
-					// list of lemmas
-					terms.add(lemma);
+					String longLemma = token.get(LemmaAnnotation.class);
+					// Retrieve and add the lemma for each word into the list of lemmas
+					// if composite word (e.g., water-meter, house/office, ...), break it up
+					String[] parts = longLemma.split("[-/]");
+					for (String lemma : parts) {
+						if (!isStopWord(lemma)) {
+							terms.add(lemma);
+						}
+					}
 				}
 			}
 		}
@@ -279,7 +291,7 @@ public class WordNetWrapper {
 				posTag.startsWith("JJ")){
 			return true;
 		}else {
-			System.err.println("Skipping POS: " + posTag);
+			//System.err.println("Skipping POS: " + posTag);
 			return false;
 		}
 	}

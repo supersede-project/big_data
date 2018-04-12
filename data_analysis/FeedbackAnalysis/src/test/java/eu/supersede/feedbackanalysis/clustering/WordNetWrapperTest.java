@@ -31,9 +31,8 @@ public class WordNetWrapperTest {
 		boolean direct = true;
 		String language = "en";
 		OntologyWrapper ow = new OntologyWrapper(ontologyFile, language, classOnly, direct);
-		String lang = "en";
 		String wordnetDbPath = ""; // let it be searched in classpath
-		wordnet = new WordNetWrapper(ow, wordnetDbPath, lang);
+		wordnet = new WordNetWrapper(ow, wordnetDbPath, language);
 	}
 	
 	@Test
@@ -73,4 +72,13 @@ public class WordNetWrapperTest {
 		}
 	}
 	
+	@Test
+	public void testGetTermsCoreNLP() {
+		String sentence = "wie kann ich meine Emailadresse ändern?";
+		Set<String> terms = wordnet.getTermsCoreNLP(sentence);
+		for (String term : terms) {
+			System.out.println(term);
+		}
+		
+	}
 }

@@ -3,13 +3,22 @@ package eu.supersede.feedbackanalysis.clustering;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.rdf.model.Resource;
@@ -17,10 +26,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.opencsv.CSVWriter;
+
 import eu.supersede.feedbackanalysis.clustering.FeedbackAnnotator;
 import eu.supersede.feedbackanalysis.clustering.FeedbackMessage;
 import eu.supersede.feedbackanalysis.clustering.FeedbackAnnotator.AnalysisType;
 import eu.supersede.feedbackanalysis.ds.UserFeedback;
+import eu.supersede.feedbackanalysis.preprocessing.utils.FileManager;
 
 /**
  * 
@@ -30,10 +42,10 @@ import eu.supersede.feedbackanalysis.ds.UserFeedback;
 public class FeedbackAnnotatorTest {
 
 	List<FeedbackMessage> feedbackMessages = null;
-	String ontologyFile = "SDO_ontology.ttl";
+	String ontologyFile = "ATOS_ontology.ttl";
 	boolean classLabelsOnly = false;
 	boolean direct = true; 
-	String language = "de";
+	String language = "en";
 	String wordnetDbPath = ""; // let it be located from classpath
 	FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, direct);
 	
@@ -98,6 +110,55 @@ public class FeedbackAnnotatorTest {
 		keywords.add("heating");
 		double ontologicalDistance = feedbackAnnotator.ontologicalDistance(uf, keywords);
 		System.out.println(ontologicalDistance);
+	}
+	
+	@Test
+	public void testAtoRule () throws IOException {
+		Set<String> q1 = new HashSet<>();
+		q1.addAll(Arrays.asList("network, Connection, Video".split(",")));
+		
+		Set<String> q2 = new HashSet<>();
+		q2.addAll(Arrays.asList("network, Connection, load, Time".split(",")));
+		
+		Set<String> q3 = new HashSet<>();
+		q3.addAll(Arrays.asList("Statistics"));
+		
+		Set<String> q4 = new HashSet<>();
+		q4.addAll(Arrays.asList("Flash, Player, compatible".split(",")));
+		
+		Set<String> q5 = new HashSet<>();
+		q5.addAll(Arrays.asList("Flash, Player, version".split(",")));
+		
+		String csvFile = "src/test/resources/trainingsets/ATOS_userfeedback_sentiment.csv";
+		String reportFile = "src/test/resources/trainingsets/ATOS_rules_sentiment_jaccard_classonly.csv";
+		Reader reader = new FileReader(new File(csvFile));
+		CSVWriter csvWriter = new CSVWriter(new FileWriter(reportFile));
+		String[] header = "feedback,q1,q2,q3,q4,jq5,jq1,jq2,jq3,jq4,jq5,sentiment".split(",");
+		csvWriter.writeNext(header);
+		Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader("sentiment","Feedback").parse(reader);
+		for (CSVRecord record : records) {
+			if (!"sentiment".equalsIgnoreCase(record.get("sentiment"))){
+				UserFeedback uf = new UserFeedback(record.get("Feedback"));
+				String sentiment = record.get("sentiment");
+				
+				//intersection count
+				double d1 = feedbackAnnotator.ontologicalDistance(uf, q1);
+				double d2 = feedbackAnnotator.ontologicalDistance(uf, q2);
+				double d3 = feedbackAnnotator.ontologicalDistance(uf, q3);
+				double d4 = feedbackAnnotator.ontologicalDistance(uf, q4);
+				double d5 = feedbackAnnotator.ontologicalDistance(uf, q5);
+				
+				//jaccard score
+				double jd1 = feedbackAnnotator.ontologicalDistanceJaccard(uf, q1);
+				double jd2 = feedbackAnnotator.ontologicalDistanceJaccard(uf, q2);
+				double jd3 = feedbackAnnotator.ontologicalDistanceJaccard(uf, q3);
+				double jd4 = feedbackAnnotator.ontologicalDistanceJaccard(uf, q4);
+				double jd5 = feedbackAnnotator.ontologicalDistanceJaccard(uf, q5);
+				String[] line = { uf.getFeedbackText() , ""+d1 , ""+d2 , ""+d3 , ""+d4 , ""+d5, ""+jd1 , ""+jd2 , ""+jd3 , ""+jd4 , ""+jd5 , sentiment };
+				csvWriter.writeNext(line);
+			}
+		}
+		csvWriter.close();
 	}
 	
 }

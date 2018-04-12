@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.apache.jena.vocabulary.RDFS;
 import com.github.andrewoma.dexx.collection.HashMap;
 
 import edu.smu.tspell.wordnet.SynsetType;
+import eu.supersede.feedbackanalysis.clustering.FeedbackAnnotator.AnalysisType;
 
 /**
  * 
@@ -55,6 +57,9 @@ public class OntologyWrapper {
 	boolean directLinksOnly = true;
 	boolean classLabelsOnly = false;
 	String language = "en";
+	
+	// for lemmatization
+	POSWrapper posWrapper = new POSWrapper(AnalysisType.ALL);
 	
 	public OntologyWrapper(String ontology, String lang, boolean classOnly, boolean direct) {
 		rdfFileName = ontology;
@@ -100,10 +105,10 @@ public class OntologyWrapper {
 			Set<String> terms = new HashSet<String>();
 
 			String resourceName = cl.getLocalName();
-			System.out.println("Class: " + resourceName);
+//			System.out.println("Class: " + resourceName);
 			if (resourceName != null) {
-				String classLbl = cl.getLabel(language).toLowerCase();
-				terms.addAll(Arrays.asList(classLbl.split(" ")));
+				String classLbl = cl.getLabel(language).toLowerCase().trim();
+				addTermsFromLabel (classLbl, terms);
 			}
 
 			if (!classLabelsOnly) {
@@ -112,8 +117,8 @@ public class OntologyWrapper {
 				while (declaredProperties.hasNext()) {
 					OntProperty property = declaredProperties.next();
 	//				System.out.println("Related prop >>> " + property.getLocalName());
-					String lbl = property.getLabel(language).toLowerCase();
-					terms.addAll(Arrays.asList(lbl.split(" ")));
+					String lbl = property.getLabel(language).toLowerCase().trim();
+					addTermsFromLabel (lbl, terms);
 				}
 			}
 			
@@ -122,6 +127,19 @@ public class OntologyWrapper {
 		}
 	}
 	
+	/**
+	 * @param lbl
+	 * @param terms
+	 */
+	private void addTermsFromLabel(String lbl, Set<String> terms) {
+		Set<String> lemmas = posWrapper.lemmatize(lbl);
+//		terms.add(lbl.toLowerCase().trim());
+//		terms.addAll(Arrays.asList(lbl.split(" ")));
+		for (String lemma : lemmas) {
+			terms.add(lemma.trim());
+		}
+	}
+
 	/**
 	 * Returns a List of all the classes in the ontology. It returns a List, instead
 	 * of a Set, to guarantee same ordering in a given execution. Note that the
@@ -184,11 +202,11 @@ public class OntologyWrapper {
 				}
 			}
 			// append label, in this case category
-			String category = entry.getKey().getCategory().trim();
-			if (category.isEmpty()) {
-				category = "UNLABELED";
+			String clusterId = entry.getKey().getClusterId().trim();
+			if (clusterId.isEmpty()) {
+				clusterId = "UNLABELED";
 			}
-			buffer.append(category + "," + entry.getKey().getId() + "\n");
+			buffer.append(clusterId + "," + entry.getKey().getId() + "\n");
 		}
 
 		return buffer.toString();
@@ -205,6 +223,35 @@ public class OntologyWrapper {
 			}
 		}
 		return fv;
+	}
+	
+	/**
+	 * build feature vector based on counts (frequency)
+	 * @param concepts
+	 * @return
+	 */
+	public int[] conceptsToFeatureVector(Collection<OntClass> concepts) {
+		int[] fv = new int[classes.size()];
+		int i = 0;
+		for (OntClass concept : classes) {
+			int count = Collections.frequency(concepts, concept);
+			fv[i++] = count;
+		}
+		return fv;
+	}
+
+	public String getFeatureVectorHeader(boolean addClass) {
+		StringBuffer header = new StringBuffer();
+		for (OntClass cl : classes) {
+			header.append(cl.toString() + ",");
+		}
+		if (addClass) {
+			header.append("class");
+		}else {
+			header.deleteCharAt(header.length() - 1);
+		}
+		header.append("\n");
+		return header.toString();
 	}
 	
 	/**
@@ -242,6 +289,81 @@ public class OntologyWrapper {
 		return fv.toString();
 	}
 	
+	
+	/**
+	 * this is just a convenience method to get the vector as a String so that it can be easily parsed to Weka Instances
+	 * @param concepts
+	 * @return
+	 */
+	public String conceptsToFeatureVectorString(Collection<OntClass> concepts, boolean header, boolean addClass) {
+		StringBuffer fv = new StringBuffer();
+		
+		if (header) {
+			for (OntClass cl : classes) {
+				fv.append(cl.getLocalName() + ",");
+			}
+			if (addClass) {
+				fv.append("class");
+			}else {
+				fv.deleteCharAt(fv.length() - 1);
+			}
+			fv.append("\n");
+		}
+		
+		for (OntClass concept : classes) {
+			int count = Collections.frequency(concepts, concept);
+			fv.append(count + ",");
+		}
+		if (addClass) {
+			fv.append("?");
+		}else {
+			fv.deleteCharAt(fv.length() - 1);
+		}
+		return fv.toString();
+	}
+	
+	/**
+	 * this is just a convenience method to get the vector as a String so that it can be easily parsed to Weka Instances
+	 * @param concepts
+	 * @return
+	 */
+	public String conceptsToFeatureVectorString(List<Set<OntClass>> allConcepts, boolean header, boolean addClass) {
+		StringBuffer fv = new StringBuffer();
+		
+		if (header) {
+			for (OntClass cl : classes) {
+				fv.append(cl.getLocalName() + ",");
+			}
+			if (addClass) {
+				fv.append("class");
+			}else {
+				fv.deleteCharAt(fv.length() - 1);
+			}
+			fv.append("\n");
+		}
+		
+		for (Set<OntClass> concepts : allConcepts) {
+			for (OntClass concept : classes) {
+				if (concepts.contains(concept)) {
+					fv.append("1,");
+				}else {
+					fv.append("0,");
+				}
+			}
+			if (addClass) {
+				fv.append("?");
+			}else {
+				fv.deleteCharAt(fv.length() - 1);
+			}
+		}
+		return fv.toString();
+	}
+	
+	/**
+	 * Returns the set of concepts in relation to the given term
+	 * @param term
+	 * @return
+	 */
 	public Set<OntClass> lookupConcepts(String term) {
 		term = term.trim().toLowerCase();
 
@@ -252,9 +374,9 @@ public class OntologyWrapper {
 		if (concepts == null) {
 			concepts = new HashSet<OntClass>();
 
-			for (OntClass cl : classes) {
-				if (classTerms.get(cl).contains(term)) {
-					concepts.add(cl);
+			for (Entry<OntClass, Set<String>> entry : classTerms.entrySet()) {
+				if (entry.getValue().contains(term)) {
+					concepts.add(entry.getKey());
 				}
 			}
 			termCache.put(term, concepts);
@@ -336,7 +458,7 @@ public class OntologyWrapper {
 		ExtendedIterator<Triple> iterator = graph.find();
 		while (iterator.hasNext()) {
 			Triple triple = iterator.next();
-			System.out.println(triple);
+//			System.out.println(triple);
 		}
 		// }
 		return topConcepts;
