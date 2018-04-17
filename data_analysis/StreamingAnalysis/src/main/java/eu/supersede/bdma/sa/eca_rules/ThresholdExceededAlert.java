@@ -20,6 +20,7 @@ import java.util.List;
 public class ThresholdExceededAlert {
 
     public static void sendAlert(String API, Double responseTime) {
+        System.out.println("sending alert");
         Alert alert = new Alert();
 
         alert.setId("id"+ System.currentTimeMillis());

@@ -28,6 +28,8 @@ public class ThresholdEvaluation {
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                System.out.println("evaluating thresholds");
+
                 //First, delete the last generated CSV and previous thresholds (if exists)
                 FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE")));
                 FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_ALARMS")));
@@ -54,8 +56,15 @@ public class ThresholdEvaluation {
                         .repartition(1)
                         .saveAsTextFile(Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE"));
 
+                System.out.println("last hour data generated");
+
                 //Call the R script to recompute thresholds
                 try {
+                    System.out.println(Main.properties.getProperty("COMMAND_EXECUTE_EVALUATE_THRESHOLDS") + " " +
+                            Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE") + "/part-00000" + " " +
+                            Main.properties.getProperty("PATH_THRESHOLDS") + " " +
+                            Main.properties.getProperty("PATH_ALARMS") + " " +
+                            Main.properties.getProperty("PATH_METHOD_CLUSTERING"));
                     Process p = Runtime.getRuntime().exec(Main.properties.getProperty("COMMAND_EXECUTE_EVALUATE_THRESHOLDS") + " " +
                             Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE") + "/part-00000" + " " +
                             Main.properties.getProperty("PATH_THRESHOLDS") + " " +
@@ -68,6 +77,7 @@ public class ThresholdEvaluation {
                 // Process the generated CSV
                 try {
                     Files.lines(new File(Main.properties.getProperty("PATH_ALARMS")).toPath()).forEach(t -> {
+                        System.out.println(t);
                         if (!t.contains("GroupedMethodName")) {
                             String API = t.split(",")[0].replace("\"","");
                             Double responseTime = Double.parseDouble(t.split(",")[1]);
