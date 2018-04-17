@@ -85,7 +85,7 @@ public class ThresholdEvaluation {
                             ThresholdExceededAlert.sendAlert(API,responseTime);
                         }
                     });
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
