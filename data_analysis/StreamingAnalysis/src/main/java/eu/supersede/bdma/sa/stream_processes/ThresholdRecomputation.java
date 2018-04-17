@@ -50,6 +50,10 @@ public class ThresholdRecomputation {
 
                 //Call the R script to recompute thresholds
                 try {
+		    System.out.println(Main.properties.getProperty("COMMAND_EXECUTE_GET_THRESHOLDS") + " " +
+                            Main.properties.getProperty("PATH_CONVERTED_LOG_FILE") + "/part-00000" + " " +
+                            Main.properties.getProperty("PATH_THRESHOLDS") + " " +
+                            Main.properties.getProperty("PATH_METHOD_CLUSTERING"));
                     Process p = Runtime.getRuntime().exec(Main.properties.getProperty("COMMAND_EXECUTE_GET_THRESHOLDS") + " " +
                             Main.properties.getProperty("PATH_CONVERTED_LOG_FILE") + "/part-00000" + " " +
                             Main.properties.getProperty("PATH_THRESHOLDS") + " " +
