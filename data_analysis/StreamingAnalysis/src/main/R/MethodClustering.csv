@@ -29,12 +29,12 @@ MethodNameOnly;ClusterName;API
 /ascrappbackend2/helloWorld;/other;noAPI
 /ascrappbackend2-oauth2/1;/other;noAPI
 /oauth/tokenascrappbackend2-oauth2/1;/other;noAPI
-/building-data/trends/buildings;/building-data/buildings;building-data
+/building-data/trends/buildings;/building-data/buildings-SS;building-data
 /building-data-ecosystem/1/buildings;/building-data/buildings;building-data
 /building-data-oauth2/1/buildings;/building-data/buildings;building-data
 /building-data/trends/getMaxDate;/building-data/getMaxDate;building-data
 /building-data/trends/getMinDate;/building-data/getMaxDate;building-data
-/building-data/trends/getMinMaxDates;/building-data/getMaxDate;building-data
+/building-data/trends/getMinMaxDates;/building-data/getMinMaxDate-SS;building-data
 /building-data-ecosystem/1/getMaxDate;/building-data/getMaxDate;building-data
 /building-data-ecosystem/1/getMinDate;/building-data/getMaxDate;building-data
 /building-data-oauth2/1/getMaxDate;/building-data/getMaxDate;building-data
@@ -50,7 +50,7 @@ MethodNameOnly;ClusterName;API
 /building-data-ecosystem/1//downloadBuildingDataCSV;/building-data/other;building-data
 /building-data-ecosystem/1/downloadBuildingDataCSV;/building-data/other;building-data
 /building-data/trends/apartments;/building-data/other;building-data
-/building-data/trends/types;/building-data/other;building-data
+/building-data/trends/types;/building-data/types-SS;building-data
 /building-data-ecosystem/1;/building-data/other;building-data
 /building-data-ecosystem/1/;/building-data/other;building-data
 /building-data-ecosystem/1/trends;/building-data/other;building-data
@@ -64,6 +64,9 @@ MethodNameOnly;ClusterName;API
 /building-data-ecosystem/1/getVoltageData;/building-data/other;building-data
 /building-data-oauth2/1/types;/building-data/other;building-data
 /building-data-oauth2/1;/building-data/other;building-data
+/SuperAdapt/relay/http://caching-data/trends/buildings;/building-data/buildings-SSCC;building-data-SS
+/SuperAdapt/relay/http://caching-data/trends/types;/building-data/getMinMaxDate-SSCC;building-data-SS
+/SuperAdapt/relay/http://caching-data/trends/getMinMaxDates;/building-data/types-SSCC;building-data-SS
 /building-data-oauth2/1/;/building-data/other;building-data
 /building-data-oauth2/1/checkWSO2AccessToken;/building-data/checkWSO2AccT;building-data
 /building-data-oauth2_1/oauth/token;/building-data/oauth/token;building-data
@@ -569,3 +572,6 @@ MethodNameOnly;ClusterName;API
 /publishAPI;/other;noAPI
 /regenerateTokens;/regenerateTokens;noAPI
 /updateAPI;/other;noAPI
+/oauth/token/query-data-oauth2/1;/query-data-oauth2;query-data-oauth2
+/query-data-oauth2_1/oauth/token;/query-data-oauth2;query-data-oauth2
+/query-data-oauth2/1/info;/query-data-oauth2;query-data-oauth2
