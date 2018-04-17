@@ -71,6 +71,7 @@ public class ThresholdEvaluation {
                         if (!t.contains("GroupedMethodName")) {
                             String API = t.split(",")[0].replace("\"","");
                             Double responseTime = Double.parseDouble(t.split(",")[1]);
+                            System.out.println("sending alert for "+API+" - "+responseTime);
                             ThresholdExceededAlert.sendAlert(API,responseTime);
                         }
                     });
@@ -79,7 +80,7 @@ public class ThresholdEvaluation {
                 }
 
 
-                System.out.println("Thresholds successfully recomputed");
+                System.out.println("Thresholds successfully evaluated");
             }
 
         },1000, Long.parseLong(Main.properties.getProperty("THRESHOLD_EVALUATION_PERIOD_MS")));
