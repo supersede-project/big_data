@@ -34,7 +34,8 @@ public class ThresholdExceededAlert {
         TopicPublisher publisher = null;
         try {
             publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true,
-                    new SupersedeFederation().getFederatedSupersedePlatform("development").getPlatform());
+                    //new SupersedeFederation().getFederatedSupersedePlatform("development").getPlatform()
+                    "development");
             publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
             publisher.closeTopicConnection();
         } catch (NamingException e) {
