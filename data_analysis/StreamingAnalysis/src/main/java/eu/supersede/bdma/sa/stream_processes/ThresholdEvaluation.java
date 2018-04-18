@@ -14,9 +14,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 /**
  * Created by snadal on 28/05/17.
@@ -49,7 +52,7 @@ public class ThresholdEvaluation {
                             } catch (Exception e) {
                                 date = LocalDate.parse(o.getAsString("Date"), formatter2);
                             }
-                            return date.isAfter(LocalDate.now().minusDays(3));
+                            return date.isAfter(LocalDate.now().minus(1, ChronoUnit.HOURS));
                         })
                         .map(obj -> obj.getAsString("level") + " | " + obj.getAsString("Date") + " | " + obj.getAsString("class_name") +
                                 " | " + obj.getAsString("message"))
@@ -76,15 +79,20 @@ public class ThresholdEvaluation {
                 }
                 // Process the generated CSV
                 try {
-                    Files.lines(new File(Main.properties.getProperty("PATH_ALARMS")).toPath()).forEach(t -> {
+                    double sum = 0;
+                    int count = 0;
+                    for (String t : Files.lines(new File(Main.properties.getProperty("PATH_ALARMS")).toPath()).collect(Collectors.toList())) {
                         System.out.println(t);
                         if (!t.contains("GroupedMethodName")) {
                             String API = t.split(",")[0].replace("\"","");
                             Double responseTime = Double.parseDouble(t.split(",")[1]);
+                            sum+=responseTime;
+                            ++count;
                             System.out.println("sending alert for "+API+" - "+responseTime);
-                            ThresholdExceededAlert.sendAlert(API,responseTime);
                         }
-                    });
+                    };
+                    ThresholdExceededAlert.sendAlert("",sum/count);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
