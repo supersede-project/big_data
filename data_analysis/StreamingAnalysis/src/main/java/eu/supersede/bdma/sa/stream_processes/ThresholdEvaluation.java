@@ -52,7 +52,7 @@ public class ThresholdEvaluation {
                             } catch (Exception e) {
                                 date = LocalDate.parse(o.getAsString("Date"), formatter2);
                             }
-                            return date.isAfter(LocalDate.now().minus(1, ChronoUnit.HOURS));
+                            return date.isAfter(LocalDate.now().minus(3600, ChronoUnit.SECONDS));
                         })
                         .map(obj -> obj.getAsString("level") + " | " + obj.getAsString("Date") + " | " + obj.getAsString("class_name") +
                                 " | " + obj.getAsString("message"))
