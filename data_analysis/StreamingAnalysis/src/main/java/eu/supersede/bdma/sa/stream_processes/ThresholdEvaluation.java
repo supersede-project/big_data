@@ -8,11 +8,13 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.apache.commons.io.FileUtils;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.joda.time.Period;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -46,13 +48,13 @@ public class ThresholdEvaluation {
                         .filter(o -> {
                             DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS", Locale.ENGLISH);
                             DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss,SSS", Locale.ENGLISH);
-                            LocalDate date = null;
+                            LocalDateTime date = null;
                             try {
-                                date = LocalDate.parse(o.getAsString("Date"), formatter1);
+                                date = LocalDateTime.parse(o.getAsString("Date"), formatter1);
                             } catch (Exception e) {
-                                date = LocalDate.parse(o.getAsString("Date"), formatter2);
+                                date = LocalDateTime.parse(o.getAsString("Date"), formatter2);
                             }
-                            return date.isAfter(LocalDate.now().minus(3600, ChronoUnit.SECONDS));
+                            return date.isAfter(LocalDateTime.now().minusHours(1));
                         })
                         .map(obj -> obj.getAsString("level") + " | " + obj.getAsString("Date") + " | " + obj.getAsString("class_name") +
                                 " | " + obj.getAsString("message"))
