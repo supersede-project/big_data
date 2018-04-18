@@ -31,11 +31,11 @@ public class ThresholdEvaluation {
                 System.out.println("evaluating thresholds");
 
                 //First, delete the last generated CSV and previous thresholds (if exists)
-                //FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE")));
-                //FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_ALARMS")));
+                FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE")));
+                FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_ALARMS")));
 
                 //Convert the historical JSON to CSV
-                /*ctx.textFile(Main.properties.getProperty("PATH_LOG_FILE"))
+                ctx.textFile(Main.properties.getProperty("PATH_LOG_FILE"))/*.sample(true,0.01)*/
                         .filter(t -> !t.isEmpty())
                         .map(t -> (JSONObject) ((JSONArray) ((JSONObject) ((JSONObject) JSONValue.parse(t)).get("JSONFiles")).get("DataItems")).get(0))
                         .filter(t -> t.getAsString("level") != null && t.getAsString("Date") != null && t.getAsString("class_name") != null
@@ -55,11 +55,11 @@ public class ThresholdEvaluation {
                                 " | " + obj.getAsString("message"))
                         .repartition(1)
                         .saveAsTextFile(Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE"));
-*/
+
                 System.out.println("last hour data generated");
 
                 //Call the R script to recompute thresholds
-                /*try {
+                try {
                     System.out.println(Main.properties.getProperty("COMMAND_EXECUTE_EVALUATE_THRESHOLDS") + " " +
                             Main.properties.getProperty("PATH_CONVERTED_HOURLY_LOG_FILE") + "/part-00000" + " " +
                             Main.properties.getProperty("PATH_THRESHOLDS") + " " +
@@ -73,7 +73,7 @@ public class ThresholdEvaluation {
                     p.waitFor();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
                 // Process the generated CSV
                 try {
                     Files.lines(new File(Main.properties.getProperty("PATH_ALARMS")).toPath()).forEach(t -> {
