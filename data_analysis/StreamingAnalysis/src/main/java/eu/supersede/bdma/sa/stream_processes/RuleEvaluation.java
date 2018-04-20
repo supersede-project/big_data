@@ -60,12 +60,6 @@ public class RuleEvaluation {
                             for (Condition condition : eca_rule.getConditions()) {
                                 int valids = 0;
                                 List<String> extractedData = Lists.newArrayList();
-                                for (String json : data) {
-                                    //This is for the monitoring reconfiguration monitor
-                                    if (json.contains("disk consumption attachments")) json = MonitorReconfigurationJSON.adaptJSON(json);
-
-                                    Utils.extractFeatures(json, condition.getAttribute()).forEach(element -> extractedData.add(element));
-                                }
 
                                 if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.VALUE)) {
                                     //Check if we are comparing numbers or strings

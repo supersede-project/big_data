@@ -1,21 +1,22 @@
 package eu.supersede.bdma.sa.utils;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONValue;
-import org.json.JSONObject;
+import net.minidev.json.JSONObject;
 
 public class MonitorReconfigurationJSON {
 
-    public static String adaptJSON(String in) {
+    public static JSONObject adaptJSON(String in) {
+        JSONObject out = new JSONObject();
+
         JSONObject JSON = (JSONObject) JSONValue.parse(in);
-        JSON.getJSONObject("DiskMonitoredData").getJSONArray("DataItems").forEach(e -> {
+        ((JSONArray)((JSONObject)JSON.get("DiskMonitoredData")).get("DataItems")).forEach(e -> {
             JSONObject inner = (JSONObject)e;
-            inner.keys().forEachRemaining(key -> {
-                if (!key.equals("instruction")) JSON.put(key.replace(" ","_"),inner.getString(key));
+            inner.keySet().forEach(key -> {
+                if (!key.equals("instruction")) out.put(key.replace(" ","_"),inner.getAsString(key));
             });
         });
-        JSON.getJSONObject("DiskMonitoredData").remove("DataItems");
-        System.out.println(JSON.toString());
-        return JSON.toString();
+        return out;
     }
 
 }

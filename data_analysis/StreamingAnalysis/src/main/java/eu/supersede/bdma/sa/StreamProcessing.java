@@ -145,6 +145,10 @@ public class StreamProcessing {
             System.out.println("LAUNCH_THRESHOLD_EVALUATION");
             ThresholdEvaluation.process(ctx);
         }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_FG_RECONFIGURATION_BASED_ON_DISK_CONSUMPTION"))) {
+            System.out.println("LAUNCH_FG_RECONFIGURATION_BASED_ON_DISK_CONSUMPTION");
+            FeedbackReconfigurationBasedOnDiskConsumption.process(kafkaStream);
+        }
 
     }
 }
