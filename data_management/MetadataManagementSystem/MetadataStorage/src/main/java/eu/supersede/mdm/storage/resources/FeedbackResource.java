@@ -72,7 +72,7 @@ public class FeedbackResource {
             pathToFeedbacks = ConfigManager.getProperty("resources_path")+"6e1cc9e2-5bd1-4fd4-8509-75b3c4e40e1c.txt";
         }
         else if (tenant.equals("senercon")) {
-            pathToOntology = "SDO_ontology.ttl";
+            pathToOntology = "SDO_ontology_Fitsum.ttl";
             pathToFeedbacks = ConfigManager.getProperty("resources_path")+"5ff7d393-e2a5-49fd-a4de-f4e1f7480bf4.txt";
         }
         List<UserFeedback> allFeedbacks = FeedbackUtils.getAllFeedbacks(pathToFeedbacks);
