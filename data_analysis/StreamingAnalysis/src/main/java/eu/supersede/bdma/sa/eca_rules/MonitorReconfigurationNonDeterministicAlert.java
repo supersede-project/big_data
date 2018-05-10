@@ -23,7 +23,7 @@ public class MonitorReconfigurationNonDeterministicAlert {
         alert.setId("id"+ System.currentTimeMillis());
         alert.setApplicationId("httpMonitor");
         alert.setTimestamp(System.currentTimeMillis());
-        if (r.getEvent().getTenant().equals(Tenant.ATOS)) alert.setTenant(ModelSystem.AtosMonitoring);
+        if (r.getEvent().getTenant().equals(Tenant.ATOS)) alert.setTenant(ModelSystem.AtosMonitoringTimeSlot);
         else if (r.getEvent().getTenant().equals(Tenant.SIEMENS)) alert.setTenant(ModelSystem.Siemens);
 
         List<Condition> conditions = Lists.newArrayList();

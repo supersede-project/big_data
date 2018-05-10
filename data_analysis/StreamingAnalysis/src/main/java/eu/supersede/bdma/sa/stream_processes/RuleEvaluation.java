@@ -41,6 +41,7 @@ public class RuleEvaluation {
 
                             records._2().forEach(t -> {
                                 long windowSize;
+
                                 if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val()))
                                     windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"));
                                 else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val()))
@@ -50,9 +51,9 @@ public class RuleEvaluation {
                                 else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION.val()))
                                     windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"));
                                 else windowSize = 0;
-
-                                if (firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) < t._2() &&
-                                        firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) + windowSize < System.currentTimeMillis()) {
+                                if (!firedRulesXTimestamp.containsKey(eca_rule.getEca_ruleID()) ||
+                                        (firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) < t._2() &&
+                                        firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) + windowSize < System.currentTimeMillis())) {
                                     data.add(t._1());
                                 }
                             });
@@ -60,6 +61,9 @@ public class RuleEvaluation {
                             for (Condition condition : eca_rule.getConditions()) {
                                 int valids = 0;
                                 List<String> extractedData = Lists.newArrayList();
+                                for (String json : data) {
+                                    Utils.extractFeatures(json,condition.getAttribute()).forEach(element -> extractedData.add(element));
+                                }
 
                                 if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.VALUE)) {
                                     //Check if we are comparing numbers or strings
@@ -116,7 +120,7 @@ public class RuleEvaluation {
 
                             }
 
-                            if (allConditionsOK) {
+                            if (allConditionsOK && data.size() > 0) {
                                 firedRulesXTimestamp.put(eca_rule.getEca_ruleID(),System.currentTimeMillis());
                                 if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val())) {
                                     List<String> feedbacks = Lists.newArrayList();

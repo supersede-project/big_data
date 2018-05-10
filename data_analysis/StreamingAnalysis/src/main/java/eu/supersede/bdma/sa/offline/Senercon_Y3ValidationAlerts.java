@@ -6,6 +6,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.GermanFeedbackClassifier;
@@ -120,7 +121,8 @@ public class Senercon_Y3ValidationAlerts {
                     });
                 });
                 SE_alert.setRequests(userRequests);
-                System.out.println(new Gson().toJson(SE_alert));
+                //System.out.println(new GsonBuilder().disableHtmlEscaping().create().toJson(SE_alert));
+
                 try {
                 SupersedeFederation fed = new SupersedeFederation();
 
@@ -134,6 +136,7 @@ public class Senercon_Y3ValidationAlerts {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -164,6 +167,10 @@ public class Senercon_Y3ValidationAlerts {
             }
             feedback = feedback.replace("\n","");
             if (!feedback.isEmpty()) {
+
+                String USER = Utils.extractFeatures(aJSON,"Attributes/userIdentification").get(0);
+                String APP = "305";
+                feedback += " USER="+USER+" APP="+APP;
                 allFeedbacks.add(feedback);
 
             }

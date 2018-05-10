@@ -7,6 +7,7 @@ import eu.supersede.bdma.sa.utils.MonitorReconfigurationJSON;
 import eu.supersede.integration.api.adaptation.types.*;
 import eu.supersede.integration.api.pubsub.SubscriptionTopic;
 import eu.supersede.integration.api.pubsub.TopicPublisher;
+import eu.supersede.integration.federation.SupersedeFederation;
 import net.minidev.json.JSONObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
@@ -26,7 +27,7 @@ public class FeedbackReconfigurationBasedOnDiskConsumption {
                 .mapToPair(t -> new Tuple2<String,String>(t.topic(),t.value()))
                 .filter(t -> Main.properties.getProperty("DISK_CONSUMPTION_TOPICS").contains(t._1))
                 .filter(t -> {
-                    return lastAlert != null && LocalDateTime.now().minusDays(1).isAfter(lastAlert);
+                    return lastAlert == null || LocalDateTime.now().minusDays(1).isAfter(lastAlert);
                 })
                 .foreachRDD(rdd -> {
                     rdd.foreach(t -> {
@@ -44,7 +45,7 @@ public class FeedbackReconfigurationBasedOnDiskConsumption {
 
                         if (total > threshold) {
                             lastAlert = LocalDateTime.now();
-                            
+
                             Alert alert = new Alert();
 
                             alert.setId("id"+ System.currentTimeMillis());
@@ -71,7 +72,7 @@ public class FeedbackReconfigurationBasedOnDiskConsumption {
 
                             TopicPublisher publisher = null;
                             try {
-                                publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true, "development");
+                                publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true, new SupersedeFederation().getLocalFederatedSupersedePlatform().getPlatform());
                                 publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
                                 publisher.closeTopicConnection();
                             } catch (NamingException e) {

@@ -19,12 +19,15 @@ import java.util.List;
 public class MonitorReconfigurationDeterministicAlert {
 
     public static void sendAlert(ECA_Rule r, List<String> data) {
+        System.out.println("NEW ALERT!");
+        System.out.println(data);
+
         Alert alert = new Alert();
 
         alert.setId("id"+ System.currentTimeMillis());
         alert.setApplicationId("httpMonitor");
         alert.setTimestamp(System.currentTimeMillis());
-        alert.setTenant(ModelSystem.AtosMonitoring);
+        alert.setTenant(ModelSystem.AtosMonitoringEnabling);
 
         List<Condition> conditions = Lists.newArrayList();
         conditions.add(new Condition(new DataID("HTTPMonitor", "startMonitor"), Operator.EQ, 1.0)); //start http monitors

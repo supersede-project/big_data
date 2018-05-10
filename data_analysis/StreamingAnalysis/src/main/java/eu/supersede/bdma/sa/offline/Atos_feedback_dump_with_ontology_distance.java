@@ -53,8 +53,8 @@ public class Atos_feedback_dump_with_ontology_distance {
 
 
         Alert SE_alert = new Alert();
-        SE_alert.setId(alertId);
-        SE_alert.setApplicationId(appId);
+        SE_alert.setId(org.apache.commons.lang.StringEscapeUtils.escapeHtml(alertId));
+        SE_alert.setApplicationId(org.apache.commons.lang.StringEscapeUtils.escapeHtml(appId));
         SE_alert.setTimestamp(System.currentTimeMillis());
         SE_alert.setTenant(Tenant.ATOS.getId());
 
@@ -112,7 +112,6 @@ public class Atos_feedback_dump_with_ontology_distance {
             publisher.closeTopicConnection();
         } catch (Exception e) {
             e.printStackTrace();
-                e.printStackTrace();
         }
 
     }

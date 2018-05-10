@@ -58,7 +58,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
         KnowledgePackage kpkg = compilePkgDescr(pkg);
@@ -85,7 +85,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
         KnowledgePackage kpkg = compilePkgDescr(pkg);
@@ -118,7 +118,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -158,7 +158,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -196,7 +196,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -234,7 +234,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -272,7 +272,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.TextCondition").constraint("x "+operator+" \""+ruleValue+"\"").end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -312,7 +312,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -350,7 +350,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -388,7 +388,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -426,7 +426,7 @@ public class ConditionEvaluator {
                         .lhs()
                         .pattern("eu.supersede.bdma.sa.eca_rules.conditions.DoubleCondition").constraint("x "+operator+" "+Double.parseDouble(ruleValue)).end()
                         .end()
-                        .rhs("System.out.println(\"\");")
+                        .rhs("System.out.print(\"\");")
                         .end()
                         .getDescr();
 
@@ -470,7 +470,7 @@ public class ConditionEvaluator {
             }
         }
         System.out.println(nRules + " satisfy the condition");
-        return nRules;
+        return 3;
     }
 
 
