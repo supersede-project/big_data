@@ -19,14 +19,14 @@ import java.util.List;
  */
 public class ThresholdExceededAlert {
 
-    public static void sendAlert(String API, Double responseTime) {
+    public static void sendAlert(ModelSystem m, Double responseTime) {
         System.out.println("sending alert");
         Alert alert = new Alert();
 
         alert.setId("id"+ System.currentTimeMillis());
-        alert.setApplicationId(API);
+        alert.setApplicationId("");
         alert.setTimestamp(System.currentTimeMillis());
-        alert.setTenant(ModelSystem.Siemens);
+        alert.setTenant(m);
 
         List<Condition> conditions = Lists.newArrayList();
         conditions.add (new Condition(new DataID("Tool", "response_time"), Operator.GEq, responseTime));

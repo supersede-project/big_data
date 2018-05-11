@@ -3,6 +3,7 @@ package eu.supersede.bdma.sa.stream_processes;
 import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.eca_rules.MonitorReconfigurationNonDeterministicAlert;
 import eu.supersede.bdma.sa.eca_rules.ThresholdExceededAlert;
+import eu.supersede.integration.api.adaptation.types.ModelSystem;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -93,7 +94,9 @@ public class ThresholdEvaluation {
                             System.out.println("sending alert for "+API+" - "+responseTime);
                         }
                     };
-                    ThresholdExceededAlert.sendAlert("",sum/count);
+                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Buildings,sum/count);
+                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Types,sum/count);
+                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_GetMinMaxDates,sum/count);
 
                 } catch (Exception e) {
                     e.printStackTrace();
