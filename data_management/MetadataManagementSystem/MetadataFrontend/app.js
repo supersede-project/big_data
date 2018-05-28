@@ -157,6 +157,7 @@ app.post('/release', release_routes.postRelease);
 app.get('/event/:eventID', event_routes.getEvent);
 app.get('/event', event_routes.getAllEvents);
 app.post('/event', event_routes.postEvent);
+app.delete('/event/:eventID', event_routes.deleteEvent);
 
 
 /********** SUPERSEDE resource *************************************************************/
@@ -185,6 +186,7 @@ app.post('/eca_rule', eca_rule_routes.postEcaRule);
 app.get('/eca_rule_operator_types', eca_rule_routes.getEcaRuleOperatorTypes);
 app.get('/eca_rule_predicate_types', eca_rule_routes.getEcaRulePredicateTypes);
 app.get('/eca_rule_action_types', eca_rule_routes.getEcaRuleActionTypes);
+app.delete('/eca_rule/:eca_ruleID', eca_rule_routes.deleteEcaRule);
 
 /********** CER Rule resource *************************************************************/
 
@@ -193,6 +195,7 @@ app.get('/cer_rule', cer_rule_routes.getAllCerRules);
 app.post('/cer_rule', cer_rule_routes.postCerRule);
 app.post('/cer_rule/directGeneration', cer_rule_routes.directGeneration);
 app.get('/cer_rule/:ruleName/generate_config_file', cer_rule_routes.generateConfigFile);
+app.delete('/cer_rule/:cer_ruleID', cer_rule_routes.deleteCerRule);
 
 
 /**********************************   Files   ********************************************/
@@ -380,6 +383,15 @@ app.get('/live_data_feed', checkAuthenticated, function(req,res) {
     res.render('live_data_feed', {user:req.session.passport.user});
 });
 
+app.get('/feedback_viewers', checkAuthenticated, function(req,res) {
+    res.render('feedback_viewers', {user:req.session.passport.user});
+});
+
+app.get('/feedback_viewer', checkAuthenticated, function(req,res) {
+    res.render('feedback_viewer', {user:req.session.passport.user});
+});
+
+
 /********** Statistics section ***********************************************************/
 
 app.get('/general_statistics', checkAuthenticated, function(req,res) {
@@ -393,7 +405,6 @@ app.get('/data_source_statistics_wrapper', checkAuthenticated, function(req,res)
 app.get('/data_source_statistics', checkAuthenticated, function(req,res) {
     res.render('data_source_statistics', {user:req.session.passport.user});
 });
-
 
 /******* Statistical Analysis Model section **********************************************/
 

@@ -23,18 +23,17 @@ function openNewTab(name, href, properties) {
     $('#tabPanel li:first').tab('show');
 }
 
-function getReleases() {
-    openNewTab( "Select a tab", "", "seamless scrolling='no' style=\"height: 90%; width : 70%\"");
-
+function getEvents() {
     $.get("/event", function(data) {
         $.each((data), function(key, value) {
             var theObj = (value);
-            openNewTab(theObj.event/* + "("+theObj.schemaVersion+")"*/, "/data_source_statistics?topic="+theObj.kafkaTopic, "seamless scrolling='no' style=\"height: 90%; width : 100%\"");
+            if (theObj.type == "feedback") {
+                openNewTab(theObj.event, "/feedback_viewer?topic=" + theObj.kafkaTopic, "seamless scrolling='no' style=\"height: 90%; width : 100%\"");
+            }
         });
     });
-
 }
 
 $(function() {
-    getReleases();
+    getEvents();
 });

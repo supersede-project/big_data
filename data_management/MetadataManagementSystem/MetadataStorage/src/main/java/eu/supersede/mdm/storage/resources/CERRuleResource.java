@@ -3,6 +3,7 @@ package eu.supersede.mdm.storage.resources;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.result.DeleteResult;
 import eu.supersede.mdm.storage.util.ConfigManager;
 import eu.supersede.mdm.storage.util.Utils;
 import net.minidev.json.JSONArray;
@@ -259,6 +260,19 @@ public class CERRuleResource {
         **/
         client.close();
         return Response.ok(objBody.toJSONString()).build();
+    }
+
+    @DELETE
+    @Path("cer_rule/{cer_ruleID}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response DELETE_CER_rule(@PathParam("cer_ruleID") String cer_ruleID) {
+        System.out.println("[DELETE /cer_rule/]");
+        MongoClient client = Utils.getMongoDBClient();
+        Document query = new Document("cer_ruleID",cer_ruleID);
+        DeleteResult res = getCerRulesCollection(client).deleteOne(query);
+        client.close();
+        return Response.ok((res.wasAcknowledged())).build();
     }
 
 }

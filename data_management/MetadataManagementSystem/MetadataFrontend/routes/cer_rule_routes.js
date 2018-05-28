@@ -110,4 +110,14 @@ exports.generateConfigFile = function (req, res) {
             res.status(500).send("Error retrieving CER Rule configuration file");
         }
     })
-}
+};
+
+exports.deleteCerRule = function (req, res, next) {
+    request.delete(config.METADATA_DATA_LAYER_URL + "cer_rule/"+req.params.cer_ruleID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).send((body));
+        } else {
+            res.status(500).send("Error deleting CER Rule");
+        }
+    });
+};

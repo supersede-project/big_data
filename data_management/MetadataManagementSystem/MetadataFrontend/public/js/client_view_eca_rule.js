@@ -12,8 +12,7 @@ $(window).load(function() {
         var eca_ruleObj = (data);
 
         $("#name").val(eca_ruleObj.name);
-        $("#event").val(eca_ruleObj.eventID);
-
+        $("#event").val(eca_ruleObj.event.event);
         $.each(eca_ruleObj.conditions, function(key, value) {
             ++tabCount;
 

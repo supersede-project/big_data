@@ -102,3 +102,13 @@ exports.postEvent = function (req, res, next) {
         });
     }
 };
+
+exports.deleteEvent = function (req, res, next) {
+    request.delete(config.METADATA_DATA_LAYER_URL + "event/"+req.params.eventID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).send((body));
+        } else {
+            res.status(500).send("Error retrieving list of events");
+        }
+    });
+};

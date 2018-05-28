@@ -91,3 +91,13 @@ exports.getEcaRuleActionTypes = function (req, res, next) {
         }
     });
 };
+
+exports.deleteEcaRule = function (req, res, next) {
+    request.delete(config.METADATA_DATA_LAYER_URL + "eca_rule/"+req.params.eca_ruleID, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.status(200).send((body));
+        } else {
+            res.status(500).send("Error deleting ECA Rule");
+        }
+    });
+};

@@ -24,7 +24,7 @@ function openNewTab(name, href, properties) {
 }
 
 function getReleases() {
-    $.get("/release", function(data) {
+    $.get("/event", function(data) {
         $.each((data), function(key, value) {
             var theObj = (value);
             openNewTab(theObj.event/* + "("+theObj.schemaVersion+")"*/, "/live_data_feed?topic="+theObj.kafkaTopic, "seamless scrolling='no' style=\"height: 90%; width : 100%\"");

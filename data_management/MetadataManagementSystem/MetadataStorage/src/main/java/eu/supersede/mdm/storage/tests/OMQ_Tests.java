@@ -5,7 +5,6 @@ import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.GlobalOntology;
 import eu.supersede.mdm.storage.omq.QueryRewriting;
 import eu.supersede.mdm.storage.omq.model.Walk;
 import eu.supersede.mdm.storage.util.RDFUtil;
-import jdk.nashorn.internal.objects.Global;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
@@ -18,7 +17,7 @@ import java.util.Set;
  * Created by snadal on 20/06/17.
  */
 public class OMQ_Tests {
-
+/*
     public static Dataset getInfSystRunningExample() {
         Dataset dataset = TDBFactory.createDataset();
         Model m = ModelFactory.createDefaultModel();
@@ -83,5 +82,5 @@ public class OMQ_Tests {
         //String relational_algebra = qr.rewrite();
         //System.out.println(relational_algebra);
     }
-
+*/
 }

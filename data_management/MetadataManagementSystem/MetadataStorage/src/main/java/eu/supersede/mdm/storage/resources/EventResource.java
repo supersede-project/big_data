@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.result.DeleteResult;
 import eu.supersede.mdm.storage.model.bdi_ontology.metamodel.EventOntology;
 import eu.supersede.mdm.storage.parsers.OWLtoD3;
 import eu.supersede.mdm.storage.util.ConfigManager;
@@ -185,5 +186,18 @@ public class EventResource {
         dataset.end();
         dataset.close();
         return Response.ok(attributes.toJSONString()).build();
+    }
+
+    @DELETE
+    @Path("event/{eventID}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response DELETE_event(@PathParam("eventID") String eventID) {
+        System.out.println("[DELETE /event/]");
+        MongoClient client = Utils.getMongoDBClient();
+        Document query = new Document("eventID",eventID);
+        DeleteResult res = getEventsCollection(client).deleteOne(query);
+        client.close();
+        return Response.ok((res.wasAcknowledged())).build();
     }
 }

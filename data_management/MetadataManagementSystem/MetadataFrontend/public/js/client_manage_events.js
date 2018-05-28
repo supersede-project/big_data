@@ -21,10 +21,20 @@ function getEvents() {
                         .text(theObj.platform)
                     ).append($('<td>').append($('<a href="/view_event?eventID='+(theObj.eventID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
                     ).append($('<td>').append($('<a href="/view_event_ontology?graph='+(theObj.graph)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
+                    ).append($('<td id="'+(theObj.eventID)+'">').append($('<a class="delete" href="#">').append($('<span class="glyphicon glyphicon-trash"></span>')))
                     )
-
                 );
             ++i;
+        });
+        $(".delete").click(function () {
+            var id = $(this).parent().attr("id");
+            $.ajax({
+                url: '/event/'+id,
+                type: 'DELETE',
+                success: function(result) {
+                    location.reload();
+                }
+            });
         });
     });
 }

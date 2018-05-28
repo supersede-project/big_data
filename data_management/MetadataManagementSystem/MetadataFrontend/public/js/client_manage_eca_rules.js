@@ -23,10 +23,22 @@ function getRules() {
                     ).append($('<td>')
                         .text(theObj.name)
                     ).append($('<td>').append($('<a href="/view_eca_rule?eca_ruleID='+(theObj.eca_ruleID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
+                    ).append($('<td id="'+(theObj.eca_ruleID)+'">').append($('<a class="delete" href="#">').append($('<span class="glyphicon glyphicon-trash"></span>')))
+
                     )
 
                 );
             ++i;
+        });
+        $(".delete").click(function () {
+            var id = $(this).parent().attr("id");
+            $.ajax({
+                url: '/eca_rule/'+id,
+                type: 'DELETE',
+                success: function(result) {
+                    location.reload();
+                }
+            });
         });
     });
 }

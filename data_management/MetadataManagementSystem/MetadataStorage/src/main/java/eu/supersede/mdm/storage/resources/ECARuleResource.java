@@ -3,6 +3,7 @@ package eu.supersede.mdm.storage.resources;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.result.DeleteResult;
 import eu.supersede.integration.api.mdm.types.ActionTypes;
 import eu.supersede.integration.api.mdm.types.OperatorTypes;
 import eu.supersede.mdm.storage.model.bdi_ontology.eca_rules.PredicatesTypes;
@@ -143,6 +144,19 @@ public class ECARuleResource {
             out.add(inner);
         }
         return Response.ok(new Gson().toJson(out)).build();
+    }
+
+    @DELETE
+    @Path("eca_rule/{eca_ruleID}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response DELETE_eca_rule(@PathParam("eca_ruleID") String eca_ruleID) {
+        System.out.println("[DELETE /eca_rule/]");
+        MongoClient client = Utils.getMongoDBClient();
+        Document query = new Document("eca_ruleID",eca_ruleID);
+        DeleteResult res = getEcaRulesCollection(client).deleteOne(query);
+        client.close();
+        return Response.ok((res.wasAcknowledged())).build();
     }
 
 }
