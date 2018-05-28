@@ -247,6 +247,12 @@ app.post('/socket_data_source_statistics', function(req, res){
     res.json(true);
 });
 
+app.post('/feedback_viewer', function(req, res){
+    io.of('/feedback_viewer').emit('/feedback_viewer',{message:(JSON.stringify(req.body))});
+    res.json(true);
+});
+
+
 /*****************************************************************************************/
 /*****************************************************************************************/
 /*          Frontend Pages                                                               */
