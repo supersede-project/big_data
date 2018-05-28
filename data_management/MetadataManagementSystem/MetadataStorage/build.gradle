@@ -97,7 +97,7 @@ configurations {
     }
 
     //Avoids conflict: SL4J Multiple bindings were found on the class path
-    exclude group: "org.slf4j", module: "slf4j-log4j12"
+    //exclude group: "org.slf4j", module: "slf4j-log4j12"
     // check for updates every build
     //resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     //resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
