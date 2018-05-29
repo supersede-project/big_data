@@ -63,6 +63,7 @@ public class Utils {
             try {
                 traverseRecursive((JSONObject) JSONValue.parse(JSON), path, out);
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Crash for input JSON "+JSON);
                 return null;
             }

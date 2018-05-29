@@ -60,10 +60,8 @@ import java.util.stream.Collectors;
 public class StreamProcessing {
 
     private Map<String, Object> kafkaParams;
-    // TODO Make Release serializable so it can be broadcast
     //private Map<String, Tuple2<Boolean,String>> releases;
     private List<Event> events;
-    // TODO Make ECA_Rule serializable so it can be broadcast
     private List<ECA_Rule> rules;
 
     private static String dispatcher_path;
@@ -116,6 +114,10 @@ public class StreamProcessing {
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_DATA_SOURCE_STATISTICS"))) {
             System.out.println("LAUNCH_DATA_SOURCE_STATISTICS");
             DataSourceStatistics.process(kafkaStream);
+        }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_FEEDBACK_VIEWER"))) {
+            System.out.println("LAUNCH_FEEDBACK_VIEWER");
+            FeedbackViewer.process(kafkaStream,broadcastEvents);
         }
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_GENERIC_STREAM_STATISTICS"))) {
             System.out.println("LAUNCH_GENERIC_STREAM_STATISTICS");

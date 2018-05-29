@@ -469,8 +469,7 @@ public class ConditionEvaluator {
                 default: break;
             }
         }
-        System.out.println(nRules + " satisfy the condition");
-        return 3;
+        return nRules;
     }
 
 

@@ -4,12 +4,10 @@ import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import eu.supersede.bdma.sa.Main;
-import eu.supersede.bdma.sa.eca_rules.DynamicAdaptationAlert;
-import eu.supersede.bdma.sa.eca_rules.FeedbackReconfigurationAlert;
-import eu.supersede.bdma.sa.eca_rules.MonitorReconfigurationDeterministicAlert;
-import eu.supersede.bdma.sa.eca_rules.MonitorReconfigurationNonDeterministicAlert;
+import eu.supersede.bdma.sa.eca_rules.*;
 import eu.supersede.bdma.sa.eca_rules.conditions.ConditionEvaluator;
 import eu.supersede.bdma.sa.utils.MonitorReconfigurationJSON;
+import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.integration.api.mdm.types.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -37,6 +35,7 @@ public class RuleEvaluation {
                 rdd.foreach(records -> {
                     rules.value().forEach(eca_rule -> {
                         if (eca_rule.getEca_ruleID().equals(records._1)) {
+                            System.out.println("Evaluating rule "+eca_rule.getName());
                             List<String> data = Lists.newArrayList();
 
                             records._2().forEach(t -> {
@@ -64,7 +63,6 @@ public class RuleEvaluation {
                                 for (String json : data) {
                                     Utils.extractFeatures(json,condition.getAttribute()).forEach(element -> extractedData.add(element));
                                 }
-
                                 if (OperatorTypes.valueOf(condition.getOperator()).equals(OperatorTypes.VALUE)) {
                                     //Check if we are comparing numbers or strings
                                     if (!extractedData.isEmpty()) {
@@ -115,20 +113,26 @@ public class RuleEvaluation {
                                             condition.getValue(), Iterables.toArray(extractedData, String.class), eca_rule.getParameters(),
                                             eca_rule.getEvent().getTenant().getId());
                                 }
-
                                 if (valids < eca_rule.getWindowSize()) allConditionsOK = false;
-
                             }
+                            if (allConditionsOK)
+                                Sockets.sendMessageToSocket("analysis","Rule ["+eca_rule.getName()+"] - all conditions fulfiled for "+eca_rule.getWindowSize()+" elements");
 
                             if (allConditionsOK && data.size() > 0) {
                                 firedRulesXTimestamp.put(eca_rule.getEca_ruleID(),System.currentTimeMillis());
                                 if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val())) {
                                     List<String> feedbacks = Lists.newArrayList();
                                     for (String json : data) {
-                                         Utils.extractFeatures(json,"Attributes/textFeedbacks/text").
-                                                 forEach(e -> feedbacks.add(e));
+                                        String feedback = Utils.extractFeatures(json,"Attributes/textFeedbacks/text").get(0);
+                                        feedback = feedback.replace("\n","");
+                                        if (!feedback.isEmpty()) {
+                                            String USER = Utils.extractFeatures(json,"Attributes/userIdentification").get(0);
+                                            String APP = "305";
+                                            feedback += " USER="+USER+" APP="+APP;
+                                            feedbacks.add(feedback);
+                                        }
                                     }
-                                    //SoftwareEvolutionAlert.sendAlert(eca_rule, Iterables.toArray(feedbacks,String.class));
+                                    SoftwareEvolutionAlert.sendAlert(eca_rule.getEvent(), Iterables.toArray(feedbacks,String.class), System.currentTimeMillis()+"");
                                 }
                                 else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val())) {
                                     if (!eca_rule.getEca_ruleID().equals("409151c8-a2cc-440a-8c2d-1af216e217d6") &&
@@ -145,6 +149,7 @@ public class RuleEvaluation {
                                 else if (windowType.val().equals(ActionTypes.ALERT_FEEDBACK_RECONFIGURATION.val())) {
                                     FeedbackReconfigurationAlert.sendAlert(eca_rule);
                                 }
+                                Sockets.sendMessageToSocket("analysis","Raising alert of type ["+windowType.val()+"]");
                             }
                         }
                     });

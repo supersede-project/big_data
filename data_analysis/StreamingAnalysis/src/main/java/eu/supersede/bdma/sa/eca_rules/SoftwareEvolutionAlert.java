@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
 import eu.supersede.feedbackanalysis.ds.ClassificationResult;
@@ -38,6 +39,7 @@ public class SoftwareEvolutionAlert {
         String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
         String pathToFeatureExtractor = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
 
+        /*
         Map<String, Set<UserFeedback>> feedbackClassified = Maps.newHashMap();
         for (String feedback : contents) {
             if (!feedback.trim().isEmpty()) {
@@ -53,8 +55,9 @@ public class SoftwareEvolutionAlert {
                 }
             }
         }
+        */
 
-        for (String classificationLabel : feedbackClassified.keySet()) {
+        //for (String classificationLabel : feedbackClassified.keySet()) {
             Alert SE_alert = new Alert();
             SE_alert.setId(UUID.randomUUID().toString());
             SE_alert.setApplicationId(appId);
@@ -66,7 +69,10 @@ public class SoftwareEvolutionAlert {
             SE_alert.setConditions(conditions);
 
             List<UserRequest> userRequests = Lists.newArrayList();
-            for (UserFeedback feedback : feedbackClassified.get(classificationLabel)) {
+
+            for (String strFeedback : contents) {
+            //for (UserFeedback feedback : feedbackClassified.get(classificationLabel)) {
+                UserFeedback feedback = new UserFeedback(strFeedback);
 
                 ClassificationResult classification = null;
                 try {
@@ -120,7 +126,6 @@ public class SoftwareEvolutionAlert {
 
             }
             SE_alert.setRequests(userRequests);
-
             try {
                 EvolutionPublisher publisher = new EvolutionPublisher(true,event.getPlatform());
                 publisher.publishEvolutionAlertMesssage(SE_alert);
@@ -133,6 +138,7 @@ public class SoftwareEvolutionAlert {
                 e.printStackTrace();
             }
 
-        }
+
+        //}
     }
 }

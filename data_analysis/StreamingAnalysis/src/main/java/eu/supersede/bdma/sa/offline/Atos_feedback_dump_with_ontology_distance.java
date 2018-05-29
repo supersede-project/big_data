@@ -39,6 +39,8 @@ import org.kie.internal.runtime.StatefulKnowledgeSession;
 import javax.jms.JMSException;
 import javax.naming.NamingException;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -46,7 +48,7 @@ import java.util.stream.Collectors;
 
 public class Atos_feedback_dump_with_ontology_distance {
 
-    public static void sendAlert(List<String> feedbacks, String alertId, String appId) {
+    public static void sendAlert(List<String> feedbacks, String alertId, String appId) throws Exception {
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
@@ -56,7 +58,7 @@ public class Atos_feedback_dump_with_ontology_distance {
         SE_alert.setId(org.apache.commons.lang.StringEscapeUtils.escapeHtml(alertId));
         SE_alert.setApplicationId(org.apache.commons.lang.StringEscapeUtils.escapeHtml(appId));
         SE_alert.setTimestamp(System.currentTimeMillis());
-        SE_alert.setTenant(Tenant.ATOS.getId());
+        SE_alert.setTenant(Tenant.REVIEW.getId());
 
         List<Condition> conditions = Lists.newArrayList();
         conditions.add(new Condition(DataID.UNSPECIFIED, Operator.EQ, 1.0));
@@ -105,14 +107,26 @@ public class Atos_feedback_dump_with_ontology_distance {
 
         }
         SE_alert.setRequests(userRequests);
-        System.out.println(new Gson().toJson(SE_alert));
-        try {
-            EvolutionPublisher publisher = new EvolutionPublisher(true,"development");
+        //System.out.println(new Gson().toJson(SE_alert));
+        //System.out.println("AAA");
+        com.google.common.io.Files.append(SE_alert.getId()+"\n",new File("/Users/snadal/Desktop/alertsDemo.txt"),Charset.defaultCharset());
+        userRequests.forEach(ur -> {
+            try {
+                com.google.common.io.Files.append(ur.getDescription()+"\n",
+                        new File("/Users/snadal/Desktop/alertsDemo.txt"),
+                        Charset.defaultCharset());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        /*try {
+            EvolutionPublisher publisher = new EvolutionPublisher(true,"production");
             publisher.publishEvolutionAlertMesssage(SE_alert);
             publisher.closeTopicConnection();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+
 
     }
 
@@ -137,7 +151,7 @@ public class Atos_feedback_dump_with_ontology_distance {
         boolean classLabelsOnly = false;
         boolean direct = true;
         String language = "en";
-        String wordnetDbPath = "/home/snadal/UPC/Sergi/SUPERSEDE/Development/big_data/data_analysis/StreamingAnalysis/WordNet-3.0-dict";
+        String wordnetDbPath = "/Users/snadal/UPC/Sergi/SUPERSEDE/Development/big_data/data_analysis/StreamingAnalysis/WordNet-3.0-dict";
         FeedbackAnnotator feedbackAnnotator = new FeedbackAnnotator(ontologyFile, wordnetDbPath, language, classLabelsOnly, direct);
         for (String str : values) {
             int isNegative = ConditionEvaluator.evaluateEnglishOverallSentimentRule("LESS_THAN",String.valueOf(0),
@@ -179,7 +193,7 @@ public class Atos_feedback_dump_with_ontology_distance {
     public static void main(String[] args) throws Exception {
         List<String> allJsons = Lists.newArrayList();
         String json = "";
-        for (String l : Files.lines(new File("/home/snadal/Desktop/atos/6e1cc9e2-5bd1-4fd4-8509-75b3c4e40e1c.txt").toPath()).collect(Collectors.toList())) {
+        for (String l : Files.lines(new File("/Users/snadal/Desktop/6e1cc9e2-5bd1-4fd4-8509-75b3c4e40e1c.txt").toPath(),Charset.forName("ISO-8859-1")).collect(Collectors.toList())) {
             json = (l.replace("\n",""));
             allJsons.add(json);
         }
@@ -187,6 +201,7 @@ public class Atos_feedback_dump_with_ontology_distance {
         List<String> allFeedbacks = Lists.newArrayList();
         allJsons.forEach(aJSON -> {
             String feedback = "";
+            System.out.println(aJSON);
             for (String feedbackPiece : Utils.extractFeatures(aJSON,"Attributes/textFeedbacks/text")) {
                 if (!feedbackPiece.contains("@")) feedback += " " + feedbackPiece;
             }
