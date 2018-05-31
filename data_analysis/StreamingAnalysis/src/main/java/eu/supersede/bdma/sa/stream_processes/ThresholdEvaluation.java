@@ -94,9 +94,15 @@ public class ThresholdEvaluation {
                             System.out.println("sending alert for "+API+" - "+responseTime);
                         }
                     };
-                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Buildings,sum/count);
-                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Types,sum/count);
-                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_GetMinMaxDates,sum/count);
+                    if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_ALERT_BUILDINGS"))) {
+                        ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Buildings,sum/count);
+                    }
+                    if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_ALERT_TYPES"))) {
+                        ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Types,sum/count);
+                    }
+                    if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_ALERT_DATE"))) {
+                        ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_GetMinMaxDates,sum/count);
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
