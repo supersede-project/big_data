@@ -252,6 +252,11 @@ app.post('/feedback_viewer', function(req, res){
     res.json(true);
 });
 
+app.post('/breakdown_per_api', function(req, res){
+    io.of('/breakdown_per_api').emit('/breakdown_per_api',{message:(JSON.stringify(req.body))});
+    res.json(true);
+});
+
 
 /*****************************************************************************************/
 /*****************************************************************************************/
@@ -462,6 +467,11 @@ app.get('/view_cer_rule', checkAuthenticated, function(req,res) {
     res.render('view_cer_rule', {user:req.session.passport.user});
 });
 
+/******* SIEMENS API response time Viewer *********************************************/
+
+app.get('/siemensPlotsBreakdownAPIs', checkAuthenticated, function(req,res) {
+    res.render('siemensPlotsBreakdownAPIs', {user:req.session.passport.user});
+});
 
 /**********************************   END   ********************************************/
 

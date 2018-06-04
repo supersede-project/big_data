@@ -177,7 +177,7 @@ public class RuleEvaluation {
                         }
                     });
                     return recordsPerRule.iterator();
-                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"))),new Duration(5000));
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"))),new Duration(15000));
 
         JavaPairDStream<String, Tuple2<String,Long>> adaptationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
@@ -190,7 +190,7 @@ public class RuleEvaluation {
                         }
                     });
                     return recordsPerRule.iterator();
-                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"))),new Duration(5000));
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"))),new Duration(15000));
 
         JavaPairDStream<String, Tuple2<String,Long>> monitorDeterministicReconfigurationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
@@ -203,7 +203,7 @@ public class RuleEvaluation {
                         }
                     });
                     return recordsPerRule.iterator();
-                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"))),new Duration(5000));
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"))),new Duration(15000));
 
         JavaPairDStream<String, Tuple2<String,Long>> monitorNonDeterministicReconfigurationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
@@ -216,7 +216,7 @@ public class RuleEvaluation {
                         }
                     });
                     return recordsPerRule.iterator();
-                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"))),new Duration(5000));
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"))),new Duration(15000));
 
         JavaPairDStream<String, Tuple2<String,Long>> feedbackReconfigurationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
@@ -229,7 +229,7 @@ public class RuleEvaluation {
                         }
                     });
                     return recordsPerRule.iterator();
-                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_FEEDBACK_RECONF_MS"))),new Duration(5000));
+                }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_FEEDBACK_RECONF_MS"))),new Duration(15000));
 
         windowBasedRuleEvaluation(evolutionWindow,ActionTypes.ALERT_EVOLUTION,events,rules);
         windowBasedRuleEvaluation(adaptationWindow,ActionTypes.ALERT_DYNAMIC_ADAPTATION,events,rules);
