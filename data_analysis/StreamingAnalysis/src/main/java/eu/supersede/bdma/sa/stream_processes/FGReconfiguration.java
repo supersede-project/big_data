@@ -91,8 +91,7 @@ public class FGReconfiguration {
                 alert.setActionAttributes(actions);
 
                 try {
-                    AdaptationPublisher publisher = new AdaptationPublisher(true,
-                            new SupersedeFederation().getLocalFederatedSupersedePlatform().getPlatform());
+                    AdaptationPublisher publisher = new AdaptationPublisher(true, Main.properties.getProperty("SUPERSDE_DEFAULT_PLATFORM"));
                     publisher.publishAdaptationAlertMesssage(alert);
                 } catch (JMSException e) {
                     e.printStackTrace();
