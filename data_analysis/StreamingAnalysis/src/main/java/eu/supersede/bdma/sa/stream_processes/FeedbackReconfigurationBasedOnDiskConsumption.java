@@ -41,8 +41,6 @@ public class FeedbackReconfigurationBasedOnDiskConsumption {
                             total += json.getAsNumber("disk_consumption_attachments").doubleValue()/json.getAsNumber("number_files_attachments").doubleValue();
                         }
 
-                        System.out.println("threshold "+threshold+" -- total "+total);
-
                         if (total > threshold) {
                             lastAlert = LocalDateTime.now();
 
@@ -50,7 +48,7 @@ public class FeedbackReconfigurationBasedOnDiskConsumption {
 
                             alert.setId("id"+ System.currentTimeMillis());
                             alert.setApplicationId("feedback");
-                            alert.setTimestamp(1481717773760L);
+                            alert.setTimestamp(System.currentTimeMillis());
                             alert.setTenant(ModelSystem.SenerconFG);
 
                             List<Condition> conditions = Lists.newArrayList();
