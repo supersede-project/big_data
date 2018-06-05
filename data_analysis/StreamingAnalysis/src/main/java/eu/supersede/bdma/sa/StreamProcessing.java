@@ -111,6 +111,10 @@ public class StreamProcessing {
             System.out.println("LAUNCH_STREAM_UNIFIER_CEP");
             StreamUnifierCEP.process(kafkaStream);
         }
+        if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_SIEMENS_API_VIEWER"))) {
+            System.out.println("LAUNCH_SIEMENS_API_VIEWER");
+            SiemensAPIViewer.process(kafkaStream);
+        }
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_DATA_SOURCE_STATISTICS"))) {
             System.out.println("LAUNCH_DATA_SOURCE_STATISTICS");
             DataSourceStatistics.process(kafkaStream);

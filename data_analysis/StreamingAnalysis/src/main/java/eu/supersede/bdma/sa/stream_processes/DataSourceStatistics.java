@@ -21,8 +21,8 @@ import java.util.Map;
 public class DataSourceStatistics {
 
     private static Map<String, String> catalogOfStatistics = ImmutableMap.<String, String>builder().
-            put("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseTime", "Response Time").
-            put("http://www.BDIOntology.com/global/Feature/HttpMonitoredData/DataItems/responseCode", "Response Code").
+            put("Attributes/HttpMonitoredData/DataItems/responseTime", "Response Time").
+            put("Attributes/HttpMonitoredData/DataItems/responseCode", "Response Code").
             build();
 
 
@@ -31,7 +31,10 @@ public class DataSourceStatistics {
         kafkaStream.mapToPair(record ->new Tuple2<String,String>(record.topic(),record.value()))
                 .groupByKey()
                 .foreachRDD(rdd -> {
-                    rdd.foreach(t -> {
+                    //rdd.take(1).
+                    rdd.take(1).forEach(t -> {
+                        System.out.println("sending to socket "+t);
+
                         for (String JSON : t._2()) {
                             for (String iri : catalogOfStatistics.keySet()) {
                                 List<String> values = Utils.extractFeatures(JSON, iri);
@@ -43,7 +46,11 @@ public class DataSourceStatistics {
                                     JSONArray arr = new JSONArray();
                                     values.forEach(v -> arr.add(v));
                                     obj.put("values",arr);
-                                    Sockets.sendSocketAlert(obj.toString(), "socket_data_source_statistics");
+                                    try {
+                                        Sockets.sendSocketAlert(obj.toString(), "socket_data_source_statistics");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }
