@@ -33,8 +33,6 @@ public class DataSourceStatistics {
                 .foreachRDD(rdd -> {
                     //rdd.take(1).
                     rdd.take(1).forEach(t -> {
-                        System.out.println("sending to socket "+t);
-
                         for (String JSON : t._2()) {
                             for (String iri : catalogOfStatistics.keySet()) {
                                 List<String> values = Utils.extractFeatures(JSON, iri);
