@@ -1,6 +1,7 @@
 package eu.supersede.bdma.sa.utils;
 
 import com.goebl.david.Webb;
+import eu.supersede.bdma.sa.Main;
 import net.minidev.json.JSONObject;
 
 import java.io.OutputStream;
@@ -25,30 +26,23 @@ public class Sockets {
 
 
     public static void sendSocketAlert(String msg, String path) throws Exception {
-        //Development server
-        //URL url = new URL("http://supersede.es.atos.net:3001/"+path);
-        //Production server
-        URL url = new URL("http://platform.supersede.eu:3001/"+path);
-        //URL url = new URL("http://localhost:3000/"+path);
+        URL url;
+        if (Main.properties.getProperty("SUPERSDE_DEFAULT_PLATFORM").equals("development"))
+            url = new URL("http://supersede.es.atos.net:3001/"+path);
+        else if (Main.properties.getProperty("SUPERSDE_DEFAULT_PLATFORM").equals("production"))
+            url = new URL("http://platform.supersede.eu:3001/"+path);
+        else
+            url = new URL("http://localhost:3000/"+path);
+
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("content-type", "application/json");
         conn.setDoOutput(true);
-
-
         OutputStream os = conn.getOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(os,"UTF-8");
-
-
         osw.write(msg);
         osw.flush();
         osw.close();
-    /*
-        try (OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream())) {
-            writer.write(msg);
-            writer.flush();
-            writer.close();
-        }*/
         conn.getResponseCode();
         conn.disconnect();
     }
