@@ -112,7 +112,7 @@ public class ThresholdEvaluation {
                 System.out.println("Thresholds successfully evaluated");
             }
 
-        },Long.parseLong(Main.properties.getProperty("THRESHOLD_EVALUATION_PERIOD_MS")), Long.parseLong(Main.properties.getProperty("THRESHOLD_EVALUATION_PERIOD_MS")));
+        },Long.parseLong(Main.properties.getProperty("THRESHOLD_EVALUATION_FIRST_TIME_MS")), Long.parseLong(Main.properties.getProperty("THRESHOLD_EVALUATION_PERIOD_MS")));
 
     }
 
