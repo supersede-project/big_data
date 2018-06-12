@@ -76,6 +76,7 @@ public class StreamProcessing {
         kafkaParams.put("group.id", Main.properties.getProperty("GROUP_ID"));
         kafkaParams.put("auto.offset.reset", Main.properties.getProperty("AUTO_OFFSET_RESET"));
         kafkaParams.put("enable.auto.commit", false);
+        kafkaParams.put("spark.streaming.backpressure.enabled","true");
 
         rules = MDMProxy.getRules();
 
