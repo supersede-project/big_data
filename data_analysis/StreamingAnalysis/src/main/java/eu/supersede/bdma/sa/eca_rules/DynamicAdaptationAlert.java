@@ -2,6 +2,7 @@ package eu.supersede.bdma.sa.eca_rules;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import eu.supersede.bdma.sa.Main;
 import eu.supersede.integration.api.adaptation.types.*;
 import eu.supersede.integration.api.mdm.types.PredicatesTypes;
 import eu.supersede.integration.api.pubsub.SubscriptionTopic;
@@ -51,7 +52,7 @@ public class DynamicAdaptationAlert {
 
         TopicPublisher publisher = null;
         try {
-            publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true, r.getEvent().getPlatform());
+            publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true, Main.properties.getProperty("SUPERSEDE_DEFAULT_PLATFORM"));
             publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
             publisher.closeTopicConnection();
         } catch (NamingException e) {
