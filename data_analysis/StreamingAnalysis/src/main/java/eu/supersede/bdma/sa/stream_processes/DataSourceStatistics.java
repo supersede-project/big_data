@@ -1,6 +1,7 @@
 package eu.supersede.bdma.sa.stream_processes;
 
 import com.google.common.collect.ImmutableMap;
+import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.eca_rules.SerializableECA_Rule;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
@@ -32,7 +33,7 @@ public class DataSourceStatistics {
                 .groupByKey()
                 .foreachRDD(rdd -> {
                     //rdd.take(1).
-                    rdd.take(1).forEach(t -> {
+                    rdd.takeSample(true,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(t -> {
                         for (String JSON : t._2()) {
                             for (String iri : catalogOfStatistics.keySet()) {
                                 List<String> values = Utils.extractFeatures(JSON, iri);
