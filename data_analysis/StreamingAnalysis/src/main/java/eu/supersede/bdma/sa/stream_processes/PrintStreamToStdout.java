@@ -14,7 +14,7 @@ public class PrintStreamToStdout {
             System.out.println("-----------------------------------");
             System.out.println(LocalDateTime.now().toString());
             System.out.println("-----------------------------------");
-            rdd.takeSample(true,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(element -> {
+            rdd.takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(element -> {
                 System.out.println(element);
             });
         });

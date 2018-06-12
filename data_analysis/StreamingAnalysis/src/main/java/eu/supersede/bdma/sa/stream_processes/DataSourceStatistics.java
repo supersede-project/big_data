@@ -33,7 +33,7 @@ public class DataSourceStatistics {
                 .groupByKey()
                 .foreachRDD(rdd -> {
                     //rdd.take(1).
-                    rdd./*takeSample(true,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE")))*/take(1).forEach(t -> {
+                    rdd.takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(t -> {
                         for (String JSON : t._2()) {
                             for (String iri : catalogOfStatistics.keySet()) {
                                 List<String> values = Utils.extractFeatures(JSON, iri);
