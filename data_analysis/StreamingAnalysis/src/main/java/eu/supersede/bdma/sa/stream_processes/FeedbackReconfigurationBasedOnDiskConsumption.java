@@ -70,6 +70,7 @@ public class FeedbackReconfigurationBasedOnDiskConsumption {
 
                             TopicPublisher publisher = null;
                             try {
+                                System.out.println("Sending alert for FeedbackReconfigurationBasedOnDiskConsumption");
                                 publisher = new TopicPublisher(SubscriptionTopic.ANALISIS_DM_ADAPTATION_EVENT_TOPIC,true, Main.properties.getProperty("SUPERSEDE_DEFAULT_PLATFORM"));
                                 publisher.publishTextMesssageInTopic(new Gson().toJson(alert));
                                 publisher.closeTopicConnection();
