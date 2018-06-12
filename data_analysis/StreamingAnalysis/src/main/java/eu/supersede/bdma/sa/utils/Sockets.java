@@ -27,9 +27,9 @@ public class Sockets {
 
     public static void sendSocketAlert(String msg, String path) throws Exception {
         URL url;
-        if (Main.properties.getProperty("SUPERSDE_DEFAULT_PLATFORM").equals("development"))
+        if (Main.properties.getProperty("SUPERSEDE_DEFAULT_PLATFORM").equals("development"))
             url = new URL("http://supersede.es.atos.net:3001/"+path);
-        else if (Main.properties.getProperty("SUPERSDE_DEFAULT_PLATFORM").equals("production"))
+        else if (Main.properties.getProperty("SUPERSEDE_DEFAULT_PLATFORM").equals("production"))
             url = new URL("http://platform.supersede.eu:3001/"+path);
         else
             url = new URL("http://localhost:3000/"+path);
