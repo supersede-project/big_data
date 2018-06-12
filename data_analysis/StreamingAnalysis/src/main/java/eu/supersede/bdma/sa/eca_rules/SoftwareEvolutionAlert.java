@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.utils.Utils;
 import eu.supersede.feedbackanalysis.classification.FeedbackClassifier;
 import eu.supersede.feedbackanalysis.classification.SpeechActBasedClassifier;
@@ -127,7 +128,7 @@ public class SoftwareEvolutionAlert {
             }
             SE_alert.setRequests(userRequests);
             try {
-                EvolutionPublisher publisher = new EvolutionPublisher(true,event.getPlatform());
+                EvolutionPublisher publisher = new EvolutionPublisher(true,Main.properties.getProperty("SUPERSEDE_DEFAULT_PLATFORM"));
                 publisher.publishEvolutionAlertMesssage(SE_alert);
                 publisher.closeTopicConnection();
             } catch (NamingException e) {
