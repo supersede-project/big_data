@@ -91,6 +91,7 @@ public class FGReconfiguration {
                 alert.setActionAttributes(actions);
 
                 try {
+                    System.out.println("Sending alert for FeedbackReconfigurationCategories");
                     AdaptationPublisher publisher = new AdaptationPublisher(true, Main.properties.getProperty("SUPERSEDE_DEFAULT_PLATFORM"));
                     publisher.publishAdaptationAlertMesssage(alert);
                 } catch (JMSException e) {

@@ -45,7 +45,12 @@ public class SiemensAPIViewer {
                             Date requestDate = dateFormat.parse(oldT.getAsString("Date"));
                             Date responseDate = dateFormat.parse(newT.getAsString("Date"));
 
-                            String API = oldT.getAsString("class_name");//.split("\\|")[7].trim();
+                            String API = "others";
+                            if (oldT.toString().contains("buildings")) API = "getBuildings";
+                            else if (oldT.toString().contains("minmax")) API = "getMinMaxDates";
+                            else if (oldT.toString().contains("types")) API = "getTypes";
+
+                            //String API = oldT.getAsString("class_name");//.split("\\|")[7].trim();
                             long time = responseDate.getTime()-requestDate.getTime();
 
                             JSONObject obj = new JSONObject();
