@@ -32,10 +32,14 @@ public class RuleEvaluation {
         window
             .groupByKey()
             .foreachRDD(rdd -> {
-                rdd.takeSample(true,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(records -> {
+                rdd.repartition(1).takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(records -> {
+                    System.out.println("======================================");
+                    System.out.println(records._1+" -- "+records._2);
+                    System.out.println("======================================");
+
                     rules.value().forEach(eca_rule -> {
-                        if (eca_rule.getEca_ruleID().equals(records._1)) {
-                            System.out.println("Evaluating rule "+eca_rule.getName());
+                        if (eca_rule.getEca_ruleID().equals(records._1) && windowType.val().equals(eca_rule.getAction().val())) {
+                            System.out.println("Evaluating rule "+eca_rule.getName()+" for window "+windowType.val());
                             List<String> data = Lists.newArrayList();
 
                             records._2().forEach(t -> {
