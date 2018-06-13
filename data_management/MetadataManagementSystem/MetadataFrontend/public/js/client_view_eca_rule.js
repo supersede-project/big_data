@@ -6,6 +6,7 @@ function getParameterByName(name) {
 }
 
 var tabCount = 0;
+var tabCountParameters = 0;
 
 $(window).load(function() {
     $.get("/eca_rule/"+getParameterByName("eca_ruleID"), function(data) {
@@ -27,6 +28,18 @@ $(window).load(function() {
             $("#operator"+tabCount).val(value.operator);
             $("#predicate"+tabCount).val(value.predicate);
             $("#value"+tabCount).val(value.value);
+        });
+
+        $.each(eca_ruleObj.parameters, function(key, value) {
+            ++tabCountParameters;
+
+            $("#tabPanelParameters").append($('<li role="presentation"><a id="button_tab_parameters_'+(tabCountParameters)+'" href="#tab_parameters_'+(tabCountParameters)+'" aria-controls="settings" role="tab" data-toggle="tab">'+'Parameter '+(tabCountParameters)+'<button type="button" class="close closeTab">&nbsp &times;</button></a></li>'));
+            $("#tabContentParameters").append($('<div id="tab_parameters_'+(tabCountParameters)+'" role="tabpanelParameters" class="tab-pane fill" style="border:1px solid; padding:5px">'+
+                '<div class="form-group"> <label class="col-lg-2 control-label">'+'Keyword '+(tabCountParameters)+'</label><div class="col-lg-10"><input class="form-control" id="keywordParameters'+(tabCountParameters)+'" style="width:100%" readonly=""></div></div>' +
+                '<div class="form-group"> <label class="col-lg-2 control-label">'+'Value '+(tabCountParameters)+'</label><div class="col-lg-10"><input class="form-control" id="valueParameters'+(tabCountParameters)+'" type="text" required="required" readonly=""></div></div></div>'));
+
+            $("#keywordParameters"+tabCountParameters).val(value.key);
+            $("#valueParameters"+tabCountParameters).val(value.value);
         });
 
 
