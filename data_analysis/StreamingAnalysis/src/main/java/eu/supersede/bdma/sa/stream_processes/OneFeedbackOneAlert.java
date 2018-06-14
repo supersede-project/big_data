@@ -17,7 +17,7 @@ public class OneFeedbackOneAlert {
 
     public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream,
                                Broadcast<List<Event>> events) {
-        kafkaStream.foreachRDD(rdd -> {
+        /*kafkaStream.foreachRDD(rdd -> {
             rdd.foreach(record -> {
                 String JSON = record.value();
                 Event evt = events.value().stream().filter(e -> e.getKafkaTopic().equals(record.topic())).findFirst().get();
@@ -27,6 +27,6 @@ public class OneFeedbackOneAlert {
                             Utils.extractFeatures(JSON,"Attributes/applicationId").get(0));
                 }
             });
-        });
+        });*/
     }
 }

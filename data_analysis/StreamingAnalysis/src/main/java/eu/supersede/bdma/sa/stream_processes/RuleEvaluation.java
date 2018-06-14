@@ -32,24 +32,26 @@ public class RuleEvaluation {
         window
             .groupByKey()
             .foreachRDD(rdd -> {
-                rdd.repartition(1).takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(records -> {
+                rdd/*.repartition(1).takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE")))*/.foreach(records -> {
                     rules.value().forEach(eca_rule -> {
-                        if (eca_rule.getEca_ruleID().equals(records._1) && windowType.val().equals(eca_rule.getAction().val())) {
+                        long windowSize;
+
+                        if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val()))
+                            windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"));
+                        else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val()))
+                            windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"));
+                        else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION.val()))
+                            windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"));
+                        else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION.val()))
+                            windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"));
+                        else windowSize = 0;
+
+                        if (eca_rule.getEca_ruleID().equals(records._1) && windowType.val().equals(eca_rule.getAction().val()) && firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) + windowSize < System.currentTimeMillis()) {
                             System.out.println("Evaluating rule "+eca_rule.getName()+" for window "+windowType.val());
                             List<String> data = Lists.newArrayList();
 
                             records._2().forEach(t -> {
-                                long windowSize;
 
-                                if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val()))
-                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_EVOLUTION_MS"));
-                                else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val()))
-                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_DYNAMIC_ADAPTATION_MS"));
-                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION.val()))
-                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"));
-                                else if (windowType.val().equals(ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION.val()))
-                                    windowSize = Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_MONITOR_RECONF_MS"));
-                                else windowSize = 0;
                                 if (!firedRulesXTimestamp.containsKey(eca_rule.getEca_ruleID()) ||
                                         (firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) < t._2() &&
                                         firedRulesXTimestamp.get(eca_rule.getEca_ruleID()) + windowSize < System.currentTimeMillis())) {
@@ -132,7 +134,7 @@ public class RuleEvaluation {
                                             feedbacks.add(feedback);
                                         }
                                     }
-                                    SoftwareEvolutionAlert.sendAlert(eca_rule.getEvent(), Iterables.toArray(feedbacks,String.class), System.currentTimeMillis()+"");
+                                    SoftwareEvolutionAlert.sendAlert(eca_rule, Iterables.toArray(feedbacks,String.class), System.currentTimeMillis()+"");
                                 }
                                 else if (windowType.val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val())) {
                                     if (!eca_rule.getEca_ruleID().equals("409151c8-a2cc-440a-8c2d-1af216e217d6") &&
@@ -164,7 +166,9 @@ public class RuleEvaluation {
             firedRulesXTimestamp.put(r.getEca_ruleID(), Long.valueOf(0));
         }
 
-        JavaDStream<ConsumerRecord<String, String>> nonEmptyStream = kafkaStream.filter(record -> !record.value().isEmpty());
+        JavaDStream<ConsumerRecord<String, String>> nonEmptyStream = kafkaStream.
+                //filter(t -> t.timestamp()>=(System.currentTimeMillis()-Long.parseLong(Main.properties.getProperty("MICROBATCH_PERIOD")))).
+                filter(record -> !record.value().isEmpty());
 
         JavaPairDStream<String, Tuple2<String,Long>> evolutionWindow = nonEmptyStream
                 .flatMapToPair(record -> {

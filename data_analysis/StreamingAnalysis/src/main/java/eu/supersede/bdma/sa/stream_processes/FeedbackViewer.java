@@ -1,5 +1,6 @@
 package eu.supersede.bdma.sa.stream_processes;
 
+import com.clearspring.analytics.util.Lists;
 import com.google.common.collect.ImmutableMap;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
@@ -11,6 +12,7 @@ import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import scala.Tuple2;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,9 +24,11 @@ public class FeedbackViewer {
 
     public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream,
                                Broadcast<List<Event>> events) {
-        List<String> feedbackEvents = events.getValue().
+        /*List<String> feedbackEvents = events.getValue().
                 stream().filter(e -> e.getType().equals("feedback")).
                 map(e -> e.getKafkaTopic()).collect(Collectors.toList());
+
+        System.out.println("feedbackEvents : "+feedbackEvents);
 
         kafkaStream.foreachRDD(rdd -> {
             rdd.foreach(tuple -> {
@@ -44,6 +48,7 @@ public class FeedbackViewer {
                 }
             });
         });
+        */
 
     }
 

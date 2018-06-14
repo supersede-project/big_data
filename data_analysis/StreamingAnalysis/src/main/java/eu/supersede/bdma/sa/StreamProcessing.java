@@ -29,6 +29,7 @@ import org.apache.spark.TaskContext;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.streaming.Duration;
+import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
@@ -76,7 +77,7 @@ public class StreamProcessing {
         kafkaParams.put("group.id", Main.properties.getProperty("GROUP_ID"));
         kafkaParams.put("auto.offset.reset", Main.properties.getProperty("AUTO_OFFSET_RESET"));
         kafkaParams.put("enable.auto.commit", false);
-        kafkaParams.put("spark.streaming.backpressure.enabled","true");
+       // kafkaParams.put("max.poll.records",1);
 
         rules = MDMProxy.getRules();
 
@@ -99,6 +100,8 @@ public class StreamProcessing {
 
         JavaInputDStream<ConsumerRecord<String, String>> kafkaStream =
                 Utils.getKafkaStream(streamCtx, Sets.newHashSet(events.stream().map(e -> e.getKafkaTopic()).collect(Collectors.toList())), this.kafkaParams);
+                //.filter(t -> t.timestamp()>=System.currentTimeMillis()-t.offset());
+                //.mapToPair(t -> new Tuple2<String,String>(t.topic(),t.value()));
 
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_PRINT_STREAM_TO_STDOUT"))) {
             System.out.println("LAUNCH_PRINT_STREAM_TO_STDOUT");
@@ -134,7 +137,7 @@ public class StreamProcessing {
         }
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_RULE_EVALUATION"))) {
             System.out.println("LAUNCH_RULE_EVALUATION");
-            RuleEvaluation.process(kafkaStream,broadcastEvents,broadcastRules/*,evo_adapt*/);
+            RuleEvaluation.process(kafkaStream,broadcastEvents,broadcastRules);
         }
         if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_FG_RECONFIGURATION"))) {
             System.out.println("LAUNCH_FG_RECONFIGURATION");

@@ -26,16 +26,22 @@ public class Main {
         if (!validProperties(properties)) {
             throw new Exception("Invalid properties, stopping execution");
         }
-        SparkConf conf = new SparkConf().setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
-        JavaSparkContext context = new JavaSparkContext(conf);
-        ctx = context;
+        SparkConf conf = new SparkConf()
+                .set("spark.streaming.backpressure.enabled","true")
+                .set("spark.streaming.kafka.consumer.cache.enabled", "false")
+                //.set("spark.streaming.backpressure.initialRate","10")
+                .set("spark.streaming.kafka.maxRatePerPartition","1")
+                .set("spark.streaming.receiver.maxRate","1") //Property spark.streaming.receiver.maxRate applies to number of records per second.
+                .setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
+
+        JavaSparkContext ctx = new JavaSparkContext(conf);
 
         System.out.println("microbatch period = "+properties.getProperty("MICROBATCH_PERIOD"));
-        JavaStreamingContext streamContext = new JavaStreamingContext(context, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
+        JavaStreamingContext streamContext = new JavaStreamingContext(ctx, new Duration(Long.parseLong(properties.getProperty("MICROBATCH_PERIOD"))));
         streamContext.checkpoint("checkpoint");
         Logger.getRootLogger().setLevel(Level.OFF);
         StreamProcessing processor = new StreamProcessing();
-        processor.process(context,streamContext);
+        processor.process(ctx,streamContext);
         streamContext.start();
         streamContext.awaitTermination();
     }

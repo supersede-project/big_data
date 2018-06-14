@@ -29,11 +29,13 @@ public class DataSourceStatistics {
 
     public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream) {
         // Send the data
-        kafkaStream.mapToPair(record ->new Tuple2<String,String>(record.topic(),record.value()))
+        kafkaStream
+                //.filter(t -> t.timestamp()>=(System.currentTimeMillis()-Long.parseLong(Main.properties.getProperty("MICROBATCH_PERIOD"))))
+                .mapToPair(record ->new Tuple2<String,String>(record.topic(),record.value()))
                 .groupByKey()
                 .foreachRDD(rdd -> {
                     //rdd.take(1).
-                    rdd.takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).forEach(t -> {
+                    rdd./*repartition(1).takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE"))).*/foreach(t -> {
                         for (String JSON : t._2()) {
                             for (String iri : catalogOfStatistics.keySet()) {
                                 List<String> values = Utils.extractFeatures(JSON, iri);

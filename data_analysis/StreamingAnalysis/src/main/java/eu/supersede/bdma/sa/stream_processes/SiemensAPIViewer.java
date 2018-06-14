@@ -46,21 +46,23 @@ public class SiemensAPIViewer {
                             Date responseDate = dateFormat.parse(newT.getAsString("Date"));
 
                             String API = "others";
-                            if (oldT.toString().contains("buildings")) API = "getBuildings";
-                            else if (oldT.toString().contains("minmax")) API = "getMinMaxDates";
-                            else if (oldT.toString().contains("types")) API = "getTypes";
+                            if (newT.toJSONString().toLowerCase().contains("buildings") || oldT.toJSONString().toLowerCase().contains("buildings")) API = "getBuildings";
+                            else if (newT.toJSONString().toLowerCase().contains("minmax") || oldT.toJSONString().toLowerCase().contains("minmax")) API = "getMinMaxDates";
+                            else if (newT.toJSONString().toLowerCase().contains("types") || oldT.toJSONString().toLowerCase().contains("types")) API = "getTypes";
+
+                            System.out.println("######"+API+"######");
 
                             //String API = oldT.getAsString("class_name");//.split("\\|")[7].trim();
                             long time = responseDate.getTime()-requestDate.getTime();
 
                             JSONObject obj = new JSONObject();
-                            obj.put("attribute",API);
+                            obj.put("iri",API);
                             JSONArray arr = new JSONArray();
                             arr.add(time);
 //                            values.forEach(v -> arr.add(v));
                             obj.put("values",arr);
 
-                            Sockets.sendSocketAlert(obj.toString(), "breakdown_per_api");
+                            if (!API.equals("others")) Sockets.sendSocketAlert(obj.toString(), "breakdown_per_api");
                             //String result = newT.split("\\|")[9].trim();
 
                             /*if (!breakdownPerAPI.containsKey(API)) {

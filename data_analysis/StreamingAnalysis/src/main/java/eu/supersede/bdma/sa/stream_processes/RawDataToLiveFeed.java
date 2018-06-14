@@ -1,5 +1,6 @@
 package eu.supersede.bdma.sa.stream_processes;
 
+import eu.supersede.bdma.sa.Main;
 import eu.supersede.bdma.sa.utils.Sockets;
 import eu.supersede.bdma.sa.utils.Utils;
 import net.minidev.json.JSONObject;
@@ -17,7 +18,7 @@ public class RawDataToLiveFeed {
     public static void process(JavaInputDStream<ConsumerRecord<String, String>> kafkaStream) {
         kafkaStream.foreachRDD(records -> {
             final OffsetRange[] offsetRanges = ((HasOffsetRanges) records.rdd()).offsetRanges();
-            records.foreachPartition(consumerRecords -> {
+            records/*.filter(t -> t.timestamp()>=(System.currentTimeMillis()-Long.parseLong(Main.properties.getProperty("MICROBATCH_PERIOD"))))*/.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 consumerRecords.forEachRemaining(record -> {
                     if (!record.value().trim().isEmpty()) {
