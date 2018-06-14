@@ -34,6 +34,8 @@ public class ThresholdEvaluation {
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+
+                /**
                 System.out.println("evaluating thresholds");
 
                 //First, delete the last generated CSV and previous thresholds (if exists)
@@ -41,7 +43,7 @@ public class ThresholdEvaluation {
                 FileUtils.deleteQuietly(new File(Main.properties.getProperty("PATH_ALARMS")));
 
                 //Convert the historical JSON to CSV
-                ctx.textFile(Main.properties.getProperty("PATH_LOG_FILE"))/*.sample(true,0.01)*/
+                ctx.textFile(Main.properties.getProperty("PATH_LOG_FILE"))
                         .filter(t -> !t.isEmpty())
                         .map(t -> (JSONObject) ((JSONArray) ((JSONObject) ((JSONObject) JSONValue.parse(t)).get("JSONFiles")).get("DataItems")).get(0))
                         .filter(t -> t.getAsString("level") != null && t.getAsString("Date") != null && t.getAsString("class_name") != null
@@ -110,6 +112,16 @@ public class ThresholdEvaluation {
 
 
                 System.out.println("Thresholds successfully evaluated");
+                 **/
+                if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_ALERT_BUILDINGS"))) {
+                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Buildings,Double.valueOf(15000));
+                }
+                if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_ALERT_TYPES"))) {
+                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_Types,Double.valueOf(15000));
+                }
+                if (Boolean.parseBoolean(Main.properties.getProperty("LAUNCH_ALERT_DATE"))) {
+                    ThresholdExceededAlert.sendAlert(ModelSystem.Siemens_GetMinMaxDates,Double.valueOf(15000));
+                }
             }
 
         },Long.parseLong(Main.properties.getProperty("THRESHOLD_EVALUATION_FIRST_TIME_MS")), Long.parseLong(Main.properties.getProperty("THRESHOLD_EVALUATION_PERIOD_MS")));
