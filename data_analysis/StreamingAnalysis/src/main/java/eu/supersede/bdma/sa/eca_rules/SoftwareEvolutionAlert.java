@@ -34,7 +34,7 @@ import java.util.UUID;
  */
 public class SoftwareEvolutionAlert {
 
-    public static void sendAlert(Event event, String[] contents, String appId) {
+    public static void sendAlert(ECA_Rule rule, String[] contents, String appId) {
         FeedbackClassifier feedbackClassifier = new SpeechActBasedClassifier();
         String pathToClassificationModel = Thread.currentThread().getContextClassLoader().getResource("rf.model").toString().replace("file:","");
         String pathToSentimentAnalysisModel = Thread.currentThread().getContextClassLoader().getResource("sentiment_classifier.model").toString().replace("file:","");
@@ -60,10 +60,14 @@ public class SoftwareEvolutionAlert {
 
         //for (String classificationLabel : feedbackClassified.keySet()) {
             Alert SE_alert = new Alert();
-            SE_alert.setId(UUID.randomUUID().toString());
+            SE_alert.setId(rule.getName());
             SE_alert.setApplicationId(appId);
             SE_alert.setTimestamp(System.currentTimeMillis());
-            SE_alert.setTenant(event.getTenant().getId());
+            SE_alert.setTenant(rule.getEvent().getTenant().getId());
+
+            if (rule.getEvent().getTenant().getId().equals("atos")) {
+                SE_alert.setTenant("review");
+            }
 
             List<Condition> conditions = Lists.newArrayList();
             conditions.add(new Condition(DataID.UNSPECIFIED, Operator.EQ, 1.0));

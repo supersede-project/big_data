@@ -6,7 +6,7 @@ var breakdown;
 var containerIndex;
 var plots;
 var plotsData;
-var starting_value = 5000;
+var starting_value = 15000;
 
 $(function() {
     breakdown = new Object();
@@ -36,8 +36,9 @@ $(function() {
     socket.on('/breakdown_per_api', function (fromSocket) {
         var socketMsg = JSON.parse(fromSocket.message);
         //if (socketMsg.kafkaTopic == topic) {
+        console.log("breakdown = "+breakdown);
             if (!breakdown[socketMsg.iri]) {
-                var html = '<div id="graph'+containerIndex+'" class="aGraph" style="position:relative;width:100%;height:250px"><h4>'+socketMsg.attribute+'</h4></div>';
+                var html = '<div id="graph'+containerIndex+'" class="aGraph" style="position:relative;width:100%;height:250px"><h4>'+socketMsg.iri+'</h4></div>';
                 $("#allPlots").append(html);
 
                 breakdown[socketMsg.iri] = new Object();
