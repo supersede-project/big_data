@@ -28,12 +28,12 @@ public class RuleEvaluation {
 
     private static void windowBasedRuleEvaluation(JavaPairDStream<String, Tuple2<String,Long>> window,
                                                   ActionTypes windowType, Broadcast<List<Event>> events,
-                                                  Broadcast<List<ECA_Rule>> rules) {
+                                                  List<ECA_Rule> rules) {
         window
             .groupByKey()
             .foreachRDD(rdd -> {
                 rdd/*.repartition(1).takeSample(false,Integer.parseInt(Main.properties.getProperty("SAMPLE_SIZE")))*/.foreach(records -> {
-                    rules.value().forEach(eca_rule -> {
+                    rules.forEach(eca_rule -> {
                         long windowSize;
 
                         if (windowType.val().equals(ActionTypes.ALERT_EVOLUTION.val()))
@@ -166,6 +166,17 @@ public class RuleEvaluation {
             firedRulesXTimestamp.put(r.getEca_ruleID(), Long.valueOf(0));
         }
 
+        List<ECA_Rule> listOfRules = Lists.newArrayList();
+        rules.value().forEach(r -> {
+            if (r.getEca_ruleID().equals("274d11ba-16ce-499c-b651-43697a6ad4f5") && Main.properties.getProperty("SUPERSEDE_DEMO").equals("evolution")) {
+                listOfRules.add(r);
+            }
+            else if ((r.getEca_ruleID().equals("9dd54d55-9183-439e-af07-88bd4db01f99") || r.getEca_ruleID().equals("4f002d06-2262-4513-82ca-a8e87da94812")
+            || r.getEca_ruleID().equals("472b8608-0394-4ed0-bf5d-147bd4d4a51b")) && Main.properties.getProperty("SUPERSEDE_DEMO").equals("atosadapt")) {
+                listOfRules.add(r);
+            }
+        });
+
         JavaDStream<ConsumerRecord<String, String>> nonEmptyStream = kafkaStream.
                 //filter(t -> t.timestamp()>=(System.currentTimeMillis()-Long.parseLong(Main.properties.getProperty("MICROBATCH_PERIOD")))).
                 filter(record -> !record.value().isEmpty());
@@ -173,7 +184,7 @@ public class RuleEvaluation {
         JavaPairDStream<String, Tuple2<String,Long>> evolutionWindow = nonEmptyStream
                 .flatMapToPair(record -> {
                     List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
-                    rules.value().forEach(rule -> {
+                    listOfRules.forEach(rule -> {
                         if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
                                 rule.getAction().val().equals(ActionTypes.ALERT_EVOLUTION.val())) {
                             recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
@@ -186,7 +197,7 @@ public class RuleEvaluation {
         JavaPairDStream<String, Tuple2<String,Long>> adaptationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
                     List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
-                    rules.value().forEach(rule -> {
+                    listOfRules.forEach(rule -> {
                         if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
                                 rule.getAction().val().equals(ActionTypes.ALERT_DYNAMIC_ADAPTATION.val())) {
                             recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
@@ -199,7 +210,7 @@ public class RuleEvaluation {
         JavaPairDStream<String, Tuple2<String,Long>> monitorDeterministicReconfigurationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
                     List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
-                    rules.value().forEach(rule -> {
+                    listOfRules.forEach(rule -> {
                         if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
                                 rule.getAction().val().equals(ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION.val())) {
                             recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
@@ -212,7 +223,7 @@ public class RuleEvaluation {
         JavaPairDStream<String, Tuple2<String,Long>> monitorNonDeterministicReconfigurationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
                     List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
-                    rules.value().forEach(rule -> {
+                    listOfRules.forEach(rule -> {
                         if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
                                 rule.getAction().val().equals(ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION.val())) {
                             recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
@@ -225,7 +236,7 @@ public class RuleEvaluation {
         JavaPairDStream<String, Tuple2<String,Long>> feedbackReconfigurationWindow = nonEmptyStream
                 .flatMapToPair(record -> {
                     List<Tuple2<String, Tuple2<String,Long>>> recordsPerRule = Lists.newArrayList();
-                    rules.value().forEach(rule -> {
+                    listOfRules.forEach(rule -> {
                         if (rule.getEvent().getKafkaTopic().equals(record.topic()) &&
                                 rule.getAction().val().equals(ActionTypes.ALERT_FEEDBACK_RECONFIGURATION.val())) {
                             recordsPerRule.add(new Tuple2<String,Tuple2<String,Long>>(rule.getEca_ruleID(),
@@ -235,10 +246,10 @@ public class RuleEvaluation {
                     return recordsPerRule.iterator();
                 }).window(new Duration(Long.parseLong(Main.properties.getProperty("WINDOW_SIZE_FEEDBACK_RECONF_MS"))),new Duration(Integer.parseInt(Main.properties.getProperty("MICROBATCH_PERIOD"))));
 
-        windowBasedRuleEvaluation(evolutionWindow,ActionTypes.ALERT_EVOLUTION,events,rules);
-        windowBasedRuleEvaluation(adaptationWindow,ActionTypes.ALERT_DYNAMIC_ADAPTATION,events,rules);
-        windowBasedRuleEvaluation(monitorDeterministicReconfigurationWindow,ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION,events,rules);
-        windowBasedRuleEvaluation(monitorNonDeterministicReconfigurationWindow,ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION,events,rules);
-        windowBasedRuleEvaluation(feedbackReconfigurationWindow,ActionTypes.ALERT_FEEDBACK_RECONFIGURATION,events,rules);
+        windowBasedRuleEvaluation(evolutionWindow,ActionTypes.ALERT_EVOLUTION,events,listOfRules);
+        windowBasedRuleEvaluation(adaptationWindow,ActionTypes.ALERT_DYNAMIC_ADAPTATION,events,listOfRules);
+        windowBasedRuleEvaluation(monitorDeterministicReconfigurationWindow,ActionTypes.ALERT_MONITOR_DETERMINISTIC_RECONFIGURATION,events,listOfRules);
+        windowBasedRuleEvaluation(monitorNonDeterministicReconfigurationWindow,ActionTypes.ALERT_MONITOR_NON_DETERMINISTIC_RECONFIGURATION,events,listOfRules);
+        windowBasedRuleEvaluation(feedbackReconfigurationWindow,ActionTypes.ALERT_FEEDBACK_RECONFIGURATION,events,listOfRules);
     }
 }

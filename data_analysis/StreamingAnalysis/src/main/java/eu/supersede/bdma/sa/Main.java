@@ -30,8 +30,8 @@ public class Main {
                 .set("spark.streaming.backpressure.enabled","true")
                 .set("spark.streaming.kafka.consumer.cache.enabled", "false")
                 //.set("spark.streaming.backpressure.initialRate","10")
-                .set("spark.streaming.kafka.maxRatePerPartition","1")
-                .set("spark.streaming.receiver.maxRate","1") //Property spark.streaming.receiver.maxRate applies to number of records per second.
+                //.set("spark.streaming.kafka.maxRatePerPartition","1")
+                //.set("spark.streaming.receiver.maxRate","1") //Property spark.streaming.receiver.maxRate applies to number of records per second.
                 .setAppName("StreamProcessing").setMaster(properties.getProperty("SPARK_MASTER_HOSTNAME"));
 
         JavaSparkContext ctx = new JavaSparkContext(conf);
