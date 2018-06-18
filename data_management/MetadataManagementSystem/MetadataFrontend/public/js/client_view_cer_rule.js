@@ -41,7 +41,7 @@ function createNewTab(i, ecaRule) {
 }
 
 $(window).load(function() {
-    $.get("/eca_rule/"+getParameterByName("eca_ruleID"), function(data) {
+    $.get("/cer_rule/"+getParameterByName("cer_ruleID"), function(data) {
         var eca_ruleObj = (data);
         $("#name").val(eca_ruleObj.ruleName);
         $("#bdiOntology").val(eca_ruleObj.pattern);

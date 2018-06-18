@@ -29,7 +29,9 @@ function getReleases() {
     $.get("/event", function(data) {
         $.each((data), function(key, value) {
             var theObj = (value);
-            openNewTab(theObj.event/* + "("+theObj.schemaVersion+")"*/, "/data_source_statistics?topic="+theObj.kafkaTopic, "seamless scrolling='no' style=\"height: 90%; width : 100%\"");
+            if (theObj.type == "monitoring") {
+                openNewTab(theObj.event/* + "("+theObj.schemaVersion+")"*/, "/data_source_statistics?topic=" + theObj.kafkaTopic, "seamless scrolling='no' style=\"height: 90%; width : 100%\"");
+            }
         });
     });
 

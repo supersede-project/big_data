@@ -30,6 +30,7 @@ function getRules() {
                 );
             ++i;
         });
+        /*
         $(".delete").click(function () {
             var id = $(this).parent().attr("id");
             $.ajax({
@@ -40,6 +41,7 @@ function getRules() {
                 }
             });
         });
+        */
     });
 }
 

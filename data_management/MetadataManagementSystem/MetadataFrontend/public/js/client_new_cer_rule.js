@@ -123,9 +123,9 @@ $(window).load(function() {
         $("#tabContent").append($('<div id="tab_'+(tabCount)+'" role="tabpanel" class="tab-pane fill" style="border:1px solid; padding:5px">'+
             //'<div class="form-group"> <label class="col-lg-2 control-label">'+'Name '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="name'+(tabCount)+'" type="text" required="required"> </input></div></div>'+
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Event '+(tabCount)+'</label><div class="col-lg-10"><select class="event" id="event'+(tabCount)+'" style="width:100%"></select></div></div>' +
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Left Operand '+(tabCount)+'</label><div class="col-lg-10"><select id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Attribute '+(tabCount)+'</label><div class="col-lg-10"><select id="leftOperator'+(tabCount)+'" style="width:100%"></select></div></div>' +
             '<div class="form-group"> <label class="col-lg-2 control-label">'+'Comparator '+(tabCount)+'</label><div class="col-lg-10"><select id="comparator'+(tabCount)+'" style="width:100%"> </select></div></div>' +
-            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Right Operand '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
+            '<div class="form-group"> <label class="col-lg-2 control-label">'+'Value '+(tabCount)+'</label><div class="col-lg-10"><input class="form-control" id="rightOperator'+(tabCount)+'" type="text" required="required"> </input></div></div></div>'));
 
         getEvents();
         $("#event"+tabCount).change(function(o) {

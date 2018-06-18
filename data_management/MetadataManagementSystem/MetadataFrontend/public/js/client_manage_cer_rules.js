@@ -32,13 +32,16 @@ function getRules() {
                         .text(i)
                     ).append($('<td>')
                         .text(theObj.ruleName)
-                    ).append($('<td>').append($('<a href="/view_cer_rule?cer_ruleID='+(theObj.cer_ruleID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
-                    ).append($('<td>').append($('<btn onclick="generateFile(\'' + encodeURIComponent(theObj.graph) +'\')"> </btn>').append($('<span class="glyphicon glyphicon-plus-sign"></span>'))))
-                    ).append($('<td id="'+(theObj.cer_ruleID)+'">').append($('<a class="delete" href="#">').append($('<span class="glyphicon glyphicon-trash"></span>')))
+                    ).append($('<td>')
+                            .append($('<a href="/view_cer_rule?cer_ruleID='+(theObj.cer_ruleID)+'">').append($('<span class="glyphicon glyphicon-search"></span>')))
+                    //).append($('<td>').append($('<btn onclick="generateFile(\'' + encodeURIComponent(theObj.graph) +'\')"> </btn>').append($('<span class="glyphicon glyphicon-plus-sign"></span>'))))
+                    ).append($('<td id="'+(theObj.cer_ruleID)+'">')
+                        .append($('<a class="delete" href="#">').append($('<span class="glyphicon glyphicon-trash"></span>'))))
 
             );
             ++i;
         });
+        /*
         $(".delete").click(function () {
             var id = $(this).parent().attr("id");
             $.ajax({
@@ -49,6 +52,7 @@ function getRules() {
                 }
             });
         });
+        */
     });
 }
 

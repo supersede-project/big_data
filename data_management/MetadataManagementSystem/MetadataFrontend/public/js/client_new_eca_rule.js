@@ -68,6 +68,8 @@ function getPredicates() {
 }
 
 $(window).load(function() {
+    $("#alertParametersForm").hide();
+
     $.get("/event", function(data) {
         $.each((data), function(key, value) {
             var obj = (value);
@@ -172,7 +174,7 @@ $(window).load(function() {
         Eca_Rule.windowTime = $("#windowTime").val();
         Eca_Rule.windowSize = $("#windowSize").val();
         Eca_Rule.action = $("#action").val();
-        Eca_Rule.alertParameters = $("#alertParameters").select2('data').map(function(e) { return e.id });
+//        Eca_Rule.alertParameters = new Array();//$("#alertParameters").select2('data').map(function(e) { return e.id });
 
         $.ajax({
             url: '/eca_rule',
